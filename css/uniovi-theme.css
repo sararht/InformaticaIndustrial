@@ -1,0 +1,243 @@
+:root {
+  --primary-color: #002B49; /* Azul corporativo */
+  --accent-color: #0066CC;  /* Azul industrial */
+  --text-color: #1E293B;    /* Gris oscuro */
+  --bg-card: #f8fafc;
+}
+
+body {
+  color: var(--text-color);
+}
+
+.reveal::after {
+  content: "";
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  width: 260px;
+  height: 84px;
+  background: url('../assets/img/tema0/logoUniovi.png') no-repeat center center;
+  background-size: contain;
+  opacity: 0.95;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.reveal h1, .reveal h2, .reveal h3 {
+  color: var(--primary-color);
+  text-transform: none;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: var(--accent-color);
+  font-weight: 500;
+}
+
+.subtitle-small {
+  font-size: 0.9em;
+  opacity: 0.9;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 2rem;
+}
+
+.teacher-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 1rem;
+}
+
+.teacher-item {
+  background: var(--bg-card);
+  border-left: 4px solid var(--accent-color);
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  font-size: 0.62em;
+}
+
+.teacher-role {
+  color: var(--primary-color);
+  font-size: 1.05em;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.teacher-name {
+  color: var(--primary-color);
+  font-size: 0.82em;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.secondary-name {
+  margin-top: 0.5rem;
+}
+
+.teacher-contact {
+  margin-left: 0.8rem;
+  margin-top: 0.1rem;
+  font-size: 0.58em;
+}
+
+.teacher-contact-label {
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+.teacher-contact-value {
+  font-size: 0.9em;
+}
+
+.card {
+  background: var(--bg-card);
+  border-left: 5px solid var(--accent-color);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  font-size: 0.8em;
+}
+
+.card h4 {
+  margin-top: 0;
+  color: var(--primary-color);
+}
+
+.professor-name {
+  color: var(--primary-color);
+  font-weight: 700;
+  margin-bottom: 0.7rem;
+}
+
+.contact-line {
+  display: block;
+  margin: 0.2rem 0 0 1.3rem;
+  padding-left: 0.4rem;
+}
+
+.contact-label {
+  display: inline-block;
+  min-width: 4.8em;
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+.badge {
+  background: var(--primary-color);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.6em;
+  vertical-align: middle;
+}
+
+.contents-box {
+  margin: 1.4rem auto 0;
+  max-width: 780px;
+  padding: 0.8rem 1rem;
+  background: linear-gradient(135deg, #f8fbff 0%, #eef5fb 100%);
+  border-left: 6px solid var(--accent-color);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 43, 73, 0.10);
+  text-align: left;
+}
+
+.contents-list {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.contents-list li {
+  margin: 0.36rem 0;
+  color: var(--primary-color);
+  font-size: 0.66em;
+  font-weight: 600;
+}
+
+.evaluation-compact {
+  max-width: 860px;
+  padding: 0.7rem 0.9rem;
+}
+
+.compact-list {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.compact-list li {
+  margin: 0.2rem 0;
+  color: var(--primary-color);
+  font-size: 0.63em;
+  font-weight: 600;
+}
+
+.evaluation-group {
+  margin-bottom: 1rem;
+}
+
+.evaluation-group:last-child {
+  margin-bottom: 0;
+}
+
+.evaluation-title {
+  margin: 0 0 0.4rem 0;
+  color: var(--primary-color);
+  font-size: 0.85em;
+  font-weight: 700;
+}
+
+.evaluation-note {
+  margin: 0.5rem 0 0;
+  color: var(--accent-color);
+  font-size: 0.76em;
+  font-weight: 600;
+}
+
+.nested-list {
+  margin-top: 0.2rem;
+}
+
+.teacher-slide {
+  text-align: left;
+}
+
+.teacher-card {
+  margin: 1.5rem auto 0;
+  max-width: 900px;
+  background: linear-gradient(135deg, #f8fbff 0%, #eef5fb 100%);
+  border-left: 6px solid var(--accent-color);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 43, 73, 0.12);
+  padding: 1.5rem 1.8rem;
+}
+
+.teacher-label {
+  display: inline-block;
+  margin-bottom: 0.8rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(0, 102, 204, 0.12);
+  color: var(--accent-color);
+  font-size: 0.65em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.teacher-details p {
+  margin: 0.35rem 0;
+  font-size: 0.88em;
+  line-height: 1.45;
+}
+
+.teacher-details p:last-child {
+  margin-bottom: 0;
+}
