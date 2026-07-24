@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Tema 03 - Funciones en C</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css">
+  <link rel="stylesheet" href="../css/uniovi-theme.css">
+  <style>
+    .function-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin: 1rem 0 0.8rem;
+    }
+
+    .function-flow__node,
+    .function-flow__block {
+      min-width: 140px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(17, 36, 77, 0.12);
+    }
+
+    .function-flow__node {
+      background: linear-gradient(180deg, #f3f7ff 0%, #e8efff 100%);
+      border: 1px solid #c7d7f5;
+    }
+
+    .function-flow__block {
+      background: linear-gradient(180deg, #1d3f7a 0%, #102a55 100%);
+      color: #ffffff;
+      border: none;
+      min-width: 170px;
+    }
+
+    .function-flow__node span,
+    .function-flow__block span {
+      display: block;
+      font-weight: 700;
+      font-size: 0.95em;
+    }
+
+    .function-flow__node small,
+    .function-flow__block small {
+      display: block;
+      margin-top: 4px;
+      opacity: 0.85;
+      font-size: 0.72em;
+    }
+
+    .function-flow__arrow {
+      font-size: 1.8em;
+      color: #3a5f9d;
+      font-weight: 700;
+    }
+
+    .function-flow__hint {
+      margin: 0 auto;
+      max-width: 700px;
+      padding: 12px 16px;
+      border-left: 4px solid #345b96;
+      background: #f6f9ff;
+      border-radius: 10px;
+      text-align: left;
+      font-size: 0.8em;
+      line-height: 1.45;
+    }
+
+    .function-example-box {
+      margin: 0.8rem auto 0.7rem;
+      max-width: 680px;
+      background: #f8fbff;
+      border: 1px solid #d8e4fa;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(17, 36, 77, 0.10);
+      padding: 10px 12px;
+    }
+
+    .syntax-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 16px;
+      align-items: start;
+      margin-top: 0.8rem;
+    }
+
+    .syntax-code-card {
+      background: #f8fbff;
+      border: 1px solid #d8e4fa;
+      border-radius: 16px;
+      padding: 10px;
+      box-shadow: 0 8px 20px rgba(17, 36, 77, 0.08);
+    }
+
+    .syntax-legend {
+      display: grid;
+      gap: 10px;
+    }
+
+    .syntax-chip {
+      background: #f7faff;
+      border: 1px solid #cfdcf3;
+      border-radius: 12px;
+      padding: 10px 12px;
+      text-align: left;
+      box-shadow: 0 4px 12px rgba(13, 35, 76, 0.07);
+    }
+
+    .syntax-chip strong {
+      display: block;
+      color: #1d3f7a;
+      font-size: 0.9em;
+      margin-bottom: 4px;
+    }
+
+    .syntax-chip small {
+      color: #4b617f;
+      font-size: 0.72em;
+    }
+
+    .dual-example-layout {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      align-items: start;
+      margin-top: 0.8rem;
+    }
+
+    .dual-example-card {
+      background: #f8fbff;
+      border: 1px solid #d8e4fa;
+      border-radius: 16px;
+      padding: 10px;
+      box-shadow: 0 8px 20px rgba(17, 36, 77, 0.08);
+    }
+
+    .dual-example-card h4 {
+      margin: 0 0 8px;
+      font-size: 0.9em;
+      color: #1d3f7a;
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section>
+        <span class="badge">Tema 03</span>
+        <h1>Funciones en C</h1>
+        <p class="subtitle">Modularización y reutilización de código</p>
+        <p class="subtitle subtitle-small">Informática Industrial y Comunicaciones</p>
+      </section>
+
+      <section>
+        <h2>Objetivo del tema</h2>
+        <div class="contents-box">
+          <ol class="contents-list">
+            <li>Entender qué es una función en C.</li>
+            <li>Aprender su sintaxis y estructura.</li>
+            <li>Comprender cómo se pasan argumentos y se devuelve un resultado.</li>
+            <li>Aplicar funciones para dividir programas en partes más claras y reutilizables.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section>
+        <h2>¿Qué es una función?</h2>
+        <div class="contents-box">
+          <p>Las partes repetitivas de un programa se encapsulan en funciones para reutilizarlas y organizar mejor el código.</p>
+        </div>
+        <div class="function-flow">
+          <div class="function-flow__node">
+            <span>Entradas</span>
+            <small>parámetros</small>
+          </div>
+          <div class="function-flow__arrow">→</div>
+          <div class="function-flow__block">
+            <span>Función</span>
+            <small>variables locales + código</small>
+          </div>
+          <div class="function-flow__arrow">→</div>
+          <div class="function-flow__node">
+            <span>Salida</span>
+            <small>valor devuelto</small>
+          </div>
+        </div>
+        <div class="function-flow__hint">
+          Desde fuera, una función se comporta como una <strong>caja negra</strong>: recibe entradas, procesa algo internamente y devuelve una salida.
+        </div>
+      </section>
+
+      <section>
+        <h2>Sintaxis básica</h2>
+        <div class="syntax-layout">
+          <div class="syntax-code-card">
+            <pre><code class="language-c" data-trim data-noescape>
+#include &lt;stdio.h&gt;
+
+int mayor(int a, int b) {
+    int resultado;
+    if (a &gt; b)
+        resultado = a;
+    else
+        resultado = b;
+    return resultado;
+}
+
+int main(void) {
+    int x = 3;
+    int y = 5;
+    int m = mayor(x, y);
+    printf("%d\n", m);
+    return 0;
+}
+            </code></pre>
+          </div>
+          <div class="syntax-legend">
+            <div class="syntax-chip">
+              <strong>Tipo de retorno:</strong>
+              <small> int: devuelve un entero</small>
+            </div>
+            <div class="syntax-chip">
+              <strong>Nombre de la función</strong>
+              <small>mayor</small>
+            </div>
+            <div class="syntax-chip">
+              <strong>Parámetros de entrada</strong>
+              <small>(int a, int b)</small>
+            </div>
+            <div class="syntax-chip">
+              <strong>Cuerpo</strong>
+              <small>{...}</small>
+            </div>
+          </div>
+        </div>
+        <div class="function-flow__hint">
+          Una función debe estar <strong>declarada antes</strong> de poder ser usada en el resto del código.
+        </div>
+      </section>
+
+      <section>
+        <h2>Declaración de una función</h2>
+        <div class="contents-box">
+          <p>El código de una función sólo depende de sí misma: recibe nombres generales para su identificador, parámetros y variables locales.</p>
+          <ul class="contents-list">
+            <li>Debe estar <strong>declarada antes</strong> de ser utilizada en el resto del programa.</li>
+            <li>Su estructura general es:<br><code>tipoRetorno nombreFuncion(tipo1 p1, tipo2 p2, ...)</code>.</li>
+            <li>Dentro de la función se usan solo sus parámetros y variables locales.</li>
+            <li><code>return</code> devuelve el resultado calculado.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Tipos de retorno</h2>
+        <div class="contents-box">
+          <p>El tipo de retorno indica el tipo de dato que la función produce.</p>
+          <p>Puede ser <strong>cualquier tipo válido en C</strong>, por ejemplo:</p>
+          <ul class="contents-list">
+            <li><code>int</code>: devuelve un entero.</li>
+            <li><code>float</code> o <code>double</code>: devuelven valores reales.</li>
+            <li><code>char</code>: devuelve un carácter.</li>
+            <li><code>void</code>: la función no devuelve ningún valor.</li>
+          </ul>
+          <p>La instrucción <code>return</code> se usa para enviar ese valor al punto donde la función fue llamada.</p>
+          <p>La función debe devolver exactamente un valor del tipo declarado, o no devolver nada si el tipo es <code>void</code>.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Paso de parámetros</h2>
+        <div class="contents-box">
+          <p>En C, los parámetros se pasan por valor:</p>
+          <ul class="contents-list">
+            <li>Se copia el valor de la variable de la llamante en el parámetro de la función.</li>
+            <li>La función trabaja con esa copia, no con la variable original.</li>
+            <li>Si cambia el parámetro dentro de la función, la variable original no se modifica.</li>
+          </ul>
+          <p><strong>Idea clave:</strong> la función recibe una copia del valor, no la variable completa.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Ejemplo: paso por valor</h2>
+        <div class="dual-example-layout">
+          <div class="dual-example-card">
+            <h4>Sin <code>return</code></h4>
+            <pre><code class="language-c" data-trim data-noescape>
+void incrementar(int x) {
+    x = x + 1;
+    printf("Dentro: %d\n", x);
+}
+
+int main(void) {
+    int n = 10;
+    incrementar(n);
+    printf("Fuera: %d\n", n);
+}
+            </code></pre>
+            <p><strong>Salida:</strong> <code>Dentro: 11</code> y <code>Fuera: 10</code></p>
+          </div>
+          <div class="dual-example-card">
+            <h4>Con <code>return</code></h4>
+            <pre><code class="language-c" data-trim data-noescape>
+int incrementar(int x) {
+    x = x + 1;
+    return x;
+}
+
+int main(void) {
+    int n = 10;
+    n = incrementar(n);
+    printf("Ahora: %d\n", n);
+}
+            </code></pre>
+            <p><strong>Salida:</strong> <code>Ahora: 11</code></p>
+          </div>
+        </div>
+        <div class="function-flow__hint">
+          En el primer caso la función modifica una copia local; en el segundo, el valor devuelto por <code>return</code> se asigna de nuevo a la variable de la llamante.
+        </div>
+      </section>
+
+
+      <section>
+        <h2>Funciones con retorno</h2>
+        <div class="contents-box">
+          <p>Una función puede devolver un resultado que será usado en la función que la invoca.</p>
+          <ul class="contents-list">
+            <li><code>return</code> termina la ejecución de la función.</li>
+            <li>El valor devuelto debe coincidir con el tipo especificado.</li>
+            <li>Esto hace posible construir programas más modulares.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Ejemplo de reutilización</h2>
+        <div class="contents-box">
+          <p>Supongamos que queremos calcular <code>m!/(m-n)!</code></p>
+          <ul class="contents-list">
+            <li>El cálculo de ambos factoriales es idéntico.</li>
+            <li>Lo que cambia son los valores iniciales de entrada.</li>
+            <li>Por eso conviene encapsularlo en una función reutilizable.</li>
+            <li>La variable índice sirve como auxiliar temporal dentro de la función.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Ejemplo práctico</h2>
+        <p class="small-note">La definición de <code>factorial</code> aparece antes de su uso en <code>main</code>.</p>
+        <pre><code class="language-c" data-trim data-noescape>
+#include &lt;stdio.h&gt;
+
+int factorial(int n) {
+    int indice;
+    int resultado = 1;
+
+    for (indice = 2; indice &lt;= n; indice++) {
+        resultado *= indice;
+    }
+    return resultado;
+}
+
+int main(void) {
+    int m = 5;
+    int n = 2;
+
+    int resultado = factorial(m)/(factorial(m-n));
+    return 0;
+}
+        </code></pre>
+      </section>
+
+      <section>
+        <h2>Funcionamiento interno</h2>
+        <div class="contents-box">
+          <p>Cuando una función es invocada:</p>
+          <ul class="contents-list">
+            <li>Se deja temporalmente la función llamante.</li>
+            <li>Las variables locales de la llamada anterior se mantienen, pero no son accesibles dentro de la función invocada.</li>
+            <li>Las variables locales y los parámetros de la función invocada existen solo mientras se ejecuta esa función.</li>
+            <li>Los parámetros reciben su valor inicial en la invocación, pero son variables nuevas y no afectan a las de la función llamante.</li>
+            <li>Al regresar, sólo se puede utilizar el valor devuelto.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Ámbito y visibilidad</h2>
+        <div class="contents-box">
+          <p>Las variables pueden tener distintos ámbitos:</p>
+          <ul class="contents-list">
+            <li><strong>Variables locales:</strong> existen dentro de la función.</li>
+            <li><strong>Variables globales:</strong> existen en todo el programa.</li>
+          </ul>
+          <p>Las funciones ayudan a encapsular lógica y evitar repetir código.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Ventajas de usar funciones</h2>
+        <div class="contents-box">
+          <ul class="contents-list">
+            <li>Reducen la duplicación de código.</li>
+            <li>Facilitan la depuración.</li>
+            <li>Mejoran la legibilidad.</li>
+            <li>Permiten reutilizar rutinas en distintos programas.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Resumen</h2>
+        <div class="contents-box">
+          <ol class="contents-list">
+            <li>Una función agrupa una tarea concreta.</li>
+            <li>Puede recibir parámetros de entrada.</li>
+            <li>Puede devolver un resultado con <code>return</code>.</li>
+            <li>Mejora la estructura y reutilización del programa.</li>
+          </ol>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      plugins: [RevealHighlight]
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Tema 01 - Fundamentos de C</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css">
+  
+  <link rel="stylesheet" href="../css/uniovi-theme.css">
+
+  <style>
+    .author-right {
+      text-align: right;
+      margin-top: 2rem !important;
+      font-size: 0.8em !important;
+      font-weight: 600;
+      color: #002B49;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="reveal">
+    <div class="slides">
+
+      <section>
+        <span class="badge">Tema 01</span>
+        <h1 style="margin-top: 15px;">Fundamentos de C y Ejecución en el Computador</h1>
+        <p class="author-right">Sara Roos Hoefgeest Toribio</p>
+      </section>
+
+      <section>
+        <h2>El computador</h2>
+        <div class="contents-box">
+          <p class="subtitle">Una máquina de ejecución secuencial de instrucciones</p>
+          <ul class="contents-list">
+            <li>Cada instrucción es una operación muy sencilla, que utiliza datos fuente y almacena el resultado en datos destino.</li>
+          </ul>
+          <pre><code class="language-x86asm" data-trim>
+MOV dest, src ; dest = src
+ADD dest, src ; dest = dest + src
+NEG dest ; dest = -dest
+DIV dest, src ; dest = dest / src
+          </code></pre>
+          <ul class="contents-list">
+            <li>Los datos o variables son lugares de almacenamiento de información: guardan valores que pueden ser requeridos o modificados posteriormente.</li>
+            <li>Un programa es una secuencia de instrucciones sencillas.</li>
+          </ul>
+          <pre><code class="language-x86asm" data-trim>
+MOV m, x1 ; m = x1
+ADD m, x2 ; m = m + x2 = x1 + x2
+ADD m, x3 ; m = m + x3 = x1 + x2 + x3
+DIV m, 3 ; m = m / 3 = (x1 + x2 + x3) / 3
+          </code></pre>
+        </div>
+      </section>
+
+      <section>
+        <h2>Codificación de datos e instrucciones</h2>
+        <div class="contents-box">
+          <p class="subtitle">Para interpretar instrucciones y datos, el computador utiliza un código común</p>
+          <ul class="contents-list">
+            <li>Las instrucciones se representan mediante secuencias de símbolos que la CPU interpreta como operaciones.</li>
+            <li>Los datos enteros se representan mediante dígitos, que forman un número con valor posicional.</li>
+            <li>En el sistema decimal, el orden de los dígitos determina el peso de cada posición.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Representación decimal</h2>
+        <div class="contents-box">
+          <p class="subtitle">Codificación ponderada en base 10</p>
+          <p>Ejemplo: <strong>2014</strong></p>
+          <ul class="contents-list">
+            <li>El valor depende del peso de cada dígito.</li>
+            <li>La posición más a la derecha representa las unidades.</li>
+            <li>Las posiciones posteriores representan decenas, centenas, millares, etc.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Operaciones con datos</h2>
+        <div class="contents-box">
+          <p class="subtitle">La suma en base 10 sigue reglas de acarreo</p>
+          <ul class="contents-list">
+            <li>Se suman primero los dígitos de menor peso.</li>
+            <li>Si el resultado excede la base, se genera un acarreo hacia el siguiente peso.</li>
+            <li>El proceso se repite para todos los pesos, de derecha a izquierda.</li>
+          </ul>
+          <pre><code class="language-text" data-trim>
+    2717
+  +  714
+  ------
+    3431
+          </code></pre>
+        </div>
+      </section>
+
+      <section>
+        <h2>Codificación binaria</h2>
+        <div class="contents-box">
+          <p class="subtitle">El computador utiliza solo dos símbolos: 0 y 1</p>
+          <ul class="contents-list">
+            <li>El sistema binario es una codificación ponderada en base 2.</li>
+            <li>Una misma cantidad puede expresarse en distintos sistemas de numeración.</li>
+            <li>Por ejemplo, el número 14 puede escribirse como 14 en decimal o como 1110 en binario.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Memoria y direcciones</h2>
+        <div class="contents-box">
+          <p class="subtitle">Datos e instrucciones se almacenan en memoria</p>
+          <ul class="contents-list">
+            <li>La memoria está organizada en direcciones, numeradas secuencialmente.</li>
+            <li>Cada dirección almacena 1 byte, es decir 8 bits.</li>
+            <li>Si un dato no cabe en una sola dirección, ocupa varias direcciones consecutivas.</li>
+            <li>La CPU también dispone de registros específicos para datos internos.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Partes del computador</h2>
+        <p class="subtitle">CPU, memoria y periféricos</p>
+        <div class="grid-container">
+          <div class="card">
+            <h4>Unidad central de proceso (CPU)</h4>
+            <p>Ejecuta instrucciones. Está formada por la unidad aritmético-lógica (ALU), la unidad de control (UC) y registros internos.</p>
+          </div>
+          <div class="card">
+            <h4>Memoria principal</h4>
+            <p>Almacena datos y programas en RAM. La CPU accede a ella para leer instrucciones y operandos.</p>
+          </div>
+          <div class="card">
+            <h4>Dispositivos de entrada/salida</h4>
+            <p>Permiten la comunicación con el entorno físico: teclado, pantalla, sensores, actuadores, buses y puertos.</p>
+          </div>
+          <div class="card">
+            <h4>Bus</h4>
+            <p>Es el conjunto de líneas que conectan la CPU con la memoria y los periféricos para transferir datos e instrucciones.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Ejecución secuencial de una instrucción</h2>
+        <p class="subtitle">Fetch, decode, execute y write-back</p>
+        <div class="contents-box">
+          <ol class="contents-list">
+            <li>La CPU obtiene la instrucción desde la memoria.</li>
+            <li>La unidad de control la decodifica y determina la operación a realizar.</li>
+            <li>La ALU o el circuito correspondiente ejecuta la operación.</li>
+            <li>El resultado se almacena en un registro o en memoria.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section>
+        <h2>Computador y ejecución secuencial</h2>
+        <p class="subtitle">El procesador realiza una instrucción tras otra</p>
+        <div class="grid-container">
+          <div class="card">
+            <h4>Ensamblador</h4>
+            <p>En bajo nivel, la máquina trabaja con instrucciones simples como carga, suma, comparación y salto.</p>
+            <pre><code class="language-x86asm" data-trim>
+MOV R1, [mem]
+ADD R1, R2
+            </code></pre>
+          </div>
+          <div class="card">
+            <h4>Lenguaje C</h4>
+            <p>C proporciona una abstracción más legible para expresar el mismo comportamiento: variables, expresiones y llamadas a funciones.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Estructura mínima de un programa en C</h2>
+        <p class="subtitle">Cabecera, función principal y retorno</p>
+        <pre><code class="language-c" data-trim data-noescape>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+    int sensor_id = 1;
+    float voltaje = 3.3f;
+
+    printf("Sensor %d: %.2f V\n", sensor_id, voltaje);
+    return 0;
+}
+        </code></pre>
+      </section>
+
+      <section>
+        <h2>Variables e identificadores</h2>
+        <p class="subtitle">Los nombres de las variables permiten acceder a datos de forma legible</p>
+        <div class="grid-container">
+          <div class="card">
+            <h4>Identificador</h4>
+            <p>Es el nombre que utiliza el programador para referirse a una posición de memoria.</p>
+          </div>
+          <div class="card">
+            <h4>Declaración</h4>
+            <p>Una variable se declara con un tipo y un identificador, por ejemplo: <code>int temperatura;</code>.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Tipos de datos básicos</h2>
+        <p class="subtitle">Cada tipo define el formato y el tamaño de la información</p>
+        <div class="grid-container">
+          <div class="card">
+            <h4><code>char</code></h4>
+            <p>Almacena un carácter o un entero pequeño. Ocupa 1 byte.</p>
+          </div>
+          <div class="card">
+            <h4><code>int</code></h4>
+            <p>Representa enteros para contadores, estados y valores discretos.</p>
+          </div>
+          <div class="card">
+            <h4><code>float</code></h4>
+            <p>Representa valores reales con precisión simple.</p>
+          </div>
+          <div class="card">
+            <h4><code>double</code></h4>
+            <p>Representa valores reales con mayor precisión.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Operadores aritméticos y de asignación</h2>
+        <p class="subtitle">Permiten transformar y actualizar valores</p>
+        <div class="grid-container">
+          <div class="card">
+            <h4>Aritméticos</h4>
+            <p><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> y <code>%</code> permiten operar con variables numéricas.</p>
+          </div>
+          <div class="card">
+            <h4>Asignación</h4>
+            <p><code>=</code> asigna un valor, y las formas compuestas como <code>+=</code>, <code>++</code> o <code>--</code> simplifican expresiones comunes.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Entrada y salida básica</h2>
+        <p class="subtitle">La comunicación con el exterior se realiza mediante funciones estándar</p>
+        <div class="grid-container">
+          <div class="card">
+            <h4><code>printf()</code></h4>
+            <p>Se usa para mostrar información en consola o terminal.</p>
+            <pre><code class="language-c" data-trim>
+printf("Temperatura: %d C\n", temp);
+            </code></pre>
+          </div>
+          <div class="card">
+            <h4><code>scanf()</code></h4>
+            <p>Se usa para leer una entrada del usuario desde el teclado.</p>
+            <pre><code class="language-c" data-trim>
+scanf("%d", &consigna);
+            </code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Relación con la memoria física</h2>
+        <p class="subtitle">Desde C hasta el microcontrolador o PLC</p>
+        <div class="contents-box">
+          <ul class="contents-list">
+            <li>Cada variable ocupa una región de memoria con un tamaño fijo.</li>
+            <li>El compilador asigna esa variable a una dirección de memoria concreta.</li>
+            <li>En sistemas embebidos, esa memoria corresponde a registros, RAM o áreas de trabajo del controlador.</li>
+            <li>Por eso, el tipo de dato no es solo una convención teórica, sino una decisión de diseño real.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Ejemplo práctico: lectura y cálculo</h2>
+        <p class="subtitle">Escalado de un valor analógico de entrada</p>
+        <pre><code class="language-c" data-trim data-noescape>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+    int adc_val = 512;
+    float v_ref = 5.0f;
+    float voltaje_medido;
+
+    voltaje_medido = (adc_val / 1023.0f) * v_ref;
+
+    printf("ADC = %d\n", adc_val);
+    printf("Voltaje = %.2f V\n", voltaje_medido);
+    return 0;
+}
+        </code></pre>
+      </section>
+
+      <section>
+        <h2>Resumen del tema</h2>
+        <div class="contents-box">
+          <ol class="contents-list">
+            <li>El computador ejecuta instrucciones de forma secuencial.</li>
+            <li>Las variables son nombres asociados a memoria.</li>
+            <li>Los tipos básicos definen el tamaño y la representación del valor.</li>
+            <li>Los operadores permiten transformar datos y producir resultados.</li>
+            <li><code>printf</code> y <code>scanf</code> permiten comunicar datos con el exterior.</li>
+          </ol>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      plugins: [ RevealHighlight ]
+    });
+  </script>
+</body>
+</html>
