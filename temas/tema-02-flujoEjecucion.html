@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Tema 02 - Datos, expresiones y algoritmos</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css">
+  <link rel="stylesheet" href="../css/uniovi-theme.css">
+  <style>
+    .syntax-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: start;
+      margin-top: 0.8rem;
+    }
+
+    .syntax-code-card {
+      background: #f8fbff;
+      border: 1px solid #d8e4fa;
+      border-radius: 16px;
+      padding: 10px;
+      box-shadow: 0 8px 20px rgba(17, 36, 77, 0.08);
+    }
+
+    .syntax-legend {
+      display: grid;
+      gap: 10px;
+    }
+
+    .syntax-chip {
+      background: #f7faff;
+      border: 1px solid #cfdcf3;
+      border-radius: 12px;
+      padding: 10px 12px;
+      text-align: left;
+      box-shadow: 0 4px 12px rgba(13, 35, 76, 0.07);
+    }
+
+    .syntax-chip strong {
+      display: block;
+      color: #1d3f7a;
+      font-size: 0.9em;
+      margin-bottom: 4px;
+    }
+
+    .syntax-chip small {
+      color: #4b617f;
+      font-size: 0.72em;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.65em;
+      margin-top: 0.8rem;
+    }
+
+    .data-table th, .data-table td {
+      border: 1px solid #c7d7f5;
+      padding: 6px 10px;
+      text-align: center;
+    }
+
+    .data-table th {
+      background-color: #1d3f7a;
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    .data-table tr:nth-child(even) {
+      background-color: #f3f7ff;
+    }
+
+    .flow-diagram {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 0.5rem;
+    }
+
+    .flow-node {
+      background: linear-gradient(180deg, #f3f7ff 0%, #e8efff 100%);
+      border: 1px solid #c7d7f5;
+      border-radius: 12px;
+      padding: 8px 16px;
+      font-size: 0.75em;
+      font-weight: bold;
+      color: #1d3f7a;
+    }
+
+    .flow-arrow {
+      font-size: 1.2em;
+      color: #3a5f9d;
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Slide 1: Portada -->
+      <section>
+        <span class="badge">Tema 02</span>
+        <h1>Datos, expresiones y algoritmos</h1>
+        <p class="subtitle">Programación en Lenguaje C</p>
+        <p class="subtitle subtitle-small">Ingeniería de Sistemas y Automática - Universidad de Oviedo</p>
+      </section>
+
+      <!-- Slide 2: Indice -->
+      <section>
+        <h2>Índice del Tema</h2>
+        <div class="contents-box">
+          <ol class="contents-list">
+            <li>Tipos de datos básicos, variables y constantes</li>
+            <li>Sentencias de asignación y expresiones aritméticas</li>
+            <li>Promoción de tipos y operador molde (cast)</li>
+            <li>Sentencias de control (bloques, alternativas y bucles)</li>
+            <li>Diseño de algoritmos: pseudocódigo y diagramas</li>
+            <li>Proceso de traducción, optimización y depuración</li>
+            <li>Profundización en tipos enteros, reales y estructuras</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Slide 3: Tipos de datos básicos -->
+      <section>
+        <h2>Tipos de datos básicos</h2>
+        <div class="contents-box">
+          <p>Los datos pueden ser de varios tipos:</p>
+          <ul class="contents-list">
+            <li><code>int</code>: Para almacenar y realizar operaciones con valores enteros.</li>
+            <li><code>float</code>: Para almacenar y realizar operaciones con valores reales.</li>
+            <li><code>char</code>: Para almacenar y realizar operaciones con texto.</li>
+          </ul>
+          <p style="margin-top: 15px;">El programa puede utilizar datos de dos procedencias:</p>
+          <ul class="contents-list">
+            <li><strong>Variables:</strong> Valores que pueden cambiar a lo largo de la ejecución.</li>
+            <li><strong>Constantes:</strong> Valores fijos que no cambian a lo largo del programa.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Slide 4: Variables y Constantes -->
+      <section>
+        <h2>Variables y Constantes</h2>
+        <pre><code class="language-c" data-trim data-noescape>
+// Variables
+int n_alumnos;              // Variable tipo entero, sin inicializar
+float nota_media = 7.25;    // Variable tipo real, valor inicial 7.25
+
+// Constantes
+// Preferible declararlas con #define al principio del código:
+#define PI 3.1416
+
+// Uso posterior mediante su identificador:
+float z = 2 * cos(PI / 4);
+        </code></pre>
+      </section>
+
+      <!-- Slide 5: Adaptación de datos no básicos -->
+      <section>
+        <h2>Tipos de datos no básicos</h2>
+        <div class="contents-box">
+          <p>Para representar conceptos que no son tipos nativos (meses, frutas, colores, complejos), se adaptan a tipos manejables:</p>
+          <ul class="contents-list">
+            <li><strong>Meses o Frutas:</strong> Se asocia un número entero a cada elemento mediante <code>#define</code>.
+              <pre><code class="language-c" data-trim data-noescape>
+#define ENERO 1
+#define FEBRERO 2
+int mes = FEBRERO;
+              </code></pre>
+            </li>
+            <li><strong>Colores:</strong> Combinación RGB mediante 3 valores <code>float</code> de 0 a 1.</li>
+            <li><strong>Números Complejos:</strong> 2 valores <code>float</code> (parte real y parte imaginaria).</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Slide 6: Sentencias y expresiones -->
+      <section>
+        <h2>Sentencias y Expresiones</h2>
+        <div class="contents-box">
+          <p><strong>Sentencia básica:</strong> Asignación.</p>
+          <p><code>variable = expresión;</code></p>
+          <p><strong>Expresión:</strong> Resultado de una operación matemática con operandos y operadores:</p>
+          <ul class="contents-list">
+            <li>Operadores aritméticos: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, paréntesis <code>()</code>, etc.</li>
+            <li>Operandos: Variables, constantes o funciones matemáticas (<code>cos</code>, <code>sin</code>, <code>sqrt</code>, etc.).</li>
+          </ul>
+        </div>
+        <pre><code class="language-c" data-trim data-noescape>
+#include &lt;math.h&gt;
+// Ejemplo de sentencia con funciones matemáticas
+z = 3 * y + (2 * cos(PI / 4));
+        </code></pre>
+      </section>
+
+      <!-- Slide 7: Orden de evaluación -->
+      <section>
+        <h2>Evaluación de Expresiones</h2>
+        <div class="contents-box">
+          <p>El compilador divide la expresión en una secuencia de operaciones según su orden de prioridad:</p>
+          <p><code>z = 3 * y + (2 * cos(PI / 4));</code></p>
+        </div>
+        <div class="flow-diagram">
+          <div class="flow-node">1. PI / 4 &rarr; r1</div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-node">2. cos(r1) &rarr; r2</div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-node">3. 2 * r2 &rarr; r3</div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-node">4. 3 * y &rarr; r4</div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-node">5. r4 + r3 &rarr; r5</div>
+          <div class="flow-arrow">&darr;</div>
+          <div class="flow-node">6. z = r5 (Almacenado en memoria)</div>
+        </div>
+      </section>
+
+      <!-- Slide 8: Tipos en operaciones y división entera -->
+      <section>
+        <h2>Operaciones parciales y tipos</h2>
+        <div class="contents-box">
+          <p>Cada operación parcial utiliza los tipos de sus operandos y devuelve un resultado de ese mismo tipo:</p>
+          <ul class="contents-list">
+            <li><code>int OP int</code> &rarr; <code>int</code></li>
+            <li><code>float OP float</code> &rarr; <code>float</code></li>
+            <li><code>int OP float</code> &rarr; <code>float</code></li>
+          </ul>
+        </div>
+        <pre><code class="language-c" data-trim data-noescape>
+int x = 4, y = 8;
+float z;
+
+z = x / y; // ¡ATENCIÓN! Operación entera: 4 / 8 resulta en 0.
+           // z toma el valor 0.0 (float)
+        </code></pre>
+      </section>
+
+      <!-- Slide 9: Operador Molde (Cast) -->
+      <section>
+        <h2>Operador Molde (Cast)</h2>
+        <div class="contents-box">
+          <p>Para forzar una conversión explícita de tipo sin cambiar la naturaleza de la variable original:</p>
+          <p><code>(tipo) operando</code></p>
+        </div>
+        <pre><code class="language-c" data-trim data-noescape>
+int profes = 4, alumnos = 8;
+float ratio;
+
+// Conversión explícita a float de los operandos
+ratio = (float)profes / (float)alumnos; 
+
+// Ejecución: 4.0f / 8.0f = 0.5f -> ratio pasa a valer 0.5
+        </code></pre>
+      </section>
+
+      <!-- Slide 10: Sentencias de Control -->
+      <section>
+        <h2>Sentencias de Control</h2>
+        <div class="syntax-layout">
+          <div class="syntax-code-card">
+            <pre><code class="language-c" data-trim data-noescape>
+// Bloque
+{
+    sentencia1;
+    sentencia2;
+}
+
+// Alternativa
+if (condicion)
+    sentenciaSiTRUE;
+else
+    sentenciaSiFALSE;
+
+// Bucles
+while (condicion)
+    sentenciaARepetir;
+
+for (init; condicion; paso)
+    sentenciaARepetir;
+            </code></pre>
+          </div>
+          <div class="syntax-legend">
+            <div class="syntax-chip">
+              <strong>Bloque <code>{ }</code></strong>
+              <small>Agrupa múltiples sentencias como una sola.</small>
+            </div>
+            <div class="syntax-chip">
+              <strong>Alternativa <code>if / else</code></strong>
+              <small>Ejecución condicional (<code>else</code> es opcional).</small>
+            </div>
+            <div class="syntax-chip">
+              <strong>Bucles <code>while / for</code></strong>
+              <small>Repiten instrucciones mientras la condición sea verdadera.</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 11: Condiciones Lógicas -->
+      <section>
+        <h2>Evaluación de Condiciones</h2>
+        <div class="contents-box">
+          <p>En C, las condiciones se evalúan como enteros:</p>
+          <ul class="contents-list">
+            <li><strong>FALSO:</strong> Valor igual a <code>0</code>.</li>
+            <li><strong>VERDADERO:</strong> Cualquier valor distinto de <code>0</code>.</li>
+          </ul>
+          <p style="margin-top: 10px;"><strong>Operadores Relacionales:</strong> <code>==</code>, <code>!=</code>, <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>.</p>
+          <p><strong>Operadores Lógicos:</strong> <code>&amp;&amp;</code> (AND), <code>||</code> (OR), <code>!</code> (NOT).</p>
+        </div>
+        <pre><code class="language-c" data-trim data-noescape>
+// Ejemplo: y = min(|x|, 4)
+if ((x > 4) || (x < -4)) {
+    y = 4;
+} else {
+    if (x >= 0)
+        y = x;
+    else
+        y = -x;
+}
+        </code></pre>
+      </section>
+
+      <!-- Slide 12: Concepto de Algoritmo -->
+      <section>
+        <h2>Diseño de Algoritmos</h2>
+        <div class="contents-box">
+          <p>Un algoritmo traslada el pensamiento lógico a una secuencia ejecutable de instrucciones.</p>
+          <p><em>Ejemplo: Calcular el factorial: fact = n!</em></p>
+          <p>Expresión matemática abstracta: fact = n · (n-1) · (n-2) ...· 1</p>
+          <p><strong>Secuencia algorítmica:</strong></p>
+          <ol class="contents-list">
+            <li>Inicializar <code>fact = 1</code>.</li>
+            <li>Repetir desde <code>i = 1</code> hasta <code>n</code>: <code>fact = fact * i</code>.</li>
+            <li>Al finalizar el bucle: <code>fact</code> contiene n!.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Slide 13: Traducción a C -->
+      <section>
+        <h2>Traducción del Algoritmo a C</h2>
+        <pre><code class="language-c" data-trim data-noescape>
+#include &lt;stdio.h&gt;
+
+int main(void) {
+    int n, i, fact;
+
+    printf("Introduzca n: ");
+    scanf("%d", &n);
+
+    fact = 1;
+    for (i = 1; i <= n; i++) {
+        fact = fact * i;
+    }
+
+    printf("%d! = %d\n", n, fact);
+    return 0;
+}
+        </code></pre>
+      </section>
+
+      <!-- Slide 14: Representación de Algoritmos -->
+      <section>
+        <h2>Representación: Pseudocódigo y Diagramas</h2>
+        <div class="syntax-layout">
+          <div class="syntax-code-card">
+            <strong>Pseudocódigo</strong>
+            <p style="font-size: 0.8em; margin-top: 10px;">
+              fact = 1<br>
+              Repetir desde i = 1 hasta n:<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;fact = fact * i
+            </p>
+          </div>
+          <div class="syntax-code-card">
+            <strong>Flujo Lógico</strong>
+            <div class="flow-diagram">
+              <div class="flow-node">fact = 1, i = 1</div>
+              <div class="flow-arrow">&darr;</div>
+              <div class="flow-node">¿i &lt;= n?</div>
+              <div class="flow-arrow">&darr; Sí</div>
+              <div class="flow-node">fact = fact * i<br>i = i + 1</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 15: Desarrollo Top-Down y Optimización -->
+      <section>
+        <h2>Desarrollo Top-Down y Optimización</h2>
+        <div class="contents-box">
+          <p><strong>Desarrollo Top-Down:</strong> Diseccionar un problema complejo en bloques más sencillos.</p>
+            <p><em>Ejemplo: Serie de Taylor para e<sup>x</sup> = &sum; (x<sup>n</sup> / n!)</em></p>
+          <p><strong>Optimización de iteraciones:</strong> Aprovechar cálculos previos:</p>
+          <ul class="contents-list">
+            <li>x<sup>n</sup> = x &middot; x<sup>n-1</sup></li>
+            <li>n! = n &middot; (n - 1)!</li>
+          </ul>
+          <p style="font-size:0.75em; color: #888; margin-top: 10px;">
+            <em>Nota: Las optimizaciones aumentan la velocidad de ejecución pero pueden reducir la legibilidad.</em>
+          </p>
+        </div>
+      </section>
+
+      <!-- Slide 16: Depuración -->
+      <section>
+        <h2>Depuración de Programas</h2>
+        <div class="contents-box">
+          <p>Un programa sin errores de compilación sintácticos no garantiza un comportamiento correcto.</p>
+          <p>Causas habituales de fallos:</p>
+          <ul class="contents-list">
+            <li>Algoritmo mal concebido o mala traducción al lenguaje.</li>
+            <li>Uso incorrecto de tipos de datos o modificación indebida de variables.</li>
+            <li>Casos límite u ocasionales no contemplados.</li>
+          </ul>
+          <p style="margin-top: 10px;"><strong>Depuración:</strong> Proceso de prueba, localización y corrección de errores en el código.</p>
+        </div>
+      </section>
+
+      <!-- Slide 17: Tipos enteros detallados -->
+      <section>
+        <h2>Tipos de Datos Enteros</h2>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Bits (VC++)</th>
+              <th>Rango Unsigned</th>
+              <th>Rango Signed</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>char</code></td>
+              <td>8</td>
+              <td>0 a 255</td>
+              <td>-128 a 127</td>
+            </tr>
+            <tr>
+              <td><code>short</code></td>
+              <td>16</td>
+              <td>0 a 65.535</td>
+              <td>-32.768 a 32.767</td>
+            </tr>
+            <tr>
+              <td><code>int</code></td>
+              <td>32</td>
+              <td>0 a 4.294.967.295</td>
+              <td>-2.147.483.648 a 2.147.483.647</td>
+            </tr>
+            <tr>
+              <td><code>long</code></td>
+              <td>32</td>
+              <td>0 a 4.294.967.295</td>
+              <td>-2.147.483.648 a 2.147.483.647</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Slide 18: Tipos reales detallados -->
+      <section>
+        <h2>Tipos de Datos Reales (IEEE 754)</h2>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Bits</th>
+              <th>Exponente / Mantisa</th>
+              <th>Precisión</th>
+              <th>Rango Máximo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>float</code></td>
+              <td>32</td>
+              <td>8 bits / 23 bits</td>
+              <td>&ge; 6 dígitos</td>
+              <td>$3.4 \times 10^{38}$</td>
+            </tr>
+            <tr>
+              <td><code>double</code></td>
+              <td>64</td>
+              <td>11 bits / 52 bits</td>
+              <td>&ge; 15 dígitos</td>
+              <td>$1.8 \times 10^{308}$</td>
+            </tr>
+            <tr>
+              <td><code>long double</code></td>
+              <td>&ge; 64</td>
+              <td>Id. o superior a double</td>
+              <td>&ge; 15 dígitos</td>
+              <td>Depende de plataforma</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Slide 19: Estructuras -->
+      <section>
+        <h2>Estructuras en C (<code>struct</code>)</h2>
+        <div class="contents-box">
+          <p>Permiten agrupar variables de distintos tipos bajo un mismo nombre:</p>
+        </div>
+        <pre><code class="language-c" data-trim data-noescape>
+// Definición de la estructura
+struct color {
+    float red, green, blue;
+};
+
+struct circulo {
+    float centrox, centroy, radio;
+    struct color colorBorde, colorFondo;
+    int anchoBorde, dibujarFondo;
+};
+
+// Uso e inicialización
+struct circulo sol;
+sol.colorFondo.red = 1.0;
+sol.colorFondo.green = 1.0;
+sol.colorFondo.blue = 0.0;
+sol.dibujarFondo = 1;
+        </code></pre>
+      </section>
+
+      <!-- Slide 20: Ejercicios propuestos -->
+      <section>
+        <h2>Ejercicios Propuestos</h2>
+        <div class="contents-box">
+          <ol class="contents-list" style="font-size: 0.75em;">
+            <li>Cálculo de raíces reales o complejas de $a \cdot x^2 + b \cdot x + c = 0$.</li>
+            <li>Cálculo de combinaciones de alineaciones titulares: $C_{n,m} = \frac{n!}{m! \cdot (n-m)!}$.</li>
+            <li>Conversión de un número decimal (0-255) a su representación en binario de 8 bits.</li>
+            <li>Verificación experimental de la aproximación de $e$: $\sum_{n=0}^{\infty} \frac{1}{n!}$ vs $\lim_{n \to \infty} (1 + \frac{1}{n})^n$.</li>
+            <li>Búsqueda del mínimo de un polinomio cuadrático mediante el método Golden-Search.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Slide 21: Resumen -->
+      <section>
+        <h2>Resumen del Tema</h2>
+        <div class="contents-box">
+          <ol class="contents-list">
+            <li>Elección adecuada de tipos según rango y precisión.</li>
+            <li>Atención al tipo de dato en divisiones (usar casting si se requiere decimal).</li>
+            <li>Estructuración de algoritmos previa a la codificación.</li>
+            <li>Uso correcto de la indentación y bloques en sentencias de control.</li>
+            <li>Importancia de la fase de depuración para garantizar un correcto funcionamiento.</li>
+          </ol>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      plugins: [RevealHighlight]
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Tema 04 - Tablas y Punteros</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css">
+  <link rel="stylesheet" href="../css/uniovi-theme.css">
+  <style>
+    .syntax-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: start;
+      margin-top: 0.8rem;
+    }
+
+    .syntax-code-card {
+      background: #f8fbff;
+      border: 1px solid #d8e4fa;
+      border-radius: 16px;
+      padding: 10px;
+      box-shadow: 0 8px 20px rgba(17, 36, 77, 0.08);
+    }
+
+    .syntax-legend {
+      display: grid;
+      gap: 10px;
+    }
+
+    .syntax-chip {
+      background: #f7faff;
+      border: 1px solid #cfdcf3;
+      border-radius: 12px;
+      padding: 10px 12px;
+      text-align: left;
+      box-shadow: 0 4px 12px rgba(13, 35, 76, 0.07);
+    }
+
+    .syntax-chip strong {
+      display: block;
+      color: #1d3f7a;
+      font-size: 0.9em;
+      margin-bottom: 4px;
+    }
+
+    .syntax-chip small {
+      color: #4b617f;
+      font-size: 0.72em;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.65em;
+      margin-top: 0.8rem;
+    }
+
+    .data-table th, .data-table td {
+      border: 1px solid #c7d7f5;
+      padding: 6px 10px;
+      text-align: center;
+    }
+
+    .data-table th {
+      background-color: #1d3f7a;
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    .data-table tr:nth-child(even) {
+      background-color: #f3f7ff;
+    }
+
+    .memory-box {
+      background: linear-gradient(180deg, #f3f7ff 0%, #e8efff 100%);
+      border: 1px solid #c7d7f5;
+      border-radius: 12px;
+      padding: 12px;
+      font-family: monospace;
+      font-size: 0.8em;
+      margin-top: 0.8rem;
+      text-align: center;
+    }
+
+    .memory-grid {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .memory-cell {
+      border: 2px solid #1d3f7a;
+      background: #ffffff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      min-width: 60px;
+    }
+
+    .memory-cell strong {
+      display: block;
+      color: #1d3f7a;
+      font-size: 1.1em;
+    }
+
+    .memory-cell small {
+      color: #666;
+      font-size: 0.75em;
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Slide 1: Portada -->
+      <section>
+        <span class="badge">Tema 04</span>
+        <h1>Tablas y Punteros</h1>
+        <p class="subtitle">Programación en Lenguaje C</p>
+        <p class="subtitle subtitle-small">Ingeniería de Sistemas y Automática - Universidad de Oviedo</p>
+      </section>
+
+      <!-- Slide 2: Indice -->
+      <section>
+        <h2>Índice del Tema</h2>
+        <div class="contents-box">
+          <ol class="contents-list">
+            <li>Concepto y uso de tablas (arrays) unidimensionales</li>
+            <li>Gestión de memoria y direccionamiento de arrays</li>
+            <li>Fundamentos de punteros y operador de dirección (<code>&amp;</code>) e indirección (<code>*</code>)</li>
+            <li>Aritmética de punteros y dualidad tabla-puntero</li>
+            <li>Paso de tablas y punteros a funciones (modificador <code>const</code>)</li>
+            <li>Asignación dinámica de memoria (<code>malloc</code> / <code>free</code>)</li>
+            <li>Punteros, estructuras y matrices (Row-Major Order)</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Slide 3: Concepto de Tablas -->
+      <section>
+        <h2>Tablas (Arrays)</h2>
+        <div class="contents-box">
+          <p>En muchas ocasiones necesitamos manejar conjuntos de variables del mismo tipo.</p>
+          <ul class="contents-list">
+            <li><strong>Variables sueltas:</strong> Requieren nombres distintos y hacen que el código sea tedioso e inabordable para grandes volúmenes de datos.</li>
+            <li><strong>Tablas (Arrays):</strong> Agrupan elementos bajo un mismo nombre. El código mediante bucles se mantiene idéntico independientemente del tamaño.</li>
+          </ul>
+        </div>
+        <pre><code class="language-c" data-trim data-noescape>
+// Variables sueltas
+int x1, x2, x3, x4;
+int media = (x1 + x2 + x3 + x4) / 4;
+
+// Con arrays
+int x[4], suma = 0, media, i;
+for (i = 0; i < 4; i++) {
+    suma += x[i];
+}
+media = suma / 4;
+        </code></pre>
+      </section>
+
+      <!-- Slide 4: Manejo de Arrays en C -->
+      <section>
+        <h2>Manejo de Arrays en C</h2>
+        <div class="contents-box">
+          <p>Al declarar <code>tipo tabla[N];</code> en C:</p>
+          <ul class="contents-list">
+            <li><code>N</code> debe ser un valor constante conocido en compilación.</li>
+            <li>Se reservan en memoria <strong>N posiciones consecutivas</strong> del tipo indicado.</li>
+            <li>Los elementos se acceden desde el índice <code>0</code> hasta <code>N-1</code> mediante <code>tabla[i]</code>.</li>
+            <li><strong>Importante:</strong> El identificador <code>tabla</code> a secas es una constante que almacena la **dirección de memoria inicial**.</li>
+            <li>C no comprueba si se sobrepasan los límites del array; es responsabilidad del programador.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Slide 5: Ejemplo práctico con Macros -->
+      <section>
+        <h2>Uso de Arrays con <code>#define</code></h2>
+        <p style="font-size:0.8em; text-align:left;">Es buena práctica definir el tamaño mediante constantes simbolicás:</p>
+        <pre><code class="language-c" data-trim data-noescape>
+#define DIAS_ANYO 365
+
+int nacimientos[DIAS_ANYO];
+int defunciones[DIAS_ANYO];
+int crec_anual = 0, i;
+
+// Patrón típico en C: iniciar en 0 e iterar mientras i < TAMAÑO
+for (i = 0; i < DIAS_ANYO; i++) {
+    crec_anual += (nacimientos[i] - defunciones[i]);
+}
+        </code></pre>
+      </section>
+
+      <!-- Slide 6: Punteros (Pointers) -->
+      <section>
+        <h2>Punteros (Pointers)</h2>
+        <div class="contents-box">
+          <p>Un **puntero** es un tipo de dato que contiene la **dirección de memoria** donde se encuentra una variable.</p>
+          <ul class="contents-list">
+            <li><strong>Tipo de dato:</strong> <code>tipo*</code>.</li>
+            <li><strong>Operador de dirección (<code>&amp;</code>):</strong> Devuelve la dirección de memoria de una variable.</li>
+            <li><strong>Operador de indirección o desreferencia (<code>*</code>):</strong> Permite acceder al contenido almacenado en la dirección que contiene el puntero.</li>
+          </ul>
+        </div>
+        <pre><code class="language-c" data-trim data-noescape>
+int x = 5, y = 27;
+int* pt;    // Puntero a entero
+
+pt = &x;    // 'pt' almacena la dirección de 'x'
+*pt = 44;   // Modifica el contenido de 'x' a 44
+pt = &y;    // 'pt' ahora apunta a 'y'
+*pt = 44;   // Modifica el contenido de 'y' a 44
+        </code></pre>
+      </section>
+
+      <!-- Slide 7: Representación Gráfica Punteros -->
+      <section>
+        <h2>Acceso Indirecto a Memoria</h2>
+        <div class="memory-box">
+          <p>Estado de la memoria tras asignar <code>pt = &amp;y; *pt = 44;</code>:</p>
+          <div class="memory-grid">
+            <div class="memory-cell">
+              <small>Dir: 3000</small>
+              <strong>44</strong>
+              <small>Variable x</small>
+            </div>
+            <div class="memory-cell" style="border-color: #345b96;">
+              <small>Dir: 3010</small>
+              <strong>44</strong>
+              <small>Variable y</small>
+            </div>
+            <div class="memory-cell" style="background-color: #e8efff;">
+              <small>Dir: 3016</small>
+              <strong>3010</strong>
+              <small>Puntero pt</small>
+            </div>
+          </div>
+        </div>
+        <p style="font-size:0.75em; margin-top:15px; color:#4b617f;">
+          El mismo código (<code>*pt = 44</code>) puede afectar a distintas variables según la dirección asignada.
+        </p>
+      </section>
+
+      <!-- Slide 8: Dualidad Puntero-Tabla -->
+      <section>
+        <h2>Dualidad entre Punteros y Tablas</h2>
+        <div class="contents-box">
+          <p>A partir del momento de declaración de una tabla, su identificador actúa como un **puntero constante**:</p>
+          <ul class="contents-list">
+            <li>Se pueden sumar/restar enteros a un puntero para desplazarse en memoria según el tamaño del tipo de dato.</li>
+            <li>Equivalencias fundamentales:</li>
+          </ul>
+        </div>
+        <pre><code class="language-c" data-trim data-noescape>
+int x[4] = {1, 5, 2, 8};
+int* pt = x + 2; // Apunta a la tercera posición (x[2])
+
+// Las siguientes expresiones son equivalentes:
+// pt[0]  <==>  *pt  <==>  x[2]  <==>  *(x + 2)
+        </code></pre>
+      </section>
+
+      <!-- Slide 9: Utilidad de Punteros -->
+      <section>
+        <h2>¿Para qué sirven los punteros?</h2>
+        <div class="syntax-layout">
+          <div class="syntax-chip">
+            <strong>USO 1: Acceso a elementos de tablas</strong>
+            <small>Permiten recorrer elementos en posiciones de memoria consecutivas.</small>
+          </div>
+          <div class="syntax-chip">
+            <strong>USO 2: Modificación de variables en otras funciones</strong>
+            <small>Al pasar un puntero a una función, esta puede alterar directamente el valor original en la función llamante.</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 10: Tablas como argumentos de funciones -->
+      <section>
+        <h2>Tablas como Argumentos de Funciones</h2>
+        <div class="contents-box">
+          <p>C no pasa tablas completas por valor; solo pasa la **dirección de comienzo**.</p>
+          <p>Por tanto, las siguientes declaraciones de argumentos son <strong>idénticas</strong>:</p>
+          <p><code>float MaxTabla(const float* tabla, int n)</code> &equiv; <code>float MaxTabla(const float tabla[], int n)</code></p>
+          <p style="margin-top:10px;"><strong>Nota:</strong> Siempre es necesario pasar un segundo parámetro <code>n</code> con la longitud de la tabla.</p>
+        </div>
+      </section>
+
+      <!-- Slide 11: Ejemplo de Función con Tablas -->
+      <section>
+        <h2>Ejemplo: Máximo de una Tabla</h2>
+        <pre><code class="language-c" data-trim data-noescape>
+float MaxTabla(const float* tabla, int n) {
+    float maxi = tabla[0];
+    int i;
+    for (i = 1; i < n; i++) {
+        if (tabla[i] > maxi) {
+            maxi = tabla[i];
+        }
+    }
+    return maxi;
+}
+
+int main(void) {
+    float notas[5] = {8.5, 9.3, 7.1, 6.4, 5.0};
+    int n_alumnos = 4;
+    // Se pasa el nombre del array directamente (dirección base)
+    float nota_max = MaxTabla(notas, n_alumnos); 
+    return 0;
+}
+        </code></pre>
+      </section>
+
+      <!-- Slide 12: Consideraciones clave de Tablas y Punteros -->
+      <section>
+        <h2>Consideraciones Importantes</h2>
+        <div class="contents-box">
+          <ul class="contents-list">
+            <li><strong>Protección de datos con <code>const</code>:</strong> Utilizar <code>const float* tabla</code> impide que la función modifique accidentalmente el contenido de la tabla llamante.</li>
+            <li><strong>Aritmética de direcciones:</strong> Se pueden pasar sub-tablas desplazando el puntero base (ej. <code>Media(lluvia + 31, 28)</code> para calcular la media de febrero).</li>
+            <li><strong>Retorno de tablas:</strong> Una función <strong>nunca debe devolver un puntero a un array local</strong>, ya que se destruye al salir. Debe modificar una tabla pasada por argumento o usar asignación dinámica.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Slide 13: Modificación de variables desde funciones -->
+      <section>
+        <h2>Salida de múltiples valores mediante Punteros</h2>
+        <div class="contents-box">
+          <p>Como las funciones en C solo devuelven un valor mediante <code>return</code>, se usan punteros para "retornar" múltiples resultados.</p>
+        </div>
+        <pre><code class="language-c" data-trim data-noescape>
+// Devuelve el valor máximo Y su índice (*pt_imax)
+float MaxTabla(const float* tabla, int n, int* pt_imax) {
+    float maxi = tabla[0];
+    int i;
+    *pt_imax = 0;
+    
+    for (i = 1; i < n; i++) {
+        if (tabla[i] > maxi) {
+            maxi = tabla[i];
+            *pt_imax = i; // Modifica la variable del llamante
+        }
+    }
+    return maxi;
+}
+
+// Llamada: MaxTabla(notas, n_alumnos, &mejor_alumno);
+        </code></pre>
+      </section>
+
+      <!-- Slide 14: Asignación Dinámica de Memoria -->
+      <section>
+        <h2>Asignación Dinámica de Memoria</h2>
+        <div class="contents-box">
+          <p>Permite reservar memoria en tiempo de ejecución en la zona del **Heap** (incluir <code>&lt;stdlib.h&gt;</code> o <code>&lt;malloc.h&gt;</code>):</p>
+          <ul class="contents-list">
+            <li><code>void* malloc(int nBytes);</code> Reserva espacio en bytes consecutivas. Devuelve <code>NULL</code> si no hay memoria disponible.</li>
+            <li><code>void free(void* ptr);</code> Libera la memoria previamente asignada.</li>
+          </ul>
+        </div>
+        <pre><code class="language-c" data-trim data-noescape>
+float *t;
+int n = 100;
+
+t = (float*) malloc(n * sizeof(float)); // Reserva para 'n' floats
+if (t != NULL) {
+    t[0] = 8.5; // Se usa exactamente como un array convencional
+    free(t);    // Obligatorio liberar al finalizar
+}
+        </code></pre>
+      </section>
+
+      <!-- Slide 15: Punteros, Estructuras y Flecha (->) -->
+      <section>
+        <h2>Punteros y Estructuras (<code>-&gt;</code>)</h2>
+        <div class="contents-box">
+          <p>Para evitar copiar estructuras voluminosas en llamadas a funciones, se pasan punteros a estructura.</p>
+          <p>Para acceder a los campos desde un puntero:</p>
+          <p>Sintaxis clásica: <code>(*v).n</code> &nbsp;|&nbsp; <strong>Sintaxis preferida:</strong> <code>v-&gt;n</code></p>
+        </div>
+        <pre><code class="language-c" data-trim data-noescape>
+struct vector {
+    int n;
+    float datos[100];
+};
+
+float Sumatorio(const struct vector* v) {
+    float suma = 0;
+    int i;
+    for (i = 0; i < v->n; i++) {
+        suma += v->datos[i];
+    }
+    return suma;
+}
+        </code></pre>
+      </section>
+
+      <!-- Slide 16: Matrices y Row-Major Order -->
+      <section>
+        <h2>Representación de Matrices Dinámicas</h2>
+        <div class="contents-box">
+          <p>Las matrices se representan mediante estructuras con puntero dinámico y organización en **Row-Major Order**:</p>
+          <p style="text-align:center;">Fórmula de mapeo 2D a 1D: <code>elem[i][j] &rarr; data[i * cols + j]</code></p>
+        </div>
+        <pre><code class="language-c" data-trim data-noescape>
+struct matrix {
+    int rows, cols;
+    float *data;
+};
+
+struct matrix AsignaMemoriaMatriz(int nf, int nc) {
+    struct matrix m;
+    m.rows = nf;
+    m.cols = nc;
+    m.data = (float*) malloc(nf * nc * sizeof(float));
+    return m;
+}
+        </code></pre>
+      </section>
+
+      <!-- Slide 17: Ejercicios propuestos -->
+      <section>
+        <h2>Ejercicios Propuestos</h2>
+        <div class="contents-box">
+          <ol class="contents-list" style="font-size: 0.75em;">
+            <li>Calcular la desviación típica de los datos de un array de 5 elementos: &sigma; = &radic;(&sum;(x<sub>i</sub> - x̄)<sup>2</sup> / (n - 1)).</li>
+            <li>Obtener el índice y el valor del elemento mínimo de una tabla mediante una sola función.</li>
+            <li>Calcular la mediana de un array auxiliar ordenado.</li>
+            <li>Implementar código de control de errores para asegurar que la mediana solo opere sobre tamaños impares.</li>
+            <li>Reescribir la gestión de tablas usando asignación dinámica con <code>malloc</code> y <code>free</code>.</li>
+            <li>Implementar una función que desplace los elementos de una tabla al siguiente e inserte un nuevo elemento en la posición inicial.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Slide 18: Resumen -->
+      <section>
+        <h2>Resumen del Tema</h2>
+        <div class="contents-box">
+          <ol class="contents-list">
+            <li>Un array representa posiciones de memoria contiguas accedidas por un índice base 0.</li>
+            <li>El nombre de un array es un puntero constante a su primera posición.</li>
+            <li>Los punteros permiten el acceso indirecto a variables y el paso por referencia a funciones.</li>
+            <li>El modificador <code>const</code> protege las tablas contra modificaciones no deseadas en funciones.</li>
+            <li><code>malloc</code> y <code>free</code> permiten gestionar la memoria de manera flexible y eficiente en el Heap.</li>
+          </ol>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      plugins: [RevealHighlight]
+    });
+  </script>
+</body>
+</html>
