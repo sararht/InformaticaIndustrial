@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Tema 06 - Operaciones con Valores Binarios</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css">
+  <link rel="stylesheet" href="../css/uniovi-theme.css">
+  <style>
+    .syntax-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: start;
+      margin-top: 0.8rem;
+    }
+
+    .syntax-code-card {
+      background: #f8fbff;
+      border: 1px solid #d8e4fa;
+      border-radius: 16px;
+      padding: 10px;
+      box-shadow: 0 8px 20px rgba(17, 36, 77, 0.08);
+    }
+
+    .syntax-legend {
+      display: grid;
+      gap: 10px;
+    }
+
+    .syntax-chip {
+      background: #f7faff;
+      border: 1px solid #cfdcf3;
+      border-radius: 12px;
+      padding: 10px 12px;
+      text-align: left;
+      box-shadow: 0 4px 12px rgba(13, 35, 76, 0.07);
+    }
+
+    .syntax-chip strong {
+      display: block;
+      color: #1d3f7a;
+      font-size: 0.9em;
+      margin-bottom: 4px;
+    }
+
+    .syntax-chip small {
+      color: #4b617f;
+      font-size: 0.72em;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.6em;
+      margin-top: 0.8rem;
+    }
+
+    .data-table th, .data-table td {
+      border: 1px solid #c7d7f5;
+      padding: 5px 8px;
+      text-align: center;
+    }
+
+    .data-table th {
+      background-color: #1d3f7a;
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    .data-table tr:nth-child(even) {
+      background-color: #f3f7ff;
+    }
+
+    .bit-box {
+      background: linear-gradient(180deg, #f3f7ff 0%, #e8efff 100%);
+      border: 1px solid #c7d7f5;
+      border-radius: 12px;
+      padding: 12px;
+      font-family: monospace;
+      font-size: 0.8em;
+      margin-top: 0.8rem;
+      text-align: center;
+    }
+
+    .bit-grid {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .bit-cell {
+      border: 2px solid #1d3f7a;
+      background: #ffffff;
+      padding: 6px 8px;
+      border-radius: 6px;
+      min-width: 32px;
+    }
+
+    .bit-cell strong {
+      display: block;
+      color: #1d3f7a;
+      font-size: 1em;
+    }
+
+    .bit-cell small {
+      color: #666;
+      font-size: 0.65em;
+    }
+
+    .bit-active {
+      background-color: #e8f5e9;
+      border-color: #2e7d32;
+    }
+
+    .bit-active strong {
+      color: #2e7d32;
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Slide 1: Portada -->
+      <section>
+        <span class="badge">Tema 06</span>
+        <h1>Operaciones con Valores Binarios</h1>
+        <p class="subtitle">Programación en Lenguaje C</p>
+        <p class="subtitle subtitle-small">Ingeniería de Sistemas y Automática - Universidad de Oviedo</p>
+      </section>
+
+      <!-- Slide 2: Indice -->
+      <section>
+        <h2>Índice del Tema</h2>
+        <div class="contents-box">
+          <ol class="contents-list">
+            <li>Representación interna de enteros y acceso a nivel de bit</li>
+            <li>Aplicaciones en Entrada/Salida Digital y empaquetado de datos</li>
+            <li>Operadores lógicos a nivel de bit (<code>&amp;</code>, <code>|</code>, <code>^</code>, <code>~</code>)</li>
+            <li>Operadores de desplazamiento (<code>&lt;&lt;</code>, <code>&gt;&gt;</code>)</li>
+            <li>Notación Hexadecimal (<code>0x</code>)</li>
+            <li>Operaciones con máscaras de un solo bit (consultar, activar, borrar, conmutar)</li>
+            <li>Empaquetado y extracción de campos de múltiples bits</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Slide 3: Representación Binaria -->
+      <section>
+        <h2>Codificación Binaria y E/S Digital</h2>
+        <div class="contents-box">
+          <p>Un entero se representa mediante bits en base 2 (ponderación posicional):</p>
+          <ul class="contents-list">
+            <li>El número total de bits depende del tipo de dato (ej. <code>8 * sizeof(int)</code>).</li>
+            <li><strong>Interés a nivel de bit:</strong> Cuando el valor aritmético global no importa, sino el estado individual de las líneas de hardware.
+              <ul>
+                <li>Entradas digitales (interruptores, pulsadores, sensores).</li>
+                <li>Salidas digitales (LEDs, relés, actuadores).</li>
+                <li>Compresión/Empaquetado de múltiples variables en un solo número entero.</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="bit-box">
+          <p>Ejemplo: Registro de Salida Digital (<code>01001101₂ = 77₁₀</code>)</p>
+          <div class="bit-grid">
+            <div class="bit-cell"><small>b7</small><strong>0</strong></div>
+            <div class="bit-cell bit-active"><small>b6 (2⁶)</small><strong>1</strong></div>
+            <div class="bit-cell"><small>b5</small><strong>0</strong></div>
+            <div class="bit-cell"><small>b4</small><strong>0</strong></div>
+            <div class="bit-cell bit-active"><small>b3 (2³)</small><strong>1</strong></div>
+            <div class="bit-cell bit-active"><small>b2 (2²)</small><strong>1</strong></div>
+            <div class="bit-cell"><small>b1</small><strong>0</strong></div>
+            <div class="bit-cell bit-active"><small>b0 (2⁰)</small><strong>1</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 4: Operadores Lógicos de Bit -->
+      <section>
+        <h2>Operadores Lógicos a Nivel de Bit</h2>
+        <div class="contents-box">
+          <p>Operan sobre cada bit equivalente individualmente:</p>
+        </div>
+        <div class="syntax-layout">
+          <div class="syntax-chip">
+            <strong><code>&amp;</code> (AND Lógico)</strong>
+            <small><code>1 &amp; 1 = 1</code>; de lo contrario <code>0</code>. Usado para filtrar bits.</small>
+          </div>
+          <div class="syntax-chip">
+            <strong><code>|</code> (OR Lógico)</strong>
+            <small><code>0 | 0 = 0</code>; de lo contrario <code>1</code>. Usado para encender bits.</small>
+          </div>
+          <div class="syntax-chip">
+            <strong><code>^</code> (XOR / OR Exclusivo)</strong>
+            <small><code>1</code> si los bits son distintos, <code>0</code> si son iguales. Usado para bascular bits.</small>
+          </div>
+          <div class="syntax-chip">
+            <strong><code>~</code> (NOT / Complemento)</strong>
+            <small>Invierte monáricamente todos los bits (<code>0 &rarr; 1</code>, <code>1 &rarr; 0</code>).</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 5: Ejemplos Operadores Bit a Bit -->
+      <section>
+        <h2>Ejemplo de Operaciones Bit a Bit</h2>
+        <pre><code class="language-c" data-trim data-noescape>
+int v1 = 77; // 0000 0000 ... 0100 1101
+int v2 = 23; // 0000 0000 ... 0001 0111
+
+int res_and = v1 & v2; // 0000 0000 ... 0000 0101 (5)
+int res_or  = v1 | v2; // 0000 0000 ... 0101 1111 (95)
+int res_xor = v1 ^ v2; // 0000 0000 ... 0101 1010 (90)
+int res_not = ~v1;     // 1111 1111 ... 1011 0010 (-78)
+        </code></pre>
+      </section>
+
+      <!-- Slide 6: Operadores de Desplazamiento -->
+      <section>
+        <h2>Operadores de Desplazamiento</h2>
+        <div class="contents-box">
+          <p>Desplazan los bits de un entero un número determinado de posiciones:</p>
+          <ul class="contents-list">
+            <li><strong>Desplazamiento a la izquierda (<code>val &lt;&lt; n</code>):</strong>
+              <ul>
+                <li>Mueve los bits $n$ posiciones a la izquierda.</li>
+                <li>Rellena con ceros (<code>0</code>) por la derecha.</li>
+                <li>Equivale algebraicamente a multiplicar por $2^n$.</li>
+              </ul>
+            </li>
+            <li><strong>Desplazamiento a la derecha (<code>val &gt;&gt; n</code>):</strong>
+              <ul>
+                <li>Mueve los bits $n$ posiciones a la derecha.</li>
+                <li>Rellena con <code>0</code> si es tipo <code>unsigned</code>. Si es <code>signed</code>, conserva el bit de signo.</li>
+                <li>Equivale algebraicamente a la división entera por $2^n$.</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <pre><code class="language-c" data-trim data-noescape>
+int x = 26;        // 0000 ... 0001 1010  (26)
+int izq = x << 3;  // 0000 ... 1101 0000  (208 -> 26 * 2³)
+int der = x >> 3;  // 0000 ... 0000 0011  (3   -> 26 / 2³)
+        </code></pre>
+      </section>
+
+      <!-- Slide 7: Notación Hexadecimal -->
+      <section>
+        <h2>Notación Hexadecimal (Base 16)</h2>
+        <div class="contents-box">
+          <p>Para manipular códigos binarios se emplea notación Hexadecimal (prefijo <code>0x</code> en C). Cada dígito hex equivale exactamente a **4 bits (nibble)**:</p>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Hex</th><th>Binario</th>
+              <th>Hex</th><th>Binario</th>
+              <th>Hex</th><th>Binario</th>
+              <th>Hex</th><th>Binario</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>0x0</code></td><td>0000</td><td><code>0x4</code></td><td>0100</td><td><code>0x8</code></td><td>1000</td><td><code>0xC</code></td><td>1100</td></tr>
+            <tr><td><code>0x1</code></td><td>0001</td><td><code>0x5</code></td><td>0101</td><td><code>0x9</code></td><td>1001</td><td><code>0xD</code></td><td>1101</td></tr>
+            <tr><td><code>0x2</code></td><td>0010</td><td><code>0x6</code></td><td>0110</td><td><code>0xA</code></td><td>1010</td><td><code>0xE</code></td><td>1110</td></tr>
+            <tr><td><code>0x3</code></td><td>0011</td><td><code>0x7</code></td><td>0111</td><td><code>0xB</code></td><td>1011</td><td><code>0xF</code></td><td>1111</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:0.75em; margin-top:10px;">
+          <em>Ejemplo:</em> <code>valor = 77;</code> &rarr; <code>0100 1101₂</code> &rarr; <code>valor = 0x4D;</code> (4<sub>hex</sub> = 0100, D<sub>hex</sub> = 1101).
+        </p>
+      </section>
+
+      <!-- Slide 8: Máscaras de Bit Individual -->
+      <section>
+        <h2>Operaciones con un Bit Individual</h2>
+        <div class="contents-box">
+          <p>Para operar sobre el bit de peso $p$ en una variable $x$ mediante una máscara (<code>mascara = 1 &lt;&lt; p</code>):</p>
+        </div>
+        <pre><code class="language-c" data-trim data-noescape>
+int x, p = 3;
+int mascara = 1 << p; // Genera valor con solo el bit 'p' activo
+
+// 1. CONSULTAR estado del bit 'p'
+if (x & mascara) { /* Bit 'p' está a 1 */ }
+
+// 2. PONER A 1 (Activar) el bit 'p'
+x = x | mascara;     // x |= mascara;
+
+// 3. PONER A 0 (Desactivar/Borrar) el bit 'p'
+x = x & ~mascara;    // x &= ~mascara;
+
+// 4. CONMUTAR (Invertir) el bit 'p'
+x = x ^ mascara;     // x ^= mascara;
+        </code></pre>
+      </section>
+
+      <!-- Slide 9: Extracción de Campos de Bits -->
+      <section>
+        <h2>Empaquetado y Extracción de Datos</h2>
+        <div class="contents-box">
+          <p>Supongamos una variable $v$ que empaqueta tres campos: $vx$ (bits 0..2), $vy$ (bit 3) y $vz$ (bits 4..5):</p>
+        </div>
+        <pre><code class="language-c" data-trim data-noescape>
+// Formato de v: ... [zz][y][xxx]
+int v, vx, vy, vz;
+
+// --- EXTRAER CAMPOS ---
+vx =  v & 0x07;         // Máscara 000 0111 -> Aislar bits 0..2
+vy = (v & 0x08) >> 3;   // Máscara 000 1000 -> Aislar bit 3 y desplazar
+vz = (v & 0x30) >> 4;   // Máscara 011 0000 -> Aislar bits 4..5 y desplazar
+
+// --- ESCRITURA / MODIFICACIÓN DE UN CAMPO (Ej: Modificar vz) ---
+// 1. Limpiar campo con máscara invertida
+// 2. Insertar nuevo valor con desplazamiento y máscara
+v = (v & ~0x30) | ((vz << 4) & 0x30);
+        </code></pre>
+      </section>
+
+      <!-- Slide 10: Macros Genéricas de Máscara -->
+      <section>
+        <h2>Macros para Máscaras Genéricas</h2>
+        <p style="font-size:0.8em; text-align:left;">Generación de máscaras dinámicas a partir del bit de inicio y longitud:</p>
+        <pre><code class="language-c" data-trim data-noescape>
+#define BITSTART_X  0
+#define NBITS_X     3
+#define MASK_X      (((1 << (BITSTART_X + NBITS_X)) - 1) & ~((1 << BITSTART_X) - 1))
+
+#define BITSTART_Y  3
+#define NBITS_Y     1
+#define MASK_Y      (((1 << (BITSTART_Y + NBITS_Y)) - 1) & ~((1 << BITSTART_Y) - 1))
+
+#define BITSTART_Z  4
+#define NBITS_Z     2
+#define MASK_Z      (((1 << (BITSTART_Z + NBITS_Z)) - 1) & ~((1 << BITSTART_Z) - 1))
+
+// Extracción parametrizada usando las macros
+vz = (v & MASK_Z) >> BITSTART_Z;
+        </code></pre>
+      </section>
+
+      <!-- Slide 11: Ejercicios Propuestos -->
+      <section>
+        <h2>Ejercicios Propuestos</h2>
+        <div class="contents-box">
+          <ol class="contents-list" style="font-size: 0.75em;">
+            <li>Escribir una función que muestre por pantalla la representación binaria en texto de un número entero.</li>
+            <li>Escribir una función que lea una cadena de caracteres formada por <code>'0'</code>s y <code>'1'</code>s y la convierta a su valor entero.</li>
+            <li>Simulador: Encender salidas digitales (luces) en función del estado directo de las entradas digitales (interruptores).</li>
+            <li>Simulador: Hacer parpadear las luces únicamente de las entradas que se encuentren activas.</li>
+            <li>Simulador: Crear un efecto de luz desplazándose cíclicamente de izquierda a derecha (rotación con <code>&lt;&lt;</code> / <code>&gt;&gt;</code>).</li>
+            <li>Simulador: Generar un parpadeo dependiente de interruptores en bits 0..3 y una secuencia desplazada en bits 4..7.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Slide 12: Resumen -->
+      <section>
+        <h2>Resumen del Tema</h2>
+        <div class="contents-box">
+          <ol class="contents-list">
+            <li>Las operaciones bit a bit permiten controlar de forma precisa dispositivos periféricos e E/S digitales.</li>
+            <li>Usar <code>|</code> para poner a 1, <code>&amp; ~</code> para poner a 0 y <code>^</code> para cambiar el estado de un bit.</li>
+            <li>Los desplazamientos <code>&lt;&lt;</code> y <code>&gt;&gt;</code> alinean y extraen campos empaquetados.</li>
+            <li>La notación Hexadecimal (<code>0x</code>) simplifica la lectura de patrones binarios dividiendo en nibbles de 4 bits.</li>
+          </ol>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      plugins: [RevealHighlight]
+    });
+  </script>
+</body>
+</html>

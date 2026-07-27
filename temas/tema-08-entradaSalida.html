@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Tema 08 - Entrada/Salida en Archivos y Dispositivos</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css">
+  <link rel="stylesheet" href="../css/uniovi-theme.css">
+  <style>
+    .syntax-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: start;
+      margin-top: 0.8rem;
+    }
+
+    .syntax-code-card {
+      background: #f8fbff;
+      border: 1px solid #d8e4fa;
+      border-radius: 16px;
+      padding: 10px;
+      box-shadow: 0 8px 20px rgba(17, 36, 77, 0.08);
+    }
+
+    .syntax-legend {
+      display: grid;
+      gap: 10px;
+    }
+
+    .syntax-chip {
+      background: #f7faff;
+      border: 1px solid #cfdcf3;
+      border-radius: 12px;
+      padding: 10px 12px;
+      text-align: left;
+      box-shadow: 0 4px 12px rgba(13, 35, 76, 0.07);
+    }
+
+    .syntax-chip strong {
+      display: block;
+      color: #1d3f7a;
+      font-size: 0.9em;
+      margin-bottom: 4px;
+    }
+
+    .syntax-chip small {
+      color: #4b617f;
+      font-size: 0.72em;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.65em;
+      margin-top: 0.8rem;
+    }
+
+    .data-table th, .data-table td {
+      border: 1px solid #c7d7f5;
+      padding: 6px 10px;
+      text-align: center;
+    }
+
+    .data-table th {
+      background-color: #1d3f7a;
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    .data-table tr:nth-child(even) {
+      background-color: #f3f7ff;
+    }
+
+    .architecture-box {
+      background: linear-gradient(180deg, #f3f7ff 0%, #e8efff 100%);
+      border: 1px solid #c7d7f5;
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 0.8rem;
+      text-align: center;
+    }
+
+    .architecture-grid {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .arch-card {
+      background: #ffffff;
+      border: 2px solid #1d3f7a;
+      border-radius: 10px;
+      padding: 8px 12px;
+      min-width: 110px;
+    }
+
+    .arch-card strong {
+      display: block;
+      color: #1d3f7a;
+      font-size: 0.85em;
+    }
+
+    .arch-card small {
+      color: #666;
+      font-size: 0.7em;
+    }
+
+    .arch-arrow {
+      font-size: 1.2em;
+      color: #3a5f9d;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Slide 1: Portada -->
+      <section>
+        <span class="badge">Tema 08</span>
+        <h1>E/S en Archivos y Dispositivos</h1>
+        <p class="subtitle">Programación en Lenguaje C</p>
+        <p class="subtitle subtitle-small">Ingeniería de Sistemas y Automática - Universidad de Oviedo</p>
+      </section>
+
+      <!-- Slide 2: Indice -->
+      <section>
+        <h2>Índice del Tema</h2>
+        <div class="contents-box">
+          <ol class="contents-list">
+            <li>Concepto de Entrada/Salida por <em>Streams</em> y arquitectura SO/Driver</li>
+            <li>Tipos de Streams y denominación de dispositivos</li>
+            <li>Apertura y cierre de streams (<code>fopen</code>, <code>fclose</code>, tipo <code>FILE*</code>)</li>
+            <li>Entrada/Salida orientada a texto (<code>fgetc</code>, <code>fgets</code>, <code>fprintf</code>, <code>fscanf</code>)</li>
+            <li>Streams estándar de consola (<code>stdin</code>, <code>stdout</code>, <code>stderr</code>) y redirección</li>
+            <li>Entrada/Salida binaria (<code>fread</code>, <code>fwrite</code>)</li>
+            <li>Posicionamiento y control de errores (<code>fseek</code>, <code>ftell</code>, <code>feof</code>, <code>fflush</code>)</li>
+            <li>E/S de bajo nivel sin buffer (POSIX / Unix)</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Slide 3: Arquitectura E/S por Stream -->
+      <section>
+        <h2>E/S por Stream: Arquitectura</h2>
+        <div class="contents-box">
+          <p>Permite a los programas intercambiar información con dispositivos periféricos mediante abstracciones unificadas:</p>
+        </div>
+        <div class="architecture-box">
+          <div class="architecture-grid">
+            <div class="arch-card">
+              <strong>Programa Usuario</strong>
+              <small>Llamadas a la API C</small>
+            </div>
+            <div class="arch-arrow">&harr;</div>
+            <div class="arch-card" style="border-color:#345b96; background:#f7faff;">
+              <strong>Sistema Operativo</strong>
+              <small>Streams e Interrupciones</small>
+            </div>
+            <div class="arch-arrow">&harr;</div>
+            <div class="arch-card">
+              <strong>Driver Dispositivo</strong>
+              <small>Acceso a Puertos</small>
+            </div>
+            <div class="arch-arrow">&harr;</div>
+            <div class="arch-card" style="background:#e8efff;">
+              <strong>Periférico / Archivo</strong>
+              <small>Hardware Físico</small>
+            </div>
+          </div>
+        </div>
+        <p style="font-size:0.75em; color:#4b617f; margin-top:15px;">
+          El SO gestiona la organización lógica y derechos de acceso; los drivers se encargan de la comunicación física con los puertos E/S e interrupciones.
+        </p>
+      </section>
+
+      <!-- Slide 4: Concepto y Tipos de Streams -->
+      <section>
+        <h2>¿Qué es un Stream?</h2>
+        <div class="contents-box">
+          <p>Un **Stream** (corriente) es una secuencia ordenada de bytes enviada a o recibida desde un dispositivo. Todos los dispositivos se tratan de forma homogénea.</p>
+          <ul class="contents-list">
+            <li><strong>Según dirección:</strong> Entrada, Salida o Entrada/Salida bidireccional.</li>
+            <li><strong>Según soporte:</strong> Con memoria (archivos en disco) o Sin memoria (teclado, pantalla, puerto serie).</li>
+            <li><strong>Según formato:</strong> Orientados a Texto o Binarios.</li>
+            <li><strong>Identificación:</strong> Mediante cadena de caracteres (ej. <code>"COM1"</code>, <code>"/dev/ttyS0"</code>, <code>"C:\\datos.txt"</code>).</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Slide 5: Apertura y Cierre de Streams -->
+      <section>
+        <h2>Apertura y Cierre: <code>fopen</code> y <code>fclose</code></h2>
+        <div class="contents-box">
+          <p>Para manipular un stream se incluye <code>&lt;stdio.h&gt;</code> y se utiliza un puntero al identificador de tipo opaco <code>FILE*</code>.</p>
+        </div>
+        <pre><code class="language-c" data-trim data-noescape>
+FILE* fopen(const char* name, const char* mode);
+int fclose(FILE* fid);
+        </code></pre>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Modo</th>
+              <th>Operación</th>
+              <th>Comportamiento</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>"r"</code> / <code>"rb"</code></td>
+              <td>Lectura</td>
+              <td>Abre archivo existente. Devuelve <code>NULL</code> si no existe.</td>
+            </tr>
+            <tr>
+              <td><code>"w"</code> / <code>"wb"</code></td>
+              <td>Escritura</td>
+              <td>Crea un archivo nuevo o sobrescribe/vacía si ya existía.</td>
+            </tr>
+            <tr>
+              <td><code>"a"</code> / <code>"ab"</code></td>
+              <td>Añadir (Append)</td>
+              <td>Abre o crea el archivo para escribir siempre al final.</td>
+            </tr>
+            <tr>
+              <td><code>"r+"</code> / <code>"w+"</code></td>
+              <td>Lectura/Escritura</td>
+              <td>Apertura combinada para actualizar información.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Slide 6: E/S en Streams de Texto -->
+      <section>
+        <h2>E/S Orientada a Texto</h2>
+        <div class="syntax-layout">
+          <div class="syntax-chip">
+            <strong>Caracteres: <code>fgetc</code> / <code>fputc</code></strong>
+            <small><code>int fgetc(FILE* fid);</code><br><code>int fputc(int car, FILE* fid);</code></small>
+          </div>
+          <div class="syntax-chip">
+            <strong>Cadenas: <code>fgets</code> / <code>fputs</code></strong>
+            <small><code>char* fgets(char* str, int n, FILE* fid);</code><br><code>int fputs(const char* str, FILE* fid);</code></small>
+          </div>
+          <div class="syntax-chip">
+            <strong>Formateada: <code>fscanf</code> / <code>fprintf</code></strong>
+            <small><code>int fscanf(FILE* fid, char* fmt, ...);</code><br><code>int fprintf(FILE* fid, char* fmt, ...);</code></small>
+          </div>
+        </div>
+        <pre><code class="language-c" data-trim data-noescape>
+FILE* f = fopen("salida.txt", "w");
+if (f != NULL) {
+    fprintf(f, "Resultado: %d\n", 42);
+    fputs("Línea completada\n", f);
+    fclose(f);
+}
+        </code></pre>
+      </section>
+
+      <!-- Slide 7: Streams Estándar de Consola -->
+      <section>
+        <h2>Streams Estándar y Redirección</h2>
+        <div class="contents-box">
+          <p>Al iniciar un programa se abren automáticamente tres streams conectados a la consola:</p>
+          <ul class="contents-list">
+            <li><code>stdin</code>: Entrada estándar (teclado).</li>
+            <li><code>stdout</code>: Salida estándar (pantalla).</li>
+            <li><code>stderr</code>: Salida de errores (pantalla).</li>
+          </ul>
+          <p style="margin-top:10px;">
+            Las funciones convencionales de consola son alias de streams: <code>printf(...)</code> &equiv; <code>fprintf(stdout, ...)</code>.
+          </p>
+          <p><strong>Redirección en línea de comandos:</strong></p>
+          <p><code>Miprograma.exe &lt; entrada.txt &gt; salida.txt</code></p>
+        </div>
+      </section>
+
+      <!-- Slide 8: E/S Binaria -->
+      <section>
+        <h2>Entrada/Salida Binaria</h2>
+        <div class="contents-box">
+          <p>Permite transferir bloques crudos de memoria desde/hacia un archivo sin conversiones de formato o formato numérico a texto.</p>
+        </div>
+        <pre><code class="language-c" data-trim data-noescape>
+// Lectura binaria
+int fread(void* buffer, size_t size, size_t count, FILE* fid);
+
+// Escritura binaria
+int fwrite(const void* buffer, size_t size, size_t count, FILE* fid);
+        </code></pre>
+        <div class="syntax-layout">
+          <div class="syntax-chip">
+            <strong>Parámetro <code>buffer</code></strong>
+            <small>Dirección de memoria inicial de la variable o array.</small>
+          </div>
+          <div class="syntax-chip">
+            <strong>Parámetros <code>size</code> y <code>count</code></strong>
+            <small>Tamaño en bytes de cada elemento (<code>sizeof</code>) y número de elementos. Devuelven el total de elementos leídos/escritos con éxito.</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 9: Posicionamiento en Archivos -->
+      <section>
+        <h2>Navegación y Posicionamiento</h2>
+        <div class="contents-box">
+          <p>Funciones para consultar y desplazar el cursor dentro de archivos con memoria:</p>
+          <ul class="contents-list">
+            <li><code>long ftell(FILE* fid);</code> Devuelve la posición actual (en bytes) desde el inicio.</li>
+            <li><code>void rewind(FILE* fid);</code> Vuelve a colocar el cursor al principio del archivo.</li>
+            <li><code>int fseek(FILE* fid, long offset, int origin);</code> Desplaza el cursor $offset$ bytes según el origen:
+              <ul>
+                <li><code>SEEK_SET</code>: Desde el principio del archivo.</li>
+                <li><code>SEEK_CUR</code>: Desde la posición actual.</li>
+                <li><code>SEEK_END</code>: Desde el final del archivo.</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Slide 10: Control de Estado y Buffers -->
+      <section>
+        <h2>Control de Estado y Vaciado de Buffers</h2>
+        <div class="syntax-layout">
+          <div class="syntax-chip">
+            <strong><code>feof(fid)</code></strong>
+            <small>Devuelve distinto de cero (TRUE) cuando se alcanza el fin del archivo.</small>
+          </div>
+          <div class="syntax-chip">
+            <strong><code>ferror(fid)</code> / <code>clearerr(fid)</code></strong>
+            <small>Consulta el código del último error (0 = OK) o limpia los indicadores de error del stream.</small>
+          </div>
+          <div class="syntax-chip">
+            <strong><code>fflush(fid)</code></strong>
+            <small>Fuerza la escritura física en el dispositivo de los datos pendientes en el buffer intermedio del SO. En streams de entrada elimina datos residuales del buffer.</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 11: E/S de Bajo Nivel sin Buffer -->
+      <section>
+        <h2>E/S Sin Buffer (Bajo Nivel)</h2>
+        <div class="contents-box">
+          <p>Se realiza el acceso directamente contra los drivers sin conversiones intermedias ni memoria intermedia de stream:</p>
+          <ul class="contents-list">
+            <li><strong>Identificador de dispositivo:</strong> Un número entero (descriptor de archivo) de tipo <code>int</code>.
+              <ul>
+                <li><code>0</code> &equiv; <code>stdin</code>, <code>1</code> &equiv; <code>stdout</code>, <code>2</code> &equiv; <code>stderr</code>.</li>
+              </ul>
+            </li>
+            <li><strong>Funciones típicas (POSIX / Unix):</strong> <code>open()</code>, <code>close()</code>, <code>read()</code>, <code>write()</code>, <code>creat()</code>, <code>tell()</code>.</li>
+            <li>Acceso a llamadas avanzadas del SO: <code>ioctl()</code>, <code>fcntl()</code>, <code>select()</code>.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Slide 12: Ejemplos Prácticos de Lectura -->
+      <section>
+        <h2>Ejemplo: Lectura de Matriz desde Fichero</h2>
+        <pre><code class="language-c" data-trim data-noescape>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+    FILE* f = fopen("matriz.txt", "r");
+    int n, m, i, j;
+    float* datos;
+
+    if (f == NULL) return -1;
+
+    fscanf(f, "%d %d", &n, &m); // Lee dimensiones
+    datos = (float*) malloc(n * m * sizeof(float));
+
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < m; j++) {
+            fscanf(f, "%f", &datos[i * m + j]); // Lee elementos
+        }
+    }
+    fclose(f);
+    free(datos);
+    return 0;
+}
+        </code></pre>
+      </section>
+
+      <!-- Slide 13: Ejercicios propuestos -->
+      <section>
+        <h2>Ejercicios Propuestos</h2>
+        <div class="contents-box">
+          <ol class="contents-list" style="font-size: 0.75em;">
+            <li>Leer los datos de una matriz de reales desde un fichero de texto con dimensiones $n \times m$ en cabecera.</li>
+            <li>Desarrollar un programa que lea un archivo línea a línea y cuente cuántas líneas contienen una cadena buscada.</li>
+            <li>Crear un programa que reemplace en un fichero la marca <code>"&lt;x&gt;"</code> por el valor entero de una variable elegida por teclado.</li>
+            <li>Leer el máximo número de <code>float</code>s de un archivo binario y guardarlos formateados en una matriz en un archivo de texto.</li>
+            <li>Implementar la lectura de matriz desde archivo cuando no se conocen de antemano $n$ y $m$ en la primera línea.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Slide 14: Resumen -->
+      <section>
+        <h2>Resumen del Tema</h2>
+        <div class="contents-box">
+          <ol class="contents-list">
+            <li>El modelo de Streams en C abstrae el intercambio de información con cualquier periférico o archivo.</li>
+            <li><code>fopen</code> permite seleccionar modos de apertura en texto o binario.</li>
+            <li>Para ficheros formateados usar <code>fprintf</code>/<code>fscanf</code>; para grandes volúmenes de datos crudos usar <code>fwrite</code>/<code>fread</code>.</li>
+            <li>Comprobar siempre que <code>fopen</code> no devuelva <code>NULL</code> antes de operar sobre un stream.</li>
+            <li>Utilizar <code>fflush</code> cuando sea crítico asegurar la escritura inmediata sobre hardware.</li>
+          </ol>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      plugins: [RevealHighlight]
+    });
+  </script>
+</body>
+</html>

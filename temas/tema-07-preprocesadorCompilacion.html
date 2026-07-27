@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Tema 07 - Preprocesador y Compilación Separada</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css">
+  <link rel="stylesheet" href="../css/uniovi-theme.css">
+  <style>
+    .syntax-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: start;
+      margin-top: 0.8rem;
+    }
+
+    .syntax-code-card {
+      background: #f8fbff;
+      border: 1px solid #d8e4fa;
+      border-radius: 16px;
+      padding: 10px;
+      box-shadow: 0 8px 20px rgba(17, 36, 77, 0.08);
+    }
+
+    .syntax-legend {
+      display: grid;
+      gap: 10px;
+    }
+
+    .syntax-chip {
+      background: #f7faff;
+      border: 1px solid #cfdcf3;
+      border-radius: 12px;
+      padding: 10px 12px;
+      text-align: left;
+      box-shadow: 0 4px 12px rgba(13, 35, 76, 0.07);
+    }
+
+    .syntax-chip strong {
+      display: block;
+      color: #1d3f7a;
+      font-size: 0.9em;
+      margin-bottom: 4px;
+    }
+
+    .syntax-chip small {
+      color: #4b617f;
+      font-size: 0.72em;
+    }
+
+    .pipeline-diagram {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+
+    .pipeline-step {
+      background: linear-gradient(180deg, #f3f7ff 0%, #e8efff 100%);
+      border: 1px solid #c7d7f5;
+      border-radius: 12px;
+      padding: 10px 14px;
+      text-align: center;
+      min-width: 110px;
+      box-shadow: 0 4px 12px rgba(17, 36, 77, 0.08);
+    }
+
+    .pipeline-step strong {
+      display: block;
+      color: #1d3f7a;
+      font-size: 0.85em;
+    }
+
+    .pipeline-step small {
+      display: block;
+      color: #555;
+      font-size: 0.7em;
+      margin-top: 2px;
+    }
+
+    .pipeline-arrow {
+      font-size: 1.4em;
+      color: #3a5f9d;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Slide 1: Portada -->
+      <section>
+        <span class="badge">Tema 07</span>
+        <h1>Preprocesador y Compilación Separada</h1>
+        <p class="subtitle">Programación en Lenguaje C</p>
+        <p class="subtitle subtitle-small">Ingeniería de Sistemas y Automática - Universidad de Oviedo</p>
+      </section>
+
+      <!-- Slide 2: Indice -->
+      <section>
+        <h2>Índice del Tema</h2>
+        <div class="contents-box">
+          <ol class="contents-list">
+            <li>Del código fuente al código máquina (Editor, Compilador, Enlazador, Cargador)</li>
+            <li>Concepto y ventajas de la Compilación Separada</li>
+            <li>Directivas del Preprocesador (<code>#include</code>, <code>#define</code>, <code>#pragma</code>)</li>
+            <li>Archivos fuente (<code>.c</code>) vs. Archivos de cabecera (<code>.h</code>)</li>
+            <li>Gestión de variables globales entre módulos (<code>extern</code>)</li>
+            <li>Macros con parámetros y prevención de efectos secundarios</li>
+            <li>Compilación Condicional e Inclusión Múltiple (<em>Include Guards</em>)</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Slide 3: De Alto Nivel a Código Máquina -->
+      <section>
+        <h2>Fases de Obtención del Ejecutable</h2>
+        <div class="contents-box">
+          <p>El proceso de transformación del código fuente a código ejecutable consta de varias etapas:</p>
+        </div>
+        <div class="pipeline-diagram">
+          <div class="pipeline-step">
+            <strong>Editor</strong>
+            <small><code>.c</code> / <code>.h</code> (Texto fuente)</small>
+          </div>
+          <div class="pipeline-arrow">&rarr;</div>
+          <div class="pipeline-step">
+            <strong>Preprocesador</strong>
+            <small>Expansión de texto</small>
+          </div>
+          <div class="pipeline-arrow">&rarr;</div>
+          <div class="pipeline-step">
+            <strong>Compilador</strong>
+            <small><code>.obj</code> (Código objeto)</small>
+          </div>
+          <div class="pipeline-arrow">&rarr;</div>
+          <div class="pipeline-step">
+            <strong>Enlazador (Linker)</strong>
+            <small><code>.exe</code> + <code>.lib</code></small>
+          </div>
+        </div>
+        <p style="font-size:0.75em; color:#4b617f; margin-top:15px;">
+          El <strong>Cargador (Loader)</strong> del sistema operativo vuelca el archivo <code>.exe</code> en la memoria RAM y establece el Registro Contador de Programa (PC) en la primera instrucción de <code>main()</code>.
+        </p>
+      </section>
+
+      <!-- Slide 4: Compilación Separada -->
+      <section>
+        <h2>Compilación Separada</h2>
+        <div class="contents-box">
+          <p>Permite dividir programas complejos en múltiples ficheros fuente independientes:</p>
+          <ul class="contents-list">
+            <li><strong>Modularidad:</strong> Cada fichero <code>.c</code> se compila de forma aislada generando su correspondiente fichero objeto <code>.obj</code>.</li>
+            <li><strong>Reutilización y Eficiencia:</strong> Al modificar un único archivo, solo es necesario re-compilar ese módulo antes de volver a enlazar.</li>
+            <li><strong>Enlazado final:</strong> El Linker une todos los <code>.obj</code> y las librerías estáticas (<code>.lib</code>) resolviendo los símbolos exported/extern.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Slide 5: Directivas del Preprocesador -->
+      <section>
+        <h2>El Preprocesador en C</h2>
+        <div class="contents-box">
+          <p>Actúa <strong>antes</strong> del proceso de compilación propiamente dicho, realizando manipulaciones de texto sobre el código fuente.</p>
+          <p>Todas las directivas comienzan por el símbolo <code>#</code> y ocupan una sola línea:</p>
+        </div>
+        <div class="syntax-layout">
+          <div class="syntax-chip">
+            <strong><code>#include</code></strong>
+            <small>Inserta textualmente el contenido de un fichero de cabecera.</small>
+          </div>
+          <div class="syntax-chip">
+            <strong><code>#define</code></strong>
+            <small>Define constantes simbólicas o macros sustituibles por texto.</small>
+          </div>
+          <div class="syntax-chip">
+            <strong><code>#if / #ifdef / #endif</code></strong>
+            <small>Permiten la compilación condicional del bloque de código.</small>
+          </div>
+          <div class="syntax-chip">
+            <strong><code>#pragma / #error</code></strong>
+            <small>Instrucciones específicas al compilador o generación de errores customizados.</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 6: Ficheros .c vs .h -->
+      <section>
+        <h2>Ficheros Fuente (<code>.c</code>) vs. Cabeceras (<code>.h</code>)</h2>
+        <div class="syntax-layout">
+          <div class="syntax-code-card">
+            <strong>Ficheros Fuente (<code>.c</code>)</strong>
+            <ul style="font-size: 0.7em; margin-top: 8px; text-align: left;">
+              <li>Se compilan individualmente para generar archivos <code>.obj</code>.</li>
+              <li>Contienen el código ejecutable (definición de funciones, lógica, algoritmos).</li>
+              <li>Declaran el almacenamiento de variables globales.</li>
+            </ul>
+          </div>
+          <div class="syntax-code-card">
+            <strong>Ficheros de Cabecera (<code>.h</code>)</strong>
+            <ul style="font-size: 0.7em; margin-top: 8px; text-align: left;">
+              <li>Nunca se compilan directamente; se incluyen via <code>#include</code> en los <code>.c</code>.</li>
+              <li>Solo contienen <strong>declaraciones</strong> necesarias para los clientes del módulo:
+                <ul>
+                  <li>Prototipos de función terminados en <code>;</code></li>
+                  <li>Constantes e Inclusiones</li>
+                  <li>Nuevos tipos (<code>struct</code>, <code>enum</code>, <code>typedef</code>)</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 7: Uso de Variables Globales entre Módulos -->
+      <section>
+        <h2>Variables Globales Compartidas (<code>extern</code>)</h2>
+        <div class="contents-box">
+          <p>Para compartir una variable global entre varios archivos fuente:</p>
+          <ul class="contents-list">
+            <li><strong>Módulo principal / Propietario (<code>uno.c</code>):</strong> Declara la variable para reservar memoria.</li>
+            <li><strong>Módulo secundario (<code>dos.c</code>):</strong> Declara la variable anteponiendo la palabra clave <code>extern</code>.</li>
+          </ul>
+        </div>
+        <pre><code class="language-c" data-trim data-noescape>
+// ----- Fichero: uno.c -----
+#include "dos.h"
+int _vble_global = 10; // Reserva espacio en memoria RAM
+
+int main(void) {
+    FnDos();
+    return 0;
+}
+
+// ----- Fichero: dos.c -----
+#include "dos.h"
+extern int _vble_global; // Indica al compilador que existe en otro .obj
+
+void FnDos(void) {
+    _vble_global = 20;   // Modifica la variable global compartida
+}
+        </code></pre>
+      </section>
+
+      <!-- Slide 8: Macros con Parámetros -->
+      <section>
+        <h2>Macros con Parámetros</h2>
+        <div class="contents-box">
+          <p>Sustituyen texto antes de compilar. A diferencia de una función, no generan sobrecarga de llamadas, pero deben construirse con precaución:</p>
+        </div>
+        <pre><code class="language-c" data-trim data-noescape>
+// Definición incorrecta (sin paréntesis):
+#define CUADRADO(x) x * x
+// Invocación: CUADRADO(1 + 2) -> Expande a: 1 + 2 * 1 + 2 = 5 (¡ERROR!)
+
+// Definición correcta (con paréntesis en argumentos y expresión):
+#define CUADRADO(x) ((x) * (x))
+// Invocación: CUADRADO(1 + 2) -> Expande a: ((1 + 2) * (1 + 2)) = 9
+
+// Macro segura de comparación:
+#define MIN(a, b) (((a) < (b)) ? (a) : (b))
+        </code></pre>
+      </section>
+
+      <!-- Slide 9: Compilación Condicional -->
+      <section>
+        <h2>Compilación Condicional</h2>
+        <div class="contents-box">
+          <p>Permite incluir o excluir fragmentos de código fuente durante la compilación.</p>
+          <p>Diferencia clave entre <code>#if</code> (Preprocesador) e <code>if()</code> (Lenguaje C):</p>
+          <ul class="contents-list">
+            <li><code>#if</code>: Se evalúa en tiempo de compilación. El código omitido **no se incluye** en el archivo binario final.</li>
+            <li><code>if()</code>: Se evalúa en tiempo de ejecución. Todo el código forma parte del binario ejecutable.</li>
+          </ul>
+        </div>
+        <pre><code class="language-c" data-trim data-noescape>
+#define DEPURANDO 1 // Cambiar a 0 en la versión de producción
+
+int main(void) {
+    int resultado = 42;
+    
+#if DEPURANDO > 0
+    printf("DEBUG: Valor parcial de resultado = %d\n", resultado);
+#endif
+
+    return 0;
+}
+        </code></pre>
+      </section>
+
+      <!-- Slide 10: Inclusión Múltiple / Include Guards -->
+      <section>
+        <h2>Protección contra Inclusión Múltiple (<em>Include Guards</em>)</h2>
+        <div class="contents-box">
+          <p>Cuando varias cabeceras incluyen a su vez el mismo fichero <code>.h</code>, se produce un error de **duplicidad de tipos/estructuras** en compilación.</p>
+          <p>Solución: Envolver el contenido del fichero <code>.h</code> con la directiva <code>#ifndef</code>.</p>
+        </div>
+        <pre><code class="language-c" data-trim data-noescape>
+// ----- Fichero: matrices.h -----
+#ifndef _INC_MATRICES_H
+#define _INC_MATRICES_H
+
+struct matriz {
+    int filas;
+    int columnas;
+    float* datos;
+};
+
+void InicializarMatriz(struct matriz* m);
+
+#endif // _INC_MATRICES_H
+        </code></pre>
+      </section>
+
+      <!-- Slide 11: Ejercicios propuestos -->
+      <section>
+        <h2>Ejercicios Propuestos</h2>
+        <div class="contents-box">
+          <ol class="contents-list" style="font-size: 0.75em;">
+            <li>Diseñar un programa modularizado en dos ficheros fuente (<code>principal.c</code> y <code>funciones.c</code>) y una cabecera (<code>funciones.h</code>) para calcular la desviación típica de un array.</li>
+            <li>Implementar una macro segura con parámetros que genere la máscara binaria dado el bit de inicio y el número de bits del campo.</li>
+            <li>Desarrollar un programa que gestione el desplazamiento de un array de reales e incluya un modo de traza configurable mediante <code>#define</code> y <code>#ifdef</code> para imprimir o no el contenido en cada iteración.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Slide 12: Resumen -->
+      <section>
+        <h2>Resumen del Tema</h2>
+        <div class="contents-box">
+          <ol class="contents-list">
+            <li>El preprocesador transforma textualmente el código antes de la compilación.</li>
+            <li>Los archivos <code>.c</code> contienen la implementación ejecutable; las cabeceras <code>.h</code> exponen las interfaces públicas.</li>
+            <li>Se utiliza <code>extern</code> para compartir el acceso a variables globales declaradas en otro módulo.</li>
+            <li>Encerrar las macros parametrizadas siempre entre paréntesis para evitar errores de evaluación.</li>
+            <li>Proteger **todas** las cabeceras <code>.h</code> mediante <em>Include Guards</em> (<code>#ifndef ... #define ... #endif</code>).</li>
+          </ol>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      plugins: [RevealHighlight]
+    });
+  </script>
+</body>
+</html>

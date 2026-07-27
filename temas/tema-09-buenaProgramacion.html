@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Tema 09 - Criterios de Buena Programación</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css">
+  <link rel="stylesheet" href="../css/uniovi-theme.css">
+  <style>
+    .syntax-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: start;
+      margin-top: 0.8rem;
+    }
+
+    .syntax-code-card {
+      background: #f8fbff;
+      border: 1px solid #d8e4fa;
+      border-radius: 16px;
+      padding: 10px;
+      box-shadow: 0 8px 20px rgba(17, 36, 77, 0.08);
+    }
+
+    .syntax-legend {
+      display: grid;
+      gap: 10px;
+    }
+
+    .syntax-chip {
+      background: #f7faff;
+      border: 1px solid #cfdcf3;
+      border-radius: 12px;
+      padding: 10px 12px;
+      text-align: left;
+      box-shadow: 0 4px 12px rgba(13, 35, 76, 0.07);
+    }
+
+    .syntax-chip strong {
+      display: block;
+      color: #1d3f7a;
+      font-size: 0.9em;
+      margin-bottom: 4px;
+    }
+
+    .syntax-chip small {
+      color: #4b617f;
+      font-size: 0.72em;
+    }
+
+    .library-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 0.8rem;
+    }
+
+    .library-card {
+      background: linear-gradient(180deg, #f3f7ff 0%, #e8efff 100%);
+      border: 1px solid #c7d7f5;
+      border-radius: 10px;
+      padding: 8px 10px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(17, 36, 77, 0.06);
+    }
+
+    .library-card strong {
+      display: block;
+      color: #1d3f7a;
+      font-size: 0.85em;
+    }
+
+    .library-card small {
+      color: #555;
+      font-size: 0.7em;
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Slide 1: Portada -->
+      <section>
+        <span class="badge">Tema 09</span>
+        <h1>Criterios de Buena Programación</h1>
+        <p class="subtitle">Programación en Lenguaje C</p>
+        <p class="subtitle subtitle-small">Ingeniería de Sistemas y Automática - Universidad de Oviedo</p>
+      </section>
+
+      <!-- Slide 2: Indice -->
+      <section>
+        <h2>Índice del Tema</h2>
+        <div class="contents-box">
+          <ol class="contents-list">
+            <li>Revisión de aspectos avanzados: Tipos de datos y memoria</li>
+            <li>Revisión de variables, arrays multidimensionales y operadores avanzados</li>
+            <li>Argumentos de <code>main()</code>, punteros a función y Librería Estándar</li>
+            <li>Reglas de diseño y calidad al escribir el código</li>
+            <li>Criterios de prueba, verificación y depuración de programas</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Slide 3: Aspectos avanzados de Tipos de Datos -->
+      <section>
+        <h2>Tipos de Datos y Memoria</h2>
+        <div class="contents-box">
+          <p>Detalles clave para un uso correcto de la memoria:</p>
+          <ul class="contents-list">
+            <li><strong>Desbordamiento (Overflow):</strong> C no comprueba la salida de rango en enteros; es responsabilidad del programador prevenirla.</li>
+            <li><strong>Coma fija:</strong> Opción eficiente para números reales en microcontroladores sin unidad de coma flotante (FPU).</li>
+            <li><strong>Endianness:</strong> Las variables multibyte se almacenan en memoria en formato <em>Little-Endian</em> o <em>Big-Endian</em>.</li>
+            <li><strong>Operador <code>sizeof()</code>:</strong> Determina el tamaño exacto en bytes de cualquier tipo de dato o variable en tiempo de compilación.</li>
+            <li><strong>Definición de tipos:</strong> Uso de <code>struct</code>, <code>union</code>, <code>enum</code> y <code>typedef</code> para estructurar datos complejos.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Slide 4: Variables y Operadores Especiales -->
+      <section>
+        <h2>Variables y Expresiones Avanzadas</h2>
+        <div class="syntax-layout">
+          <div class="syntax-code-card">
+            <strong>Variables y Arrays</strong>
+            <ul style="font-size: 0.7em; margin-top: 8px; text-align: left;">
+              <li>Uso estratégico de variables <strong>globales</strong> y <strong>estáticas</strong> (<code>static</code>).</li>
+              <li>Arrays multidimensionales estáticos y dinámicos (reservar solo cuando sea imprescindible).</li>
+            </ul>
+          </div>
+          <div class="syntax-code-card">
+            <strong>Operadores Abreviados</strong>
+            <ul style="font-size: 0.7em; margin-top: 8px; text-align: left;">
+              <li>Asignación combinada: <code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code>.</li>
+              <li>Incremento y decremento: <code>++</code>, <code>--</code>.</li>
+              <li>Operador ternario condicional: <code>? :</code></li>
+              <li>Operador coma (<code>,</code>) para encadenar expresiones.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 5: Funciones Avanzadas y Librería Estándar -->
+      <section>
+        <h2>Funciones y la Librería Estándar</h2>
+        <div class="contents-box">
+          <p>Mecanismos avanzados para la modularidad y llamadas avanzadas:</p>
+          <ul class="contents-list">
+            <li><strong>Firma completa de <code>main</code>:</strong> <code>int main(int argc, char* argv[])</code> recibe parámetros desde la línea de comandos del sistema operativo.</li>
+            <li><strong>Punteros a función:</strong> Permiten la invocación dinámica de funciones en tiempo de ejecución.</li>
+          </ul>
+          <p style="margin-top:10px;"><strong>Librerías ANSI C fundamentales:</strong></p>
+        </div>
+        <div class="library-grid">
+          <div class="library-card">
+            <strong><code>&lt;math.h&gt;</code></strong>
+            <small>Cálculo matemático</small>
+          </div>
+          <div class="library-card">
+            <strong><code>&lt;string.h&gt;</code></strong>
+            <small>Manejo de cadenas</small>
+          </div>
+          <div class="library-card">
+            <strong><code>&lt;stdlib.h&gt;</code> / <code>&lt;malloc.h&gt;</code></strong>
+            <small>Memoria dinámica</small>
+          </div>
+          <div class="library-card">
+            <strong><code>&lt;stdio.h&gt;</code></strong>
+            <small>Entrada y Salida</small>
+          </div>
+          <div class="library-card">
+            <strong><code>&lt;time.h&gt;</code></strong>
+            <small>Fecha y hora</small>
+          </div>
+          <div class="library-card">
+            <strong><code>&lt;ctype.h&gt;</code></strong>
+            <small>Prueba de caracteres</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 6: Reglas de Diseño al Escribir Código -->
+      <section>
+        <h2>Criterios al Escribir el Código</h2>
+        <div class="contents-box">
+          <ul class="contents-list">
+            <li><strong>Pruebas unitarias aisladas:</strong> Diseñar y probar cada función de forma independiente antes de integrarla.</li>
+            <li><strong>Funciones puras y genéricas:</strong> Evitar incluir <code>printf()</code> o <code>scanf()</code> dentro de funciones de cálculo.</li>
+            <li><strong>Gestión de errores:</strong> Las funciones deben devolver códigos de error o estado si no pueden completar su tarea.</li>
+            <li><strong>Evitar variables globales:</strong> Minimizar su uso dentro de funciones para evitar efectos secundarios descontrolados.</li>
+            <li><strong>Compilación separada:</strong> Agrupar funciones afines en módulos <code>.c</code> con su correspondiente archivo <code>.h</code>.</li>
+            <li><strong>Legibilidad y documentación:</strong> Utilizar <code>#define</code> para constantes simbólicas y añadir comentarios claros en las cabeceras.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Slide 7: Criterios de Prueba y Depuración -->
+      <section>
+        <h2>Prueba y Depuración de Programas</h2>
+        <div class="syntax-layout">
+          <div class="syntax-chip">
+            <strong>Un código que compila no es suficiente</strong>
+            <small>La ausencia de errores sintácticos no garantiza un comportamiento lógico correcto.</small>
+          </div>
+          <div class="syntax-chip">
+            <strong>Aislamiento de fallos</strong>
+            <small>Probar cada módulo/función por separado simplifica enormemente la localización de errores.</small>
+          </div>
+          <div class="syntax-chip">
+            <strong>Usar herramientas de Depuración (Debugger)</strong>
+            <small>Aprovechar los puntos de interrupción (breakpoints) e inspección de memoria en lugar de saturar el código con <code>printf()</code> temporales.</small>
+          </div>
+          <div class="syntax-chip">
+            <strong>Casos límite y anómalos</strong>
+            <small>Verificar minuciosamente la respuesta del programa ante entradas no válidas o situaciones límite.</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 8: Resumen -->
+      <section>
+        <h2>Resumen General del Curso</h2>
+        <div class="contents-box">
+          <ol class="contents-list">
+            <li>Escribir código modular, legible y auto-explicativo.</li>
+            <li>Encapsular la lógica en funciones genéricas y reutilizables.</li>
+            <li>Proteger la integridad de la memoria supervisando índices y punteros.</li>
+            <li>Dominar la compilación separada y las herramientas de depuración.</li>
+          </ol>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      plugins: [RevealHighlight]
+    });
+  </script>
+</body>
+</html>
