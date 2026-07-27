@@ -2,316 +2,556 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>Tema 01 - Fundamentos de C</title>
+  <title>Tema 01 - Introducción al Computador y el Lenguaje C</title>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css">
-  
   <link rel="stylesheet" href="../../css/uniovi-theme.css">
-
   <style>
-    .author-right {
-      text-align: right;
-      margin-top: 2rem !important;
-      font-size: 0.8em !important;
-      font-weight: 600;
-      color: #002B49;
+    .syntax-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: start;
+      margin-top: 0.8rem;
+    }
+
+    .syntax-code-card {
+      background: #f8fbff;
+      border: 1px solid #d8e4fa;
+      border-radius: 16px;
+      padding: 10px;
+      box-shadow: 0 8px 20px rgba(17, 36, 77, 0.08);
+    }
+
+    .syntax-legend {
+      display: grid;
+      gap: 10px;
+    }
+
+    .syntax-chip {
+      background: #f7faff;
+      border: 1px solid #cfdcf3;
+      border-radius: 12px;
+      padding: 10px 12px;
+      text-align: left;
+      box-shadow: 0 4px 12px rgba(13, 35, 76, 0.07);
+    }
+
+    .syntax-chip strong {
+      display: block;
+      color: #1d3f7a;
+      font-size: 0.9em;
+      margin-bottom: 4px;
+    }
+
+    .syntax-chip small {
+      color: #4b617f;
+      font-size: 0.72em;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.65em;
+      margin-top: 0.8rem;
+    }
+
+    .data-table th, .data-table td {
+      border: 1px solid #c7d7f5;
+      padding: 6px 10px;
+      text-align: center;
+    }
+
+    .data-table th {
+      background-color: #1d3f7a;
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    .data-table tr:nth-child(even) {
+      background-color: #f3f7ff;
+    }
+
+    .architecture-box {
+      background: linear-gradient(180deg, #f3f7ff 0%, #e8efff 100%);
+      border: 1px solid #c7d7f5;
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 0.8rem;
+      text-align: center;
+    }
+
+    .architecture-grid {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+
+    .arch-card {
+      background: #ffffff;
+      border: 2px solid #1d3f7a;
+      border-radius: 10px;
+      padding: 8px 12px;
+      min-width: 100px;
+    }
+
+    .arch-card strong {
+      display: block;
+      color: #1d3f7a;
+      font-size: 0.85em;
+    }
+
+    .arch-card small {
+      color: #666;
+      font-size: 0.7em;
+    }
+
+    .arch-arrow {
+      font-size: 1.2em;
+      color: #3a5f9d;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-
   <div class="reveal">
     <div class="slides">
 
+      <!-- Slide 1: Portada -->
       <section>
         <span class="badge">Tema 01</span>
-        <h1 style="margin-top: 15px;">Fundamentos de C y Ejecución en el Computador</h1>
-        <p class="author-right">Sara Roos Hoefgeest Toribio</p>
+        <h1>Introducción al Computador y el Lenguaje C</h1>
+        <p class="subtitle">Programación en Lenguaje C</p>
+        <p class="subtitle subtitle-small">Ingeniería de Sistemas y Automática - Universidad de Oviedo</p>
       </section>
 
+      <!-- Slide 2: Indice -->
       <section>
-        <h2>El computador</h2>
-        <div class="contents-box">
-          <p class="subtitle">Una máquina de ejecución secuencial de instrucciones</p>
-          <ul class="contents-list">
-            <li>Cada instrucción es una operación muy sencilla, que utiliza datos fuente y almacena el resultado en datos destino.</li>
-          </ul>
-          <pre><code class="language-x86asm" data-trim>
-MOV dest, src ; dest = src
-ADD dest, src ; dest = dest + src
-NEG dest ; dest = -dest
-DIV dest, src ; dest = dest / src
-          </code></pre>
-          <ul class="contents-list">
-            <li>Los datos o variables son lugares de almacenamiento de información: guardan valores que pueden ser requeridos o modificados posteriormente.</li>
-            <li>Un programa es una secuencia de instrucciones sencillas.</li>
-          </ul>
-          <pre><code class="language-x86asm" data-trim>
-MOV m, x1 ; m = x1
-ADD m, x2 ; m = m + x2 = x1 + x2
-ADD m, x3 ; m = m + x3 = x1 + x2 + x3
-DIV m, 3 ; m = m / 3 = (x1 + x2 + x3) / 3
-          </code></pre>
-        </div>
-      </section>
-
-      <section>
-        <h2>Codificación de datos e instrucciones</h2>
-        <div class="contents-box">
-          <p class="subtitle">Para interpretar instrucciones y datos, el computador utiliza un código común</p>
-          <ul class="contents-list">
-            <li>Las instrucciones se representan mediante secuencias de símbolos que la CPU interpreta como operaciones.</li>
-            <li>Los datos enteros se representan mediante dígitos, que forman un número con valor posicional.</li>
-            <li>En el sistema decimal, el orden de los dígitos determina el peso de cada posición.</li>
-          </ul>
-        </div>
-      </section>
-
-      <section>
-        <h2>Representación decimal</h2>
-        <div class="contents-box">
-          <p class="subtitle">Codificación ponderada en base 10</p>
-          <p>Ejemplo: <strong>2014</strong></p>
-          <ul class="contents-list">
-            <li>El valor depende del peso de cada dígito.</li>
-            <li>La posición más a la derecha representa las unidades.</li>
-            <li>Las posiciones posteriores representan decenas, centenas, millares, etc.</li>
-          </ul>
-        </div>
-      </section>
-
-      <section>
-        <h2>Operaciones con datos</h2>
-        <div class="contents-box">
-          <p class="subtitle">La suma en base 10 sigue reglas de acarreo</p>
-          <ul class="contents-list">
-            <li>Se suman primero los dígitos de menor peso.</li>
-            <li>Si el resultado excede la base, se genera un acarreo hacia el siguiente peso.</li>
-            <li>El proceso se repite para todos los pesos, de derecha a izquierda.</li>
-          </ul>
-          <pre><code class="language-text" data-trim>
-    2717
-  +  714
-  ------
-    3431
-          </code></pre>
-        </div>
-      </section>
-
-      <section>
-        <h2>Codificación binaria</h2>
-        <div class="contents-box">
-          <p class="subtitle">El computador utiliza solo dos símbolos: 0 y 1</p>
-          <ul class="contents-list">
-            <li>El sistema binario es una codificación ponderada en base 2.</li>
-            <li>Una misma cantidad puede expresarse en distintos sistemas de numeración.</li>
-            <li>Por ejemplo, el número 14 puede escribirse como 14 en decimal o como 1110 en binario.</li>
-          </ul>
-        </div>
-      </section>
-
-      <section>
-        <h2>Memoria y direcciones</h2>
-        <div class="contents-box">
-          <p class="subtitle">Datos e instrucciones se almacenan en memoria</p>
-          <ul class="contents-list">
-            <li>La memoria está organizada en direcciones, numeradas secuencialmente.</li>
-            <li>Cada dirección almacena 1 byte, es decir 8 bits.</li>
-            <li>Si un dato no cabe en una sola dirección, ocupa varias direcciones consecutivas.</li>
-            <li>La CPU también dispone de registros específicos para datos internos.</li>
-          </ul>
-        </div>
-      </section>
-
-      <section>
-        <h2>Partes del computador</h2>
-        <p class="subtitle">CPU, memoria y periféricos</p>
-        <div class="grid-container">
-          <div class="card">
-            <h4>Unidad central de proceso (CPU)</h4>
-            <p>Ejecuta instrucciones. Está formada por la unidad aritmético-lógica (ALU), la unidad de control (UC) y registros internos.</p>
-          </div>
-          <div class="card">
-            <h4>Memoria principal</h4>
-            <p>Almacena datos y programas en RAM. La CPU accede a ella para leer instrucciones y operandos.</p>
-          </div>
-          <div class="card">
-            <h4>Dispositivos de entrada/salida</h4>
-            <p>Permiten la comunicación con el entorno físico: teclado, pantalla, sensores, actuadores, buses y puertos.</p>
-          </div>
-          <div class="card">
-            <h4>Bus</h4>
-            <p>Es el conjunto de líneas que conectan la CPU con la memoria y los periféricos para transferir datos e instrucciones.</p>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>Ejecución secuencial de una instrucción</h2>
-        <p class="subtitle">Fetch, decode, execute y write-back</p>
+        <h2>Índice del Tema</h2>
         <div class="contents-box">
           <ol class="contents-list">
-            <li>La CPU obtiene la instrucción desde la memoria.</li>
-            <li>La unidad de control la decodifica y determina la operación a realizar.</li>
-            <li>La ALU o el circuito correspondiente ejecuta la operación.</li>
-            <li>El resultado se almacena en un registro o en memoria.</li>
+            <li>Fundamentos del computador y ejecución secuencial de instrucciones</li>
+            <li>Analogía didáctica del funcionamiento interno (Páginas, PC y SW)</li>
+            <li>Codificación binaria, direcciones de memoria y registros</li>
+            <li>Estructura de la CPU: Core (UC, ALU, Reloj) y Periféricos</li>
+            <li>Introducción a los Lenguajes de Alto Nivel y el Compilador</li>
+            <li>Reglas del Lenguaje C y Entrada/Salida básica (<code>printf</code>, <code>scanf</code>)</li>
+            <li>Ejemplo paso a paso: Cálculo del perímetro de un polígono</li>
           </ol>
         </div>
       </section>
 
+      <!-- Slide 3: El Computador -->
       <section>
-        <h2>Computador y ejecución secuencial</h2>
-        <p class="subtitle">El procesador realiza una instrucción tras otra</p>
-        <div class="grid-container">
-          <div class="card">
-            <h4>Ensamblador</h4>
-            <p>En bajo nivel, la máquina trabaja con instrucciones simples como carga, suma, comparación y salto.</p>
-            <pre><code class="language-x86asm" data-trim>
-MOV R1, [mem]
-ADD R1, R2
-            </code></pre>
-          </div>
-          <div class="card">
-            <h4>Lenguaje C</h4>
-            <p>C proporciona una abstracción más legible para expresar el mismo comportamiento: variables, expresiones y llamadas a funciones.</p>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>Estructura mínima de un programa en C</h2>
-        <p class="subtitle">Cabecera, función principal y retorno</p>
-        <pre><code class="language-c" data-trim data-noescape>
-#include &lt;stdio.h&gt;
-
-int main(void) {
-    int sensor_id = 1;
-    float voltaje = 3.3f;
-
-    printf("Sensor %d: %.2f V\n", sensor_id, voltaje);
-    return 0;
-}
-        </code></pre>
-      </section>
-
-      <section>
-        <h2>Variables e identificadores</h2>
-        <p class="subtitle">Los nombres de las variables permiten acceder a datos de forma legible</p>
-        <div class="grid-container">
-          <div class="card">
-            <h4>Identificador</h4>
-            <p>Es el nombre que utiliza el programador para referirse a una posición de memoria.</p>
-          </div>
-          <div class="card">
-            <h4>Declaración</h4>
-            <p>Una variable se declara con un tipo y un identificador, por ejemplo: <code>int temperatura;</code>.</p>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>Tipos de datos básicos</h2>
-        <p class="subtitle">Cada tipo define el formato y el tamaño de la información</p>
-        <div class="grid-container">
-          <div class="card">
-            <h4><code>char</code></h4>
-            <p>Almacena un carácter o un entero pequeño. Ocupa 1 byte.</p>
-          </div>
-          <div class="card">
-            <h4><code>int</code></h4>
-            <p>Representa enteros para contadores, estados y valores discretos.</p>
-          </div>
-          <div class="card">
-            <h4><code>float</code></h4>
-            <p>Representa valores reales con precisión simple.</p>
-          </div>
-          <div class="card">
-            <h4><code>double</code></h4>
-            <p>Representa valores reales con mayor precisión.</p>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>Operadores aritméticos y de asignación</h2>
-        <p class="subtitle">Permiten transformar y actualizar valores</p>
-        <div class="grid-container">
-          <div class="card">
-            <h4>Aritméticos</h4>
-            <p><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> y <code>%</code> permiten operar con variables numéricas.</p>
-          </div>
-          <div class="card">
-            <h4>Asignación</h4>
-            <p><code>=</code> asigna un valor, y las formas compuestas como <code>+=</code>, <code>++</code> o <code>--</code> simplifican expresiones comunes.</p>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>Entrada y salida básica</h2>
-        <p class="subtitle">La comunicación con el exterior se realiza mediante funciones estándar</p>
-        <div class="grid-container">
-          <div class="card">
-            <h4><code>printf()</code></h4>
-            <p>Se usa para mostrar información en consola o terminal.</p>
-            <pre><code class="language-c" data-trim>
-printf("Temperatura: %d C\n", temp);
-            </code></pre>
-          </div>
-          <div class="card">
-            <h4><code>scanf()</code></h4>
-            <p>Se usa para leer una entrada del usuario desde el teclado.</p>
-            <pre><code class="language-c" data-trim>
-scanf("%d", &consigna);
-            </code></pre>
-          </div>
-        </div>
-      </section>
-
-      <section>
-        <h2>Relación con la memoria física</h2>
-        <p class="subtitle">Desde C hasta el microcontrolador o PLC</p>
+        <h2>El Computador y sus Instrucciones</h2>
         <div class="contents-box">
+          <p>Un computador es una máquina de <strong>ejecución secuencial de instrucciones</strong>:</p>
           <ul class="contents-list">
-            <li>Cada variable ocupa una región de memoria con un tamaño fijo.</li>
-            <li>El compilador asigna esa variable a una dirección de memoria concreta.</li>
-            <li>En sistemas embebidos, esa memoria corresponde a registros, RAM o áreas de trabajo del controlador.</li>
-            <li>Por eso, el tipo de dato no es solo una convención teórica, sino una decisión de diseño real.</li>
+            <li><strong>Cada <strong>instrucción</strong>es una operación muy sencilla que opera sobre datos. Intrucciones básicas (Ensamblador):</strong>
+              <ul>
+                <li><code>MOV dest, src</code> &rarr; Copia el contenido de <code>src</code> en <code>dest</code>.</li>
+                <li><code>ADD dest, src</code> &rarr; Suma: <code>dest = dest + src</code>.</li>
+                <li><code>NEG dest</code> &rarr; Cambia de signo: <code>dest = -dest</code>.</li>
+                <li><code>DIV dest, src</code> &rarr; Divide: <code>dest = dest / src</code>.</li>
+              </ul>
+            </li>
+
+            <li><strong>Los datos (o variables)</strong> son lugares de almacenamiento de información: guardan valores que pueden ser requeridos o modificados posteriormente.</li>
+            <li><strong>Un programa</strong> es una ecuencia de instrucciones sencillas encargadas de resolver un problema (ej. media de 3 valores).</li>
+          
+                      <div class="syntax-code-card" style="background-color: #272822; border: 1px solid #3e3d32; border-radius: 12px; padding: 12px;">
+            <pre style="margin: 0;"><code class="language-x86asm" style="color: #f8f8f2; font-family: monospace; font-size: 0.85em; line-height: 1.4;">
+              MOV m, x1   ; m = x1</span>
+              ADD m, x2   ; m = m+x2 = x1+x2</span>
+              ADD m, x3   ; m = m+x3 = x1+x2+x3</span>
+              DIV m, 3    ; m = m/3 = (x1+x2+x3)/3</span>
+            </code></pre>
+          </div>
+          
           </ul>
         </div>
       </section>
 
+
+ <!-- Slide 5A: Sistemas de Numeración y Codificación Ponderada -->
       <section>
-        <h2>Ejemplo práctico: lectura y cálculo</h2>
-        <p class="subtitle">Escalado de un valor analógico de entrada</p>
+        <h2>Codificación de Datos y Sistemas de Numeración</h2>
+        <div class="contents-box">
+          <p>Una misma cantidad puede expresarse en distintos sistemas de numeración:</p>
+          <ul class="contents-list" style="font-weight: normal;">
+            <li>
+              <strong>Sistemas no ponderados (ej. Romanos):</strong> Dificultan la realización simple de operaciones aritméticas (ej. XIV).
+            </li>
+            <li>
+              <strong>Decimal Ponderado (Base 10):</strong> Emplea dígitos 0..9 con pesos basados en potencias de 10 (10<sup>1</sup>, 10<sup>0</sup>).
+            </li>
+            <li>
+              <strong>Binario Ponderado (Base 2):</strong> Emplea 0 y 1 con pesos en potencias de 2 (2<sup>4</sup>, 2<sup>3</sup>, 2<sup>2</sup>, 2<sup>1</sup>, 2<sup>0</sup>).
+            </li>
+          </ul>
+        </div>
+
+        <table class="data-table" style="margin-top: 10px;">
+          <thead>
+            <tr>
+              <th>Representación</th>
+              <th>Desglose de Pesos</th>
+              <th>Ejemplo de Suma Ponderada</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Decimal (Base 10)</strong></td>
+              <td>14 = 1 &middot; 10<sup>1</sup> + 4 &middot; 10<sup>0</sup></td>
+              <td>14 + 27 = 41</td>
+            </tr>
+            <tr>
+              <td><strong>Romanos</strong></td>
+              <td>XIV = 10 - 1 + 5</td>
+              <td><em>Complejo de operar directamente</em></td>
+            </tr>
+            <tr>
+              <td><strong>Binario (Base 2)</strong></td>
+              <td>01110<sub>2</sub> = 0 &middot; 2<sup>4</sup> + 1 &middot; 2<sup>3</sup> + 1 &middot; 2<sup>2</sup> + 1 &middot; 2<sup>1</sup> + 0 &middot; 2<sup>0</sup></td>
+              <td>01110<sub>2</sub> + 11011<sub>2</sub> = 101001<sub>2</sub> (41<sub>10</sub>)</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Slide 5B: Organización en Memoria y Registros Internos -->
+      <section>
+        <h2>Organización Binaria en Memoria y Registros</h2>
+        <div class="contents-box">
+          <p>Tanto los <strong>datos</strong> como las <strong>instrucciones</strong> se codifican en binario y se guardan en la memoria principal:</p>
+          <ul class="contents-list" style="font-weight: normal;">
+            <li>
+              <strong>Direcciones de Memoria:</strong> La memoria se organiza en posiciones numeradas desde 0 hasta 2<sup>n</sup> - 1.
+            </li>
+            <li>
+              <strong>Unidad Byte:</strong> Cada dirección almacena exactamente 1 byte = 8 bits. Si un valor no cabe en un byte, ocupa varias direcciones consecutivas.
+            </li>
+            <li>
+              <strong>Registros de Control:</strong>
+              <ul>
+                <li>
+                  <code>PC</code> (Contador de Programa): Almacena la dirección de memoria de la siguiente instrucción a ejecutar.
+                </li>
+                <li>
+                  <code>SW</code> (Registro de Estado): Guarda banderas de condición tras cada operación, como <code>ZF</code> (Zero Flag: se activa si el resultado es cero) y <code>SF</code> (Sign Flag: se activa si es negativo).
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+        <div class="syntax-code-card" style="background-color: #272822; border: 1px solid #3e3d32; border-radius: 10px; padding: 10px 14px; margin-top: 10px; font-family: monospace; font-size: 0.45em; line-height: 1.4; color: #f8f8f2; white-space: pre-wrap;">
+        <span style="color: #e6db74; font-weight: bold;">Dirección</span>        <span style="color: #a6e22e; font-weight: bold;">Contenido (Binario)</span>       <span style="color: #66d9ef; font-weight: bold;">Interpretación</span>
+             000...00          01101100                 Inst1: MOV X, #3  
+          000...01          00101110                 Inst2: MOV Z, X
+          000...10          11111100                 Inst3: ADD Z, Y
+        </div>
+
+      </section>
+
+      <!-- Slide 5C: Codificación de Instrucciones y Alteración del Flujo -->
+      <section>
+        <h2>Ejecución de Programas</h2>
+        <div class="contents-box">
+          <ul class="contents-list" style="font-weight: normal;">
+
+            <p>Un programa es una secuencia de instrucciones que el procesador ejecuta en orden secuencial:</p>
+            <li>Cada instrucción es muy básica: usa 1, 2 o 3 operandos y realiza una copia, suma, resta, multiplicación o división.</li>
+            <li>Los operandos se expresan como contenidos de direcciones de memoria o valores inmediatos</li>
+            <li>Tanto instrucciones como operandos se codifican en binario</li>
+          </ul>
+        </div>
+
+<div class="syntax-code-card" style="background-color: #1a1e24; border: 1px solid #2d3748; border-radius: 12px; padding: 14px 18px; margin-top: 10px; color: #f8f8f2;">
+
+  <!-- Leyenda ajustada exactamente a los valores del ejemplo -->
+  <div style="display: flex; justify-content: space-between; gap: 6px; margin-bottom: 12px; font-size: 0.52em; font-family: sans-serif; border-bottom: 1px solid #2d3748; padding-bottom: 8px; text-align: center;">
+    <div style="flex: 1.2;">
+      <strong style="color: #ef4444; display: block;">Código instruc.</strong>
+      <span style="color: #cbd5e1;">01: MOV <br> 10: ADD</span>
+    </div>
+    <div style="flex: 1;">
+      <strong style="color: #38bdf8; display: block;">Modo destino</strong>
+      <span style="color: #cbd5e1;">0: Dirección <br> 1: Inmediato</span>
+    </div>
+    <div style="flex: 1.2;">
+<strong style="color: #000000; background-color: #e2e8f0; display: block; border-radius: 4px; padding: 1px 4px; font-weight: bold;">Valor destino</strong>      <span style="color: #cbd5e1;">Dir. de X o Y</span>
+    </div>
+    <div style="flex: 1;">
+      <strong style="color: #818cf8; display: block;">Modo fuente</strong>
+      <span style="color: #cbd5e1;">0: Dirección <br> 1: Inmediato</span>
+    </div>
+    <div style="flex: 1.2;">
+      <strong style="color: #ea580c; display: block;">Valor fuente</strong>
+      <span style="color: #cbd5e1;">Valor 3 o Dir. X</span>
+    </div>
+  </div>
+
+  <!-- Bloque de código e instrucciones alineado -->
+  <div style="font-family: monospace; font-size: 0.6em; line-height: 1.8; white-space: pre;">
+<span style="color: #38bdf8; font-weight: bold;">MOV</span>  X, #3  <span style="color: #94a3b8;">&rarr; Copiar a X el valor 3</span>  <span style="background-color: #14b8a6; color: #000000; padding: 3px 8px; border-radius: 4px; font-weight: bold;"><span style="color: #dc2626;">01</span><span style="color: #0284c7;">0</span><span style="color: #000000;">01...110</span><span style="color: #312e81;">1</span><span style="color: #ea580c;">00000011</span></span>
+<span style="color: #38bdf8; font-weight: bold;">ADD</span>  X, #3  <span style="color: #94a3b8;">&rarr; Sumar a X el valor 3 </span>  <span style="background-color: #14b8a6; color: #000000; padding: 3px 8px; border-radius: 4px; font-weight: bold;"><span style="color: #dc2626;">10</span><span style="color: #0284c7;">0</span><span style="color: #000000;">01...110</span><span style="color: #312e81;">1</span><span style="color: #ea580c;">00000011</span></span>
+<span style="color: #38bdf8; font-weight: bold;">ADD</span>  Y, X   <span style="color: #94a3b8;">&rarr; Sumar a Y el valor X </span>  <span style="background-color: #14b8a6; color: #000000; padding: 3px 8px; border-radius: 4px; font-weight: bold;"><span style="color: #dc2626;">10</span><span style="color: #0284c7;">0</span><span style="color: #000000;">01...111</span><span style="color: #312e81;">0</span><span style="color: #ea580c;">01...110</span></span>
+  </div>
+
+</div>
+        
+      </section>
+
+
+ <section>
+        <h2>Ejecución de Programas</h2>
+        <div class="contents-box">
+          <ul class="contents-list" style="font-weight: normal;">
+
+            <p>Para poder alterar la ejecución puramente secuencial del programa:</p>
+            <li>Tras cada instrucción aritmética se modifica de forma automática el registro de estado (SW), indicando si el resultado fue 0 o no
+            (ZF), negativo o no (SF), …</li>
+            <li>Instrucciones específicas (de salto) tienen como destino el contador de programa (PC)</li>
+          </ul>
+        </div>
+
+        <div class="syntax-code-card" style="background-color: #1a1e24; border: 1px solid #2d3748; border-radius: 10px; padding: 10px 14px; margin-top: 8px; color: #f8f8f2;">
+
+  <!-- Leyenda única súper sintética -->
+  <div style="display: flex; justify-content: space-between; gap: 4px; margin-bottom: 8px; font-size: 0.48em; font-family: sans-serif; border-bottom: 1px solid #2d3748; padding-bottom: 6px; text-align: center; align-items: flex-start;">
+    <div style="flex: 1.1;">
+      <strong style="color: #ef4444; display: block;">Código instrucción</strong>
+      <span style="color: #cbd5e1;">11: CMP <br> 00: JMP</span>
+    </div>
+    <div style="flex: 0.9;">
+      <strong style="color: #38bdf8; display: block;">Modo destino / ZF</strong>
+      <span style="color: #cbd5e1;">0: Dir <br> 1: Si ZF</span>
+    </div>
+    <div style="flex: 1.1;">
+      <strong style="color: #000000; background-color: #e2e8f0; display: block; border-radius: 3px; padding: 1px 2px; font-weight: bold;">Valor destino / PC</strong>
+      <span style="color: #cbd5e1;">Dir. X o Sumar a PC</span>
+    </div>
+    <div style="flex: 0.9;">
+      <strong style="color: #818cf8; display: block;">Modo fuente</strong>
+      <span style="color: #cbd5e1;">0: Dir <br> 1: Inmed</span>
+    </div>
+    <div style="flex: 1.1;">
+      <strong style="color: #ea580c; display: block;">Valor fuente</strong>
+      <span style="color: #cbd5e1;">Valor (#3 o #2)</span>
+    </div>
+  </div>
+
+  <!-- Líneas de código e instrucciones -->
+  <div style="font-family: monospace; font-size: 0.55em; line-height: 1.6; white-space: pre;">
+<span style="color: #38bdf8; font-weight: bold;">     CMP</span>      X, #3  <span style="color: #94a3b8;">&rarr; Compara X con 3 (modifica ZF, SF) </span> <span style="background-color: #14b8a6; color: #000000; padding: 2px 6px; border-radius: 4px; font-weight: bold;"><span style="color: #dc2626;">11</span><span style="color: #0284c7;">0</span><span style="color: #000000;">01...110</span><span style="color: #312e81;">1</span><span style="color: #ea580c;">00000011</span></span>
+<span style="color: #38bdf8; font-weight: bold;">JRELIFZ</span>  #2     <span style="color: #94a3b8;">&rarr; Si ZF activo &rArr; PC = PC + 2   </span> <span style="background-color: #14b8a6; color: #000000; padding: 2px 6px; border-radius: 4px; font-weight: bold;"><span style="color: #dc2626;">00</span><span style="color: #0284c7;">1</span><span style="color: #64748b;">00000011</span><span style="color: #312e81;">1</span><span style="color: #ea580c;">00000010</span></span>
+  </div>
+
+</div>
+
+
+ </section>
+
+      <!-- Slide 6: Arquitectura del Procesador -->
+      <section>
+        <h2>Partes del Computador: CPU y Periféricos</h2>
+        <div class="architecture-box">
+          <div class="architecture-grid">
+            <div class="arch-card">
+              <strong>Core (Núcleo)</strong>
+              <small>UC, ALU, Registros (PC, SW) y Reloj</small>
+            </div>
+            <div class="arch-arrow">&harr;</div>
+            <div class="arch-card" style="border-color:#345b96;">
+              <strong>Memoria Principal</strong>
+              <small>Instrucciones y Datos</small>
+            </div>
+            <div class="arch-arrow">&harr;</div>
+            <div class="arch-card" style="background:#e8efff;">
+              <strong>Periféricos (E/S)</strong>
+              <small>Mapa de E/S (Teclado, Pantalla)</small>
+            </div>
+          </div>
+        </div>
+        <div class="syntax-layout">
+          <div class="syntax-chip">
+            <strong>Unidad de Control (UC)</strong>
+            <small>Obtiene, decodifica y ejecuta instrucciones gestionando accesos a memoria.</small>
+          </div>
+          <div class="syntax-chip">
+            <strong>Unidad Aritmético-Lógica (ALU)</strong>
+            <small>Realiza los cálculos matemáticos y las operaciones lógicas.</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 7: Lenguaje de Alto Nivel y Compilador -->
+      <section>
+        <h2>El Lenguaje de Alto Nivel (C)</h2>
+        <div class="contents-box">
+          <p>Permite escribir algoritmos utilizando notación matemática comprensible en lugar de código máquina binario.</p>
+        </div>
+        <div class="syntax-layout">
+          <div class="syntax-code-card">
+            <strong>Código Máquina / Ensamblador</strong>
+            <pre><code class="language-c" data-trim data-noescape>
+MOV m, x1
+ADD m, x2
+ADD m, x3
+ADD m, x4
+DIV m, 4
+            </code></pre>
+          </div>
+          <div class="syntax-code-card">
+            <strong>Lenguaje de Alto Nivel (C)</strong>
+            <pre><code class="language-c" data-trim data-noescape>
+int x1, x2, x3, x4;
+float m;
+
+m = (x1 + x2 + x3 + x4) / 4.0;
+            </code></pre>
+          </div>
+        </div>
+        <p style="font-size:0.75em; color:#4b617f; margin-top:10px;">
+          El <strong>Compilador</strong> es el programa encargado de traducir el código fuente a código máquina específico para cada procesador.
+        </p>
+      </section>
+
+      <!-- Slide 8: Reglas Basicas en C -->
+      <section>
+        <h2>Reglas Fundamentales del Lenguaje C</h2>
+        <div class="contents-box">
+          <ul class="contents-list">
+            <li><strong>Declaración previa:</strong> Toda variable debe declararse con su tipo (<code>int</code>, <code>float</code>, <code>char</code>) antes de usarse.</li>
+            <li><strong>Sensibilidad a mayúsculas:</strong> C distingue mayúsculas de minúsculas en palabras clave e identificadores.</li>
+            <li><strong>Función <code>main()</code>:</strong> Todo código ejecutable debe residir dentro de una función (la principal es <code>main</code>).</li>
+            <li><strong>Fin de sentencia:</strong> Cada sentencia finaliza con un punto y coma (<code>;</code>).</li>
+            <li><strong>Comentarios:</strong> De línea con <code>//</code> o de bloque con <code>/* ... */</code> (son ignorados por el compilador).</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Slide 9: Entrada y Salida por Consola -->
+      <section>
+        <h2>Entrada / Salida por Consola</h2>
+        <div class="syntax-layout">
+          <div class="syntax-code-card">
+            <strong>Salida con <code>printf()</code></strong>
+            <small style="display:block; text-align:left; color:#555;">Escribe texto en pantalla con especificadores de formato:</small>
+            <ul style="font-size: 0.65em; text-align: left; margin-top:4px;">
+              <li><code>%d</code>: Entero (<code>int</code>)</li>
+              <li><code>%f</code>: Real (<code>float</code>)</li>
+              <li><code>%c</code>: Carácter (<code>char</code>)</li>
+              <li><code>%s</code>: Cadena de texto</li>
+              <li><code>\n</code>: Salto de línea</li>
+            </ul>
+          </div>
+          <div class="syntax-code-card">
+            <strong>Entrada con <code>scanf()</code></strong>
+            <small style="display:block; text-align:left; color:#555;">Lee datos introducidos por teclado:</small>
+            <pre><code class="language-c" data-trim data-noescape>
+int alumnos;
+float nota;
+
+printf("Datos: ");
+scanf("%d %f", &alumnos, &nota);
+            </code></pre>
+            <small style="display:block; text-align:left; color:#d9534f;">Nota: Es obligatorio el operador <code>&amp;</code> antes de la variable para indicar su dirección de memoria.</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 10: Ejemplo Practico Poligono -->
+      <section>
+        <h2>Ejemplo Completo: Perímetro de un Polígono</h2>
         <pre><code class="language-c" data-trim data-noescape>
 #include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;math.h&gt;
+
+#define PI 3.1416 // Constante del preprocesador
 
 int main(void) {
-    int adc_val = 512;
-    float v_ref = 5.0f;
-    float voltaje_medido;
+    int n_lados;        // Entrada: número de lados
+    float radio;        // Entrada: radio del polígono
+    float perim;        // Salida: perímetro calculado
+    float ang, lado;    // Variables auxiliares
 
-    voltaje_medido = (adc_val / 1023.0f) * v_ref;
+    printf("Introduzca n lados: ");
+    scanf("%d", &n_lados);
+    printf("Introduzca radio: ");
+    scanf("%f", &radio);
 
-    printf("ADC = %d\n", adc_val);
-    printf("Voltaje = %.2f V\n", voltaje_medido);
+    ang = 2.0 * PI / n_lados;
+    lado = 2.0 * radio * sin(ang / 2.0);
+    perim = n_lados * lado;
+
+    printf("El perímetro es %f\n", perim);
     return 0;
 }
         </code></pre>
       </section>
 
+      <!-- Slide 11: Traza de Ejecucion en Memoria -->
       <section>
-        <h2>Resumen del tema</h2>
+        <h2>Traza de Ejecución en Memoria</h2>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Dirección Memoria</th>
+              <th>Variable</th>
+              <th>Tipo</th>
+              <th>Valor (Ejecución)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>8000..8003</code></td><td><code>n_lados</code></td><td><code>int</code></td><td>8</td></tr>
+            <tr><td><code>8004..8007</code></td><td><code>radio</code></td><td><code>float</code></td><td>12.5</td></tr>
+            <tr><td><code>8008..8011</code></td><td><code>perim</code></td><td><code>float</code></td><td>57.551</td></tr>
+            <tr><td><code>8012..8015</code></td><td><code>ang</code></td><td><code>float</code></td><td>0.78540 rad</td></tr>
+            <tr><td><code>8016..8019</code></td><td><code>lado</code></td><td><code>float</code></td><td>9.5918</td></tr>
+          </tbody>
+        </table>
+        <div class="contents-box" style="margin-top:12px;">
+          <p style="font-size:0.75em;">
+            <strong>Salida en Consola:</strong><br>
+            <code>Introduzca n lados: 8</code><br>
+            <code>Introduzca radio: 12.5</code><br>
+            <code>El perímetro es 57.551000</code>
+          </p>
+        </div>
+      </section>
+
+      <!-- Slide 12: Ejercicios propuestos -->
+      <section>
+        <h2>Ejercicios Propuestos</h2>
+        <div class="contents-box">
+          <ol class="contents-list" style="font-size: 0.72em;">
+            <li>Pedir dos instantes de tiempo (horas, minutos, segundos) y calcular el intervalo transcurrido en segundos.</li>
+            <li>Pedir los dos lados de un rectángulo y calcular la longitud de su diagonal ($d = \sqrt{a^2 + b^2}$).</li>
+            <li>Pedir dos puntos en 2D $(x_1, y_1)$ y $(x_2, y_2)$, calcular la recta $y = mx + n$ y evaluar $y$ para un $x$ cualquiera.</li>
+            <li>Convertir una temperatura dada en grados Fahrenheit (°F) a grados Celsius (°C).</li>
+            <li>Pedir velocidad inicial, velocidad final y tiempo transcurrido para calcular el espacio recorrido y la aceleración.</li>
+            <li>Calcular el día de la semana correspondiente a cualquier fecha dada mediante la Congruencia de Zeller.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Slide 13: Resumen -->
+      <section>
+        <h2>Resumen del Tema</h2>
         <div class="contents-box">
           <ol class="contents-list">
-            <li>El computador ejecuta instrucciones de forma secuencial.</li>
-            <li>Las variables son nombres asociados a memoria.</li>
-            <li>Los tipos básicos definen el tamaño y la representación del valor.</li>
-            <li>Los operadores permiten transformar datos y producir resultados.</li>
-            <li><code>printf</code> y <code>scanf</code> permiten comunicar datos con el exterior.</li>
+            <li>Un computador ejecuta instrucciones binarias simples de manera secuencial controladas por el registro PC.</li>
+            <li>La memoria se organiza en direcciones de 1 byte, almacenando tanto código como variables.</li>
+            <li>Los lenguajes de alto nivel como C permiten expresar algoritmos matemáticos legibles que el compilador traduce a binario.</li>
+            <li><code>printf</code> y <code>scanf</code> gestionan la comunicación con la consola usando especificadores de formato (<code>%d</code>, <code>%f</code>).</li>
           </ol>
         </div>
       </section>
@@ -325,7 +565,7 @@ int main(void) {
     Reveal.initialize({
       hash: true,
       slideNumber: 'c/t',
-      plugins: [ RevealHighlight ]
+      plugins: [RevealHighlight]
     });
   </script>
 </body>
