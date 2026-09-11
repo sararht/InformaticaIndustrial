@@ -17,6 +17,18 @@ body {
   line-height: 1.35;
 }
 
+/* Estilos para el resaltado de líneas enfocadas con data-line-numbers en Reveal.js */
+.reveal .hljs-ln-line.highlight-line {
+  background-color: #fef08a !important; /* Fondo amarillo destacado */
+  color: #0f172a !important;            /* Texto oscuro y legible */
+  font-weight: bold !important;
+}
+
+/* Mantiene legibles los textos internos de la línea enfocado cancelando colores por defecto */
+.reveal .hljs-ln-line.highlight-line * {
+  color: #0f172a !important;
+}
+
 .reveal::after {
   content: "";
   position: fixed;
@@ -24,7 +36,7 @@ body {
   right: 18px;
   width: 260px;
   height: 84px;
-  background: url('../assets/img/tema0/logoUniovi.png') no-repeat center center;
+  /* background: url('../assets/img/tema0/logoUniovi.png') no-repeat center center; */
   background-size: contain;
   opacity: 0.95;
   z-index: 10;
@@ -48,6 +60,33 @@ body {
 
 .reveal h3 {
   font-size: 1.02em;
+}
+
+/* Resaltado de líneas específicas en bloques de código */
+/* Fuerza a que <mark> se comporte como un bloque que ocupa la fila completa */
+.reveal pre code mark {
+  display: block !important;
+  background-color: #fef08a !important; /* Amarillo destacado */
+  color: #0f172a !important;            /* Texto oscuro para contraste */
+  margin: 0 -1em !important;             /* Extiende el fondo a los bordes */
+  padding: 0 1em !important;            /* Mantiene el texto alineado */
+  border-left: 4px solid #eab308 !important; /* Indicador lateral amarillo */
+}
+
+/* Evita que los spans internos de colores de Highlight.js anulen el texto del mark */
+.reveal pre code mark * {
+  color: #0f172a !important;
+}
+
+/* Estilo para resaltar líneas de código específicas en la columna izquierda */
+.syntax-code-card pre code mark {
+  display: block;
+  background-color: rgba(254, 240, 138, 0.85) !important; /* Amarillo destacado */
+  color: #0f172a !important;                               /* Texto en color oscuro legible */
+  border-left: 4px solid #eab308;                           /* Indicador lateral */
+  margin: 0 -10px;                                           /* Expande el marcado al borde de la caja */
+  padding: 0 10px;
+  font-weight: bold;
 }
 
 .subtitle {

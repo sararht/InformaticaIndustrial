@@ -128,6 +128,12 @@
         <h1>Introducción al Computador y el Lenguaje C</h1>
         <p class="subtitle">Programación en Lenguaje C</p>
         <p class="subtitle subtitle-small">Ingeniería de Sistemas y Automática - Universidad de Oviedo</p>
+        <p>Sara Roos Hoefgeest Toribio</p>
+
+        <div style="text-align: center; margin-bottom: 15px;">
+    <img src="../../assets/img/tema0/logoUniovi.png" alt="Logo Universidad de Oviedo" style="max-height: 90px; width: auto; background: transparent; border: none; box-shadow: none;">
+  </div>
+
       </section>
 
       <!-- Slide 2: Indice -->
@@ -152,7 +158,7 @@
         <div class="contents-box">
           <p>Un computador es una máquina de <strong>ejecución secuencial de instrucciones</strong>:</p>
           <ul class="contents-list">
-            <li><strong>Cada <strong>instrucción</strong>es una operación muy sencilla que opera sobre datos. Intrucciones básicas (Ensamblador):</strong>
+            <li><strong>Cada <strong>instrucción</strong> es una operación muy sencilla que opera sobre datos. Intrucciones básicas (Ensamblador):</strong>
               <ul>
                 <li><code>MOV dest, src</code> &rarr; Copia el contenido de <code>src</code> en <code>dest</code>.</li>
                 <li><code>ADD dest, src</code> &rarr; Suma: <code>dest = dest + src</code>.</li>
@@ -162,7 +168,7 @@
             </li>
 
             <li><strong>Los datos (o variables)</strong> son lugares de almacenamiento de información: guardan valores que pueden ser requeridos o modificados posteriormente.</li>
-            <li><strong>Un programa</strong> es una ecuencia de instrucciones sencillas encargadas de resolver un problema (ej. media de 3 valores).</li>
+            <li><strong>Un programa</strong> es una secuencia de instrucciones sencillas encargadas de resolver un problema (ej. media de 3 valores).</li>
           
                       <div class="syntax-code-card" style="background-color: #272822; border: 1px solid #3e3d32; border-radius: 12px; padding: 12px;">
             <pre style="margin: 0;"><code class="language-x86asm" style="color: #f8f8f2; font-family: monospace; font-size: 0.85em; line-height: 1.4;">
@@ -182,6 +188,7 @@
       <section>
         <h2>Codificación de Datos y Sistemas de Numeración</h2>
         <div class="contents-box">
+          <p>Un computador codifica la información en <strong>binario</strong> para poder almacenarla y procesarla.</p>
           <p>Una misma cantidad puede expresarse en distintos sistemas de numeración:</p>
           <ul class="contents-list" style="font-weight: normal;">
             <li>
@@ -243,19 +250,114 @@
                   <code>PC</code> (Contador de Programa): Almacena la dirección de memoria de la siguiente instrucción a ejecutar.
                 </li>
                 <li>
-                  <code>SW</code> (Registro de Estado): Guarda banderas de condición tras cada operación, como <code>ZF</code> (Zero Flag: se activa si el resultado es cero) y <code>SF</code> (Sign Flag: se activa si es negativo).
+                  <code>SW</code> (Registro de Estado): Guarda flags de condición tras cada operación, como <code>ZF</code> (Zero Flag: se activa si el resultado es cero) y <code>SF</code> (Sign Flag: se activa si es negativo).
                 </li>
               </ul>
             </li>
           </ul>
         </div>
 
-        <div class="syntax-code-card" style="background-color: #272822; border: 1px solid #3e3d32; border-radius: 10px; padding: 10px 14px; margin-top: 10px; font-family: monospace; font-size: 0.45em; line-height: 1.4; color: #f8f8f2; white-space: pre-wrap;">
+        <!-- <div class="syntax-code-card" style="background-color: #272822; border: 1px solid #3e3d32; border-radius: 10px; padding: 10px 14px; margin-top: 10px; font-family: monospace; font-size: 0.45em; line-height: 1.4; color: #f8f8f2; white-space: pre-wrap;">
         <span style="color: #e6db74; font-weight: bold;">Dirección</span>        <span style="color: #a6e22e; font-weight: bold;">Contenido (Binario)</span>       <span style="color: #66d9ef; font-weight: bold;">Interpretación</span>
              000...00          01101100                 Inst1: MOV X, #3  
           000...01          00101110                 Inst2: MOV Z, X
           000...10          11111100                 Inst3: ADD Z, Y
+        </div> -->
+      </section>
+
+        <!-- Bloque Inferior: Organización de Registros y Memoria -->
+
+        <section>
+        <h2>Organización Binaria en Memoria y Registros</h2>
+
+        <!-- Bloque Inferior: Organización de Registros y Memoria (Corregido con direcciones reales) -->
+<div style="background: #0f172a; border-radius: 8px; padding: 16px; border: 1px solid #1e293b; color: #f8fafc; font-family: sans-serif; margin-top: 15px;">
+  
+  <div style="display: flex; gap: 20px; align-items: flex-start; justify-content: space-between;">
+    
+    <!-- COLUMNA IZQUIERDA: Registros de Control (PC y SW) -->
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 14px; font-size: 0.75em;">
+      
+      <!-- Registro PC (Guarda una DIRECCIÓN NÚMERICA) -->
+      <div style="background: #1e293b; border-left: 4px solid #10b981; padding: 8px 12px; border-radius: 4px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+          <strong style="color: #34d399; font-size: 1.1em;">PC</strong>
+          <span style="font-family: monospace; background: #0f172a; padding: 2px 6px; border-radius: 3px; color: #38bdf8;">000..00</span>
         </div>
+        <small style="color: #94a3b8; display: block;">Dirección física de la siguiente instrucción a ejecutar</small>
+      </div>
+
+      <!-- Registro SW (Palabra de Estado) -->
+      <div style="background: #1e293b; border-left: 4px solid #38bdf8; padding: 8px 12px; border-radius: 4px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <strong style="color: #38bdf8; font-size: 1.1em;">SW</strong>
+          <small style="color: #cbd5e1;">Registro de Estado / Flags</small>
+        </div>
+        <div style="display: flex; gap: 6px; font-family: monospace; text-align: center;">
+          <span style="background: #0284c7; color: #fff; padding: 2px 6px; border-radius: 3px; flex: 1;" title="Zero Flag">ZF</span>
+          <span style="background: #0284c7; color: #fff; padding: 2px 6px; border-radius: 3px; flex: 1;" title="Sign Flag">SF</span>
+          <span style="background: #334155; color: #94a3b8; padding: 2px 6px; border-radius: 3px; flex: 1;" title="Overflow Flag">OF</span>
+        </div>
+        <div style="margin-top: 6px; font-size: 0.85em; color: #94a3b8; line-height: 1.2;">
+          • <b>ZF:</b> Cero | <b>SF:</b> Negativo
+        </div>
+      </div>
+
+    </div>
+
+    <!-- COLUMNA DERECHA: Tabla de Memoria con Direcciones Numéricas Reales -->
+    <div style="flex: 1.3; font-family: monospace; font-size: 0.78em;">
+      <table style="width: 100%; border-collapse: collapse; text-align: center; border: 1px solid #334155;">
+        <thead>
+          <tr style="background-color: #1e293b; color: #38bdf8; border-bottom: 2px solid #334155;">
+            <th style="padding: 4px; border-right: 1px solid #334155;">Dirección (RAM)</th>
+            <th style="padding: 4px; border-right: 1px solid #334155;">Contenido (Binario)</th>
+            <th style="padding: 4px;">Interpretación / Variable</th>
+          </tr>
+        </thead>
+        <tbody style="background: #0f172a; color: #f8fafc;">
+          <!-- Bloque de Instrucciones -->
+          <tr style="border-bottom: 1px solid #1e293b;">
+            <td style="color: #38bdf8; border-right: 1px solid #334155;">000..00</td>
+            <td style="color: #34d399; border-right: 1px solid #334155;">01101100</td>
+            <td style="text-align: left; padding-left: 8px; color: #fbbf24;">Inst1: MOV X, #3</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #1e293b;">
+            <td style="color: #38bdf8; border-right: 1px solid #334155;">000..01</td>
+            <td style="color: #34d399; border-right: 1px solid #334155;">00101110</td>
+            <td style="text-align: left; padding-left: 8px; color: #fbbf24;">Inst2: MOV Z, X</td>
+          </tr>
+          <tr style="border-bottom: 2px solid #38bdf8;">
+            <td style="color: #38bdf8; border-right: 1px solid #334155;">000..10</td>
+            <td style="color: #34d399; border-right: 1px solid #334155;">11111100</td>
+            <td style="text-align: left; padding-left: 8px; color: #fbbf24;">Inst3: ADD Z, Y</td>
+          </tr>
+          <!-- Separador de zona -->
+          <tr style="background: #1e293b; color: #64748b; font-size: 0.8em;">
+            <td colspan="3" style="padding: 2px;">• • • (Zona de Datos / Variables) • • •</td>
+          </tr>
+          <!-- Bloque de Datos (Direcciones numéricas reales asignadas a X, Y, Z) -->
+          <tr style="border-bottom: 1px solid #1e293b;">
+            <td style="color: #38bdf8; border-right: 1px solid #334155;">000..20</td>
+            <td style="border-right: 1px solid #334155;">00000000</td>
+            <td style="text-align: left; padding-left: 8px; color: #cbd5e1;">Variable <b>X</b> (Valor = 0)</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #1e293b;">
+            <td style="color: #38bdf8; border-right: 1px solid #334155;">000..21</td>
+            <td style="border-right: 1px solid #334155;">00000111</td>
+            <td style="text-align: left; padding-left: 8px; color: #cbd5e1;">Variable <b>Y</b> (Valor = 7)</td>
+          </tr>
+          <tr>
+            <td style="color: #38bdf8; border-right: 1px solid #334155;">000..22</td>
+            <td style="border-right: 1px solid #334155;">00000010</td>
+            <td style="text-align: left; padding-left: 8px; color: #cbd5e1;">Variable <b>Z</b> (Valor = 2)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
 
       </section>
 
@@ -356,40 +458,263 @@
 </div>
 
 
- </section>
 
-      <!-- Slide 6: Arquitectura del Procesador -->
-      <section>
-        <h2>Partes del Computador: CPU y Periféricos</h2>
-        <div class="architecture-box">
-          <div class="architecture-grid">
-            <div class="arch-card">
-              <strong>Core (Núcleo)</strong>
-              <small>UC, ALU, Registros (PC, SW) y Reloj</small>
-            </div>
-            <div class="arch-arrow">&harr;</div>
-            <div class="arch-card" style="border-color:#345b96;">
-              <strong>Memoria Principal</strong>
-              <small>Instrucciones y Datos</small>
-            </div>
-            <div class="arch-arrow">&harr;</div>
-            <div class="arch-card" style="background:#e8efff;">
-              <strong>Periféricos (E/S)</strong>
-              <small>Mapa de E/S (Teclado, Pantalla)</small>
-            </div>
+<!-- Slide 6: Arquitectura del Procesador -->
+
+ </section>
+<section>
+  <div class="syntax-code-card" style="background-color: #1a1e24; border: 1px solid #2d3748; border-radius: 12px; padding: 16px 20px; margin-top: 10px; color: #f8f8f2; font-family: sans-serif;">
+
+  <div style="text-align: center; font-size: 0.7em; font-weight: bold; color: #94a3b8; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 14px;">
+    Esquema de la Arquitectura del Computador
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1.3fr 0.2fr 1fr; align-items: center; gap: 10px;">
+    
+    <div style="background-color: #0f172a; border: 2px solid #38bdf8; border-radius: 10px; padding: 10px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);">
+      
+      <div style="text-align: center; margin-bottom: 8px; border-bottom: 1px solid #1e293b; padding-bottom: 4px;">
+        <strong style="color: #38bdf8; font-size: 0.75em; text-transform: uppercase; letter-spacing: 0.05em;">CPU / PROCESADOR</strong>
+        <span style="color: #64748b; font-size: 0.42em; display: block; margin-top: 2px;"> Puede tener 1 o varios Cores conectados a la misma memoria</span>
+        <span style="color: #64748b; font-size: 0.42em; display: block; margin-top: 4px;"> Cada Core puede ejecutar secuencias de instrucciones de forma simultánea al resto, utilizando diferentes zonas de memoria</span>
+      
+      </div>
+
+      <div style="background-color: #131c2e; border: 1.5px dashed #38bdf8; border-radius: 8px; padding: 8px;">
+        
+        <div style="text-align: center; margin-bottom: 6px;">
+          <strong style="color: #60a5fa; font-size: 0.62em; text-transform: uppercase; letter-spacing: 0.04em;">CORE (NÚCLEO)</strong>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 6px;">
+          <div style="background-color: #1e293b; border-left: 3px solid #ef4444; border-radius: 6px; padding: 6px 8px;">
+            <strong style="color: #ef4444; font-size: 0.48em; display: block;">Unidad de Control (UC)</strong>
+            <span style="color: #94a3b8; font-size: 0.40em; line-height: 1.2; display: block;">Decodifica y coordina instrucciones</span>
+          </div>
+
+          <div style="background-color: #1e293b; border-left: 3px solid #10b981; border-radius: 6px; padding: 6px 8px;">
+            <strong style="color: #10b981; font-size: 0.58em; display: block;">Unidad Aritmético Lógica (ALU)</strong>
+            <span style="color: #94a3b8; font-size: 0.40em; line-height: 1.2; display: block;">Cálculos aritméticos y lógicos</span>
           </div>
         </div>
-        <div class="syntax-layout">
-          <div class="syntax-chip">
-            <strong>Unidad de Control (UC)</strong>
-            <small>Obtiene, decodifica y ejecuta instrucciones gestionando accesos a memoria.</small>
+
+        <div style="display: flex; gap: 6px;">
+          <div style="flex: 1; font-size: 0.5em; color: #cbd5e1; background-color: #1e293b; padding: 6px 8px; border-radius: 6px;">
+            <strong style="color: #f59e0b;">Registros:</strong> PC, SW, ...
+            <span style="color: #94a3b8; font-size: 0.68em; line-height: 1.2; display: block;">Cntienen valores temporales</span>
+
           </div>
-          <div class="syntax-chip">
-            <strong>Unidad Aritmético-Lógica (ALU)</strong>
-            <small>Realiza los cálculos matemáticos y las operaciones lógicas.</small>
+          <div style="flex: 1; font-size: 0.5em; color: #cbd5e1; background-color: #1e293b; padding: 6px 8px; border-radius: 6px;">
+            <strong style="color: #a855f7;">Reloj:</strong> Frecuencia / CLK
           </div>
         </div>
-      </section>
+
+      </div>
+
+    </div>
+
+    <div style="text-align: center;">
+      <span style="color: #38bdf8; font-size: 1.4em; font-weight: bold; display: block;">&harr;</span>
+      <span style="color: #64748b; font-size: 0.45em; display: block; font-family: monospace;">BUS</span>
+    </div>
+
+    <div style="background-color: #0f172a; border: 2px solid #818cf8; border-radius: 10px; padding: 16px 12px; text-align: center; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);">
+      <strong style="color: #818cf8; font-size: 0.72em; display: block; margin-bottom: 6px; text-transform: uppercase;">Memoria Principal</strong>
+      <div style="background-color: #1e293b; border-radius: 6px; padding: 8px; margin-top: 6px;">
+        <span style="color: #38bdf8; font-size: 0.52em; display: block; font-weight: bold;">Instrucciones</span>
+        <span style="color: #cbd5e1; font-size: 0.48em; display: block;">(Código del programa)</span>
+        <hr style="border: 0; border-top: 1px dashed #334155; margin: 6px 0;">
+        <span style="color: #f97316; font-size: 0.52em; display: block; font-weight: bold;">Datos</span>
+        <span style="color: #cbd5e1; font-size: 0.48em; display: block;">(Variables en RAM/ROM)</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1.3fr 0.2fr 1fr; align-items: center;">
+    <div style="text-align: center; margin: 4px 0;">
+      <span style="color: #f97316; font-size: 1.2em; font-weight: bold; display: block; line-height: 1;">&#8597;</span>
+      <span style="color: #64748b; font-size: 0.42em; display: block; font-family: monospace;">E/S BUS</span>
+    </div>
+    <div></div>
+    <div></div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1.3fr 0.2fr 1fr; align-items: flex-start;">
+    <div style="background-color: #0f172a; border: 2px solid #f97316; border-radius: 10px; padding: 10px 12px; text-align: center; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);">
+      <strong style="color: #f97316; font-size: 0.68em; display: block; margin-bottom: 4px; text-transform: uppercase;">Periféricos (Entrada / Salida)</strong>
+      
+      <span style="color: #94a3b8; font-size: 0.45em; line-height: 1.2; display: block; margin-bottom: 6px;">Intercambian información con el "exterior"</span>
+
+      <hr style="border: 0; border-top: 1px dashed #334155; margin: 6px 0 8px 0;">
+
+      <div style="display: flex; justify-content: space-around; gap: 6px; font-size: 0.5em; color: #cbd5e1;">
+        <span style="background-color: #1e293b; padding: 4px 8px; border-radius: 4px; border: 1px solid #334155;">⌨️ Teclado</span>
+        <span style="background-color: #1e293b; padding: 4px 8px; border-radius: 4px; border: 1px solid #334155;">🖥️ Pantalla</span>
+        <span style="background-color: #1e293b; padding: 4px 8px; border-radius: 4px; border: 1px solid #334155;">🌡️ Sensores</span>
+      </div>
+    </div>
+    <div></div>
+    <div></div>
+  </div>
+
+</div>
+</section>
+
+
+<section>
+  <h2>El Computador: Periféricos</h2>
+  <div class="contents-box" style="font-size: 0.85em; line-height: 1.35;">
+    <p style="margin: 4px 0;">Los periféricos (o dispositivos de Entrada/Salida) sirven para que la CPU intercambie información con el “exterior”.</p>
+    
+    <p style="margin: 6px 0 2px 0;">De cara a la CPU, la E/S es similar a la memoria:</p>
+    <ul class="contents-list" style="font-weight: normal; margin: 2px 0 6px 0; padding-left: 20px;">
+      <li>Está organizada en direcciones (mapa de E/S).</li>
+      <li>Se intercambia con ella datos binarios (instrucciones IN, OUT.</li>
+    </ul>
+    
+    <p style="margin: 6px 0 2px 0;">La diferencia:</p>
+    <ul class="contents-list" style="font-weight: normal; margin: 2px 0 6px 0; padding-left: 20px;">
+      <li>Cada bit de cada dirección de E/S está físicamente conectado a un dispositivo externo.</li>
+    </ul>
+  </div>
+
+  <div style="text-align: center; margin-top: 8px;">
+    <img src="../../assets/img/tema01/perifericos.png" alt="Periféricos y mapa de E/S" style="max-width: 55%; max-height: auto; height: auto; border-radius: 8px;">
+  </div>
+</section>
+
+<section>
+  <h2>El Computador: Periféricos</h2>
+  <div class="contents-box" style="font-size: 0.85em; line-height: 1.35;">
+    <p style="margin: 4px 0;">La mayoría de periféricos realizan operaciones más
+sofisticadas con los valores binarios de las direcciones de E/S a las que están conectados:</p>
+    <ul class="contents-list" style="font-weight: normal; margin: 2px 0 6px 0; padding-left: 20px;">
+      <li>Teclado: cuando se pulsa una tecla, escribe en la dirección de E/S correspondiente un código (ASCII) según la tecla pulsada</li>
+      <!-- INICIO ESQUEMA -->
+      <li style="list-style-type: none; margin: 12px 0;">
+        <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: center; font-family: 'Courier New', monospace;">
+          
+          <!-- Tecla 'a' -->
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="width: 30px; height: 30px; background: linear-gradient(135deg, #fff 0%, #e6e6e6 50%, #ccc 100%); border: 1px solid #7a7a7a; border-radius: 4px; display: flex; justify-content: center; align-items: center; font-family: 'Times New Roman', serif; font-weight: bold; font-size: 16px; color: #000; box-shadow: 1px 2px 4px rgba(0,0,0,0.25);">a</div>
+            <div style="position: relative; width: 22px; height: 12px; background: linear-gradient(to bottom, #d0fff0, #46e8bd); border: 1px solid #2bbd95; margin-right: 8px;">
+              <div style="position: absolute; right: -9px; top: -5px; width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-left: 9px solid #52ebd2;"></div>
+            </div>
+            <div style="background: linear-gradient(to bottom, #f2f2f2, #d8d8d8); border: 1px solid #4a4a4a; padding: 4px 8px; font-weight: bold; font-size: 15px; color: #000; border-radius: 2px;">01100001</div>
+          </div>
+
+          <!-- Tecla 'B' -->
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="width: 30px; height: 30px; background: linear-gradient(135deg, #fff 0%, #e6e6e6 50%, #ccc 100%); border: 1px solid #7a7a7a; border-radius: 4px; display: flex; justify-content: center; align-items: center; font-family: 'Times New Roman', serif; font-weight: bold; font-size: 16px; color: #000; box-shadow: 1px 2px 4px rgba(0,0,0,0.25);">B</div>
+            <div style="position: relative; width: 22px; height: 12px; background: linear-gradient(to bottom, #d0fff0, #46e8bd); border: 1px solid #2bbd95; margin-right: 8px;">
+              <div style="position: absolute; right: -9px; top: -5px; width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-left: 9px solid #52ebd2;"></div>
+            </div>
+            <div style="background: linear-gradient(to bottom, #f2f2f2, #d8d8d8); border: 1px solid #4a4a4a; padding: 4px 8px; font-weight: bold; font-size: 15px; color: #000; border-radius: 2px;">01000010</div>
+          </div>
+
+          <!-- Tecla 'Enter' -->
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="width: 30px; height: 30px; background: linear-gradient(135deg, #fff 0%, #e6e6e6 50%, #ccc 100%); border: 1px solid #7a7a7a; border-radius: 4px; display: flex; justify-content: center; align-items: center; font-family: 'Times New Roman', serif; font-weight: bold; font-size: 16px; color: #000; box-shadow: 1px 2px 4px rgba(0,0,0,0.25);">↵</div>
+            <div style="position: relative; width: 22px; height: 12px; background: linear-gradient(to bottom, #d0fff0, #46e8bd); border: 1px solid #2bbd95; margin-right: 8px;">
+              <div style="position: absolute; right: -9px; top: -5px; width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-left: 9px solid #52ebd2;"></div>
+            </div>
+            <div style="background: linear-gradient(to bottom, #f2f2f2, #d8d8d8); border: 1px solid #4a4a4a; padding: 4px 8px; font-weight: bold; font-size: 15px; color: #000; border-radius: 2px;">00001010</div>
+          </div>
+
+        </div>
+      </li>
+      <!-- FIN ESQUEMA -->
+      <li>Pantalla: cuando la CPU escribe un código (ASCII) en la dirección de E/S correspondiente, genera puntos luminosos en
+los lugares adecuados para que el observador visualice el carácter equivalente </li>
+
+<!-- ESQUEMA 2: PANTALLA -->
+<li style="list-style-type: none; margin: 16px 0 8px 0;">
+  <div style="display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;">
+    
+    <!-- Bloque Binario -->
+    <div style="background: linear-gradient(to bottom, #f2f2f2, #d8d8d8); border: 1.5px solid #4a4a4a; padding: 6px 12px; font-weight: bold; font-size: 16px; color: #000; border-radius: 2px; font-family: 'Courier New', monospace; letter-spacing: 1px; box-shadow: 1px 2px 4px rgba(0,0,0,0.15);">
+      01100001
+    </div>
+
+    <!-- Flecha de transición -->
+    <div style="position: relative; width: 32px; height: 16px; background: linear-gradient(to bottom, #d0fff0, #46e8bd); border: 1px solid #2bbd95; margin-right: 10px;">
+      <div style="position: absolute; right: -12px; top: -7px; width: 0; height: 0; border-top: 14px solid transparent; border-bottom: 14px solid transparent; border-left: 12px solid #52ebd2;"></div>
+    </div>
+
+    <!-- Matriz de Píxeles (16x10) -->
+    <div style="display: grid; grid-template-columns: repeat(16, 10px); grid-template-rows: repeat(10, 10px); gap: 1px; background-color: #333; border: 2px solid #222; padding: 1px;">
+      <!-- Fila 1: Superior vacía -->
+      <div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div>
+      
+      <!-- Fila 2: Parte superior curva (3 blancos) -->
+      <div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#fff"></div><div style="background:#fff"></div><div style="background:#fff"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div>
+      
+      <!-- Fila 3 -->
+      <div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#fff"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#fff"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div>
+      
+      <!-- Fila 4 -->
+      <div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#fff"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div>
+      
+      <!-- Fila 5: Barra central (4 blancos) -->
+      <div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#fff"></div><div style="background:#fff"></div><div style="background:#fff"></div><div style="background:#fff"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div>
+      
+      <!-- Fila 6 -->
+      <div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#fff"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#fff"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div>
+      
+      <!-- Fila 7 -->
+      <div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#fff"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#fff"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div>
+      
+      <!-- Fila 8: Base (3 blancos + rabillo separado) -->
+      <div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#fff"></div><div style="background:#fff"></div><div style="background:#fff"></div><div style="background:#808080"></div><div style="background:#fff"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div>
+      
+      <!-- Fila 9: Vacía -->
+      <div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div>
+      
+      <!-- Fila 10: Vacía -->
+      <div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div><div style="background:#808080"></div>
+    </div>
+
+  </div>
+</li>
+
+    </ul>
+    
+  </div>
+
+</section>
+
+
+<section>
+  <h2>El Computador</h2>
+  <div class="contents-box">
+    <p>¿Cómo se cargan instrucciones y datos en memoria?</p>
+    <ul class="contents-list" style="font-weight: normal;">
+      <li>Se utiliza un programa “cargador” que vuelque los contenidos de un archivo (programa ejecutable) en memoria: instrucciones y datos</li>
+    </ul>
+  </div>
+
+  <div class="contents-box">
+    <p>¿Cómo se ordena la ejecución del programa?</p>
+    <ul class="contents-list" style="font-weight: normal;">
+      <li>Se indica al programa “cargador” la dirección de la 1ª instrucción.</li>
+      <li>Una vez se ejecuta la 1ª instrucción, las siguientes se ejecutan secuencialmente (salvo los casos de salto).</li>
+    </ul>
+  </div>
+
+  <div class="contents-box">
+    <p>¿Es necesario conocer y escribir programas en código binario?</p>
+    <ul class="contents-list" style="font-weight: normal;">
+      <li>No, existen programas más sofisticados (compiladores e intérpretes) que nos permiten traducir a código máquina desde lenguajes de “alto nivel” (similares al lenguaje matemático).</li>
+    </ul>        
+  </div>
+
+</section>
+
+
+
+
+
 
       <!-- Slide 7: Lenguaje de Alto Nivel y Compilador -->
       <section>
@@ -438,7 +763,7 @@ m = (x1 + x2 + x3 + x4) / 4.0;
       </section>
 
       <!-- Slide 9: Entrada y Salida por Consola -->
-      <section>
+      <!-- <section>
         <h2>Entrada / Salida por Consola</h2>
         <div class="syntax-layout">
           <div class="syntax-code-card">
@@ -465,17 +790,222 @@ scanf("%d %f", &alumnos, &nota);
             <small style="display:block; text-align:left; color:#d9534f;">Nota: Es obligatorio el operador <code>&amp;</code> antes de la variable para indicar su dirección de memoria.</small>
           </div>
         </div>
-      </section>
+      </section> -->
+
+     <!-- Diapositiva 1: Salida por Consola con printf() -->
+<!-- Slide: Salida por Consola con printf() -->
+<section>
+  <h2>Salida por Consola</h2>
+
+  <div class="syntax-layout" style="display: block; width: 100%;">
+    <div class="syntax-code-card" style="width: 100%; box-sizing: border-box;">
+  
+      <!-- Sintaxis del prototipo -->
+      <pre style="margin: 8px 0; width: 100%;"><code class="language-c" data-trim data-noescape>
+printf("texto a escribir", valor1, valor2, ...);
+      </code></pre>
+
+      <!-- Reglas de funcionamiento y especificadores -->
+      <ul style="font-size: 0.72em; text-align: left; margin: 8px 0; line-height: 1.5;">
+        <li>Escribe en pantalla los caracteres de la cadena de texto, excepto cuando aparece <code>%algo</code>.</li>
+        <li>El <code>%algo</code> se sustituye por el valor correspondiente de la lista (siguiendo el estricto orden de aparición):
+          <ul style="margin-top: 2px; font-size: 0.95em;">
+            <li><code>%d</code>: entero (<code>int</code>)</li>
+            <li><code>%f</code>: real / flotante (<code>float</code>)</li>
+            <li><code>%c</code>: carácter individual (<code>char</code>)</li>
+            <li><code>%s</code>: cadena de caracteres (texto)</li>
+          </ul>
+        </li>
+        <li>La secuencia de escape <code>\n</code> en el texto representa un salto de línea (retorno de carro).</li>
+      </ul>
+
+      <!-- Bloque de Código de Ejemplo y Terminal Simulada -->
+      <div style="display: flex; gap: 15px; margin-top: 12px; align-items: flex-start;">
+        
+        <!-- Código C -->
+        <div style="flex: 1.2; text-align: left;">
+          <small style="display:block; color:#333; font-weight:bold; margin-bottom: 4px;">Ejemplo de Código C:</small>
+          <pre style="margin: 0; width: 100%;"><code class="language-c" data-trim data-noescape>
+int alumnos = 12;
+float nota_media = 7.25;
+
+printf("Hay %d alumnos, nota media %f\n", alumnos, nota_media);
+          </code></pre>
+        </div>
+
+        <!-- Terminal / Resultado en Pantalla -->
+        <div style="flex: 1; text-align: left;">
+          <small style="display:block; color:#333; font-weight:bold; margin-bottom: 4px;">Resultado en pantalla:</small>
+          <div style="background: #000000; color: #ffffff; padding: 10px; border-radius: 4px; font-family: monospace; font-size: 0.72em; line-height: 1.4; border: 1px solid #334155; min-height: 60px;">
+            <div style="color: #f8fafc;">Hay 12 alumnos, nota media 7.250000</div>
+            <span style="display: inline-block; width: 6px; height: 12px; background: #38bdf8; vertical-align: middle;"></span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Diapositiva 2: Entrada por Consola con scanf() -->
+<!-- Slide: Entrada por Consola con scanf() -->
+<section>
+  <h2>Entrada por Consola</h2>
+
+  <div class="syntax-layout" style="display: block; width: 100%;">
+    <div class="syntax-code-card" style="width: 100%; box-sizing: border-box;">      
+      <!-- Sintaxis del prototipo -->
+      <pre style="margin: 8px 0; width: 100%;"><code class="language-c" data-trim data-noescape>
+scanf("formato", direccion_valor1, direccion_valor2, ...);
+      </code></pre>
+
+      <!-- Reglas de funcionamiento -->
+      <ul style="font-size: 0.72em; text-align: left; margin: 8px 0; line-height: 1.5;">
+        <li>Espera por teclado la pulsación de una secuencia de caracteres terminada en <strong>INTRO</strong>.</li>
+        <li>El texto del formato <strong>sólo</strong> debe contener cadenas de formato (<code>%algo</code>).</li>
+        <li>Las direcciones se indican anteponiendo a cada variable el carácter <code>&amp;</code>.</li>
+        <li>El usuario debe separar cada entrada con <strong>espacio</strong>, <strong>tabulador</strong> o <strong>Return</strong>, y siempre terminar con Return.</li>
+      </ul>
+
+      <!-- Bloque de Código de Ejemplo y Terminal Simulada -->
+      <div style="display: flex; gap: 15px; margin-top: 12px; align-items: flex-start;">
+        
+        <!-- Código C -->
+        <div style="flex: 1.2; text-align: left;">
+          <small style="display:block; color:#333; font-weight:bold; margin-bottom: 4px;">Ejemplo de Código C:</small>
+          <pre style="margin: 0; width: 100%;"><code class="language-c" data-trim data-noescape>
+                int alumnos;
+                float nota_media;
+
+                printf("Introduzca alumnos y nota media: ");
+                scanf("%d %f", &alumnos, &ampnota_media);
+                printf("Hay %d alumnos, nota media %f\n", alumnos, nota_media);
+          </code></pre>
+        </div>
+
+        <!-- Terminal / Resultado en Pantalla -->
+        <div style="flex: 1; text-align: left;">
+          <small style="display:block; color:#333; font-weight:bold; margin-bottom: 4px;">Resultado en pantalla:</small>
+          <div style="background: #000000; color: #ffffff; padding: 10px; border-radius: 4px; font-family: monospace; font-size: 0.7em; line-height: 1.4; border: 1px solid #334155;">
+            <div>Introduzca alumnos y nota media: <span style="color: #38bdf8; font-weight: bold;">12 &nbsp;7.25</span>↵</div>
+            <div style="color: #34d399;">Hay 12 alumnos, nota media 7.250000</div>
+            <span style="display: inline-block; width: 6px; height: 12px; background: #38bdf8; vertical-align: middle;"></span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Nota destacada -->
+      <small style="display:block; text-align:left; color:#d9534f; margin-top: 10px; font-size: 0.7em; font-weight: bold;">
+        ⚠️ Nota: Olvidar el operador &amp; en scanf() provocará un error de ejecución al intentar escribir en una dirección de memoria errónea.
+      </small>
+    </div>
+  </div>
+</section>
 
       <!-- Slide 10: Ejemplo Practico Poligono -->
-      <section>
-        <h2>Ejemplo Completo: Perímetro de un Polígono</h2>
-        <pre><code class="language-c" data-trim data-noescape>
+
+<!-- Slide: El lenguaje de alto nivel (C) - Ejemplo Polígono (Ajustado) -->
+<section>
+  <h2>El lenguaje de alto nivel (C)</h2>
+<p class="subtitle" style="font-size: 0.72em; margin-top: 4px;">Ejemplo: dados el radio y el número de lados de un polígono regular, calcular su perímetro</p>
+  <div class="syntax-layout" style="display: flex; gap: 12px; align-items: center; width: 100%;">
+    
+    <!-- COLUMNA IZQUIERDA: Ilustración del Polígono (Más compacta) -->
+    <div class="syntax-code-card" style="flex: 0.85; text-align: center; padding: 10px; background: #ffffff; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center;">
+      <svg viewBox="0 0 300 300" style="width: 100%; max-width: 220px; height: auto;">
+        <!-- Círculo exterior -->
+        <circle cx="150" cy="150" r="120" fill="none" stroke="#64748b" stroke-width="1.5" />
+        
+        <!-- Octógono (Polígono regular) -->
+        <polygon points="150,30 235,65 270,150 235,235 150,270 65,235 30,150 65,65" 
+                 fill="#10b981" stroke="#000000" stroke-width="2.5" />
+        
+        <!-- Triángulo del sector (Radio y Ángulo) -->
+        <line x1="150" y1="150" x2="270" y2="150" stroke="#000000" stroke-width="2" />
+        <line x1="150" y1="150" x2="235" y2="65" stroke="#000000" stroke-width="2" />
+        
+        <!-- Arco de ángulo (ang) -->
+        <path d="M 200,150 A 50,50 0 0,0 185,115" fill="none" stroke="#000000" stroke-width="1.5" />
+        
+        <!-- Etiquetas de la figura -->
+        <text x="200" y="110" font-family="sans-serif" font-weight="bold" font-size="16" fill="#000000">radio</text>
+        <text x="205" y="142" font-family="sans-serif" font-weight="bold" font-size="16" fill="#000000">ang</text>
+        <text x="258" y="110" font-family="sans-serif" font-weight="bold" font-size="16" fill="#000000" transform="rotate(90, 258, 110)">lado</text>
+      </svg>
+    </div>
+
+    <!-- COLUMNA DERECHA: Desglose de Datos y Fórmulas (Más ancha y adaptada) -->
+    <div class="syntax-code-card" style="flex: 1.4; text-align: left; padding: 12px 16px; font-size: 0.75em; line-height: 1.35; width: 100%; box-sizing: border-box;">
+      
+      <!-- Bloque de Datos -->
+      <div style="margin-bottom: 8px;">
+        <strong style="font-size: 1.05em; color: #0f172a; display: block; border-bottom: 2px solid #0284c7; padding-bottom: 1px; margin-bottom: 3px;">Datos:</strong>
+        <div style="margin-left: 6px;">
+          <span style="color: #dc2626; font-weight: bold; font-style: italic; font-family: monospace;">n_lados</span> <span style="color: #475569;">(debe ser entero)</span><br>
+          <span style="color: #dc2626; font-weight: bold; font-style: italic; font-family: monospace;">radio</span> <span style="color: #475569;">(puede ser real)</span>
+        </div>
+      </div>
+
+      <!-- Bloque de Resultado -->
+      <div style="margin-bottom: 8px;">
+        <strong style="font-size: 1.05em; color: #0f172a; display: block; border-bottom: 2px solid #0284c7; padding-bottom: 1px; margin-bottom: 3px;">Resultado:</strong>
+        <div style="margin-left: 6px;">
+          <span style="color: #dc2626; font-weight: bold; font-style: italic; font-family: monospace;">perim</span> <span style="color: #475569;">(puede ser real)</span>
+        </div>
+      </div>
+
+      <!-- Bloque de Cálculo -->
+      <div style="margin-bottom: 4px;">
+        <strong style="font-size: 1.05em; color: #0f172a; display: block; border-bottom: 2px solid #0284c7; padding-bottom: 1px; margin-bottom: 3px;">Cálculo:</strong>
+        <div style="margin-left: 6px;">
+          <div style="font-family: monospace; font-size: 1.05em; margin-bottom: 4px;">
+            <span style="color: #dc2626; font-style: italic; font-weight: bold;">perim</span> = <span style="color: #dc2626; font-style: italic; font-weight: bold;">lado</span> * <span style="color: #dc2626; font-style: italic; font-weight: bold;">n_lados</span>
+          </div>
+          
+          <div style="font-family: sans-serif;">
+            donde <strong style="color: #dc2626; font-style: italic;">lado</strong> se obtiene de:
+            <div style="font-family: monospace; text-align: center; margin: 3px 0; font-size: 1.05em; display: flex; align-items: center; justify-content: center; gap: 6px;">
+              <span>sin(<span style="color: #dc2626; font-style: italic;">ang</span>/2) =</span> 
+              <span style="display: inline-block; vertical-align: middle; text-align: center;">
+              <span style="border-bottom: 1px solid #000; display: block; padding: 0 4px;">
+                <span style="color: #dc2626; font-style: italic;">lado</span><span style="color: #000000; font-style: normal;">/2</span>
+              </span>
+                <span style="display: block; color: #dc2626; font-style: italic;">radio</span>
+              </span>
+            </div>
+            y <strong style="color: #dc2626; font-style: italic;">ang</strong> se obtiene de:
+            <div style="font-family: monospace; text-align: center; margin-top: 2px; font-size: 1.05em;">
+              <span style="color: #dc2626; font-style: italic;">ang</span> = 2π / <span style="color: #dc2626; font-style: italic;">n_lados</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Pie explicativo sobre las variables -->
+  <div style="margin-top: 8px; font-size: 0.65em; color: #334155; text-align: left; background: #f8fafc; padding: 4px 10px; border-radius: 4px; border-left: 3px solid #dc2626;">
+    En <span style="color: #dc2626; font-weight: bold; font-style: italic;">rojo/cursiva</span>: <strong>variables necesarias</strong> (cambian su valor en función de los datos iniciales y/o de la evolución de los cálculos).
+  </div>
+</section>
+      
+<!-- Slide: Ejemplo Completo - Perímetro de un Polígono -->
+<section>
+  <h2>Ejemplo Completo: Perímetro de un Polígono</h2>
+  <p class="subtitle" style="font-size: 0.72em; margin-top: 2px; margin-bottom: 8px;">
+    Implementación en C del cálculo del perímetro de un polígono regular
+  </p>
+
+  <div class="syntax-layout" style="display: block; width: 100%;">
+    <div class="syntax-code-card" style="width: 100%; box-sizing: border-box; padding: 10px 14px;">
+      <pre style="margin: 0; width: 100%; overflow: hidden;"><code class="language-c" data-trim data-noescape style="font-size: 0.72em; line-height: 1.25; padding: 8px;">
 #include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
 #include &lt;math.h&gt;
 
-#define PI 3.1416 // Constante del preprocesador
+#define PI 3.1416 // Constante
 
 int main(void) {
     int n_lados;        // Entrada: número de lados
@@ -484,64 +1014,603 @@ int main(void) {
     float ang, lado;    // Variables auxiliares
 
     printf("Introduzca n lados: ");
-    scanf("%d", &n_lados);
+    scanf("%d", &amp;n_lados);
     printf("Introduzca radio: ");
-    scanf("%f", &radio);
+    scanf("%f", &amp;radio);
 
-    ang = 2.0 * PI / n_lados;
-    lado = 2.0 * radio * sin(ang / 2.0);
+    ang = 2 * PI / n_lados;
+    lado = 2 * radio * sin(ang / 2.0f);
     perim = n_lados * lado;
 
     printf("El perímetro es %f\n", perim);
-    return 0;
 }
-        </code></pre>
-      </section>
+      </code></pre>
+    </div>
+  </div>
+</section>
 
       <!-- Slide 11: Traza de Ejecucion en Memoria -->
-      <section>
-        <h2>Traza de Ejecución en Memoria</h2>
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Dirección Memoria</th>
-              <th>Variable</th>
-              <th>Tipo</th>
-              <th>Valor (Ejecución)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td><code>8000..8003</code></td><td><code>n_lados</code></td><td><code>int</code></td><td>8</td></tr>
-            <tr><td><code>8004..8007</code></td><td><code>radio</code></td><td><code>float</code></td><td>12.5</td></tr>
-            <tr><td><code>8008..8011</code></td><td><code>perim</code></td><td><code>float</code></td><td>57.551</td></tr>
-            <tr><td><code>8012..8015</code></td><td><code>ang</code></td><td><code>float</code></td><td>0.78540 rad</td></tr>
-            <tr><td><code>8016..8019</code></td><td><code>lado</code></td><td><code>float</code></td><td>9.5918</td></tr>
-          </tbody>
-        </table>
-        <div class="contents-box" style="margin-top:12px;">
-          <p style="font-size:0.75em;">
-            <strong>Salida en Consola:</strong><br>
-            <code>Introduzca n lados: 8</code><br>
-            <code>Introduzca radio: 12.5</code><br>
-            <code>El perímetro es 57.551000</code>
-          </p>
-        </div>
-      </section>
 
-      <!-- Slide 12: Ejercicios propuestos -->
-      <section>
-        <h2>Ejercicios Propuestos</h2>
-        <div class="contents-box">
-          <ol class="contents-list" style="font-size: 0.72em;">
-            <li>Pedir dos instantes de tiempo (horas, minutos, segundos) y calcular el intervalo transcurrido en segundos.</li>
-            <li>Pedir los dos lados de un rectángulo y calcular la longitud de su diagonal ($d = \sqrt{a^2 + b^2}$).</li>
-            <li>Pedir dos puntos en 2D $(x_1, y_1)$ y $(x_2, y_2)$, calcular la recta $y = mx + n$ y evaluar $y$ para un $x$ cualquiera.</li>
-            <li>Convertir una temperatura dada en grados Fahrenheit (°F) a grados Celsius (°C).</li>
-            <li>Pedir velocidad inicial, velocidad final y tiempo transcurrido para calcular el espacio recorrido y la aceleración.</li>
-            <li>Calcular el día de la semana correspondiente a cualquier fecha dada mediante la Congruencia de Zeller.</li>
-          </ol>
+      <!-- ========================================== -->
+<!-- SLIDE 29: Ejecución Paso a Paso - Paso 1   -->
+<!-- ========================================== -->
+<section>
+  <p class="subtitle" style="font-size: 0.7em; margin-top: 2px; margin-bottom: 6px;">Ejecución, paso por paso (1/8): Declaración de variables</p>
+
+  <div style="display: flex; gap: 10px; width: 100%; align-items: stretch; font-size: 0.72em;">
+    <div class="syntax-code-card" style="flex: 1.1; padding: 8px; text-align: left;">
+      <small style="display:block; color:#002B49; font-weight:bold; margin-bottom:4px;">Código fuente:</small>
+      <pre style="margin:0; width:100%;"><code class="language-c" data-trim data-noescape data-line-numbers="8-11" style="font-size: 0.82em; line-height: 1.25;">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;math.h&gt;
+#define PI 3.1416 // Constante
+
+main()
+{
+    int n_lados; // Dato de usuario
+    float radio; // Dato de usuario
+    float perim; /* Resultado */
+    float ang,lado; // Valores aux
+    printf("Introduzca n lados: ");
+    scanf("%d",&amp;n_lados);
+    printf("Introduzca radio: ");
+    scanf("%f",&amp;radio);
+
+    ang=2*PI/n_lados;
+    lado=2*radio*sin(ang/2);
+    perim=n_lados*lado;
+
+    printf("El perim es %f\n",perim);
+}
+      </code></pre>
+    </div>
+
+    <div style="flex: 0.9; display: flex; flex-direction: column; justify-content: center; text-align: center; padding: 6px;">
+      <div style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 10px; border-radius: 4px; color: #0369a1; text-align: left; line-height: 1.3;">
+        <strong>Acción:</strong><br>
+        Reserva lugares en memoria para las variables declaradas y "recuerda" la posición y tipo de cada una.
+      </div>
+      <div style="font-size: 2em; color: #10b981; margin-top: 10px;">➔</div>
+    </div>
+
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+      <div class="syntax-code-card" style="padding: 6px; font-family: monospace;">
+        <small style="display:block; color:#002B49; font-weight:bold; font-family:sans-serif; margin-bottom:2px;">Memoria RAM:</small>
+        <table style="width:100%; border-collapse:collapse; text-align:center; font-size:0.9em; border:1px solid #cbd5e1;">
+          <tr style="background:#f1f5f9; font-weight:bold;"><td style="padding:2px; border:1px solid #cbd5e1;">8000 a 8003</td><td style="padding:2px; border:1px solid #cbd5e1; background:#fef3c7;">?</td><td style="padding:2px; text-align:left; font-family:sans-serif;">n_lados</td></tr>
+          <tr style="background:#f1f5f9; font-weight:bold;"><td style="padding:2px; border:1px solid #cbd5e1;">8004 a 8007</td><td style="padding:2px; border:1px solid #cbd5e1; background:#fef3c7;">?</td><td style="padding:2px; text-align:left; font-family:sans-serif;">radio</td></tr>
+          <tr style="background:#f1f5f9; font-weight:bold;"><td style="padding:2px; border:1px solid #cbd5e1;">8008 a 8011</td><td style="padding:2px; border:1px solid #cbd5e1; background:#fef3c7;">?</td><td style="padding:2px; text-align:left; font-family:sans-serif;">perim</td></tr>
+          <tr style="background:#f1f5f9; font-weight:bold;"><td style="padding:2px; border:1px solid #cbd5e1;">8012 a 8015</td><td style="padding:2px; border:1px solid #cbd5e1; background:#fef3c7;">?</td><td style="padding:2px; text-align:left; font-family:sans-serif;">ang</td></tr>
+          <tr style="background:#f1f5f9; font-weight:bold;"><td style="padding:2px; border:1px solid #cbd5e1;">8016 a 8019</td><td style="padding:2px; border:1px solid #cbd5e1; background:#fef3c7;">?</td><td style="padding:2px; text-align:left; font-family:sans-serif;">lado</td></tr>
+        </table>
+      </div>
+
+      <div style="background:#000; color:#fff; padding:8px; border-radius:4px; font-family:monospace; font-size:0.85em; text-align:left; min-height:60px;">
+        <span style="color:#64748b; font-family:sans-serif; font-size:0.7em; display:block; border-bottom:1px solid #334155; margin-bottom:4px;">Consola (pantalla + teclado):</span>
+        <span style="display:inline-block; width:6px; height:12px; background:#38bdf8; vertical-align:middle;"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================== -->
+<!-- SLIDE 30: Ejecución Paso a Paso - Paso 2   -->
+<!-- ========================================== -->
+<section>
+  <p class="subtitle" style="font-size: 0.7em; margin-top: 2px; margin-bottom: 6px;">Ejecución, paso por paso (2/8): Primer printf()</p>
+
+  <div style="display: flex; gap: 10px; width: 100%; align-items: stretch; font-size: 0.72em;">
+    <div class="syntax-code-card" style="flex: 1.1; padding: 8px; text-align: left;">
+      <small style="display:block; color:#002B49; font-weight:bold; margin-bottom:4px;">Código fuente:</small>
+      <pre style="margin:0; width:100%;"><code class="language-c" data-trim data-noescape data-line-numbers="13" style="font-size: 0.82em; line-height: 1.25;">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;math.h&gt;
+#define PI 3.1416 // Constante
+
+main()
+{
+    int n_lados; // Dato de usuario
+    float radio; // Dato de usuario
+    float perim; /* Resultado */
+    float ang,lado; // Valores aux
+
+    printf("Introduzca n lados: ");
+    scanf("%d",&amp;n_lados);
+    printf("Introduzca radio: ");
+    scanf("%f",&amp;radio);
+
+    ang=2*PI/n_lados;
+    lado=2*radio*sin(ang/2);
+    perim=n_lados*lado;
+
+    printf("El perim es %f\n",perim);
+}
+      </code></pre>
+    </div>
+
+    <div style="flex: 0.9; display: flex; flex-direction: column; justify-content: center; text-align: center; padding: 6px;">
+      <div style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 10px; border-radius: 4px; color: #0369a1; text-align: left; line-height: 1.3;">
+        <strong>Acción:</strong><br>
+        Invoca a la función <code>printf()</code> que escribe el texto indicado en pantalla.
+      </div>
+      <div style="font-size: 2em; color: #10b981; margin-top: 10px;">➔</div>
+    </div>
+
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+      <div class="syntax-code-card" style="padding: 6px; font-family: monospace;">
+        <small style="display:block; color:#002B49; font-weight:bold; font-family:sans-serif; margin-bottom:2px;">Memoria RAM:</small>
+        <table style="width:100%; border-collapse:collapse; text-align:center; font-size:0.9em; border:1px solid #cbd5e1;">
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8000 a 8003</td><td style="padding:2px; border:1px solid #cbd5e1;">?</td><td style="padding:2px; text-align:left; font-family:sans-serif;">n_lados</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8004 a 8007</td><td style="padding:2px; border:1px solid #cbd5e1;">?</td><td style="padding:2px; text-align:left; font-family:sans-serif;">radio</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8008 a 8011</td><td style="padding:2px; border:1px solid #cbd5e1;">?</td><td style="padding:2px; text-align:left; font-family:sans-serif;">perim</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8012 a 8015</td><td style="padding:2px; border:1px solid #cbd5e1;">?</td><td style="padding:2px; text-align:left; font-family:sans-serif;">ang</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8016 a 8019</td><td style="padding:2px; border:1px solid #cbd5e1;">?</td><td style="padding:2px; text-align:left; font-family:sans-serif;">lado</td></tr>
+        </table>
+      </div>
+
+      <div style="background:#000; color:#fff; padding:8px; border-radius:4px; font-family:monospace; font-size:0.85em; text-align:left; min-height:60px;">
+        <span style="color:#64748b; font-family:sans-serif; font-size:0.7em; display:block; border-bottom:1px solid #334155; margin-bottom:4px;">Consola (pantalla + teclado):</span>
+        Introduzca n lados: <span style="display:inline-block; width:6px; height:12px; background:#38bdf8; vertical-align:middle;"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================== -->
+<!-- SLIDE 31: Ejecución Paso a Paso - Paso 3   -->
+<!-- ========================================== -->
+<section>
+  <p class="subtitle" style="font-size: 0.7em; margin-top: 2px; margin-bottom: 6px;">Ejecución, paso por paso (3/8): Primer scanf()</p>
+
+  <div style="display: flex; gap: 10px; width: 100%; align-items: stretch; font-size: 0.72em;">
+    <div class="syntax-code-card" style="flex: 1.1; padding: 8px; text-align: left;">
+      <small style="display:block; color:#002B49; font-weight:bold; margin-bottom:4px;">Código fuente:</small>
+      <pre style="margin:0; width:100%;"><code class="language-c" data-trim data-noescape data-line-numbers="14" style="font-size: 0.82em; line-height: 1.25;">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;math.h&gt;
+#define PI 3.1416 // Constante
+
+main()
+{
+    int n_lados; // Dato de usuario
+    float radio; // Dato de usuario
+    float perim; /* Resultado */
+    float ang,lado; // Valores aux
+
+    printf("Introduzca n lados: ");
+    scanf("%d",&amp;n_lados);
+    printf("Introduzca radio: ");
+    scanf("%f",&amp;radio);
+
+    ang=2*PI/n_lados;
+    lado=2*radio*sin(ang/2);
+    perim=n_lados*lado;
+
+    printf("El perim es %f\n",perim);
+}
+      </code></pre>
+    </div>
+
+    <div style="flex: 0.9; display: flex; flex-direction: column; justify-content: center; text-align: center; padding: 6px;">
+      <div style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 10px; border-radius: 4px; color: #0369a1; text-align: left; line-height: 1.2;">
+        <strong>Acción:</strong><br>
+        Invoca a <code>scanf()</code> que espera pulsaciones por teclado terminadas en INTRO y asigna el valor entero a <code>n_lados</code> (<code>&amp;n_lados = 8000</code>).
+      </div>
+      <div style="font-size: 2em; color: #10b981; margin-top: 10px;">➔</div>
+    </div>
+
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+      <div class="syntax-code-card" style="padding: 6px; font-family: monospace;">
+        <small style="display:block; color:#002B49; font-weight:bold; font-family:sans-serif; margin-bottom:2px;">Memoria RAM:</small>
+        <table style="width:100%; border-collapse:collapse; text-align:center; font-size:0.9em; border:1px solid #cbd5e1;">
+          <tr style="background:#a7f3d0; font-weight:bold;"><td style="padding:2px; border:1px solid #cbd5e1;">8000 a 8003</td><td style="padding:2px; border:1px solid #cbd5e1; color:#065f46;">8</td><td style="padding:2px; text-align:left; font-family:sans-serif;">n_lados</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8004 a 8007</td><td style="padding:2px; border:1px solid #cbd5e1;">?</td><td style="padding:2px; text-align:left; font-family:sans-serif;">radio</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8008 a 8011</td><td style="padding:2px; border:1px solid #cbd5e1;">?</td><td style="padding:2px; text-align:left; font-family:sans-serif;">perim</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8012 a 8015</td><td style="padding:2px; border:1px solid #cbd5e1;">?</td><td style="padding:2px; text-align:left; font-family:sans-serif;">ang</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8016 a 8019</td><td style="padding:2px; border:1px solid #cbd5e1;">?</td><td style="padding:2px; text-align:left; font-family:sans-serif;">lado</td></tr>
+        </table>
+      </div>
+
+      <div style="background:#000; color:#fff; padding:8px; border-radius:4px; font-family:monospace; font-size:0.85em; text-align:left; min-height:60px;">
+        <span style="color:#64748b; font-family:sans-serif; font-size:0.7em; display:block; border-bottom:1px solid #334155; margin-bottom:4px;">Consola (pantalla + teclado):</span>
+        Introduzca n lados: <span style="color:#38bdf8; font-weight:bold;">8 ↵</span><br>
+        <span style="display:inline-block; width:6px; height:12px; background:#38bdf8; vertical-align:middle;"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================== -->
+<!-- SLIDE 32: Ejecución Paso a Paso - Paso 4   -->
+<!-- ========================================== -->
+<section>
+  <p class="subtitle" style="font-size: 0.7em; margin-top: 2px; margin-bottom: 6px;">Ejecución, paso por paso (4/8): Lectura del radio</p>
+
+  <div style="display: flex; gap: 10px; width: 100%; align-items: stretch; font-size: 0.72em;">
+    <div class="syntax-code-card" style="flex: 1.1; padding: 8px; text-align: left;">
+      <small style="display:block; color:#002B49; font-weight:bold; margin-bottom:4px;">Código fuente:</small>
+      <pre style="margin:0; width:100%;"><code class="language-c" data-trim data-noescape data-line-numbers="15-16" style="font-size: 0.82em; line-height: 1.25;">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;math.h&gt;
+#define PI 3.1416 // Constante
+
+main()
+{
+    int n_lados; // Dato de usuario
+    float radio; // Dato de usuario
+    float perim; /* Resultado */
+    float ang,lado; // Valores aux
+
+    printf("Introduzca n lados: ");
+    scanf("%d",&amp;n_lados);
+    printf("Introduzca radio: ");
+    scanf("%f",&amp;radio);
+
+    ang=2*PI/n_lados;
+    lado=2*radio*sin(ang/2);
+    perim=n_lados*lado;
+
+    printf("El perim es %f\n",perim);
+}
+      </code></pre>
+    </div>
+
+    <div style="flex: 0.9; display: flex; flex-direction: column; justify-content: center; text-align: center; padding: 6px;">
+      <div style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 10px; border-radius: 4px; color: #0369a1; text-align: left; line-height: 1.2;">
+        <strong>Acción:</strong><br>
+        Lectura por teclado del dato para <code>radio</code> (<code>%f</code> para float, dirección <code>&amp;radio = 8004</code>).
+      </div>
+      <div style="font-size: 2em; color: #10b981; margin-top: 10px;">➔</div>
+    </div>
+
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+      <div class="syntax-code-card" style="padding: 6px; font-family: monospace;">
+        <small style="display:block; color:#002B49; font-weight:bold; font-family:sans-serif; margin-bottom:2px;">Memoria RAM:</small>
+        <table style="width:100%; border-collapse:collapse; text-align:center; font-size:0.9em; border:1px solid #cbd5e1;">
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8000 a 8003</td><td style="padding:2px; border:1px solid #cbd5e1;">8</td><td style="padding:2px; text-align:left; font-family:sans-serif;">n_lados</td></tr>
+          <tr style="background:#a7f3d0; font-weight:bold;"><td style="padding:2px; border:1px solid #cbd5e1;">8004 a 8007</td><td style="padding:2px; border:1px solid #cbd5e1; color:#065f46;">12.5</td><td style="padding:2px; text-align:left; font-family:sans-serif;">radio</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8008 a 8011</td><td style="padding:2px; border:1px solid #cbd5e1;">?</td><td style="padding:2px; text-align:left; font-family:sans-serif;">perim</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8012 a 8015</td><td style="padding:2px; border:1px solid #cbd5e1;">?</td><td style="padding:2px; text-align:left; font-family:sans-serif;">ang</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8016 a 8019</td><td style="padding:2px; border:1px solid #cbd5e1;">?</td><td style="padding:2px; text-align:left; font-family:sans-serif;">lado</td></tr>
+        </table>
+      </div>
+
+      <div style="background:#000; color:#fff; padding:8px; border-radius:4px; font-family:monospace; font-size:0.85em; text-align:left; min-height:60px;">
+        <span style="color:#64748b; font-family:sans-serif; font-size:0.7em; display:block; border-bottom:1px solid #334155; margin-bottom:4px;">Consola (pantalla + teclado):</span>
+        Introduzca n lados: 8 ↵<br>
+        Introduzca radio: <span style="color:#38bdf8; font-weight:bold;">12.5 ↵</span><br>
+        <span style="display:inline-block; width:6px; height:12px; background:#38bdf8; vertical-align:middle;"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================== -->
+<!-- SLIDE 33: Ejecución Paso a Paso - Paso 5   -->
+<!-- ========================================== -->
+<section>
+  <p class="subtitle" style="font-size: 0.7em; margin-top: 2px; margin-bottom: 6px;">Ejecución, paso por paso (5/8): Cálculo del ángulo</p>
+
+  <div style="display: flex; gap: 10px; width: 100%; align-items: stretch; font-size: 0.72em;">
+    <div class="syntax-code-card" style="flex: 1.1; padding: 8px; text-align: left;">
+      <small style="display:block; color:#002B49; font-weight:bold; margin-bottom:4px;">Código fuente:</small>
+      <pre style="margin:0; width:100%;"><code class="language-c" data-trim data-noescape data-line-numbers="18" style="font-size: 0.82em; line-height: 1.25;">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;math.h&gt;
+#define PI 3.1416 // Constante
+
+main()
+{
+    int n_lados; // Dato de usuario
+    float radio; // Dato de usuario
+    float perim; /* Resultado */
+    float ang,lado; // Valores aux
+
+    printf("Introduzca n lados: ");
+    scanf("%d",&amp;n_lados);
+    printf("Introduzca radio: ");
+    scanf("%f",&amp;radio);
+
+    ang=2*PI/n_lados;
+    lado=2*radio*sin(ang/2);
+    perim=n_lados*lado;
+
+    printf("El perim es %f\n",perim);
+}
+      </code></pre>
+    </div>
+
+    <div style="flex: 0.9; display: flex; flex-direction: column; justify-content: center; text-align: center; padding: 6px;">
+      <div style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 10px; border-radius: 4px; color: #0369a1; text-align: left; line-height: 1.2;">
+        <strong>Acción:</strong><br>
+        Ejecuta los cálculos secuencialmente y asigna el resultado a la variable <code>ang</code>.
+      </div>
+      <div style="font-size: 2em; color: #10b981; margin-top: 10px;">➔</div>
+    </div>
+
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+      <div class="syntax-code-card" style="padding: 6px; font-family: monospace;">
+        <small style="display:block; color:#002B49; font-weight:bold; font-family:sans-serif; margin-bottom:2px;">Memoria RAM:</small>
+        <table style="width:100%; border-collapse:collapse; text-align:center; font-size:0.9em; border:1px solid #cbd5e1;">
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8000 a 8003</td><td style="padding:2px; border:1px solid #cbd5e1;">8</td><td style="padding:2px; text-align:left; font-family:sans-serif;">n_lados</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8004 a 8007</td><td style="padding:2px; border:1px solid #cbd5e1;">12.5</td><td style="padding:2px; text-align:left; font-family:sans-serif;">radio</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8008 a 8011</td><td style="padding:2px; border:1px solid #cbd5e1;">?</td><td style="padding:2px; text-align:left; font-family:sans-serif;">perim</td></tr>
+          <tr style="background:#a7f3d0; font-weight:bold;"><td style="padding:2px; border:1px solid #cbd5e1;">8012 a 8015</td><td style="padding:2px; border:1px solid #cbd5e1; color:#065f46;">0.78540</td><td style="padding:2px; text-align:left; font-family:sans-serif;">ang</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8016 a 8019</td><td style="padding:2px; border:1px solid #cbd5e1;">?</td><td style="padding:2px; text-align:left; font-family:sans-serif;">lado</td></tr>
+        </table>
+      </div>
+
+      <div style="background:#000; color:#fff; padding:8px; border-radius:4px; font-family:monospace; font-size:0.85em; text-align:left; min-height:60px;">
+        <span style="color:#64748b; font-family:sans-serif; font-size:0.7em; display:block; border-bottom:1px solid #334155; margin-bottom:4px;">Consola (pantalla + teclado):</span>
+        Introduzca n lados: 8 ↵<br>
+        Introduzca radio: 12.5 ↵<br>
+        <span style="display:inline-block; width:6px; height:12px; background:#38bdf8; vertical-align:middle;"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================== -->
+<!-- SLIDE 34: Ejecución Paso a Paso - Paso 6   -->
+<!-- ========================================== -->
+<section>
+  <p class="subtitle" style="font-size: 0.7em; margin-top: 2px; margin-bottom: 6px;">Ejecución, paso por paso (6/8): Cálculo del lado</p>
+
+  <div style="display: flex; gap: 10px; width: 100%; align-items: stretch; font-size: 0.72em;">
+    <div class="syntax-code-card" style="flex: 1.1; padding: 8px; text-align: left;">
+      <small style="display:block; color:#002B49; font-weight:bold; margin-bottom:4px;">Código fuente:</small>
+      <pre style="margin:0; width:100%;"><code class="language-c" data-trim data-noescape data-line-numbers="19" style="font-size: 0.82em; line-height: 1.25;">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;math.h&gt;
+#define PI 3.1416 // Constante
+
+main()
+{
+    int n_lados; // Dato de usuario
+    float radio; // Dato de usuario
+    float perim; /* Resultado */
+    float ang,lado; // Valores aux
+
+    printf("Introduzca n lados: ");
+    scanf("%d",&amp;n_lados);
+    printf("Introduzca radio: ");
+    scanf("%f",&amp;radio);
+
+    ang=2*PI/n_lados;
+    lado=2*radio*sin(ang/2);
+    perim=n_lados*lado;
+
+    printf("El perim es %f\n",perim);
+}
+      </code></pre>
+    </div>
+
+    <div style="flex: 0.9; display: flex; flex-direction: column; justify-content: center; text-align: center; padding: 6px;">
+      <div style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 10px; border-radius: 4px; color: #0369a1; text-align: left; line-height: 1.2;">
+        <strong>Acción:</strong><br>
+        Calcula la longitud de uno de los lados usando la función <code>sin()</code> de <code>math.h</code> y guarda el valor en <code>lado</code>.
+      </div>
+      <div style="font-size: 2em; color: #10b981; margin-top: 10px;">➔</div>
+    </div>
+
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+      <div class="syntax-code-card" style="padding: 6px; font-family: monospace;">
+        <small style="display:block; color:#002B49; font-weight:bold; font-family:sans-serif; margin-bottom:2px;">Memoria RAM:</small>
+        <table style="width:100%; border-collapse:collapse; text-align:center; font-size:0.9em; border:1px solid #cbd5e1;">
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8000 a 8003</td><td style="padding:2px; border:1px solid #cbd5e1;">8</td><td style="padding:2px; text-align:left; font-family:sans-serif;">n_lados</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8004 a 8007</td><td style="padding:2px; border:1px solid #cbd5e1;">12.5</td><td style="padding:2px; text-align:left; font-family:sans-serif;">radio</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8008 a 8011</td><td style="padding:2px; border:1px solid #cbd5e1;">?</td><td style="padding:2px; text-align:left; font-family:sans-serif;">perim</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8012 a 8015</td><td style="padding:2px; border:1px solid #cbd5e1;">0.78540</td><td style="padding:2px; text-align:left; font-family:sans-serif;">ang</td></tr>
+          <tr style="background:#a7f3d0; font-weight:bold;"><td style="padding:2px; border:1px solid #cbd5e1;">8016 a 8019</td><td style="padding:2px; border:1px solid #cbd5e1; color:#065f46;">9.5918</td><td style="padding:2px; text-align:left; font-family:sans-serif;">lado</td></tr>
+        </table>
+      </div>
+
+      <div style="background:#000; color:#fff; padding:8px; border-radius:4px; font-family:monospace; font-size:0.85em; text-align:left; min-height:60px;">
+        <span style="color:#64748b; font-family:sans-serif; font-size:0.7em; display:block; border-bottom:1px solid #334155; margin-bottom:4px;">Consola (pantalla + teclado):</span>
+        Introduzca n lados: 8 ↵<br>
+        Introduzca radio: 12.5 ↵<br>
+        <span style="display:inline-block; width:6px; height:12px; background:#38bdf8; vertical-align:middle;"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================== -->
+<!-- SLIDE 35: Ejecución Paso a Paso - Paso 7   -->
+<!-- ========================================== -->
+<section>
+  <p class="subtitle" style="font-size: 0.7em; margin-top: 2px; margin-bottom: 6px;">Ejecución, paso por paso (7/8): Cálculo del perímetro</p>
+
+  <div style="display: flex; gap: 10px; width: 100%; align-items: stretch; font-size: 0.72em;">
+    <div class="syntax-code-card" style="flex: 1.1; padding: 8px; text-align: left;">
+      <small style="display:block; color:#002B49; font-weight:bold; margin-bottom:4px;">Código fuente:</small>
+      <pre style="margin:0; width:100%;"><code class="language-c" data-trim data-noescape data-line-numbers="20" style="font-size: 0.82em; line-height: 1.25;">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;math.h&gt;
+#define PI 3.1416 // Constante
+
+main()
+{
+    int n_lados; // Dato de usuario
+    float radio; // Dato de usuario
+    float perim; /* Resultado */
+    float ang,lado; // Valores aux
+
+    printf("Introduzca n lados: ");
+    scanf("%d",&amp;n_lados);
+    printf("Introduzca radio: ");
+    scanf("%f",&amp;radio);
+
+    ang=2*PI/n_lados;
+    lado=2*radio*sin(ang/2);
+    perim=n_lados*lado;
+
+    printf("El perim es %f\n",perim);
+}
+      </code></pre>
+    </div>
+
+    <div style="flex: 0.9; display: flex; flex-direction: column; justify-content: center; text-align: center; padding: 6px;">
+      <div style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 10px; border-radius: 4px; color: #0369a1; text-align: left; line-height: 1.2;">
+        <strong>Acción:</strong><br>
+        Multiplica el número de lados por la longitud de cada lado y guarda el resultado final en <code>perim</code>.
+      </div>
+      <div style="font-size: 2em; color: #10b981; margin-top: 10px;">➔</div>
+    </div>
+
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+      <div class="syntax-code-card" style="padding: 6px; font-family: monospace;">
+        <small style="display:block; color:#002B49; font-weight:bold; font-family:sans-serif; margin-bottom:2px;">Memoria RAM:</small>
+        <table style="width:100%; border-collapse:collapse; text-align:center; font-size:0.9em; border:1px solid #cbd5e1;">
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8000 a 8003</td><td style="padding:2px; border:1px solid #cbd5e1;">8</td><td style="padding:2px; text-align:left; font-family:sans-serif;">n_lados</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8004 a 8007</td><td style="padding:2px; border:1px solid #cbd5e1;">12.5</td><td style="padding:2px; text-align:left; font-family:sans-serif;">radio</td></tr>
+          <tr style="background:#a7f3d0; font-weight:bold;"><td style="padding:2px; border:1px solid #cbd5e1;">8008 a 8011</td><td style="padding:2px; border:1px solid #cbd5e1; color:#065f46;">57.551</td><td style="padding:2px; text-align:left; font-family:sans-serif;">perim</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8012 a 8015</td><td style="padding:2px; border:1px solid #cbd5e1;">0.78540</td><td style="padding:2px; text-align:left; font-family:sans-serif;">ang</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8016 a 8019</td><td style="padding:2px; border:1px solid #cbd5e1;">9.5918</td><td style="padding:2px; text-align:left; font-family:sans-serif;">lado</td></tr>
+        </table>
+      </div>
+
+      <div style="background:#000; color:#fff; padding:8px; border-radius:4px; font-family:monospace; font-size:0.85em; text-align:left; min-height:60px;">
+        <span style="color:#64748b; font-family:sans-serif; font-size:0.7em; display:block; border-bottom:1px solid #334155; margin-bottom:4px;">Consola (pantalla + teclado):</span>
+        Introduzca n lados: 8 ↵<br>
+        Introduzca radio: 12.5 ↵<br>
+        <span style="display:inline-block; width:6px; height:12px; background:#38bdf8; vertical-align:middle;"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================== -->
+<!-- SLIDE 36: Ejecución Paso a Paso - Paso 8   -->
+<!-- ========================================== -->
+<section>
+  <h2>El lenguaje de alto nivel (C)</h2>
+  <p class="subtitle" style="font-size: 0.7em; margin-top: 2px; margin-bottom: 6px;">Ejecución, paso por paso (8/8): Muestra de resultado final</p>
+
+  <div style="display: flex; gap: 10px; width: 100%; align-items: stretch; font-size: 0.72em;">
+    <div class="syntax-code-card" style="flex: 1.1; padding: 8px; text-align: left;">
+      <small style="display:block; color:#002B49; font-weight:bold; margin-bottom:4px;">Código fuente:</small>
+      <pre style="margin:0; width:100%;"><code class="language-c" data-trim data-noescape data-line-numbers="22" style="font-size: 0.82em; line-height: 1.25;">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;math.h&gt;
+#define PI 3.1416 // Constante
+
+main()
+{
+    int n_lados; // Dato de usuario
+    float radio; // Dato de usuario
+    float perim; /* Resultado */
+    float ang,lado; // Valores aux
+
+    printf("Introduzca n lados: ");
+    scanf("%d",&amp;n_lados);
+    printf("Introduzca radio: ");
+    scanf("%f",&amp;radio);
+
+    ang=2*PI/n_lados;
+    lado=2*radio*sin(ang/2);
+    perim=n_lados*lado;
+
+    printf("El perim es %f\n",perim);
+}
+      </code></pre>
+    </div>
+
+    <div style="flex: 0.9; display: flex; flex-direction: column; justify-content: center; text-align: center; padding: 6px;">
+      <div style="background: #e0f2fe; border-left: 4px solid #0284c7; padding: 10px; border-radius: 4px; color: #0369a1; text-align: left; line-height: 1.2;">
+        <strong>Acción:</strong><br>
+        Invoca a <code>printf()</code> que sustituye el marcador <code>%f</code> por el valor almacenado en <code>perim</code> y lo escribe en la pantalla.
+      </div>
+      <div style="font-size: 2em; color: #10b981; margin-top: 10px;">➔</div>
+    </div>
+
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
+      <div class="syntax-code-card" style="padding: 6px; font-family: monospace;">
+        <small style="display:block; color:#002B49; font-weight:bold; font-family:sans-serif; margin-bottom:2px;">Memoria RAM:</small>
+        <table style="width:100%; border-collapse:collapse; text-align:center; font-size:0.9em; border:1px solid #cbd5e1;">
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8000 a 8003</td><td style="padding:2px; border:1px solid #cbd5e1;">8</td><td style="padding:2px; text-align:left; font-family:sans-serif;">n_lados</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8004 a 8007</td><td style="padding:2px; border:1px solid #cbd5e1;">12.5</td><td style="padding:2px; text-align:left; font-family:sans-serif;">radio</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8008 a 8011</td><td style="padding:2px; border:1px solid #cbd5e1;">57.551</td><td style="padding:2px; text-align:left; font-family:sans-serif;">perim</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8012 a 8015</td><td style="padding:2px; border:1px solid #cbd5e1;">0.78540</td><td style="padding:2px; text-align:left; font-family:sans-serif;">ang</td></tr>
+          <tr style="background:#f1f5f9;"><td style="padding:2px; border:1px solid #cbd5e1;">8016 a 8019</td><td style="padding:2px; border:1px solid #cbd5e1;">9.5918</td><td style="padding:2px; text-align:left; font-family:sans-serif;">lado</td></tr>
+        </table>
+      </div>
+
+      <div style="background:#000; color:#fff; padding:8px; border-radius:4px; font-family:monospace; font-size:0.85em; text-align:left; min-height:60px;">
+        <span style="color:#64748b; font-family:sans-serif; font-size:0.7em; display:block; border-bottom:1px solid #334155; margin-bottom:4px;">Consola (pantalla + teclado):</span>
+        Introduzca n lados: 8 ↵<br>
+        Introduzca radio: 12.5 ↵<br>
+        <span style="color:#34d399; font-weight:bold;">El perim es 57.551000</span><br>
+        <span style="display:inline-block; width:6px; height:12px; background:#38bdf8; vertical-align:middle;"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<!-- Slide: Ejercicios Propuestos -->
+<section>
+  <h2>Ejercicios propuestos</h2>
+
+  <div class="syntax-layout" style="display: block; width: 100%;">
+    <div class="syntax-code-card" style="width: 100%; box-sizing: border-box; text-align: left; padding: 12px 18px;">
+      
+      <!-- Lista de Ejercicios Numerados -->
+      <ol style="font-size: 0.68em; line-height: 1.4; margin: 0 0 10px 0; padding-left: 20px; color: #0f172a;">
+        <li style="margin-bottom: 6px;">
+          Pedir dos conjuntos de hora, min, seg y calcular el tiempo en segundos entre ambos.
+        </li>
+        <li style="margin-bottom: 6px;">
+          Realizar un programa que pida el tamaño de los 2 lados de un rectángulo, y calcule y escriba su diagonal.
+        </li>
+        <li style="margin-bottom: 6px;">
+          Pedir dos puntos de una recta en el espacio bidimensional, calcular los parámetros de la recta <i>y = mx + n</i> que los une, y escribir el valor de la ordenada <i>y</i> para cualquier valor de la abscisa <i>x</i>.
+        </li>
+        <li style="margin-bottom: 6px;">
+          Pedir una temperatura en ºF y calcular su equivalente en ºC<br>
+          (<a href="https://es.m.wikipedia.org/wiki/Archivo:Fahrenheit_Celsius_scales.svg" target="_blank" style="color: #0284c7; text-decoration: underline;">https://es.m.wikipedia.org/wiki/Archivo:Fahrenheit_Celsius_scales.svg</a>)
+        </li>
+        <li style="margin-bottom: 6px;">
+          Pedir el valor de velocidad (Km/h) en dos instantes, el tiempo (min) entre ambos, y calcular: el espacio recorrido (en m) y la aceleración (en m/s²)
+        </li>
+
+      </ol>
+
+      <!-- Caja de NOTAS informativas -->
+      <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #0284c7; padding: 8px 12px; border-radius: 4px; font-size: 0.65em; color: #334155; line-height: 1.45;">
+        <strong style="color: #0f172a; display: block; margin-bottom: 4px;">NOTAS:</strong>
+        
+        <p style="margin: 0 0 4px 0;">
+          Algunas operaciones matemáticas en C (incluir <code>&lt;math.h&gt;</code>):
+        </p>
+
+        <div style="display: flex; gap: 40px; font-family: monospace; font-size: 1.05em; margin: 4px 0 6px 12px; color: #0f172a;">
+          <span><i>x</i><sup>2</sup> = x*x</span>
+          <span>√<i>x</i> = sqrt(x)</span>
         </div>
-      </section>
+
+        <p style="margin: 0 0 2px 0;">
+          <strong>Operaciones trigonométricas:</strong> <code>sin(x)</code> , <code>cos(x)</code> , <code>tan(x)</code> , <code>atan(x)</code>
+        </p>
+        <p style="margin: 0;">
+          <strong>División entera.</strong> Cociente = <code>a/b</code> ; Resto = <code>a%b</code>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
 
       <!-- Slide 13: Resumen -->
       <section>
