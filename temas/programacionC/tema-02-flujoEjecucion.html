@@ -110,21 +110,9 @@
         <p class="subtitle subtitle-small">Ingeniería de Sistemas y Automática - Universidad de Oviedo</p>
       </section>
 
-      <!-- Slide 2: Indice -->
-      <section>
-        <h2>Índice del Tema</h2>
-        <div class="contents-box">
-          <ol class="contents-list">
-            <li>Tipos de datos básicos, variables y constantes</li>
-            <li>Sentencias de asignación y expresiones aritméticas</li>
-            <li>Promoción de tipos y operador molde (cast)</li>
-            <li>Sentencias de control (bloques, alternativas y bucles)</li>
-            <li>Diseño de algoritmos: pseudocódigo y diagramas</li>
-            <li>Proceso de traducción, optimización y depuración</li>
-            <li>Profundización en tipos enteros, reales y estructuras</li>
-          </ol>
-        </div>
-      </section>
+
+      
+
 
       <!-- Slide 3: Tipos de datos básicos -->
       <section>
@@ -138,30 +126,38 @@
           </ul>
           <p style="margin-top: 15px;">El programa puede utilizar datos de dos procedencias:</p>
           <ul class="contents-list">
-            <li><strong>Variables:</strong> Valores que pueden cambiar a lo largo de la ejecución.</li>
-            <li><strong>Constantes:</strong> Valores fijos que no cambian a lo largo del programa.</li>
+            <li><strong>Variables:</strong> Valores que pueden cambiar a lo largo de la ejecución.
+                    <div style="margin-left: 15px; margin-top: 2px;">
+          <span style="color: #0284c7; font-size: 0.9em;">➣ Ejs:</span>
+          <pre style="margin: 2px 0 0 15px; box-shadow: none; background: transparent; width: auto;"><code class="language-c" data-trim data-noescape style="font-size: 0.95em; line-height: 1.2; padding: 0; background: transparent; color: #0f172a;">
+            int n_alumnos;           // Variable tipo entero, sin inicializar
+            float nota_media = 7.25;  // Variable tipo real, valor inicial 7.25
+          </code></pre>
+        </div>
+            </li>
+            <li><strong>Constantes:</strong> Valores fijos que no cambian a lo largo del programa.
+                    <div style="margin-left: 15px; margin-top: 2px;">
+          <span style="color: #0284c7; font-size: 0.9em;">➣ Ejs:</span> <strong>7</strong> (días de la semana), <strong>3.1416</strong> (π), <strong>"Introduzca x1:"</strong> (texto), etc.
+        </div>
+        <div style="margin-left: 15px; margin-top: 4px;">
+          <span style="color: #0284c7; font-size: 0.9em;">➣ Preferible declararlas con #define al principio del código:</span>
+          <pre style="margin: 2px 0 0 15px; box-shadow: none; background: transparent; width: auto;"><code class="language-c" data-trim data-noescape style="font-size: 0.95em; line-height: 1.2; padding: 0; background: transparent; color: #0f172a;">
+#define PI 3.1416
+          </code></pre>
+          <div style="margin-top: 2px;">y usar después mediante el nombre:</div>
+          <pre style="margin: 2px 0 0 15px; box-shadow: none; background: transparent; width: auto;"><code class="language-c" data-trim data-noescape style="font-size: 0.95em; line-height: 1.2; padding: 0; background: transparent; color: #0f172a;">
+float z = 2 * cos(PI / 4);
+          </code></pre>
+        </div>
+            </li>
           </ul>
         </div>
       </section>
 
-      <!-- Slide 4: Variables y Constantes -->
-      <section>
-        <h2>Variables y Constantes</h2>
-        <pre><code class="language-c" data-trim data-noescape>
-// Variables
-int n_alumnos;              // Variable tipo entero, sin inicializar
-float nota_media = 7.25;    // Variable tipo real, valor inicial 7.25
 
-// Constantes
-// Preferible declararlas con #define al principio del código:
-#define PI 3.1416
 
-// Uso posterior mediante su identificador:
-float z = 2 * cos(PI / 4);
-        </code></pre>
-      </section>
-
-      <!-- Slide 5: Adaptación de datos no básicos -->
+<!-- Slide 5: Adaptación de datos no básicos -->
+<!--
       <section>
         <h2>Tipos de datos no básicos</h2>
         <div class="contents-box">
@@ -180,6 +176,9 @@ int mes = FEBRERO;
         </div>
       </section>
 
+
+
+-->
       <!-- Slide 6: Sentencias y expresiones -->
       <section>
         <h2>Sentencias y Expresiones</h2>
@@ -198,6 +197,9 @@ int mes = FEBRERO;
 z = 3 * y + (2 * cos(PI / 4));
         </code></pre>
       </section>
+
+
+      
 
       <!-- Slide 7: Orden de evaluación -->
       <section>
@@ -227,9 +229,11 @@ z = 3 * y + (2 * cos(PI / 4));
         <div class="contents-box">
           <p>Cada operación parcial utiliza los tipos de sus operandos y devuelve un resultado de ese mismo tipo:</p>
           <ul class="contents-list">
-            <li><code>int OP int</code> &rarr; <code>int</code></li>
-            <li><code>float OP float</code> &rarr; <code>float</code></li>
-            <li><code>int OP float</code> &rarr; <code>float</code></li>
+            <li><code> op1 (int) OP opt2 (int)</code> &rarr; <code>int</code></li>
+            <li><code> op1 (float) OP opt2 (float)</code> &rarr; <code>float</code></li>
+            <li><code> op1 (int) OP opt2 (float)</code> &rarr; <code>float</code></li>
+            <li><code> op1 (float) OP opt2 (int)</code> &rarr; <code>float</code></li>
+
           </ul>
         </div>
         <pre><code class="language-c" data-trim data-noescape>
@@ -258,6 +262,10 @@ ratio = (float)profes / (float)alumnos;
 // Ejecución: 4.0f / 8.0f = 0.5f -> ratio pasa a valer 0.5
         </code></pre>
       </section>
+
+
+
+      
 
       <!-- Slide 10: Sentencias de Control -->
       <section>
