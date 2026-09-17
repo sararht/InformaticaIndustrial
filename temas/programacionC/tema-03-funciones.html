@@ -196,6 +196,19 @@
         </div>
       </section>
 
+            <section>
+        <h2>Declaración de una función</h2>
+        <div class="contents-box">
+          <p>El código de una función sólo depende de sí misma: recibe nombres generales para su identificador, parámetros y variables locales.</p>
+          <ul class="contents-list">
+            <li>Debe estar <strong>declarada antes</strong> de ser utilizada en el resto del programa.</li>
+            <li>Su estructura general es:<br><code>tipoRetorno nombreFuncion(tipo1 p1, tipo2 p2, ...)</code>.</li>
+            <li>Dentro de la función se usan solo sus parámetros y variables locales.</li>
+            <li><code>return</code> devuelve el resultado calculado.</li>
+          </ul>
+        </div>
+      </section>
+
       <section>
         <h2>Sintaxis básica</h2>
         <div class="syntax-layout">
@@ -245,18 +258,7 @@ int main(void) {
         </div>
       </section>
 
-      <section>
-        <h2>Declaración de una función</h2>
-        <div class="contents-box">
-          <p>El código de una función sólo depende de sí misma: recibe nombres generales para su identificador, parámetros y variables locales.</p>
-          <ul class="contents-list">
-            <li>Debe estar <strong>declarada antes</strong> de ser utilizada en el resto del programa.</li>
-            <li>Su estructura general es:<br><code>tipoRetorno nombreFuncion(tipo1 p1, tipo2 p2, ...)</code>.</li>
-            <li>Dentro de la función se usan solo sus parámetros y variables locales.</li>
-            <li><code>return</code> devuelve el resultado calculado.</li>
-          </ul>
-        </div>
-      </section>
+
 
       <section>
         <h2>Tipos de retorno</h2>
@@ -417,6 +419,123 @@ int main(void) {
           </ul>
         </div>
       </section>
+
+      <!-- Slide: Funciones y estructuras -->
+      <section>
+        <h2>Funciones y estructuras</h2>
+
+        <div class="contents-box" style="font-size: 0.8em; text-align: left; padding: 12px 16px;">
+          
+          <p style="margin: 0 0 6px 0; font-weight: 500; color: #002B49;">
+            ▫ Las funciones pueden recibir y devolver valores de tipo estructura.
+          </p>
+
+          <ul style="list-style-type: '▪ '; margin: 0 0 10px 25px; padding: 0; line-height: 1.45; color: #334155;">
+            <li style="margin-bottom: 6px;">
+              Al igual que con el resto de tipos, se realiza una <strong>copia local</strong> para los parámetros y se copia en la variable destino el resultado.
+              <div style="font-size: 0.9em; color: #e11d48; margin-top: 2px;">
+                (En estructuras grandes, estas copias pueden ser muy lentas).
+              </div>
+            </li>
+            <li><strong>Ejemplo:</strong></li>
+          </ul>
+
+          <!-- Bloque de código C -->
+          <pre style="margin: 4px 0 0 25px; width: calc(100% - 25px); box-shadow: none; background: #0f172a; border-radius: 6px; padding: 10px 14px;"><code class="language-c" data-trim data-noescape style="font-size: 0.85em; line-height: 1.3; color: #f8fafc;">
+      struct complejo
+      {
+          float re, im;
+      };
+
+      struct complejo ProdComplejos(struct complejo a, struct complejo b)
+      // Calcula y devuelve a*b
+      {
+          struct complejo prod;
+          prod.re = a.re * b.re - a.im * b.im;
+          prod.im = a.re * b.im + a.im * b.re;
+          return prod;
+      }
+
+      ...
+      // En otra zona del programa (función llamante)
+      struct complejo uno_menos_j, uno_menos_j_cuadrado;
+      uno_menos_j.re = 1;  uno_menos_j.im = -1;
+      uno_menos_j_cuadrado = ProdComplejos(uno_menos_j, uno_menos_j);
+          </code></pre>
+
+        </div>
+      </section>
+
+
+
+      <!-- Slide: Ejercicios Propuestos - Funciones -->
+<section>
+  <h2>Ejercicios Propuestos</h2>
+
+  <div class="syntax-layout" style="display: block; width: 100%;">
+    <div class="syntax-code-card" style="width: 100%; box-sizing: border-box; text-align: left; padding: 10px 14px; background: #ffffff; border: 1px solid #cbd5e1;">
+      
+      <p style="font-size: 0.75em; margin: 0 0 8px 0; color: #002B49; font-weight: bold;">
+        Realizar utilizando funciones (cada ejercicio utilizará funciones realizadas en los anteriores):
+      </p>
+
+      <ol class="contents-list" style="font-size: 0.70em; line-height: 1.35; margin: 0; padding-left: 20px; color: #0f172a;">
+        <li style="margin-bottom: 6px;">
+          Calcular el máximo común divisor (MCD) de 2 enteros mediante el algoritmo de Euclides (https://es.wikipedia.org/wiki/Algoritmo_de_Euclides).
+        </li>
+
+        <li style="margin-bottom: 6px;">
+          Calcular el mínimo común múltiplo (MCM) de 2 enteros:
+          <span style="font-family: monospace; font-weight: bold; background: #f8fafc; padding: 1px 6px; border-radius: 4px; border: 1px solid #cbd5e1; color: #0284c7; margin-left: 4px;">
+            mcm(a, b) = (a · b) / mcd(a, b)
+          </span>
+        </li>
+
+        <li style="margin-bottom: 6px;">
+          Se divide una misma longitud utilizando 3 escalas (A cada 12 m, B cada 18 m, C cada 30 m):
+          <div style="font-size: 0.95em; color: #334155; margin: 2px 0 4px 0;">
+            ¿En qué punto después del origen coincidirán por 1ª vez las marcas de las 3 escalas?
+          </div>
+          <div style="font-family: monospace; font-weight: bold; background: #f8fafc; padding: 1px 6px; border-radius: 4px; border: 1px solid #cbd5e1; color: #0284c7; display: inline-block;">
+            mcm(a, b, c) = mcm(mcm(a, b), c)
+          </div>
+        </li>
+
+        <li>
+          ¿Cuál es el área del círculo cuyo centro es la primera coincidencia de las escalas A y B (36), y que pasa por la primera coincidencia de las 3 escalas (90)?
+        </li>
+      </ol>
+
+      <!-- Esquema ilustrativo de las 3 escalas -->
+      <div style="margin-top: 10px; padding: 8px; background: #0f172a; border-radius: 6px; border: 1px solid #1e293b;">
+        <small style="display: block; color: #94a3b8; font-size: 0.65em; font-weight: bold; text-align: center; margin-bottom: 4px;">
+          Coincidencia periódica de marcas (Escalas de medición)
+        </small>
+        
+        <div style="display: flex; flex-direction: column; gap: 3px; font-family: monospace; font-size: 0.62em; text-align: center;">
+          <!-- Escala A -->
+          <div style="display: flex; align-items: center; background: #0f766e; color: #ffffff; border-radius: 3px; padding: 2px 6px;">
+            <span style="flex: 1; text-align: left; font-weight: bold;">Escala A (12m):</span>
+            <span style="flex: 4; letter-spacing: 2px;">0...12...24...36...48...60...72...84...<strong style="color: #fde047; background: #042f2e; padding: 0 4px; border-radius: 2px;">90</strong></span>
+          </div>
+          <!-- Escala B -->
+          <div style="display: flex; align-items: center; background: #0f766e; color: #ffffff; border-radius: 3px; padding: 2px 6px;">
+            <span style="flex: 1; text-align: left; font-weight: bold;">Escala B (18m):</span>
+            <span style="flex: 4; letter-spacing: 2px;">0......18.....36.......54......72......<strong style="color: #fde047; background: #042f2e; padding: 0 4px; border-radius: 2px;">90</strong></span>
+          </div>
+          <!-- Escala C -->
+          <div style="display: flex; align-items: center; background: #0f766e; color: #ffffff; border-radius: 3px; padding: 2px 6px;">
+            <span style="flex: 1; text-align: left; font-weight: bold;">Escala C (30m):</span>
+            <span style="flex: 4; letter-spacing: 2px;">0...........30............60...........<strong style="color: #fde047; background: #042f2e; padding: 0 4px; border-radius: 2px;">90</strong></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
 
       <section>
         <h2>Resumen</h2>

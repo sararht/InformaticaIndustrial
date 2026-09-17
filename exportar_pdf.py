@@ -3,45 +3,44 @@ import asyncio
 from playwright.async_api import async_playwright
 
 async def exportar_presentacion_pdf():
-    # 1. Definir rutas relativas/absolutas del proyecto
-    rel_html_path = os.path.join("temas", "programacionC", "tema-01-computadoryC.html")
-    rel_pdf_path = os.path.join("temas", "programacionC", "tema-01-computadoryC.pdf")
+    # Ruta relativa al archivo HTML
+    rel_html_path = os.path.join("temas", "programacionC", "tema-03-funciones.html")
+    rel_pdf_path = os.path.join("temas", "programacionC", "tema-03-funciones.pdf")
     
     abs_html_path = os.path.abspath(rel_html_path)
     abs_pdf_path = os.path.abspath(rel_pdf_path)
 
-    # Verificar existencia del HTML
     if not os.path.exists(abs_html_path):
         print(f"❌ ERROR: No se encontró el archivo HTML en: {abs_html_path}")
         return
 
-    # URL local con parámetro de impresión nativo de Reveal.js
+    # Parámetro de impresión de Reveal.js
     file_url = f"file://{abs_html_path}?print-pdf"
 
     async with async_playwright() as p:
         print("🚀 Iniciando navegador en segundo plano...")
-        # Lanza Chromium local
         browser = await p.chromium.launch()
         context = await browser.new_context(
             viewport={"width": 1920, "height": 1080},
-            device_scale_factor=2  # Mayor nitidez tipográfica en PDF
+            device_scale_factor=2
         )
         page = await context.new_page()
 
-        print(f"📄 Cargando presentación y hoja CSS (`css/uniovi-theme.css`):")
+        print(f"📄 Cargando presentación:")
         print(f"   {file_url}")
         
-        await page.goto(file_url, wait_until="networkidle")
+        # CAMBIO CLAVE 1: wait_until="load" y timeout aumentado a 60s
+        await page.goto(file_url, wait_until="load", timeout=60000)
 
-        # Tiempo de espera para la renderización de Reveal.js, Highlight.js y math.h
-        await asyncio.sleep(2.5)
+        # CAMBIO CLAVE 2: Dar tiempo a que cdnjs cargue los scripts de Reveal/Highlight
+        await page.wait_for_timeout(3000)
 
-        print("🖨️  Generando PDF con gráficos de fondo y CSS cargado...")
+        print("🖨️  Generando PDF...")
         await page.pdf(
             path=abs_pdf_path,
             format="A4",
             landscape=True,
-            print_background=True,  # OBLIGATORIO: Conserva los colores de uniovi-theme.css
+            print_background=True,  # Conserva estilos, fondos oscuros y tarjetas
             margin={"top": "0px", "right": "0px", "bottom": "0px", "left": "0px"}
         )
 
