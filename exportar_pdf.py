@@ -4,8 +4,8 @@ from playwright.async_api import async_playwright
 
 async def exportar_presentacion_pdf():
     # Ruta relativa al archivo HTML
-    rel_html_path = os.path.join("temas", "programacionC", "tema-03-funciones.html")
-    rel_pdf_path = os.path.join("temas", "programacionC", "tema-03-funciones.pdf")
+    rel_html_path = os.path.join("temas", "control", "Intro_control.html")
+    rel_pdf_path = os.path.join("temas", "control", "Intro_control.pdf")
     
     abs_html_path = os.path.abspath(rel_html_path)
     abs_pdf_path = os.path.abspath(rel_pdf_path)
@@ -30,7 +30,7 @@ async def exportar_presentacion_pdf():
         print(f"   {file_url}")
         
         # CAMBIO CLAVE 1: wait_until="load" y timeout aumentado a 60s
-        await page.goto(file_url, wait_until="load", timeout=60000)
+        await page.goto(file_url, wait_until="load", timeout=600000)
 
         # CAMBIO CLAVE 2: Dar tiempo a que cdnjs cargue los scripts de Reveal/Highlight
         await page.wait_for_timeout(3000)

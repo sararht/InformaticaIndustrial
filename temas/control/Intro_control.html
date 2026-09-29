@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Introducción al Control por Computador</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css">
+  <link rel="stylesheet" href="../../css/uniovi-theme.css">
+  <style>
+    .syntax-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: start;
+      margin-top: 0.8rem;
+    }
+
+    .syntax-code-card {
+      background: #f8fbff;
+      border: 1px solid #d8e4fa;
+      border-radius: 16px;
+      padding: 10px;
+      box-shadow: 0 8px 20px rgba(17, 36, 77, 0.08);
+    }
+
+    .syntax-legend {
+      display: grid;
+      gap: 10px;
+    }
+
+    .syntax-chip {
+      background: #f7faff;
+      border: 1px solid #cfdcf3;
+      border-radius: 12px;
+      padding: 10px 12px;
+      text-align: left;
+      box-shadow: 0 4px 12px rgba(13, 35, 76, 0.07);
+    }
+
+    .syntax-chip strong {
+      display: block;
+      color: #1d3f7a;
+      font-size: 0.9em;
+      margin-bottom: 4px;
+    }
+
+    .syntax-chip small {
+      color: #4b617f;
+      font-size: 0.72em;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.65em;
+      margin-top: 0.8rem;
+    }
+
+    .data-table th, .data-table td {
+      border: 1px solid #c7d7f5;
+      padding: 6px 10px;
+      text-align: center;
+    }
+
+    .data-table th {
+      background-color: #1d3f7a;
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    .data-table tr:nth-child(even) {
+      background-color: #f3f7ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- SLIDE 1: Portada -->
+      <section>
+        <h1>Introducción al Control por Computador</h1>
+        <p class="subtitle">Informática Industrial y Comunicaciones</p>
+        <p class="subtitle subtitle-small">Ingeniería de Sistemas y Automática — Universidad de Oviedo</p>
+
+        <div style="text-align: center; margin-top: 20px;">
+          <img src="../../assets/img/tema0/logoUniovi.png" alt="Logo Universidad de Oviedo" style="max-height: 90px; width: auto; background: transparent; border: none; box-shadow: none;">
+        </div>
+      </section>
+
+      <!-- SLIDE 2: Índice -->
+      <section>
+        <h2>Índice de Contenidos</h2>
+        <div class="contents-box">
+          <ol class="contents-list">
+            <li>El Control de Procesos por Computador: Proceso, entradas y salidas</li>
+            <li>Variables del lazo de control y operación en tiempo real</li>
+            <li>Elementos de un equipo de control (Sensores, Actuadores y HMI)</li>
+            <li>Arquitecturas de computadores empleados en control</li>
+            <li>Niveles de Control: Control secuencial vs. Lazo de regulación</li>
+            <li>Ejemplo integrado: Sistema de transporte y posicionamiento</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: El Control de Procesos -->
+      <section>
+        <h2>El Control de Procesos</h2>
+        <div class="contents-box">
+          <p>Un <strong>sistema o proceso</strong> es un conjunto de elementos físicos que cumplen un cometido común:</p>
+          <ul class="contents-list" style="font-weight: normal;">
+            <li><strong>Salidas:</strong> Variables medibles del sistema cuyo comportamiento se desea controlar (ej. temperatura, velocidad, posición).</li>
+            <li><strong>Entradas:</strong> Acciones que se pueden realizar sobre el sistema para modificar el valor de las salidas.</li>
+          </ul>
+        </div>
+
+              <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
+        <img src="../../assets/img/control/ej_sist_control.png" alt="Esquema del Computador para Control" style="max-width: 85%; max-height: 420px; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(17, 36, 77, 0.1);">
+      </div>
+
+      </section>
+
+      <!-- SLIDE 4: Variables del Lazo de Control -->
+      <section>
+        <h2>Variables del Lazo de Control</h2>
+        <div class="contents-box" style="font-size: 0.8em;">
+        <p>En un lazo de control cerrado, el computador opera en tiempo real calculando dinámicamente las siguientes variables:</p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 10px 0;">
+            <div class="syntax-chip">
+            <strong>Consigna / Referencia (<i>r</i>)</strong>
+            <small>Valor deseado para la variable de salida en cada instante.</small>
+            </div>
+            <div class="syntax-chip">
+            <strong>Error (<i>e</i>)</strong>
+            <small>Diferencia entre lo deseado y lo medido: <span style="font-family: monospace; font-weight: bold; color: #0284c7;"><i>e</i> = <i>r</i> − <i>y</i></span>.</small>
+            </div>
+            <div class="syntax-chip">
+            <strong>Acción de Control (<i>u</i>)</strong>
+            <small>Señal calculada enviada al accionador para reducir el error.</small>
+            </div>
+        </div>
+        </div>
+
+        <!-- Diagrama del Lazo Cerrado en Terminal Oscura -->
+        <!-- Contenedor centrado para la imagen -->
+      <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
+        <img src="../../assets/img/control/sist_control.png" alt="Esquema del Computador para Control" style="max-width: 85%; max-height: 420px; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(17, 36, 77, 0.1);">
+      </div>
+
+      <!-- Nota aclaratoria sobre la evolución temporal -->
+        <div style="background: #f8fafc; border-left: 4px solid #0284c7; border: 1px solid #cbd5e1; border-left-width: 4px; padding: 6px 12px; border-radius: 4px; margin-top: 10px; font-size: 0.68em; color: #334155; text-align: left;">
+          <strong style="color: #0f172a;">Nota:</strong> Todas las variables evolucionan en el tiempo.
+        </div>
+      </section>
+
+
+            <!-- SLIDE 4: Variables del Lazo de Control -->
+
+      
+
+<!-- Slide: Elementos de un Equipo de Control -->
+<section>
+  <h2>Elementos de un equipo de control</h2>
+
+  <div class="syntax-layout" style="display: flex; gap: 14px; align-items: stretch; width: 100%; box-sizing: border-box;">
+    
+    <!-- COLUMNA IZQUIERDA: Diagrama / Esquema -->
+    <div class="syntax-code-card" style="flex: 1; text-align: center; padding: 10px; background: #ffffff; border: 1px solid #cbd5e1; box-sizing: border-box; display: flex; align-items: center; justify-content: center;">
+      <img src="../../assets/img/control/el_sist_control.png" 
+           alt="Esquema de Elementos de un Equipo de Control" 
+           style="max-width: 98%; max-height: 360px; height: auto; border-radius: 6px; object-fit: contain;">
+    </div>
+
+    <!-- COLUMNA DERECHA: Desglose compacto corregido para la exportación PDF -->
+    <div class="syntax-code-card" style="flex: 1.15; text-align: left; padding: 10px 14px; background: #ffffff; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      
+      <ul style="list-style-type: '▪ '; margin: 0; padding-left: 16px; font-size: 0.60em; line-height: 1.30; color: #002B49;">
+        
+        <li style="margin-bottom: 4px;">
+          <strong>Computador:</strong>
+          <ul style="list-style-type: '▫ '; margin: 1px 0 0 12px; padding: 0; color: #334155;">
+            <li>El "cerebro" del control.</li>
+            <li>Programa y datos alojados en memoria.</li>
+          </ul>
+        </li>
+
+        <li style="margin-bottom: 4px;">
+          <strong>Sensores:</strong>
+          <ul style="list-style-type: '▫ '; margin: 1px 0 0 12px; padding: 0; color: #334155;">
+            <li>Dan al computador información del estado de los sistemas, midiendo sus salidas.</li>
+          </ul>
+        </li>
+
+        <li style="margin-bottom: 4px;">
+          <strong>Accionadores:</strong>
+          <ul style="list-style-type: '▫ '; margin: 1px 0 0 12px; padding: 0; color: #334155;">
+            <li>Permiten al computador generar cambios sobre los sistemas, modulando la energía entregada por fuentes externas.</li>
+          </ul>
+        </li>
+
+        <li style="margin-bottom: 4px;">
+          <strong>Interfaz operador:</strong>
+          <ul style="list-style-type: '▫ '; margin: 1px 0 0 12px; padding: 0; color: #334155;">
+            <li>Panel(es) que permite(n) al humano intervenir en el control, generando órdenes y recibiendo información.</li>
+          </ul>
+        </li>
+
+        <li style="margin-bottom: 4px;">
+          <strong>Comunicaciones:</strong>
+          <ul style="list-style-type: '▫ '; margin: 1px 0 0 12px; padding: 0; color: #334155;">
+            <li>Interconexión con otros computadores para intercambio de información y comandos.</li>
+          </ul>
+        </li>
+
+        <li style="margin-bottom: 4px;">
+          <strong>Almacenamiento:</strong>
+          <ul style="list-style-type: '▫ '; margin: 1px 0 0 12px; padding: 0; color: #334155;">
+            <li>De configuraciones y resultados.</li>
+          </ul>
+        </li>
+
+        <li style="margin-bottom: 0;">
+          <strong>Control manual:</strong>
+          <ul style="list-style-type: '▫ '; margin: 1px 0 0 12px; padding: 0; color: #334155;">
+            <li>Reemplaza las salidas del computador en caso de error o alarma.</li>
+          </ul>
+        </li>
+
+      </ul>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- Slide: Computadores para control -->
+<section>
+  <h2>Computadores para control</h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 10px; width: 100%; align-items: center;">
+    
+    <!-- BLOQUE SUPERIOR: Texto y viñetas explicativas -->
+    <div class="syntax-code-card" style="width: 100%; text-align: left; padding: 10px 14px; background: #ffffff; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      
+      <p style="margin: 0 0 6px 0; font-weight: bold; color: #002B49; font-size: 0.82em;">
+        El computador es capaz de:
+      </p>
+
+      <ul style="list-style-type: '▪ '; margin: 0; padding-left: 18px; font-size: 0.68em; line-height: 1.4; color: #334155;">
+        <li style="margin-bottom: 4px;">
+          Aceptar información digital procedente del exterior a través de sus entradas.
+        </li>
+        <li style="margin-bottom: 4px;">
+          Almacenar la información (datos) en su memoria (variables).
+        </li>
+        <li style="margin-bottom: 4px;">
+          Procesar los datos de acuerdo a un programa (secuencia de instrucciones sencillas) instalado en su memoria.
+        </li>
+        <li style="margin-bottom: 0;">
+          Generar comandos hacia el exterior a través de sus salidas.
+        </li>
+      </ul>
+
+    </div>
+
+    <!-- BLOQUE INFERIOR: Esquema visual del Computador (Imagen centrada) -->
+    <div class="syntax-code-card" style="width: 100%; text-align: center; padding: 8px; background: #ffffff; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      <img src="../../assets/img/control/ej_comp_control.png" alt="Esquema del computador para control" style="max-width: 90%; max-height: 250px; height: auto; border-radius: 6px;">
+    </div>
+
+    <div style="background: #f8fafc; border-left: 3px solid #0284c7; border: 1px solid #cbd5e1; border-left-width: 3px; padding: 4px 10px; margin-top: 8px; font-size: 0.65em; color: #334155; text-align: left; border-radius: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+            <strong style="color: #0f172a;">Ejemplos:</strong> Microcontroladores, DSP, Sistemas Embebidos / FPGAs, PLCs, PCs Industriales.
+          </div>
+
+  </div>
+</section>
+
+
+<!-- Slide: Sensores -->
+<section>
+  <h2>Sensores</h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+    
+    <!-- BLOQUE SUPERIOR: Definición y Clasificaciones (Sin marco envolvente) -->
+    <div style="width: 100%; text-align: left; padding: 4px 0; box-sizing: border-box;">
+      
+      <!-- Definición -->
+      <p style="margin: 0 0 6px 0; font-weight: bold; color: #002B49; font-size: 0.78em;">
+        ▫ Convierten magnitudes físicas en valores de pequeña tensión/corriente.
+      </p>
+
+      <!-- Clasificaciones -->
+      <p style="margin: 0 0 4px 0; font-weight: bold; color: #002B49; font-size: 0.78em;">
+        ▫ Clasificaciones:
+      </p>
+
+      <!-- Grid de 2 columnas para clasificaciones -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-left: 16px; margin-bottom: 6px;">
+        
+        <!-- Columna 1: Según la magnitud medida -->
+        <div>
+          <strong style="color: #002B49; font-size: 0.70em; display: block; margin-bottom: 2px;">
+            ▪ Según la magnitud medida:
+          </strong>
+          <ul style="list-style-type: '▫ '; margin: 0 0 0 14px; padding: 0; font-size: 0.65em; line-height: 1.35; color: #334155;">
+            <li>De posición (lineal/angular)</li>
+            <li>De velocidad (lineal/angular)</li>
+            <li>De temperatura</li>
+            <li>De presión</li>
+            <li>De presencia</li>
+            <li>...</li>
+          </ul>
+        </div>
+
+        <!-- Columna 2: Según el formato del valor entregado -->
+        <div>
+          <strong style="color: #002B49; font-size: 0.70em; display: block; margin-bottom: 2px;">
+            ▪ Según el formato del valor entregado:
+          </strong>
+          <ul style="list-style-type: '▫ '; margin: 0 0 0 14px; padding: 0; font-size: 0.65em; line-height: 1.35; color: #334155;">
+            <li>Analógicos</li>
+            <li>Digitales todo/nada</li>
+            <li>De tren de pulsos</li>
+            <li>Numéricos</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Obtención del valor medido -->
+      <p style="margin: 0; font-weight: bold; color: #002B49; font-size: 0.78em;">
+        ▫ Para obtener el valor medido:
+      </p>
+
+    </div>
+
+    <!-- BLOQUE INFERIOR: Esquema/Imagen centrada -->
+    <div class="syntax-code-card" style="width: 100%; text-align: center; padding: 8px; background: #ffffff; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      <img src="../../assets/img/control/flujo_sensor.png" alt="Esquema del computador para control" style="max-width: 90%; max-height: 250px; height: auto; border-radius: 6px;">
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <h2>Accionadores</h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+    
+    <!-- BLOQUE SUPERIOR: Definición y Clasificaciones (Sin marco envolvente) -->
+    <div style="width: 100%; text-align: left; padding: 4px 0; box-sizing: border-box;">
+      
+      <!-- Definición -->
+      <p style="margin: 0 0 6px 0; font-weight: bold; color: #002B49; font-size: 0.78em;">
+        ▫ Permiten el comando del sistema mediante la energía procedente de una fuente externa, modulada por un valor de pequeña tensión/corriente.
+      </p>
+
+      <!-- Clasificaciones -->
+      <p style="margin: 0 0 4px 0; font-weight: bold; color: #002B49; font-size: 0.78em;">
+        ▫ Clasificaciones:
+      </p>
+
+      <!-- Grid de 3 columnas para las clasificaciones de accionadores -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-left: 16px; margin-bottom: 6px;">
+        
+        <!-- Columna 1: Según la energía -->
+        <div>
+          <strong style="color: #002B49; font-size: 0.70em; display: block; margin-bottom: 2px;">
+            ▪ Según la energía:
+          </strong>
+          <ul style="list-style-type: '▫ '; margin: 0 0 0 14px; padding: 0; font-size: 0.65em; line-height: 1.35; color: #334155;">
+            <li>Eléctricos</li>
+            <li>Neumáticos</li>
+            <li>Hidráulicos</li>
+            <li>...</li>
+          </ul>
+        </div>
+
+        <!-- Columna 2: Según la acción -->
+        <div>
+          <strong style="color: #002B49; font-size: 0.70em; display: block; margin-bottom: 2px;">
+            ▪ Según la acción:
+          </strong>
+          <ul style="list-style-type: '▫ '; margin: 0 0 0 14px; padding: 0; font-size: 0.65em; line-height: 1.35; color: #334155;">
+            <li>Desplazamiento</li>
+            <li>Giro</li>
+            <li>Calentamiento</li>
+            <li>Compresión</li>
+            <li>...</li>
+          </ul>
+        </div>
+
+        <!-- Columna 3: Según la modulación -->
+        <div>
+          <strong style="color: #002B49; font-size: 0.70em; display: block; margin-bottom: 2px;">
+            ▪ Según la modulación:
+          </strong>
+          <ul style="list-style-type: '▫ '; margin: 0 0 0 14px; padding: 0; font-size: 0.65em; line-height: 1.35; color: #334155;">
+            <li>Analógicos</li>
+            <li>Digitales todo/nada</li>
+            <li>PWM</li>
+            <li>Numéricos</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Para entregar la energía deseada -->
+      <p style="margin: 0; font-weight: bold; color: #002B49; font-size: 0.78em;">
+        ▫ Para entregar la energía deseada:
+      </p>
+
+    </div>
+
+    <!-- BLOQUE INFERIOR: Esquema/Imagen centrada -->
+    <div class="syntax-code-card" style="width: 100%; text-align: center; padding: 8px; background: #ffffff; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      <img src="../../assets/img/control/flujo_actuador.png" alt="Esquema del flujo de energía y accionadores" style="max-width: 90%; max-height: 250px; height: auto; border-radius: 6px;">
+    </div>
+
+  </div>
+</section>
+
+
+<!-- Slide: Interfaz con el operador -->
+<section>
+  <h2>Interfaz con el operador</h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+    
+    <!-- BLOQUE SUPERIOR: Dispositivos de Entrada y Salida de la Interfaz Humana -->
+    <div style="width: 100%; text-align: left; padding: 4px 0; box-sizing: border-box;">
+      
+      <!-- Grid de 2 columnas para Entrada / Salida humana -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 4px;">
+        
+        <!-- Columna 1: Dispositivos de Salida -->
+        <div class="syntax-code-card" style="background: #ffffff; border: 1px solid #cbd5e1; padding: 10px 14px; box-sizing: border-box;">
+          <strong style="color: #002B49; font-size: 0.74em; display: block; margin-bottom: 4px;">
+            ▪ Dispositivos salida interfaz humana:
+          </strong>
+          <ul style="list-style-type: '▫ '; margin: 0 0 0 14px; padding: 0; font-size: 0.66em; line-height: 1.4; color: #334155;">
+            <li>Indicador luminoso (LED)</li>
+            <li>Display (7 segmentos, LCD,...)</li>
+            <li>Pantalla (texto/gráficos)</li>
+            <li>Impresora</li>
+            <li>...</li>
+          </ul>
+        </div>
+
+        <!-- Columna 2: Dispositivos de Entrada -->
+        <div class="syntax-code-card" style="background: #ffffff; border: 1px solid #cbd5e1; padding: 10px 14px; box-sizing: border-box;">
+          <strong style="color: #002B49; font-size: 0.74em; display: block; margin-bottom: 4px;">
+            ▪ Dispositivos entrada interfaz humana:
+          </strong>
+          <ul style="list-style-type: '▫ '; margin: 0 0 0 14px; padding: 0; font-size: 0.66em; line-height: 1.4; color: #334155;">
+            <li>Botón / pulsador</li>
+            <li>Selector rotativo</li>
+            <li>Teclado</li>
+            <li>Ratón / Puntero / Joystick</li>
+            <li>...</li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- BLOQUE INFERIOR: Espacio para una ÚNICA Imagen Grande -->
+    <div class="syntax-code-card" style="width: 100%; text-align: center; padding: 8px; background: #ffffff; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      <img src="../../assets/img/control/interfaz.png" alt="Interfaz con el Operador" style="max-width: 95%; max-height: 270px; height: auto; border-radius: 6px;">
+    </div>
+
+  </div>
+</section>
+
+<!-- Slide: Comunicaciones -->
+<section>
+  <h2>Comunicaciones</h2>
+
+  <div class="syntax-layout" style="display: flex; gap: 14px; width: 100%; align-items: stretch;">
+    
+    <!-- RECUADRO 1: Punto a punto (Texto, Descripción e Imagen) -->
+    <div class="syntax-code-card" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 12px 14px; background: #ffffff; border: 1px solid #cbd5e1; box-sizing: border-box; text-align: left;">
+      <div>
+        <strong style="color: #002B49; font-size: 0.82em; display: block; margin-bottom: 4px;">
+          ▫ Punto a punto:
+        </strong>
+        <!-- Línea descriptiva -->
+        <p style="margin: 0 0 8px 0; font-size: 0.65em; color: #475569; font-style: italic; line-height: 1.3;">
+          Enlace exclusivo y dedicado para la transferencia de datos entre dos únicos dispositivos.
+        </p>
+        
+        <ul style="list-style-type: '▪ '; margin: 0 0 10px 16px; padding: 0; font-size: 0.68em; line-height: 1.4; color: #334155;">
+          <li style="margin-bottom: 3px;">Serie (RS-232, USB)</li>
+          <li style="margin-bottom: 3px;">Paralelo</li>
+          <li style="margin-bottom: 0;">Inalámbrica (Bluetooth)</li>
+        </ul>
+      </div>
+
+      <!-- Imagen Punto a punto -->
+      <div style="width: 100%; text-align: center; display: flex; align-items: center; justify-content: center; margin-top: 6px; padding-top: 6px; border-top: 1px dashed #cbd5e1; flex: 1;">
+        <img src="../../assets/img/control/com_punto_punto.png" alt="Esquema de comunicaciones punto a punto" style="max-width: 98%; max-height: 220px; height: auto; border-radius: 4px; object-fit: contain;">
+      </div>
+    </div>
+
+    <!-- RECUADRO 2: Multipunto (Texto, Descripción e Imagen Agrandada) -->
+    <div class="syntax-code-card" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 12px 14px; background: #ffffff; border: 1px solid #cbd5e1; box-sizing: border-box; text-align: left;">
+      <div>
+        <strong style="color: #002B49; font-size: 0.82em; display: block; margin-bottom: 4px;">
+          ▫ Multipunto:
+        </strong>
+        <!-- Línea descriptiva -->
+        <p style="margin: 0 0 8px 0; font-size: 0.65em; color: #475569; font-style: italic; line-height: 1.3;">
+          Canal compartido que permite interconectar y comunicar múltiples nodos o equipos simultáneamente.
+        </p>
+
+        <ul style="list-style-type: '▪ '; margin: 0 0 10px 16px; padding: 0; font-size: 0.68em; line-height: 1.4; color: #334155;">
+          <li style="margin-bottom: 3px;">Serie (I2C, CAN, RS-485)</li>
+          <li style="margin-bottom: 3px;">Red (Ethernet)</li>
+          <li style="margin-bottom: 0;">Inalámbrica (Wifi)</li>
+        </ul>
+      </div>
+
+      <!-- Imagen Multipunto Agrandada -->
+      <div style="width: 100%; text-align: center; display: flex; align-items: center; justify-content: center; margin-top: 6px; padding-top: 6px; border-top: 1px dashed #cbd5e1; flex: 1;">
+        <img src="../../assets/img/control/multipunto.png" alt="Esquema de comunicaciones multipunto" style="max-width: 100%; max-height: 235px; height: auto; border-radius: 4px; object-fit: contain;">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+      <!-- SLIDE 7: Niveles de Control -->
+  
+<!-- Slide: Niveles de control -->
+<section>
+  <h2>Niveles de control</h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+    
+    <!-- TARJETA 1: Control Secuencial -->
+    <div class="syntax-code-card" style="width: 100%; text-align: left; padding: 10px 14px; background: #ffffff; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      
+      <p style="margin: 0 0 6px 0; font-weight: bold; color: #002B49; font-size: 0.82em;">
+        Control secuencial:
+      </p>
+
+      <ul style="list-style-type: '▪ '; margin: 0 0 0 18px; padding: 0; font-size: 0.68em; line-height: 1.45; color: #334155;">
+        <li style="margin-bottom: 4px;">
+          Genera la secuencia de acontecimientos deseada.
+        </li>
+        <li style="margin-bottom: 4px;">
+          Determina los valores deseados (consignas) de las variables a controlar.
+        </li>
+        <li style="margin-bottom: 4px;">
+          Diagrama de estados / transiciones.
+        </li>
+        <li style="margin-bottom: 0;">
+          Cambio de estados por:
+          <ul style="list-style-type: '▫ '; margin: 4px 0 0 16px; padding: 0; font-size: 0.95em; color: #475569;">
+            <li style="margin-bottom: 2px;">Tiempo máximo</li>
+            <li style="margin-bottom: 2px;">Combinación de valores de entradas u otras variables</li>
+            <li style="margin-bottom: 0;">Acciones del operador o de otros computadores</li>
+          </ul>
+        </li>
+      </ul>
+
+    </div>
+
+    <!-- TARJETA 2: Lazo de Control -->
+    <div class="syntax-code-card" style="width: 100%; text-align: left; padding: 10px 14px; background: #ffffff; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      
+      <p style="margin: 0 0 6px 0; font-weight: bold; color: #002B49; font-size: 0.82em;">
+        Lazo de control:
+      </p>
+
+      <ul style="list-style-type: '▪ '; margin: 0 0 0 18px; padding: 0; font-size: 0.68em; line-height: 1.45; color: #334155;">
+        <li style="margin-bottom: 4px;">
+          Asegura que las variables a controlar alcancen el valor de sus consignas con precisión y velocidad.
+          <ul style="list-style-type: '▫ '; margin: 4px 0 0 16px; padding: 0; font-size: 0.95em; color: #475569;">
+            <li style="margin-bottom: 2px;">Obtiene medida de la variable a controlar.</li>
+            <li style="margin-bottom: 2px;">
+              Calcula <strong>error = consigna - variable a controlar</strong>.
+            </li>
+            <li style="margin-bottom: 0;">
+              Modifica la <strong>acción de control</strong> para que el <strong>error</strong> tienda a cero.
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+    </div>
+
+  </div>
+</section>
+      
+
+<!-- SLIDE 8: Ejemplo Integrado - Carretilla Industrial -->
+      <section>
+        <h2>Ejemplo Integrado: Carretilla Industrial</h2>
+        <div style="width: 100%; text-align: center; display: flex; align-items: center; justify-content: center; margin-top: 6px; padding-top: 6px; flex: 1;">
+          <img src="../../assets/img/control/carretilla.jpeg" alt="Ejemplo Carretilla" style="max-width: 100%; max-height: 100%; height: auto; border-radius: 4px; object-fit: contain;">
+        </div>
+      </section>
+
+<!-- Slide: Ejemplo: Control secuencial -->
+<section>
+  <h2>Niveles de control</h2>
+
+  <div class="syntax-layout" style="display: flex; gap: 14px; width: 100%; align-items: stretch;">
+    
+    <!-- COLUMNA IZQUIERDA: Descripción del Ciclo y Reglas de Control Secuencial -->
+    <div class="syntax-code-card" style="flex: 1.1; text-align: left; padding: 12px 14px; background: #ffffff; border: 1px solid #cbd5e1; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between;">
+      
+      <div>
+        <strong style="color: #002B49; font-size: 0.82em; display: block; margin-bottom: 6px;">
+          ▫ Ejemplo: Control secuencial
+        </strong>
+
+        <ul style="list-style-type: '▪ '; margin: 0 0 0 16px; padding: 0; font-size: 0.68em; line-height: 1.45; color: #334155;">
+          <li style="margin-bottom: 6px;">
+            Cuando se pulsa el botón ON, la carretilla debe repetir el ciclo siguiente:
+            <ul style="list-style-type: '▫ '; margin: 4px 0 0 14px; padding: 0; font-size: 0.95em; color: #475569;">
+              <li style="margin-bottom: 2px;">Moverse a la posición de carga</li>
+              <li style="margin-bottom: 2px;">Permanecer 5 seg</li>
+              <li style="margin-bottom: 2px;">Moverse a la posición de descarga</li>
+              <li style="margin-bottom: 0;">Permanecer 2 seg</li>
+            </ul>
+          </li>
+          <li style="margin-bottom: 6px;">
+            Si se alcanza el final de carrera mecánico, activar alarma y detener ciclo.
+          </li>
+          <li style="margin-bottom: 0;">
+            Si el operador pulsa el botón OFF, terminar último ciclo y no repetir.
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- COLUMNA DERECHA: Esquema Integrado de la Carretilla (Imagen carretilla.jpeg) -->
+    <div class="syntax-code-card" style="flex: 1.1; display: flex; align-items: center; justify-content: center; padding: 8px; background: #ffffff; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      <img src="../../assets/img/control/carretilla.jpeg" alt="Esquema de control de la carretilla industrial" style="max-width: 98%; max-height: 380px; height: auto; border-radius: 4px; object-fit: contain;">
+    </div>
+
+  </div>
+</section>
+
+
+<!-- Slide: Ejemplo: Lazo de control -->
+<section>
+  <h2>Niveles de control</h2>
+
+  <div class="syntax-layout" style="display: flex; gap: 14px; width: 100%; align-items: stretch;">
+    
+    <!-- COLUMNA IZQUIERDA: Descripción y Algoritmo del Lazo de Control -->
+    <div class="syntax-code-card" style="flex: 1.1; text-align: left; padding: 12px 14px; background: #ffffff; border: 1px solid #cbd5e1; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between;">
+      
+      <div>
+        <strong style="color: #002B49; font-size: 0.82em; display: block; margin-bottom: 6px;">
+          ▫ Ejemplo: Lazo de control
+        </strong>
+
+        <ul style="list-style-type: '▪ '; margin: 0 0 0 16px; padding: 0; font-size: 0.68em; line-height: 1.45; color: #334155;">
+          <li style="margin-bottom: 6px;">
+            Cuando ordena el movimiento de la carretilla a una posición, se debe alcanzar la misma con la precisión y velocidad requeridas.
+          </li>
+          <li style="margin-bottom: 0;">
+            Repetir hasta llegar al destino (consigna):
+            <ul style="list-style-type: '▫ '; margin: 4px 0 0 14px; padding: 0; font-size: 0.95em; color: #475569;">
+              <li style="margin-bottom: 2px;">Leer posición actual del sensor ultrasónico.</li>
+              <li style="margin-bottom: 2px;">
+                <strong>error = consigna − posición actual</strong>
+              </li>
+              <li style="margin-bottom: 2px;">Calcular aire a inyectar para reducir error a cero.</li>
+              <li style="margin-bottom: 0;">Abrir electro-válvula para inyectar el aire deseado.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- COLUMNA DERECHA: Esquema Integrado (Imagen carretilla.jpeg) -->
+    <div class="syntax-code-card" style="flex: 1.1; display: flex; align-items: center; justify-content: center; padding: 8px; background: #ffffff; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      <img src="../../assets/img/control/carretilla.jpeg" alt="Esquema del lazo de control de la carretilla" style="max-width: 98%; max-height: 380px; height: auto; border-radius: 4px; object-fit: contain;">
+    </div>
+
+  </div>
+</section>
+
+<!-- SLIDE: Divisoria / Portada de Sección -->
+<section style="text-align: center;">
+  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 420px; width: 100%;">
+    <span class="badge" style="font-size: 0.85em; padding: 6px 16px; margin-bottom: 18px;">
+      Introducción al Control
+    </span>
+    <h1 style="font-size: 2.1em; line-height: 1.25; max-width: 85%; margin: 0 auto; color: #002B49; font-weight: bold;">
+      Conceptos básicos para programación de control
+    </h1>
+  </div>
+</section>
+
+<!-- Slide: Variables continuas y discretas -->
+<section>
+  <h2>Variables continuas y discretas</h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+    
+    <!-- BLOQUE SUPERIOR: Puntos explicativos (Sin marco exterior) -->
+    <div style="width: 100%; text-align: left; padding: 4px 0; box-sizing: border-box;">
+      
+      <ul style="list-style-type: '▫ '; margin: 0 0 0 16px; padding: 0; font-size: 0.74em; line-height: 1.45; color: #334155;">
+        <li style="margin-bottom: 5px;">
+          En el mundo real, las variables son continuas y analógicas.
+        </li>
+        <li style="margin-bottom: 5px;">
+          En el computador, las variables son discretas y digitales.
+        </li>
+        <li style="margin-bottom: 5px;">
+          Se representa una señal analógica como <i>x</i>(<i>t</i>).
+        </li>
+        <li style="margin-bottom: 5px;">
+          Se representa una secuencia de valores discretos como {<i>x<sub>k</sub></i>}.
+        </li>
+        <li style="margin-bottom: 0;">
+          En el computador sólo se dispone de valores discretos, obtenidos en instantes separados <i>T<sub>m</sub></i> (periodo de muestreo).
+        </li>
+      </ul>
+
+    </div>
+    
+    <!-- BLOQUE INFERIOR: Gráfica / Esquema del Muestreo (Imagen var_discreta.png) -->
+    <div class="syntax-code-card" style="width: 100%; text-align: center; padding: 8px; background: #ffffff; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      <img src="../../assets/img/control/var_discreta.png" alt="Variables continuas y discretas en el muestreo por computador" style="max-width: 90%; max-height: 250px; height: auto; border-radius: 6px; object-fit: contain;">
+    </div>
+
+  </div>
+</section>
+
+
+<!-- Slide: Variables temporales discretas -->
+<section>
+  <h2>Variables temporales discretas</h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+    
+    <!-- BLOQUE 1: En el mundo real, el tiempo avanza... -->
+    <div style="width: 100%; text-align: left; padding: 2px 0; box-sizing: border-box;">
+      <p style="margin: 0 0 6px 0; font-weight: bold; color: #002B49; font-size: 0.78em;">
+        ▫ En el mundo real, el tiempo avanza...
+      </p>
+    </div>
+
+    <!-- Imagen 1: var_temp_disc1.png -->
+    <div class="syntax-code-card" style="width: 100%; text-align: center; padding: 6px; background: #ffffff; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      <img src="../../assets/img/control/var_temp_disc1.png" alt="Variables temporales discretas - Instante t" style="max-width: 92%; max-height: 180px; height: auto; border-radius: 4px; object-fit: contain;">
+    </div>
+
+    <!-- BLOQUE 2: Un instante Tm después... -->
+    <div style="width: 100%; text-align: left; padding: 2px 0; box-sizing: border-box; margin-top: 4px;">
+      <p style="margin: 0 0 6px 0; font-weight: bold; color: #002B49; font-size: 0.78em;">
+        ▫ Un instante <i>T<sub>m</sub></i> después:
+      </p>
+    </div>
+
+    <!-- Imagen 2: var_temp_disc2.png -->
+    <div class="syntax-code-card" style="width: 100%; text-align: center; padding: 6px; background: #ffffff; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      <img src="../../assets/img/control/var_temp_disc2.png" alt="Variables temporales discretas - Instante k+1" style="max-width: 92%; max-height: 100%px; height: auto; border-radius: 4px; object-fit: contain;">
+    </div>
+
+  </div>
+</section>
+
+<!-- Slide: Variables temporales discretas -->
+<section>
+  <h2>Variables temporales discretas</h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+    
+    <!-- BLOQUE 1: En el mundo real, el tiempo avanza... -->
+    <div style="width: 100%; text-align: left; padding: 2px 0; box-sizing: border-box;">
+      <p style="margin: 0 0 6px 0; font-weight: bold; color: #002B49; font-size: 0.78em;">
+        ▫ Desde el punto de vista del programa de control, consideramos siempre el momento actual como el instante k, el tiempo pasa bajo él…
+      </p>
+    </div>
+
+    <!-- Imagen 1: var_temp_disc1.png -->
+    <div class="syntax-code-card" style="width: 100%; text-align: center; padding: 6px; background: #ffffff; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      <img src="../../assets/img/control/var_temp_disc3.png" alt="Variables temporales discretas - Instante t" style="max-width: 92%; max-height: 180px; height: auto; border-radius: 4px; object-fit: contain;">
+    </div>
+
+    <!-- BLOQUE 2: Un instante Tm después... -->
+    <div style="width: 100%; text-align: left; padding: 2px 0; box-sizing: border-box; margin-top: 4px;">
+      <p style="margin: 0 0 6px 0; font-weight: bold; color: #002B49; font-size: 0.78em;">
+        ▫ Un instante <i>T<sub>m</sub></i> después:
+      </p>
+    </div>
+
+    <!-- Imagen 2: var_temp_disc2.png -->
+    <div class="syntax-code-card" style="width: 100%; text-align: center; padding: 6px; background: #ffffff; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      <img src="../../assets/img/control/var_temp_disc4.png" alt="Variables temporales discretas - Instante k+1" style="max-width: 92%; max-height: 180px; height: auto; border-radius: 4px; object-fit: contain;">
+    </div>
+
+  </div>
+</section>
+
+
+<!-- Slide: Programa básico de control (Fondo oscuro de alto contraste) -->
+<section>
+  <h2>Programa básico de control</h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+    
+    <!-- ENUNCIADO SUPERIOR (Sin marco envolvente) -->
+    <div style="width: 100%; text-align: left; padding: 2px 0; box-sizing: border-box;">
+      <p style="margin: 0 0 6px 0; font-weight: bold; color: #002B49; font-size: 0.82em;">
+        ▫ Un programa básico de control tendrá el aspecto siguiente:
+      </p>
+    </div>
+
+    <!-- TARJETA DEL CÓDIGO C CON FONDO OSCURO Y TEXTO DE ALTO CONTRASTE -->
+    <div class="syntax-code-card" style="width: 100%; text-align: left; padding: 14px 18px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; box-sizing: border-box;">
+      <pre style="margin: 0; width: 100%; box-shadow: none; background: transparent;"><code class="language-c" data-trim data-noescape style="font-size: 0.80em; line-height: 1.4; background: transparent; color: #f8fafc; font-family: monospace;">
+<span style="color: #f43f5e; font-weight: bold;">#include ...</span>
+
+<span style="color: #38bdf8; font-weight: bold;">int</span> <span style="color: #4ade80; font-weight: bold;">main</span>()
+{
+    <span style="color: #94a3b8; font-style: italic;">// Declaración de variables necesarias, al menos:</span>
+    <span style="color: #38bdf8;">float</span> ref_k;   <span style="color: #94a3b8; font-style: italic;">// Valor de la consigna actual (instante k)</span>
+    <span style="color: #38bdf8;">float</span> y_k;     <span style="color: #94a3b8; font-style: italic;">// Valor de la salida actual</span>
+    <span style="color: #38bdf8;">float</span> u_k;     <span style="color: #94a3b8; font-style: italic;">// Valor de la acción de control a aplicar</span>
+
+    <span style="color: #94a3b8; font-style: italic;">// Inicializaciones necesarias</span>
+    ...
+
+    <span style="color: #94a3b8; font-style: italic;">// Bucle de control</span>
+    <span style="color: #f43f5e; font-weight: bold;">while</span> (1)
+    {
+        ref_k = <span style="color: #fbbf24;">ValorDeLaReferencia</span>();      <span style="color: #94a3b8; font-style: italic;">// De operador, cálculo, medida, etc.</span>
+        y_k = <span style="color: #fbbf24;">ValorDeLaSalida</span>();            <span style="color: #94a3b8; font-style: italic;">// Medida mediante sensor</span>
+        u_k = <span style="color: #fbbf24;">CalculoAccionDeControl</span>(y_k, ref_k); <span style="color: #94a3b8; font-style: italic;">// Según algoritmo deseado</span>
+        <span style="color: #fbbf24;">AplicarAccionDeControl</span>(u_k);       <span style="color: #94a3b8; font-style: italic;">// Enviar a accionador</span>
+        <span style="color: #fbbf24;">Sleep</span>(Tm);                          <span style="color: #94a3b8; font-style: italic;">// No ejecutar código hasta el siguiente Tm</span>
+    }
+}
+      </code></pre>
+    </div>
+
+  </div>
+</section>
+
+<!-- Slide: Programa básico de control (Manejo de valores actuales y anteriores) -->
+<section>
+  <h2>Programa básico de control</h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+    
+    <!-- ENUNCIADO SUPERIOR (Sin marco envolvente) -->
+    <div style="width: 100%; text-align: left; padding: 2px 0; box-sizing: border-box;">
+      <p style="margin: 0 0 6px 0; font-weight: bold; color: #002B49; font-size: 0.80em; line-height: 1.35;">
+        ▫ Si el programa necesita manejar valores actuales y anteriores de una señal (ejemplo, acción de control depende de crecimiento de <i>y<sub>k</sub></i> : necesita <i>y<sub>k</sub></i> e <i>y<sub>k-1</sub></i>)
+      </p>
+    </div>
+
+    <!-- TARJETA DEL CÓDIGO C CON FONDO OSCURO Y RESALTADO DE ALTO CONTRASTE -->
+    <div class="syntax-code-card" style="width: 100%; text-align: left; padding: 14px 18px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; box-sizing: border-box;">
+      <pre style="margin: 0; width: 100%; box-shadow: none; background: transparent;"><code class="language-c" data-trim data-noescape style="font-size: 0.78em; line-height: 1.38; background: transparent; color: #f8fafc; font-family: monospace;">
+<span style="color: #f43f5e; font-weight: bold;">#include ...</span>
+
+<span style="color: #38bdf8; font-weight: bold;">int</span> <span style="color: #4ade80; font-weight: bold;">main</span>()
+{
+    <span style="color: #38bdf8;">float</span> ref_k;
+    <span style="color: #38bdf8;">float</span> y_k, <strong style="color: #facc15; font-weight: bold;">y_k_menos_1</strong>;   <span style="color: #94a3b8; font-style: italic;">// Valor de la salida actual <strong style="color: #38bdf8; font-style: normal;">y la anterior</strong></span>
+    <span style="color: #38bdf8;">float</span> u_k;
+
+    <span style="color: #94a3b8; font-style: italic;">// Inicializaciones necesarias</span>
+    ...
+
+    <span style="color: #94a3b8; font-style: italic;">// Bucle de control</span>
+    <span style="color: #f43f5e; font-weight: bold;">while</span> (1)
+    {
+        <strong style="color: #facc15;">y_k_menos_1 = y_k;</strong>  <span style="color: #94a3b8; font-style: italic;">// <strong style="color: #38bdf8; font-style: normal;">La última y<sub>k</sub> (del instante anterior) es ahora y<sub>k-1</sub></strong></span>
+
+        ref_k = <span style="color: #fbbf24;">ValorDeLaReferencia</span>();
+        y_k = <span style="color: #fbbf24;">ValorDeLaSalida</span>();
+        u_k = <span style="color: #fbbf24;">CalculoAccionDeControl</span>(y_k, <strong style="color: #facc15; font-weight: bold;">y_k_menos_1</strong>, ref_k);
+        <span style="color: #fbbf24;">AplicarAccionDeControl</span>(u_k);
+        <span style="color: #fbbf24;">Sleep</span>(Tm);
+    }
+}
+      </code></pre>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- Slide: Programa básico de control (Generalización con vector de muestras) -->
+<!-- Slide: Programa básico de control (Generalización con vector de muestras) -->
+<section>
+  <h2>Programa básico de control</h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+    
+    <!-- ENUNCIADO SUPERIOR (Sin marco envolvente) -->
+    <div style="width: 100%; text-align: left; padding: 2px 0; box-sizing: border-box;">
+      <p style="margin: 0 0 6px 0; font-weight: bold; color: #002B49; font-size: 0.80em; line-height: 1.35;">
+        ▫ Generalizando: el programa necesita el valor actual y 'm' anteriores de la señal v (<i>v<sub>k</sub>, v<sub>k-1</sub>,..., v<sub>k-m</sub></i>)
+      </p>
+    </div>
+
+    <!-- BLOQUE INFERIOR: Dos columnas paralelas (Código a la izquierda / Imagen a la derecha) -->
+    <div style="display: flex; gap: 14px; width: 100%; align-items: stretch;">
+      
+      <!-- COLUMNA IZQUIERDA: Código C estilizado con comentario explícito de función -->
+      <div class="syntax-code-card" style="flex: 1.15; text-align: left; padding: 12px 16px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; box-sizing: border-box;">
+        <pre style="margin: 0; width: 100%; box-shadow: none; background: transparent;"><code class="language-c" data-trim data-noescape style="font-size: 0.74em; line-height: 1.35; background: transparent; color: #f8fafc; font-family: monospace;">
+<span style="color: #f43f5e; font-weight: bold;">#include ...</span>
+<span style="color: #f43f5e; font-weight: bold;">#define M 6</span>
+
+<span style="color: #38bdf8; font-weight: bold;">int</span> <span style="color: #4ade80; font-weight: bold;">main</span>()
+{
+    <span style="color: #38bdf8;">float</span> <strong style="color: #facc15;">v_k[M+1]</strong>;   <span style="color: #94a3b8; font-style: italic;">// Desde 0 a m incluido</span>
+
+    <span style="color: #94a3b8; font-style: italic;">// Inicializaciones</span>
+    ...
+
+    <span style="color: #94a3b8; font-style: italic;">// Bucle de control</span>
+    <span style="color: #f43f5e; font-weight: bold;">while</span> (1)
+    {
+        v_k[M]   = v_k[M-1];
+        v_k[M-1] = v_k[M-2];
+        ...
+        v_k[2]   = v_k[1];
+        v_k[1]   = v_k[0];   <span style="color: #38bdf8; font-style: italic;">// Mejor función: Desplaza(v_k, M+1);</span>
+        <strong style="color: #facc15;">v_k[0]   = nuevo_valor();</strong>
+
+        <span style="color: #94a3b8; font-style: italic;">// Usar tabla v_k con la interpretación</span>
+
+        <span style="color: #fbbf24;">Sleep</span>(Tm);
+    }
+}
+        </code></pre>
+      </div>
+
+      <!-- COLUMNA DERECHA: Imagen prog_control.png -->
+      <div class="syntax-code-card" style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 10px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+        <img src="../../assets/img/control/prog_control.png" alt="Esquema del muestreo e interpretación en memoria de la señal v_k" style="max-width: 98%; max-height: 350px; height: auto; border-radius: 4px; object-fit: contain;">
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- Slide: Programa básico de control - Ejemplo cotidiano -->
+<section>
+  <h2>Programa básico de control</h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+    
+    <!-- BLOQUE SUPERIOR: Introducción del ejemplo (Sin marco envolvente) -->
+    <div style="width: 100%; text-align: left; padding: 2px 0; box-sizing: border-box;">
+      <p style="margin: 0 0 6px 0; font-weight: bold; color: #002B49; font-size: 0.82em; line-height: 1.35;">
+        ▫ Un ejemplo de la vida cotidiana: regar una planta. Cada día comprobamos si tenemos que regar nuestra planta, utilizando la información de lo que ha llovido en la semana previa:
+      </p>
+    </div>
+
+    <!-- TARJETA 1: Parámetros del muestreo y memoria -->
+    <div class="syntax-code-card" style="width: 100%; text-align: left; padding: 10px 14px; background: #ffffff; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      <ul style="list-style-type: '▪ '; margin: 0 0 0 16px; padding: 0; font-size: 0.74em; line-height: 1.4; color: #334155;">
+        <li style="margin-bottom: 4px;">
+          <strong>Periodo de muestreo:</strong> 1 día
+        </li>
+        <li style="margin-bottom: 0;">
+          <strong>Número de datos a "recordar":</strong> 1 semana
+        </li>
+      </ul>
+    </div>
+
+    <!-- TARJETA 2: Secuencia de acciones "Cada día" -->
+    <div class="syntax-code-card" style="width: 100%; text-align: left; padding: 10px 14px; background: #ffffff; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      
+      <p style="margin: 0 0 6px 0; font-weight: bold; color: #002B49; font-size: 0.78em;">
+        ▪ Cada día:
+      </p>
+
+      <ul style="list-style-type: '▫ '; margin: 0 0 0 18px; padding: 0; font-size: 0.68em; line-height: 1.45; color: #475569;">
+        <li style="margin-bottom: 3px;">
+          Toda la información acumulada es 1 día más vieja.
+        </li>
+        <li style="margin-bottom: 3px;">
+          Se añade la información del día actual (lluvia medida).
+        </li>
+        <li style="margin-bottom: 3px;">
+          Se toma una decisión sobre el riego del día actual con la información disponible (día actual y 6 anteriores).
+        </li>
+        <li style="margin-bottom: 0;">
+          Se espera 1 día para repetir la operación.
+        </li>
+      </ul>
+
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      plugins: [RevealHighlight]
+    });
+  </script>
+</body>
+</html>
