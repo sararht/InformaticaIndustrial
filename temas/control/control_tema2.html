@@ -85,80 +85,397 @@
         </div>
       </section>
 
+      <!-- SLIDE 1: Interfaz del computador con el exterior -->
+<section>
+  <h2>Interfaz del computador con el exterior</h2>
+  
+  <div class="syntax-layout" style="display: flex; gap: 16px; align-items: stretch; width: 100%;">
+    
+    <!-- Columna Izquierda: Puntos teóricos -->
+    <div class="syntax-code-card" style="flex: 1.3; text-align: left; padding: 16px; background: #ffffff; display: flex; flex-direction: column; justify-content: center;">
+      <ul style="list-style-type: '▫ '; margin: 0; padding-left: 16px; font-size: 0.72em; line-height: 1.5; color: #334155;">
+        <li style="margin-bottom: 12px;">El programa del computador maneja datos que son variables alojadas en su memoria.</li>
+        <li style="margin-bottom: 12px;">Los datos manejados por el programa de control proceden o tienen como destino el mundo "real".</li>
+        <li style="margin-bottom: 12px;">Los computadores disponen de subsistemas electrónicos llamados de <strong>Entrada y Salida (E/S ó I/O)</strong> para hacer el intercambio de información entre mundo exterior y variables internas.</li>
+        <li>El interfaz se realiza mediante pequeñas tensiones y corrientes (potencia de mW).</li>
+      </ul>
+    </div>
+
+    <!-- Columna Derecha: Esquema conceptual CSS -->
+    <div class="syntax-code-card" style="flex: 0.8; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f8fbff; padding: 16px;">
+        <div style="text-align: center; margin-top: 20px;">
+          <img src="../../assets/img/control/interfaz_exterior.png" alt="Interfaz Exterior" style="max-height: auto; width: auto; background: transparent; border: none; box-shadow: none;">
+        </div>
+
+
+    </div>
+  </div>
+</section>
+
+
+
+
       <!-- SLIDE 2: Clasificación General de Señales de E/S -->
       <section>
-        <h2>Tipos de Señales de Interfaz</h2>
-        <p class="subtitle" style="font-size: 0.72em;">Clasificación de señales según su naturaleza física y digital</p>
+        <h2>Tipos de Señales de Entrada</h2>
 
         <div class="syntax-layout" style="display: flex; gap: 14px; width: 100%; align-items: stretch;">
-          <div class="syntax-code-card" style="flex: 1; text-align: left; padding: 12px; background: #ffffff; border: 1px solid #cbd5e1;">
-            <strong style="color: #1d3f7a; font-size: 0.85em; display: block; margin-bottom: 8px; border-bottom: 2px solid #0284c7; padding-bottom: 4px;">
-              📥 Señales de Entrada (Sensores)
-            </strong>
-            <ul style="list-style-type: '▪ '; margin: 0 0 0 16px; padding: 0; font-size: 0.65em; line-height: 1.45; color: #334155;">
-              <li style="margin-bottom: 8px;">
-                <strong>Digitales (DI - Todo/Nada):</strong> Estados booleanos (0/1): pulsadores, finales de carrera, detectores de presencia.
-              </li>
-              <li style="margin-bottom: 8px;">
-                <strong>Analógicas (ADC / A/D):</strong> Magnitudes continuas (tensión/corriente) convertidas a enteros de <i>n</i> bits.
-              </li>
-              <li style="margin-bottom: 8px;">
-                <strong>Contadores / Pulsos:</strong> Captura de impulsos mediante encoders ópticos para medir velocidad y posición.
-              </li>
-              <li>
-                <strong>Numéricas (Buses E/S):</strong> Tramas de datos por protocolos serie (SPI, I²C, CAN, RS-232/485).
-              </li>
-            </ul>
-          </div>
 
-          <div class="syntax-code-card" style="flex: 1; text-align: left; padding: 12px; background: #ffffff; border: 1px solid #cbd5e1;">
-            <strong style="color: #1d3f7a; font-size: 0.85em; display: block; margin-bottom: 8px; border-bottom: 2px solid #10b981; padding-bottom: 4px;">
-              📤 Señales de Salida (Accionadores)
-            </strong>
             <ul style="list-style-type: '▪ '; margin: 0 0 0 16px; padding: 0; font-size: 0.65em; line-height: 1.45; color: #334155;">
               <li style="margin-bottom: 8px;">
-                <strong>Digitales (DO - Todo/Nada):</strong> Elementos binarios de potencia: relés, contactores, electroválvulas, LEDs.
+                <strong>Conversor A/D (ADC):</strong> Sensores que generan una tensión analógica. Proporcionan al programa una variable de tipo entero proporcional a la tensión a su entrada.
               </li>
               <li style="margin-bottom: 8px;">
-                <strong>Analógicas (DAC / D/A):</strong> Números enteros convertidos a tensión/corriente para graduar potencia.
+                <strong>Digitales (DI - Todo/Nada):</strong> Sensores que generan una tensión únicamente con dos estados (0/1). Proporcionan al programa un bit de una variable de tipo entero.
               </li>
+
               <li style="margin-bottom: 8px;">
-                <strong>Modulación PWM:</strong> Variación del ciclo de trabajo (<i>Duty Cycle</i>) para generar una acción analógica equivalente.
+                <strong>Contador de Pulsos:</strong> Sensores que generan tensión únicamente con 2 estados (0/1). Proporcionan al programa una variable de tipo entero proporcional al número de pulsos recibidos.
               </li>
               <li>
-                <strong>Comandos Numéricos:</strong> Envío de datos digitales hacia variadores de frecuencia o actuadores inteligentes.
+                <strong>Numéricas:</strong> Sensores con electrónica adicional que entregan valores numéricos.
               </li>
             </ul>
           </div>
-        </div>
       </section>
 
-      <!-- SLIDE 3: Acondicionamiento de Señal y Potencia -->
+
+
+
+<!-- SLIDE: Obtención de valores analógicos -->
+<section>
+  <h2>Obtención de valores analógicos</h2>
+  
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 16px; width: 100%;">
+    
+    <!-- Bloque 1: Concepto Teórico y Diagrama -->
+    <div class="syntax-code-card" style="background: #ffffff; border: 1px solid #cbd5e1; padding: 16px; text-align: left; box-sizing: border-box;">
+      <h3 style="color: #002B49; font-size: 0.85em; margin: 0 0 10px 0; font-weight: bold;">
+        ▫ Obtención de valores analógicos: conversores A/D
+      </h3>
+      <ul style="list-style-type: '▪ '; margin: 0 0 16px 24px; font-size: 0.72em; color: #334155; line-height: 1.4;">
+        <li><strong>Sensor:</strong> genera una pequeña tensión o corriente directamente relacionada con una magnitud física.</li>
+      </ul>
+
+      <!-- Diagrama Conceptual CSS -->
+      <div style="display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.72em; padding: 16px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+        
+        <!-- Mundo real -->
+        <div style="background: #10b981; color: white; padding: 14px 20px; border-radius: 30px; font-weight: bold; text-align: center; box-shadow: 0 4px 6px rgba(16,185,129,0.2);">
+          Mundo<br>real
+        </div>
+        
+        <!-- Flecha Magnitud -->
+        <div style="display: flex; align-items: center; justify-content: center; color: #ffffff; background: #4f46e5; padding: 8px 24px 8px 14px; border-radius: 4px; font-weight: bold; clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%); margin: 0 4px;">
+          <span style="text-align: center; line-height: 1.2;">Magnitud<br>física</span>
+        </div>
+
+        <!-- Sensor -->
+        <div style="background: #10b981; color: white; padding: 16px 26px; border-radius: 8px; font-weight: bold; font-size: 1.1em; text-align: center; box-shadow: 0 4px 6px rgba(16,185,129,0.2);">
+          Sensor
+        </div>
+
+        <!-- Flecha Tensión/Corriente -->
+        <div style="display: flex; align-items: center; justify-content: center; color: #ffffff; background: #4f46e5; padding: 8px 24px 8px 14px; border-radius: 4px; font-weight: bold; clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%); margin: 0 4px;">
+          <span style="text-align: center; line-height: 1.2;">Pequeña<br>U ó I</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Bloque 2: Ejemplo Práctico (Imagen adjunta) -->
+    <div class="syntax-code-card" style="background: #ffffff; border: 1px solid #cbd5e1; padding: 16px; text-align: left; box-sizing: border-box;">
+      <ul style="list-style-type: '▪ '; margin: 0 0 12px 24px; font-size: 0.72em; color: #334155; line-height: 1.4;">
+        <li><strong>Ejemplo:</strong> potenciómetro para medida de desplazamiento.</li>
+      </ul>
+
+      <!-- Imagen del Potenciómetro -->
+      <div style="text-align: center; padding: 12px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0; display: flex; justify-content: center;">
+        <img src="../../assets/img/control/ej_potenciometro.png" alt="Esquema y fórmulas de un potenciómetro para medida de desplazamiento" style="max-width: 100%; max-height: 250px; height: auto; object-fit: contain; border-radius: 4px;">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- SLIDE: Obtención de valores analógicos (Sensor + ADC) -->
+<section>
+  <h2>Obtención de valores analógicos</h2>
+  <p class="subtitle" style="font-size: 0.72em; margin-bottom: 12px;">De la magnitud física a la variable en el computador</p>
+  
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 14px; width: 100%;">
+    
+    <!-- BLOQUE SUPERIOR: Diagrama de Flujo Unificado -->
+    <div class="syntax-code-card" style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 14px; position: relative;">
+      
+      <div style="display: flex; justify-content: space-between; font-size: 0.65em; font-weight: bold; color: #64748b; margin-bottom: 8px; padding: 0 40px;">
+        <span>Mundo real</span>
+        <span>Computador</span>
+      </div>
+
+      <!-- Línea divisoria virtual (Frontera) -->
+      <div style="position: absolute; left: 72%; top: 20%; bottom: 10%; border-left: 2px dashed #0284c7; z-index: 0;"></div>
+
+      <div style="display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.65em; position: relative; z-index: 1;">
+        
+        <div style="background: #10b981; color: white; padding: 10px 14px; border-radius: 20px; font-weight: bold; box-shadow: 0 2px 4px rgba(16,185,129,0.2);">
+          Magnitud<br>física
+        </div>
+        
+        <div style="color: white; background: #4f46e5; padding: 6px 16px 6px 10px; clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%);">
+          Medida
+        </div>
+
+        <div style="background: #10b981; color: white; padding: 12px 18px; border-radius: 6px; font-weight: bold; font-size: 1.1em; box-shadow: 0 2px 4px rgba(16,185,129,0.2);">
+          Sensor
+        </div>
+
+        <div style="color: white; background: #4f46e5; padding: 6px 16px 6px 10px; clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%);">
+          U (u<sub>min</sub> a u<sub>max</sub>)
+        </div>
+
+        <div style="background: #0ea5e9; color: white; padding: 12px 18px; border-radius: 6px; font-weight: bold; font-size: 1.1em; box-shadow: 0 2px 4px rgba(14,165,233,0.2);">
+          ADC
+        </div>
+
+        <div style="color: white; background: #4f46e5; padding: 6px 16px 6px 10px; clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%);">
+          Valor<br>numérico
+        </div>
+
+        <div style="background: #0d9488; color: white; padding: 8px 12px; border-radius: 4px; font-family: monospace; text-align: center;">
+          variable<br>
+          <strong>0 a 2<sup>n_bits</sup>-1</strong>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- BLOQUE INFERIOR: Detalles en dos columnas -->
+    <div style="display: flex; gap: 14px; align-items: stretch; width: 100%;">
+      
+      <!-- Columna 1: Sensor -->
+      <div class="syntax-code-card" style="flex: 1; padding: 12px; text-align: left; background: #ffffff;">
+        <strong style="color: #002B49; font-size: 0.8em; border-bottom: 2px solid #10b981; padding-bottom: 4px; margin-bottom: 8px; display: block;">
+          1. El Sensor
+        </strong>
+        <ul style="list-style-type: '▪ '; font-size: 0.65em; padding-left: 16px; margin-bottom: 12px; color: #334155; line-height: 1.4;">
+          <li>Genera una pequeña tensión o corriente directamente relacionada con una magnitud física.</li>
+          <li><strong>Ejemplo:</strong> potenciómetro para medida de desplazamiento.</li>
+        </ul>
+        <div style="text-align: center; background: #f1f5f9; padding: 1px; border-radius: 1px; border: 1px solid #e2e8f0;">
+          <img src="../../assets/img/control/ej_potenciometro.png" alt="Potenciómetro" style="max-height: auto; object-fit: contain;">
+        </div>
+      </div>
+
+      <!-- Columna 2: ADC -->
+      <div class="syntax-code-card" style="flex: 1; padding: 12px; text-align: left; background: #ffffff;">
+        <strong style="color: #002B49; font-size: 0.8em; border-bottom: 2px solid #0ea5e9; padding-bottom: 4px; margin-bottom: 8px; display: block;">
+          2. El Conversor A/D
+        </strong>
+        <ul style="list-style-type: '▪ '; font-size: 0.65em; padding-left: 16px; margin-bottom: 12px; color: #334155; line-height: 1.4;">
+          <li>Genera un valor numérico (variable de tipo <strong>entero</strong>) relacionada con la tensión a su entrada.</li>
+          <li><strong>Características:</strong> u<sub>min</sub>, u<sub>max</sub>, n_bits.</li>
+        </ul>
+        <div style="text-align: center; background: #f1f5f9; padding: 1px; border-radius: 1px; border: 1px solid #e2e8f0;">
+          <img src="../../assets/img/control/conversorAD.png" alt="Gráficas ADC Aprox y Real" style="max-height: auto; object-fit: contain;">
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- SLIDE: Obtención de valores analógicos (Síntesis) -->
+<section>
+  <h2>Obtención de valores analógicos</h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 16px; width: 100%; margin-top: 20px;">
+    
+    <!-- BLOQUE 1: Funcionamiento del hardware (ADC) -->
+    <div class="syntax-code-card" style="background: #ffffff; border: 1px solid #cbd5e1; padding: 18px; text-align: left; box-sizing: border-box; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+      <strong style="color: #002B49; font-size: 0.85em; border-bottom: 2px solid #0ea5e9; padding-bottom: 6px; margin-bottom: 12px; display: block;">
+        Funcionamiento del conversor A/D de <i>n</i> bits:
+      </strong>
+      
+      <ul style="list-style-type: '▪ '; font-size: 0.75em; padding-left: 16px; margin: 0; color: #334155; line-height: 1.5;">
+        <li style="margin-bottom: 10px;">
+          Divide un rango de tensión de entrada en <strong>2<sup>n</sup> intervalos</strong>, asociando a cada uno de ellos un valor numérico (de <code>0</code> a <code>2<sup>n</sup>-1</code>).
+        </li>
+        <li style="margin-bottom: 10px;">
+          Se realiza con electrónica mediante <strong>comparaciones sucesivas</strong>.
+        </li>
+        <li>
+          El resultado de la conversión es un <strong>valor entero</strong> utilizable directamente por el programa.
+        </li>
+      </ul>
+          <div style="text-align: center; background: #f1f5f9; padding: 1px; border-radius: 1px; border: 1px solid #e2e8f0;">
+          <img src="../../assets/img/control/conversorAD_expl.png" alt="Gráficas ADC Aprox y Real" style="max-height: auto; object-fit: contain;">
+        </div>
+    </div>
+
+
+    <!-- BLOQUE 2: Implicación en el software -->
+    <div class="syntax-code-card" style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #10b981; padding: 16px; text-align: left; box-sizing: border-box; margin-top: 4px;">
+      
+      <p style="font-size: 0.75em; color: #1e293b; margin: 0 0 10px 0; line-height: 1.4;">
+        <strong style="color: #047857;">▫ Atención:</strong> El programa del computador sólo puede leer el valor del conversor, que está relacionado <strong>(pero no es)</strong> con la magnitud medida.
+      </p>
+      
+      <p style="font-size: 0.75em; color: #1e293b; margin: 0; line-height: 1.4;">
+        <strong style="color: #047857;">▫</strong> El programa <strong>debe calcular la magnitud</strong> a partir de las especificaciones de toda la cadena de medida (sensor, adaptación, ADC).
+      </p>
+      
+    </div>
+
+  </div>
+</section>
+
+
+
+
+<section>
+  <h2>Obtención de valores analógicos</h2>
+  <h3>Ejemplo práctico: sensor de temperatura con termopar</h3>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 18px; width: 100%;">
+    <div class="syntax-code-card" style="background: #ffffff; border: 1px solid #cbd5e1; padding: 18px; text-align: left; box-sizing: border-box;">
+      <p style="font-size: 0.72em; margin: 0 0 14px 0; color: #334155; line-height: 1.5;">
+Adquisición de temperatura medida por termopar con conversor A/D de 10 bits y límites de tensión 0-5V.
+      </p>
+
+      <div style="text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px;">
+        <img src="../../assets/img/control/ejemplo_termopar.png" alt="Ejemplo de termopar" style="max-width: 100%; max-height: 500px; width: auto; height: auto; border-radius: 8px; box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);">
+      </div>
+    </div>
+  </div>
+</section>
+
+
       <section>
-        <h2>Acondicionamiento de Señal y Potencia</h2>
-        <div class="contents-box" style="font-size: 0.8em;">
-          <p>La CPU opera en un entorno digital de <strong>baja potencia</strong> (órden del mW o pocos voltios), mientras que los procesos industriales manejan <strong>altas tensiones y corrientes</strong>:</p>
+        <h2>Entradas digitales</h2>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px;">
-            <div class="syntax-chip">
-              <strong>Adaptación en Entradas (Sensores)</strong>
-              <small>
-                • <strong>Filtrado:</strong> Elimina ruido eléctrico e interferencias de alta frecuencia.<br>
-                • <strong>Amplificación / Atenuación:</strong> Adapta el rango físico (ej. ±100 mV de un termopar) al rango del ADC (0 … 5 V).<br>
-                • <strong>Aislamiento Galvánico:</strong> Uso de optoacopladores para proteger la CPU de sobretensiones.
-              </small>
+        <div style="text-align: left; font-size: 1.05em; color: #1f2937; line-height: 1.45;">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+            <span style="font-size: 1.25em; color: #1ab0b8;">□</span>
+            <span>La interpretación de 0/1 en una DI por parte del programa depende de:</span>
+          </div>
+
+          <div style="padding-left: 26px; margin-top: 12px;">
+            <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px;">
+              <span style="font-size: 1.15em; color: #1f2937;">■</span>
+              <span>El conexionado:</span>
             </div>
-            <div class="syntax-chip">
-              <strong>Etapa de Potencia en Salidas (Actuadores)</strong>
-              <small>
-                • <strong>Amplificación de Corriente:</strong> Un pin de microcontrolador suministra ~20 mA; un relé o motor requiere de varios Amperios.<br>
-                • <strong>Drivers y Relés:</strong> Conmutación con transistores (MOSFET), relés electromecánicos o relés de estado sólido (SSR).<br>
-                • <strong>Conversión de Energía:</strong> Modulación de fuentes externas de 24 V, 230 V o 400 V.
-              </small>
+
+            <div style="display: flex; justify-content: center; align-items: flex-start; margin: 0 0 18px 0;">
+              <img src="../../assets/img/control/conexionado.png" alt="Conexionado de entrada digital" style="max-width: 52%; height: auto; display: block;">
             </div>
+
+            <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 10px;">
+              <span style="font-size: 1.15em; color: #1f2937;">■</span>
+              <div>
+                <div style="margin-bottom: 6px;">Y del tipo de interruptor:</div>
+              <div style="display: flex; justify-content: center; align-items: flex-start; margin: 0 0 18px 0;">
+              <img src="../../assets/img/control/interruptores.jpg" alt="Tipos de interruptores" style="max-width: 42%; height: auto; display: block;">
+            </div>
+              </div>
+
+            </div>
+
           </div>
         </div>
       </section>
+
+
+<section>
+    <h2>Entradas digitales</h2>
+              <div style="margin-bottom: 6px;">Es habitual que varias entradas digitales se agrupen en bits diferentes de una sola variable. Ejemplo: interruptor (switch)</div>
+              <div style="display: flex; justify-content: center; align-items: flex-start; margin: 0 0 18px 0;">
+              <img src="../../assets/img/control/entradas_digitales.png" alt="Tipos de interruptores" style="max-width: auto; height: auto; display: block;">
+            </div>
+
+
+</section>
+
+
+<section>
+  <h2>Entradas tipo contador</h2>
+
+  <div style="text-align: left; font-size: 0.92em; color: #1f2937; line-height: 1.45;">
+
+    <ul style="list-style-type: square; margin: 0 0 18px 28px; padding: 0; line-height: 1.6;">
+      <li>Incrementa un contador (entero de n bits) cada vez que se produce un pulso (de subida, de bajada, ambos) en la señal de entrada (todo/nada).</li>
+      <li>El valor del contador es un valor entero utilizable por el programa.</li>
+      <li>Se puede reiniciar el contador a 0 por programa.</li>
+      <li>Se necesita una entrada digital auxiliar para definir el 0 absoluto.</li>
+      <li>¡Ojo con desbordamientos del contador!</li>
+    </ul>
+
+    <div style="margin-top: 18px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; width: 80%; margin: 0 auto 10px auto; font-size: 1.1em; font-weight: 700; color: #1d4f91;">
+        <span>Mundo real</span>
+        <span>Computador</span>
+      </div>
+
+      <div style="text-align: center;">
+        <img src="../../assets/img/control/contador_ord.png" alt="Entrada tipo contador" style="max-width: 92%; height: auto; display: inline-block;">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section> 
+  <h2>Entradas tipo contador</h2>
+  <p style="font-size: 0.9em; color: #334155; margin-top: 12px;">Ejemplo: entrada de pulsos de un encóder óptico.</p>
+      <div style="text-align: center;">
+        <img src="../../assets/img/control/encoder.png" alt="Entrada tipo contador" style="max-width: 92%; height: auto; display: inline-block;">
+      </div>
+</section>
+
+
+
+
+
+
+
+
+      <section>
+        <h2>Entradas numéricas</h2>
+        <div style="width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 28px; box-sizing: border-box; text-align: left; color: #1f2937; font-size: 0.9em; line-height: 1.55;">
+          <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; padding-left: 4px;">
+            <span style="font-size: 1.2em; color: #1ab0b8;">□</span>
+            <span>Sensores con electrónica adicional que sirven datos directamente utilizables por el computador, a través de buses y protocolos de comunicación:</span>
+          </div>
+
+          <ul style="list-style-type: square; margin: 0 0 18px 28px; padding: 0; line-height: 1.8; font-size: 1.02em;">
+            <li>SPI</li>
+            <li>I2C</li>
+            <li>CAN</li>
+            <li>RS-232,485</li>
+            <li>USB</li>
+          </ul>
+
+          <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; padding-left: 4px;">
+            <span style="font-size: 1.2em; color: #1ab0b8;">□</span>
+            <span>El programa debe:</span>
+          </div>
+
+          <ul style="list-style-type: square; margin: 0 0 0 28px; padding: 0; line-height: 1.8; font-size: 1.02em;">
+            <li>Configurar el dispositivo</li>
+            <li>Recibir los datos del dispositivo</li>
+            <li>Interpretar los datos</li>
+          </ul>
+        </div>
+      </section>
+
+
+
+
+
+
+
+
 
       <!-- SLIDE 4: El Mapa de Direcciones de E/S -->
       <section>
@@ -258,6 +575,214 @@ if (temperatura_actual < TEMP_CONSIGNA) {
       </section>
 
       <!-- SLIDE 7: Gestión de E/S Digitales a Nivel de Bit -->
+<!-- SLIDE: Programación de E/S Digital -->
+<section>
+  <h2>Programación de E/S digital</h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+    
+    <!-- BLOQUE SUPERIOR: Lista de conceptos teóricos -->
+    <div style="width: 100%; text-align: left; padding: 2px 0; box-sizing: border-box;">
+      <ul style="list-style-type: '▫ '; margin: 0 0 0 18px; padding: 0; font-size: 0.78em; line-height: 1.5; color: #334155;">
+        <li style="margin-bottom: 6px;">
+          El interfaz con muchos dispositivos se realiza en formato <strong>todo/nada (1/0)</strong>.
+        </li>
+        <li style="margin-bottom: 6px;">
+          Con estos dispositivos, se utilizan <strong>E/S digitales</strong>.
+        </li>
+        <li style="margin-bottom: 0;">
+          Las E/S digitales están formadas por <strong>valores enteros</strong>, de los cuales cada bit está conectado a un dispositivo externo.
+        </li>
+      </ul>
+    </div>
+
+    <!-- BLOQUE INFERIOR: Esquema de Salida Digital y Entrada Digital -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; box-sizing: border-box;">
+      
+      <!-- Esquema 1: Salida Digital -->
+      <div class="syntax-code-card" style="background: #ffffff; border: 1px solid #cbd5e1; padding: 12px 16px; text-align: center; box-sizing: border-box;">
+        <strong style="color: #002B49; font-size: 0.82em; display: block; margin-bottom: 10px;">Salida Digital</strong>
+        
+        <svg viewBox="0 0 320 120" style="width: 100%; height: auto; max-height: 140px;">
+          <!-- Registro de 8 bits -->
+          <g transform="translate(10, 10)">
+            <rect x="0" y="0" width="300" height="32" fill="#ffffff" stroke="#002B49" stroke-width="1.5" />
+            <!-- Lineas divisorias de bits -->
+            <line x1="37.5" y1="0" x2="37.5" y2="32" stroke="#002B49" stroke-width="1.5" />
+            <line x1="75" y1="0" x2="75" y2="32" stroke="#002B49" stroke-width="1.5" />
+            <line x1="112.5" y1="0" x2="112.5" y2="32" stroke="#002B49" stroke-width="1.5" />
+            <line x1="150" y1="0" x2="150" y2="32" stroke="#002B49" stroke-width="1.5" />
+            <line x1="187.5" y1="0" x2="187.5" y2="32" stroke="#002B49" stroke-width="1.5" />
+            <line x1="225" y1="0" x2="225" y2="32" stroke="#002B49" stroke-width="1.5" />
+            <line x1="262.5" y1="0" x2="262.5" y2="32" stroke="#002B49" stroke-width="1.5" />
+
+            <!-- Valores de los bits: 0 1 0 0 1 1 0 1 -->
+            <text x="18.75" y="21" font-family="monospace" font-size="14" font-weight="bold" fill="#002B49" text-anchor="middle">0</text>
+            <text x="56.25" y="21" font-family="monospace" font-size="14" font-weight="bold" fill="#002B49" text-anchor="middle">1</text>
+            <text x="93.75" y="21" font-family="monospace" font-size="14" font-weight="bold" fill="#002B49" text-anchor="middle">0</text>
+            <text x="131.25" y="21" font-family="monospace" font-size="14" font-weight="bold" fill="#002B49" text-anchor="middle">0</text>
+            <text x="168.75" y="21" font-family="monospace" font-size="14" font-weight="bold" fill="#002B49" text-anchor="middle">1</text>
+            <text x="206.25" y="21" font-family="monospace" font-size="14" font-weight="bold" fill="#002B49" text-anchor="middle">1</text>
+            <text x="243.75" y="21" font-family="monospace" font-size="14" font-weight="bold" fill="#002B49" text-anchor="middle">0</text>
+            <text x="281.25" y="21" font-family="monospace" font-size="14" font-weight="bold" fill="#002B49" text-anchor="middle">1</text>
+          </g>
+
+          <defs>
+            <marker id="arrow-down" viewBox="0 0 10 10" refX="5" refY="6" markerWidth="5" markerHeight="5" orient="auto">
+              <path d="M 0 0 L 5 10 L 10 0 z" fill="#002B49" />
+            </marker>
+          </defs>
+
+          <!-- Flechas verticales y Lámparas/LEDs -->
+          <g transform="translate(10, 42)">
+            <!-- Bit 7 (0) -->
+            <line x1="18.75" y1="0" x2="18.75" y2="20" stroke="#002B49" stroke-width="1.2" marker-end="url(#arrow-down)" />
+            <circle cx="18.75" cy="32" r="9" fill="#ffffff" stroke="#002B49" stroke-width="1.2" />
+            <line x1="12.4" y1="25.65" x2="25.1" y2="38.35" stroke="#002B49" stroke-width="1.2" />
+            <line x1="12.4" y1="38.35" x2="25.1" y2="25.65" stroke="#002B49" stroke-width="1.2" />
+            <line x1="18.75" y1="41" x2="18.75" y2="52" stroke="#002B49" stroke-width="1.2" />
+            <line x1="12" y1="52" x2="25.5" y2="52" stroke="#002B49" stroke-width="1.2" />
+
+            <!-- Bit 6 (1) ON -->
+            <line x1="56.25" y1="0" x2="56.25" y2="20" stroke="#002B49" stroke-width="1.2" marker-end="url(#arrow-down)" />
+            <circle cx="56.25" cy="32" r="9" fill="#22c55e" stroke="#002B49" stroke-width="1.2" />
+            <line x1="49.9" y1="25.65" x2="62.6" y2="38.35" stroke="#002B49" stroke-width="1.2" />
+            <line x1="49.9" y1="38.35" x2="62.6" y2="25.65" stroke="#002B49" stroke-width="1.2" />
+            <line x1="56.25" y1="41" x2="56.25" y2="52" stroke="#002B49" stroke-width="1.2" />
+            <line x1="49.5" y1="52" x2="63" y2="52" stroke="#002B49" stroke-width="1.2" />
+
+            <!-- Bit 5 (0) -->
+            <line x1="93.75" y1="0" x2="93.75" y2="20" stroke="#002B49" stroke-width="1.2" marker-end="url(#arrow-down)" />
+            <circle cx="93.75" cy="32" r="9" fill="#ffffff" stroke="#002B49" stroke-width="1.2" />
+            <line x1="87.4" y1="25.65" x2="100.1" y2="38.35" stroke="#002B49" stroke-width="1.2" />
+            <line x1="87.4" y1="38.35" x2="100.1" y2="25.65" stroke="#002B49" stroke-width="1.2" />
+            <line x1="93.75" y1="41" x2="93.75" y2="52" stroke="#002B49" stroke-width="1.2" />
+            <line x1="87" y1="52" x2="100.5" y2="52" stroke="#002B49" stroke-width="1.2" />
+
+            <!-- Bit 4 (0) -->
+            <line x1="131.25" y1="0" x2="131.25" y2="20" stroke="#002B49" stroke-width="1.2" marker-end="url(#arrow-down)" />
+            <circle cx="131.25" cy="32" r="9" fill="#ffffff" stroke="#002B49" stroke-width="1.2" />
+            <line x1="124.9" y1="25.65" x2="137.6" y2="38.35" stroke="#002B49" stroke-width="1.2" />
+            <line x1="124.9" y1="38.35" x2="137.6" y2="25.65" stroke="#002B49" stroke-width="1.2" />
+            <line x1="131.25" y1="41" x2="131.25" y2="52" stroke="#002B49" stroke-width="1.2" />
+            <line x1="124.5" y1="52" x2="138" y2="52" stroke="#002B49" stroke-width="1.2" />
+
+            <!-- Bit 3 (1) ON -->
+            <line x1="168.75" y1="0" x2="168.75" y2="20" stroke="#002B49" stroke-width="1.2" marker-end="url(#arrow-down)" />
+            <circle cx="168.75" cy="32" r="9" fill="#22c55e" stroke="#002B49" stroke-width="1.2" />
+            <line x1="162.4" y1="25.65" x2="175.1" y2="38.35" stroke="#002B49" stroke-width="1.2" />
+            <line x1="162.4" y1="38.35" x2="175.1" y2="25.65" stroke="#002B49" stroke-width="1.2" />
+            <line x1="168.75" y1="41" x2="168.75" y2="52" stroke="#002B49" stroke-width="1.2" />
+            <line x1="162" y1="52" x2="175.5" y2="52" stroke="#002B49" stroke-width="1.2" />
+
+            <!-- Bit 2 (1) ON -->
+            <line x1="206.25" y1="0" x2="206.25" y2="20" stroke="#002B49" stroke-width="1.2" marker-end="url(#arrow-down)" />
+            <circle cx="206.25" cy="32" r="9" fill="#22c55e" stroke="#002B49" stroke-width="1.2" />
+            <line x1="199.9" y1="25.65" x2="212.6" y2="38.35" stroke="#002B49" stroke-width="1.2" />
+            <line x1="199.9" y1="38.35" x2="212.6" y2="25.65" stroke="#002B49" stroke-width="1.2" />
+            <line x1="206.25" y1="41" x2="206.25" y2="52" stroke="#002B49" stroke-width="1.2" />
+            <line x1="199.5" y1="52" x2="213" y2="52" stroke="#002B49" stroke-width="1.2" />
+
+            <!-- Bit 1 (0) -->
+            <line x1="243.75" y1="0" x2="243.75" y2="20" stroke="#002B49" stroke-width="1.2" marker-end="url(#arrow-down)" />
+            <circle cx="243.75" cy="32" r="9" fill="#ffffff" stroke="#002B49" stroke-width="1.2" />
+            <line x1="237.4" y1="25.65" x2="250.1" y2="38.35" stroke="#002B49" stroke-width="1.2" />
+            <line x1="237.4" y1="38.35" x2="250.1" y2="25.65" stroke="#002B49" stroke-width="1.2" />
+            <line x1="243.75" y1="41" x2="243.75" y2="52" stroke="#002B49" stroke-width="1.2" />
+            <line x1="237" y1="52" x2="250.5" y2="52" stroke="#002B49" stroke-width="1.2" />
+
+            <!-- Bit 0 (1) ON -->
+            <line x1="281.25" y1="0" x2="281.25" y2="20" stroke="#002B49" stroke-width="1.2" marker-end="url(#arrow-down)" />
+            <circle cx="281.25" cy="32" r="9" fill="#22c55e" stroke="#002B49" stroke-width="1.2" />
+            <line x1="274.9" y1="25.65" x2="287.6" y2="38.35" stroke="#002B49" stroke-width="1.2" />
+            <line x1="274.9" y1="38.35" x2="287.6" y2="25.65" stroke="#002B49" stroke-width="1.2" />
+            <line x1="281.25" y1="41" x2="281.25" y2="52" stroke="#002B49" stroke-width="1.2" />
+            <line x1="274.5" y1="52" x2="288" y2="52" stroke="#002B49" stroke-width="1.2" />
+          </g>
+        </svg>
+      </div>
+
+      <!-- Esquema 2: Entrada Digital -->
+      <div class="syntax-code-card" style="background: #ffffff; border: 1px solid #cbd5e1; padding: 12px 16px; text-align: center; box-sizing: border-box;">
+        <strong style="color: #002B49; font-size: 0.82em; display: block; margin-bottom: 10px;">Entrada Digital</strong>
+        
+        <svg viewBox="0 0 320 120" style="width: 100%; height: auto; max-height: 140px;">
+          <!-- Registro de 8 bits -->
+          <g transform="translate(10, 10)">
+            <rect x="0" y="0" width="300" height="32" fill="#ffffff" stroke="#002B49" stroke-width="1.5" />
+            <!-- Lineas divisorias -->
+            <line x1="37.5" y1="0" x2="37.5" y2="32" stroke="#002B49" stroke-width="1.5" />
+            <line x1="75" y1="0" x2="75" y2="32" stroke="#002B49" stroke-width="1.5" />
+            <line x1="112.5" y1="0" x2="112.5" y2="32" stroke="#002B49" stroke-width="1.5" />
+            <line x1="150" y1="0" x2="150" y2="32" stroke="#002B49" stroke-width="1.5" />
+            <line x1="187.5" y1="0" x2="187.5" y2="32" stroke="#002B49" stroke-width="1.5" />
+            <line x1="225" y1="0" x2="225" y2="32" stroke="#002B49" stroke-width="1.5" />
+            <line x1="262.5" y1="0" x2="262.5" y2="32" stroke="#002B49" stroke-width="1.5" />
+
+            <!-- Valores de los bits: 0 1 0 0 1 1 0 1 -->
+            <text x="18.75" y="21" font-family="monospace" font-size="14" font-weight="bold" fill="#002B49" text-anchor="middle">0</text>
+            <text x="56.25" y="21" font-family="monospace" font-size="14" font-weight="bold" fill="#002B49" text-anchor="middle">1</text>
+            <text x="93.75" y="21" font-family="monospace" font-size="14" font-weight="bold" fill="#002B49" text-anchor="middle">0</text>
+            <text x="131.25" y="21" font-family="monospace" font-size="14" font-weight="bold" fill="#002B49" text-anchor="middle">0</text>
+            <text x="168.75" y="21" font-family="monospace" font-size="14" font-weight="bold" fill="#002B49" text-anchor="middle">1</text>
+            <text x="206.25" y="21" font-family="monospace" font-size="14" font-weight="bold" fill="#002B49" text-anchor="middle">1</text>
+            <text x="243.75" y="21" font-family="monospace" font-size="14" font-weight="bold" fill="#002B49" text-anchor="middle">0</text>
+            <text x="281.25" y="21" font-family="monospace" font-size="14" font-weight="bold" fill="#002B49" text-anchor="middle">1</text>
+          </g>
+
+          <defs>
+            <marker id="arrow-up" viewBox="0 0 10 10" refX="5" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+              <path d="M 0 10 L 5 0 L 10 10 z" fill="#002B49" />
+            </marker>
+          </defs>
+
+          <!-- Circuitos con Interruptores y Pull-Up -->
+          <g transform="translate(10, 42)">
+            <!-- Flechas hacia arriba -->
+            <line x1="18.75" y1="28" x2="18.75" y2="3" stroke="#002B49" stroke-width="1.2" marker-end="url(#arrow-up)" />
+            <line x1="56.25" y1="28" x2="56.25" y2="3" stroke="#002B49" stroke-width="1.2" marker-end="url(#arrow-up)" />
+            <line x1="93.75" y1="28" x2="93.75" y2="3" stroke="#002B49" stroke-width="1.2" marker-end="url(#arrow-up)" />
+            <line x1="131.25" y1="28" x2="131.25" y2="3" stroke="#002B49" stroke-width="1.2" marker-end="url(#arrow-up)" />
+            <line x1="168.75" y1="28" x2="168.75" y2="3" stroke="#002B49" stroke-width="1.2" marker-end="url(#arrow-up)" />
+            <line x1="206.25" y1="28" x2="206.25" y2="3" stroke="#002B49" stroke-width="1.2" marker-end="url(#arrow-up)" />
+            <line x1="243.75" y1="28" x2="243.75" y2="3" stroke="#002B49" stroke-width="1.2" marker-end="url(#arrow-up)" />
+            <line x1="281.25" y1="28" x2="281.25" y2="3" stroke="#002B49" stroke-width="1.2" marker-end="url(#arrow-up)" />
+
+            <!-- Nodos y Pulsadores -->
+            <!-- Bit 7 (0) -> Cerrado a masa -->
+            <circle cx="18.75" cy="28" r="2.5" fill="#002B49" />
+            <line x1="18.75" y1="28" x2="18.75" y2="38" stroke="#002B49" stroke-width="1.2" />
+            <line x1="18.75" y1="38" x2="25" y2="50" stroke="#002B49" stroke-width="1.2" />
+            <circle cx="18.75" cy="52" r="2" fill="#002B49" />
+            <line x1="18.75" y1="52" x2="18.75" y2="60" stroke="#002B49" stroke-width="1.2" />
+            <line x1="12" y1="60" x2="25.5" y2="60" stroke="#002B49" stroke-width="1.2" />
+
+            <!-- Bit 6 (1) -> Abierto -->
+            <circle cx="56.25" cy="28" r="2.5" fill="#002B49" />
+            <line x1="56.25" y1="28" x2="56.25" y2="38" stroke="#002B49" stroke-width="1.2" />
+            <line x1="56.25" y1="38" x2="65" y2="46" stroke="#002B49" stroke-width="1.2" />
+            <circle cx="56.25" cy="52" r="2" fill="#002B49" />
+            <line x1="56.25" y1="52" x2="56.25" y2="60" stroke="#002B49" stroke-width="1.2" />
+            <line x1="49.5" y1="60" x2="63" y2="60" stroke="#002B49" stroke-width="1.2" />
+
+            <!-- Bit 0 Pull-Up / Vcc -->
+            <circle cx="281.25" cy="28" r="2.5" fill="#002B49" />
+            <line x1="281.25" y1="28" x2="295" y2="28" stroke="#002B49" stroke-width="1.2" />
+            <line x1="295" y1="28" x2="295" y2="5" stroke="#002B49" stroke-width="1.2" />
+            <rect x="291" y="-8" width="8" height="12" fill="#ffffff" stroke="#002B49" stroke-width="1" />
+            <line x1="295" y1="-8" x2="295" y2="-15" stroke="#002B49" stroke-width="1.2" />
+            <circle cx="295" cy="-17" r="2" fill="#002B49" />
+            <text x="295" y="-22" font-family="sans-serif" font-size="9" font-weight="bold" fill="#002B49" text-anchor="middle">+Vcc</text>
+          </g>
+        </svg>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
 <!-- SLIDE: Operaciones Bitwise sobre Puertos Digitales -->
       <section>
         <h2>Operaciones Bitwise sobre Puertos Digitales</h2>
