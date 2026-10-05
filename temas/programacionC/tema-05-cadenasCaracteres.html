@@ -2,114 +2,95 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>Tema 05 - Cadenas de Caracteres</title>
+  <title>Cadenas de caracteres</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- Hojas de Estilos Reveal.js -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css">
   <link rel="stylesheet" href="../../css/uniovi-theme.css">
+
   <style>
+    /* Estilos personalizados del Tema */
     .syntax-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      align-items: start;
+      display: flex;
+      gap: 12px;
+      align-items: stretch;
+      width: 100%;
       margin-top: 0.8rem;
     }
-
     .syntax-code-card {
-      background: #f8fbff;
-      border: 1px solid #d8e4fa;
-      border-radius: 16px;
-      padding: 10px;
-      box-shadow: 0 8px 20px rgba(17, 36, 77, 0.08);
-    }
-
-    .syntax-legend {
-      display: grid;
-      gap: 10px;
-    }
-
-    .syntax-chip {
-      background: #f7faff;
-      border: 1px solid #cfdcf3;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
       border-radius: 12px;
-      padding: 10px 12px;
-      text-align: left;
-      box-shadow: 0 4px 12px rgba(13, 35, 76, 0.07);
+      padding: 12px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
     }
-
+    .syntax-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .syntax-chip {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 8px 12px;
+      text-align: left;
+    }
     .syntax-chip strong {
       display: block;
-      color: #1d3f7a;
-      font-size: 0.9em;
-      margin-bottom: 4px;
+      color: #002B49;
+      font-size: 0.85em;
+      margin-bottom: 2px;
     }
-
     .syntax-chip small {
-      color: #4b617f;
-      font-size: 0.72em;
+      color: #64748b;
+      font-size: 0.7em;
     }
-
     .data-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.6em;
-      margin-top: 0.8rem;
+      font-size: 0.7em;
+      margin-top: 0.6rem;
     }
-
     .data-table th, .data-table td {
-      border: 1px solid #c7d7f5;
-      padding: 5px 8px;
+      border: 1px solid #cbd5e1;
+      padding: 8px 10px;
       text-align: center;
     }
-
     .data-table th {
-      background-color: #1d3f7a;
+      background-color: #002B49;
       color: #ffffff;
       font-weight: bold;
     }
-
     .data-table tr:nth-child(even) {
-      background-color: #f3f7ff;
+      background-color: #f8fafc;
+    }
+    
+    /* Resaltado estricto de líneas en bloques de código (mark) */
+    .reveal pre code mark {
+      display: block !important;
+      background-color: #fef08a !important; 
+      color: #0f172a !important;            
+      margin: 0 -1em !important;             
+      padding: 0 1em !important;            
+      border-left: 4px solid #eab308 !important; 
+      font-weight: bold !important;
+    }
+    .reveal pre code mark * {
+      color: #0f172a !important;
     }
 
-    .memory-box {
-      background: linear-gradient(180deg, #f3f7ff 0%, #e8efff 100%);
-      border: 1px solid #c7d7f5;
-      border-radius: 12px;
-      padding: 12px;
-      font-family: monospace;
-      font-size: 0.8em;
-      margin-top: 0.8rem;
-      text-align: center;
+    /* Estilos para el resaltado con data-line-numbers nativo */
+    .reveal .hljs-ln-line.highlight-line {
+      background-color: #fef08a !important;
+      color: #0f172a !important;
+      font-weight: bold !important;
     }
-
-    .memory-grid {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 8px;
-      flex-wrap: wrap;
-    }
-
-    .memory-cell {
-      border: 2px solid #1d3f7a;
-      background: #ffffff;
-      padding: 6px 10px;
-      border-radius: 8px;
-      min-width: 50px;
-    }
-
-    .memory-cell strong {
-      display: block;
-      color: #1d3f7a;
-      font-size: 1em;
-    }
-
-    .memory-cell small {
-      color: #666;
-      font-size: 0.7em;
+    .reveal .hljs-ln-line.highlight-line * {
+      color: #0f172a !important;
     }
   </style>
 </head>
@@ -117,343 +98,441 @@
   <div class="reveal">
     <div class="slides">
 
-      <!-- Slide 1: Portada -->
+      <!-- SLIDE 1: Portada (Pág 109) -->
       <section>
-        <span class="badge">Tema 05</span>
+        <div style="text-align: center; margin-bottom: 15px;">
+          <img src="../../assets/img/tema0/logoUniovi.png" alt="Logo Universidad de Oviedo" style="max-height: 90px; width: auto; background: transparent; border: none; box-shadow: none;">
+        </div>
+        
+        <span class="badge">Tema</span>
         <h1>Cadenas de Caracteres</h1>
-        <p class="subtitle">Programación en Lenguaje C</p>
+        <p class="subtitle">Introducción al computador y el lenguaje C</p>
         <p class="subtitle subtitle-small">Ingeniería de Sistemas y Automática - Universidad de Oviedo</p>
       </section>
 
-      <!-- Slide 2: Indice -->
-      <section>
-        <h2>Índice del Tema</h2>
-        <div class="contents-box">
-          <ol class="contents-list">
-            <li>Codificación de texto: Estándares ASCII y UNICODE</li>
-            <li>El tipo de dato <code>char</code> y operaciones con caracteres</li>
-            <li>Representación de cadenas (strings) y el carácter nulo (<code>\0</code>)</li>
-            <li>Asignación, copia y comparación manual de cadenas</li>
-            <li>Funciones de entrada/salida de texto</li>
-            <li>Librería estándar <code>&lt;string.h&gt;</code> (<code>strlen</code>, <code>strcpy</code>, <code>strcat</code>, <code>strcmp</code>, etc.)</li>
-            <li>Conversión entre texto y números (<code>atoi</code>, <code>atof</code>, <code>sprintf</code>, <code>sscanf</code>)</li>
-          </ol>
-        </div>
-      </section>
-
-      <!-- Slide 3: Codificación de texto -->
+      <!-- SLIDE 2: Codificación de texto (Pág 110) -->
       <section>
         <h2>Codificación de texto</h2>
-        <div class="contents-box">
-          <p>Al igual que otros conceptos numéricos, el texto se codifica internamente como valores enteros:</p>
+        <div class="contents-box" style="font-size: 0.8em; text-align: left;">
+          <p>Al igual que otros conceptos "abstractos" (días de la semana, tipos de fruta, etc.), el texto se codifica como números enteros:</p>
           <ul class="contents-list">
-            <li><strong>Codificación estándar:</strong> Los computadores utilizan estándares comunes como ASCII y UNICODE.</li>
-            <li><strong>ASCII:</strong> Utiliza 8 bits (1 byte) = 256 caracteres diferentes.</li>
-            <li><strong>UNICODE:</strong> Utiliza 16 bits = 65.536 caracteres diferentes.</li>
-            <li><strong>Tipo <code>char</code>:</strong> Almacena el número entero correspondiente al código binario del carácter.</li>
-            <li><strong>Constantes de carácter:</strong> Se encierran entre comillas simples (ej. <code>'a'</code> &equiv; 97, <code>'0'</code> &equiv; 48, <code>'\n'</code> &equiv; 10).</li>
+            <li>Cada carácter de un texto está codificado por un valor entero.</li>
+            <li>Todos los computadores deben utilizar la misma codificación para entenderse entre ellos: códigos <strong>ASCII</strong> y <strong>UNICODE</strong>.</li>
+            <li>Puesto que no hay muchos caracteres diferentes, no es necesario un elevado nº de bits para codificarlos todos:
+              <ul style="margin-top: 4px;">
+                <li><strong>ASCII:</strong> 8 bits = 256 caracteres diferentes.</li>
+                <li><strong>UNICODE:</strong> 16 bits = 65536 caracteres diferentes.</li>
+              </ul>
+            </li>
           </ul>
-        </div>
-      </section>
 
-      <!-- Slide 4: Interpretación del tipo char -->
-      <section>
-        <h2>Interpretación del tipo <code>char</code></h2>
-        <div class="memory-box">
-          <p>La variable <code>char letra = 'a';</code> se almacena en memoria como el byte binario <code>01100001</code>:</p>
-          <div class="memory-grid">
-            <div class="memory-cell">
-              <small>Valor Entero</small>
-              <strong>97</strong>
-              <small>1&middot;2<sup>6</sup> + 1&middot;2<sup>5</sup> + 1&middot;2<sup>0</sup></small>
-            </div>
-            <div class="memory-cell" style="background-color: #e8efff;">
-              <small>Carácter</small>
-              <strong>'a'</strong>
-              <small>Representación gráfica</small>
-            </div>
+          <p style="margin-top: 15px;">Se utiliza el tipo de datos <code>char</code> para indicar un entero con el nº de bits necesarios (8/16) para codificar un carácter.</p>
+          
+          <div style="background: #f1f5f9; border-left: 3px solid #0284c7; padding: 6px 10px; margin-top: 10px; font-size: 0.85em;">
+            Para declarar constantes se pone el carácter entre comillas simples, para evitar recordar el código de cada carácter.
+            <br>
+            <strong style="color: #002B49; font-family: monospace;">Ejs: 'a' ≡ 97 &nbsp; 'b' ≡ 98 &nbsp; 'c' ≡ 99 &nbsp; '.' ≡ 46 &nbsp; '0' ≡ 48 &nbsp; '1' ≡ 49 &nbsp; '\n' ≡ 10</strong>
           </div>
         </div>
-        <pre><code class="language-c" data-trim data-noescape>
-char c1 = 'a';
-char c2 = c1 + 2; // Operación aritmética: 97 + 2 = 99 ('c')
-
-if (c2 >= 'a' && c2 <= 'z') {
-    printf("El carácter '%c' es una letra minúscula\n", c2); // Muestra 'c'
-}
-        </code></pre>
       </section>
 
-      <!-- Slide 5: Tabla ASCII -->
+      <!-- SLIDE 3: Codificación de texto - Interpretación (Pág 111) -->
       <section>
-        <h2>Tabla de Códigos ASCII</h2>
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Dec</th>
-              <th>Hex</th>
-              <th>Char</th>
-              <th>Dec</th>
-              <th>Hex</th>
-              <th>Char</th>
-              <th>Dec</th>
-              <th>Hex</th>
-              <th>Char</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>0</td><td>00</td><td>Null (\0)</td>
-              <td>48</td><td>30</td><td>'0'</td>
-              <td>65</td><td>41</td><td>'A'</td>
-            </tr>
-            <tr>
-              <td>10</td><td>0A</td><td>Line Feed (\n)</td>
-              <td>49</td><td>31</td><td>'1'</td>
-              <td>66</td><td>42</td><td>'B'</td>
-            </tr>
-            <tr>
-              <td>13</td><td>0D</td><td>Carriage Ret</td>
-              <td>57</td><td>39</td><td>'9'</td>
-              <td>90</td><td>5A</td><td>'Z'</td>
-            </tr>
-            <tr>
-              <td>32</td><td>20</td><td>Espacio</td>
-              <td>61</td><td>3D</td><td>'='</td>
-              <td>97</td><td>61</td><td>'a'</td>
-            </tr>
-            <tr>
-              <td>46</td><td>2E</td><td>'.'</td>
-              <td>63</td><td>3F</td><td>'?'</td>
-              <td>122</td><td>7A</td><td>'z'</td>
-            </tr>
-          </tbody>
-        </table>
-        <p style="font-size:0.7em; color:#666; margin-top:10px;">
-          ASCII Estándar: códigos del 0 al 127. ASCII Extendido: códigos del 128 al 255 (caracteres especiales, acentos, 'ñ').
-        </p>
-      </section>
-
-      <!-- Slide 6: Cadenas de caracteres (string) -->
-      <section>
-        <h2>Cadenas de Caracteres (Strings)</h2>
-        <div class="contents-box">
-          <p>Un texto en C es un **array de tipo <code>char</code>**.</p>
-          <p>Para no requerir una segunda variable con la longitud, las cadenas finalizan obligatoriamente con el carácter especial **nulo** (código <code>0</code> o <code>'\0'</code>).</p>
-        </div>
-        <div class="memory-box">
-          <p>Estructura en memoria para <code>char txt[5] = "Hola";</code>:</p>
-          <div class="memory-grid">
-            <div class="memory-cell"><small>txt[0]</small><strong>'H'</strong></div>
-            <div class="memory-cell"><small>txt[1]</small><strong>'o'</strong></div>
-            <div class="memory-cell"><small>txt[2]</small><strong>'l'</strong></div>
-            <div class="memory-cell"><small>txt[3]</small><strong>'a'</strong></div>
-            <div class="memory-cell" style="background-color: #ffe8e8; border-color: #d9534f;">
-              <small>txt[4]</small><strong>\0 (0)</strong>
-            </div>
-          </div>
-        </div>
-        <p style="font-size:0.75em; margin-top:10px;">
-          <em>¡Atención!</em> Para almacenar una cadena de $N$ caracteres se debe declarar un array de al menos $N+1$ elementos.
-        </p>
-      </section>
-
-      <!-- Slide 7: Constantes e Inicialización -->
-      <section>
-        <h2>Inicialización y Asignación</h2>
+        <h2>Codificación de texto</h2>
+        <pre><code class="language-c" data-trim data-noescape style="font-size: 0.85em; text-align: center;">char letra;
+letra = 'a';</code></pre>
+        
         <div class="syntax-layout">
-          <div class="syntax-code-card">
-            <pre><code class="language-c" data-trim data-noescape>
-// Correcto: Inicialización en declaración
-char txt[5] = "Hola";
-
-// INCORRECTO: Asignación directa
-char nom[5];
-nom = "Pepe"; // Error: equivale a copiar direcciones
-
-// INCORRECTO: Copia de arrays
-nom = txt;   // Error de compilación
-            </code></pre>
+          <!-- Lo que realmente existe -->
+          <div class="syntax-code-card" style="flex: 1; text-align: center; border-top: 3px solid #1e293b;">
+            <strong style="color: #1d3f7a; font-size: 0.85em;">Lo que realmente existe</strong>
+            <div style="margin: 10px 0; font-family: monospace; font-size: 1.2em; background: #0f172a; color: #34d399; padding: 5px; border-radius: 4px;">
+              01100001
+            </div>
+            <small style="color: #4b617f;">Es un entero que ocupa 1 byte en memoria por ser char.</small>
           </div>
-          <div class="syntax-legend">
-            <div class="syntax-chip">
-              <strong>Constante String (<code>"..."</code>)</strong>
-              <small>Devuelve un <code>const char*</code> con la dirección inicial del texto.</small>
+
+          <!-- Lo que interpreto I (Como entero) -->
+          <div class="syntax-code-card" style="flex: 1; text-align: left; border-top: 3px solid #0284c7;">
+            <strong style="color: #1d3f7a; font-size: 0.85em;">Como entero (97)</strong>
+            <small style="color: #4b617f; display: block; margin-top: 4px;">A cada bit le corresponde un peso:<br>1*2⁶ + 1*2⁵ + 1*2⁰ = 97</small>
+            <div style="background: #f8fafc; padding: 4px; border: 1px solid #e2e8f0; border-radius: 4px; margin-top: 6px; font-size: 0.7em;">
+              Las op. aritméticas (+,-,*,/) dan lugar a valores de la misma forma.<br>
+              <code>suma = letra + 4; // 103</code>
             </div>
-            <div class="syntax-chip">
-              <strong>Nombre del Array</strong>
-              <small>Es una dirección constante; no se puede modificar mediante el operador <code>=</code>.</small>
-            </div>
+          </div>
+
+          <!-- Lo que interpreto II (Como caracter) -->
+          <div class="syntax-code-card" style="flex: 1; text-align: left; border-top: 3px solid #10b981;">
+            <strong style="color: #1d3f7a; font-size: 0.85em;">Como carácter ('a')</strong>
+            <small style="color: #4b617f; display: block; margin-top: 4px;">En pantalla, esta secuencia de bits genera los puntitos de la 'a'.</small>
+            <small style="color: #4b617f; display: block; margin-top: 4px;">En un teclado: la tecla envía al computador el código binario 01100001.</small>
+                  <div style="text-align: center; margin-bottom: 15px;">
+          <img src="../../assets/img/tema05/char_a.png" alt="Logo Universidad de Oviedo" style="max-height: auto; width: auto; background: transparent; border: none; box-shadow: none;">
+        </div>
           </div>
         </div>
       </section>
 
-      <!-- Slide 8: Manipulación manual de strings -->
+      <!-- SLIDE 4: La tabla de códigos ASCII (Pág 112) -->
       <section>
-        <h2>Operaciones Manuales con Strings</h2>
-        <p style="font-size:0.8em; text-align:left;">Toda operación sobre una cadena requiere recorrer el array elemento a elemento hasta encontrar el carácter <code>0</code>:</p>
-        <pre><code class="language-c" data-trim data-noescape>
-char txt[5] = "Pepe";
-char nom[5];
-int i, iguales = 1;
+        <h2>La tabla de códigos ASCII</h2>
+        <div class="contents-box" style="font-size: 0.75em;">
+          <p>ASCII utiliza 8 bits = 256 valores diferentes:</p>
+            <div style="text-align: center; margin-bottom: 15px;">
+          <img src="../../assets/img/tema05/tabla_car.png" alt="tabla_car" style="max-height: auto; width: auto; background: transparent; border: none; box-shadow: none;">
+        </div>
+        </div>
+      </section>
 
-// Copiar txt en nom
-for (i = 0; txt[i] != '\0'; i++) {
+      <!-- SLIDE 5: Operaciones con caracteres (Pág 113) -->
+      <section>
+        <h2>Operaciones con caracteres</h2>
+        <div class="contents-box" style="font-size: 0.8em; text-align: left;">
+          <p>Se opera igual que con datos enteros (son enteros).</p>
+          <pre style="margin-top: 0;"><code class="language-c" data-trim data-noescape style="font-size: 0.8em;">char c1, c2;
+c1 = 'a';
+c2 = c1 + 2; // c1=97 (0x61), c2=99 (0x63)='c'
+
+if (c2 >= 'a' &amp;&amp; c2 <= 'z')
+    printf("El carácter %c es una letra minúscula\n", c2);</code></pre>
+
+          <strong style="display: block; margin-top: 15px; color: #002B49;">Funciones específicas de interés:</strong>
+          <ul class="contents-list" style="font-family: monospace; font-size: 0.85em;">
+            <li>char getchar(); <span style="color: #64748b; font-family: sans-serif;">// Pide un carácter por consola</span></li>
+            <li>putchar(char c); <span style="color: #64748b; font-family: sans-serif;">// Escribe un carácter en consola</span></li>
+            <li>int isalpha(char c); <span style="color: #64748b; font-family: sans-serif;">// Devuelve V si c está entre 'a'..'z' ó 'A'..'Z'</span></li>
+            <li>char toupper(char c); <span style="color: #64748b; font-family: sans-serif;">// Devuelve mayúscula si era minúscula</span></li>
+          </ul>
+
+          <div style="background: #fef2f2; border-left: 3px solid #ef4444; padding: 6px 10px; margin-top: 10px; font-size: 0.85em;">
+            <strong>¡Ojo con caracteres extendidos!</strong> Ñ, ñ, á, é, etc. no siguen reglas de ordenación estándar.
+            <br>
+            Códigos para caracteres "especiales" comienzan con \: <code>'\n', '\0', '\"', '\\'</code>.
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 6: Cadenas de caracteres (Pág 114) -->
+      <section>
+        <h2>Cadenas de caracteres (string)</h2>
+        <div class="contents-box" style="font-size: 0.8em; text-align: left;">
+          <p>Un texto es una secuencia ordenada de caracteres, por tanto en C será un array de <code>char</code> (en inglés <i>string</i>).</p>
+          
+          <div class="syntax-layout">
+            <div class="syntax-code-card" style="flex: 1;">
+              <strong style="color: #ef4444; font-size: 0.8em;">Gestión clásica (Inadecuada para strings)</strong>
+              <small style="display: block; color: #4b617f; margin-bottom: 6px;">Requiere dirección de comienzo y longitud.</small>
+              <pre style="margin: 0;"><code class="language-c" data-trim data-noescape style="font-size: 0.7em;">char txt[4];
+int n = 4;
+txt[0] = 'H';
+txt[1] = 'o';
+txt[2] = 'l';
+txt[3] = 'a';</code></pre>
+            </div>
+
+            <div class="syntax-code-card" style="flex: 1; border-color: #10b981;">
+              <strong style="color: #10b981; font-size: 0.8em;">Gestión en C (Carácter Nulo)</strong>
+              <small style="display: block; color: #4b617f; margin-bottom: 6px;">Se gestiona colocando un código especial (0) al final de la tabla.</small>
+              <pre style="margin: 0;"><code class="language-c" data-trim data-noescape style="font-size: 0.7em;">char txt[5]; // Un elemento más
+txt[0] = 'H';
+txt[1] = 'o';
+txt[2] = 'l';
+txt[3] = 'a';
+txt[4] = 0; // o '\0'</code></pre>
+            </div>
+          </div>
+          
+          <div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 6px 10px; margin-top: 10px; font-size: 0.85em; text-align: center;">
+            El string queda definido <strong>únicamente por su dirección de comienzo</strong>. El final se produce donde se encuentre el carácter de código 0 (<code>0 = '\0' ≠ '0' = 48</code>).
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 7: Constantes String (Pág 115) -->
+      <section>
+        <h2>Cadenas de caracteres (string)</h2>
+        <div class="contents-box" style="font-size: 0.8em; text-align: left;">
+          <p>Se pueden manejar constantes de tipo string, colocando el texto entre comillas dobles:</p>
+          
+          <pre style="margin-top: 0;"><code class="language-c" data-trim data-noescape>char txt[5] = "Hola";</code></pre>
+
+          <!-- Tabla de memoria -->
+          <table class="data-table" style="width: 60%; margin: 10px auto;">
+            <thead>
+              <tr><th>Índice</th><th>Valor</th><th>Dirección</th></tr>
+            </thead>
+            <tbody>
+              <tr><td style="font-family: monospace;">txt[0]</td><td>'H'</td><td>3000 = txt</td></tr>
+              <tr><td style="font-family: monospace;">txt[1]</td><td>'o'</td><td>3001</td></tr>
+              <tr><td style="font-family: monospace;">txt[2]</td><td>'l'</td><td>3002</td></tr>
+              <tr><td style="font-family: monospace;">txt[3]</td><td>'a'</td><td>3003</td></tr>
+              <tr><td style="font-family: monospace; color: #ef4444;">txt[4]</td><td style="color: #ef4444;">0</td><td>3004</td></tr>
+              <tr><td style="font-family: monospace; color: #64748b;">txt[5]</td><td style="color: #64748b;">?</td><td>3005</td></tr>
+            </tbody>
+          </table>
+
+          <p style="margin-top: 15px;">Una constante tipo string es un <code>const char*</code>, y se puede utilizar en cualquier lugar del código que lo acepte:</p>
+          <pre style="margin-top: 0;"><code class="language-c" data-trim data-noescape style="font-size: 0.8em;">// En &lt;stdio.h&gt;
+int printf(const char* fmt, ...);
+
+// En nuestro programa
+int x = 3, y = 2;
+printf("x vale %d, y vale %d\n", x, y); // Recibe dirección de comienzo</code></pre>
+        </div>
+      </section>
+
+      <!-- SLIDE 8: Asignación de Strings (Pág 116) -->
+      <section>
+        <h2>Cadenas de caracteres (string)</h2>
+        <div class="contents-box" style="font-size: 0.8em; text-align: left;">
+          <p>Sólo se puede asignar el contenido de un string a una constante en el momento de su declaración:</p>
+          
+          <pre style="margin-top: 0;"><code class="language-c" data-trim data-noescape>char txt[5] = "Hola"; // Correcto
+char nom[5];
+<mark>nom = "Pepe";       // Incorrecto, ¡equivale a 3100 = 4000!</mark>
+<mark>nom = txt;          // Incorrecto, ¡equivale a 3100 = 3000!</mark></code></pre>
+
+            <div style="text-align: center; margin-bottom: 15px;">
+          <img src="../../assets/img/tema05/string.png" alt="tabla_car" style="max-height: auto; width: auto; background: transparent; border: none; box-shadow: none;">
+        </div>
+
+        </div>
+      </section>
+
+
+
+      <!-- SLIDE 9: Operaciones manuales -->
+      <section>
+        <h2>Cadenas de caracteres (string)</h2>
+        
+        <div class="syntax-layout" style="display: flex; gap: 14px; width: 100%; align-items: stretch; margin-top: 6px;">
+          
+          <!-- COLUMNA IZQUIERDA: Código C -->
+          <div class="syntax-code-card" style="flex: 1.2; display: flex; flex-direction: column; padding: 12px; background: #ffffff; border: 1px solid #cbd5e1; box-sizing: border-box; text-align: left;">
+            <p style="margin: 0 0 10px 0; font-size: 0.8em; color: #002B49;">Todas las operaciones con string requieren recorrer los elementos de la tabla uno por uno, terminando al alcanzar el carácter 0:</p>
+
+            <pre style="margin: 0; flex: 1;"><code class="language-c" data-trim data-noescape style="font-size: 0.65em; line-height: 1.3;">char txt[5] = "Pepe";
+char nom[5];
+int i, iguales;
+
+// Copiar txt a nom
+for (i = 0; txt[i] != 0; i++) {
     nom[i] = txt[i];
 }
-nom[i] = '\0'; // Asignar el carácter de cierre
+nom[i] = 0; // ¡Añadir terminador nulo! (nom vale lo mismo que txt)
 
-// Comparar cadenas (no usar nom == txt)
-for (i = 0; txt[i] != '\0'; i++) {
-    if (txt[i] != nom[i]) {
-        iguales = 0;
-        break;
-    }
+// Comparar nom y txt
+if (nom == txt) // MAL: Siempre falso (3000 == 3100)
+
+iguales = 1;
+for (i = 0; txt[i] != 0; i++) {
+    iguales = iguales &amp;&amp; (txt[i] == nom[i]);
 }
-        </code></pre>
+// Aquí: iguales (V o F) indica si son iguales</code></pre>
+          </div>
+
+          <!-- COLUMNA DERECHA: Imagen de memoria -->
+          <div class="syntax-code-card" style="flex: 0.8; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 12px; background: #ffffff; border: 1px solid #cbd5e1; box-sizing: border-box;">
+            <img src="../../assets/img/tema05/ej_car.png" alt="Representación en memoria de la copia y comparación de cadenas de caracteres" style="max-width: 95%; max-height: 380px; height: auto; object-fit: contain; border-radius: 4px;">
+          </div>
+          
+        </div>
       </section>
 
-      <!-- Slide 9: Funciones de Entrada/Salida -->
+
+
+
+      <!-- SLIDE 10: Funciones E/S (Pág 118) -->
       <section>
-        <h2>Entrada / Salida de Cadenas</h2>
-        <div class="contents-box">
-          <p>Funciones básicas para interactuar con texto por consola:</p>
-          <ul class="contents-list">
-            <li><code>gets(cad);</code> / <code>puts(cad);</code> Lectura y escritura rápida de cadenas.</li>
-            <li><code>scanf("%s", cad);</code> Lee texto hasta el primer espacio en blanco.</li>
-            <li><code>printf("%s", cad);</code> Muestra el contenido apuntado por la cadena.</li>
+        <h2>Operaciones con strings</h2>
+        <div class="contents-box" style="font-size: 0.8em; text-align: left;">
+          <p><strong>Funciones para E/S de strings:</strong></p>
+          <ul class="contents-list" style="font-family: monospace; font-size: 0.9em;">
+            <li>char* gets(char* cad); <span style="color: #64748b; font-family: sans-serif;">// Pide una cadena por consola</span></li>
+            <li>int puts(const char* cad); <span style="color: #64748b; font-family: sans-serif;">// Escribe una cadena en consola</span></li>
+          
           </ul>
+          
+          <div style="background: #f8fafc; border-left: 3px solid #10b981; padding: 6px 10px; margin: 10px 0; font-size: 0.85em;">
+            Se utiliza <strong>%s</strong> en <code>printf()</code> y <code>scanf()</code>.
+          </div>
+
+          <strong style="color: #002B49;">Ejemplo:</strong>
+          <pre style="margin-top: 5px;"><code class="language-c" data-trim data-noescape style="font-size: 0.8em;">char nombre[20];
+char apellido[20];
+
+printf("Nombre: ");
+gets(nombre);
+printf("Apellido: ");
+gets(apellido);
+printf("Nombre completo: %s %s\n", nombre, apellido);</code></pre>
         </div>
-        <pre><code class="language-c" data-trim data-noescape>
-char nombre[20], apellido[20];
+      </section>
+
+      <!-- SLIDE 11: string.h 1 (Pág 119) -->
+      <section>
+        <h2>Funciones de cadena de caracteres</h2>
+        <div class="contents-box" style="font-size: 0.75em; text-align: left;">
+          <p>Realizan los bucles más típicos en el tratamiento de strings (copiar, comparar, añadir, buscar, ...). Trabajan con tablas de char terminadas en el caracter 0. Incluir <code>&lt;string.h&gt;</code>.</p>
+          <li>Trabajan con tablas de char terminadas en el caracter 0</li>
+          <li>Incluir string.h</li>
+          <strong style="color: #002B49;">Funciones más utilizadas:</strong>
+          <table class="data-table" style="margin-top: 5px;">
+            <tbody>
+              <tr><td style="font-family: monospace; text-align: left;">int <strong>strlen</strong>(const char* cad);</td><td style="text-align: left;">Devuelve longitud de cadena</td></tr>
+              <tr><td style="font-family: monospace; text-align: left;">char* <strong>strcpy</strong>(char* dst, const char* src);</td><td style="text-align: left;">Copia src en dst</td></tr>
+              <tr><td style="font-family: monospace; text-align: left;">char* <strong>strncpy</strong>(char* dst, const char* src, int n);</td><td style="text-align: left;">Copia máx n caracteres (no incl. nulo)</td></tr>
+              <tr><td style="font-family: monospace; text-align: left;">char* <strong>strcat</strong>(char* dst, const char* src);</td><td style="text-align: left;">Añade src al final de dst</td></tr>
+              <tr><td style="font-family: monospace; text-align: left;">char* <strong>strncat</strong>(char* dst, const char* src, int n);</td><td style="text-align: left;">Añade máx n caracteres (incl. nulo)</td></tr>
+            </tbody>
+          </table>
+          <small style="color: #64748b; display: block; margin-top: 4px;">Nota: El valor devuelto suele ser el mismo que dst en strcpy/strcat.</small>
+        </div>
+      </section>
+
+      <!-- SLIDE 12: string.h 2 (Pág 120) -->
+      <section>
+        <h2>Funciones de cadena de caracteres</h2>
+        <div class="contents-box" style="font-size: 0.75em; text-align: left;">
+          <strong style="color: #002B49;">...Funciones más utilizadas</strong>
+          
+          <table class="data-table" style="margin-top: 5px;">
+            <tbody>
+              <tr>
+                <td style="font-family: monospace; text-align: left;">int <strong>strcmp</strong>(const char* str1, const char* str2);</td>
+                <td style="text-align: left;">Compara códigos ASCII. Devuelve: 0 ⇒ iguales, &lt;0 ⇒ str1 anterior, &gt;0 ⇒ str1 posterior.</td>
+              </tr>
+              <tr>
+                <td style="font-family: monospace; text-align: left;">int <strong>strncmp</strong>(const char* str1, const char* src, int n);</td>
+                <td style="text-align: left;">Id. con máximo n caracteres.</td>
+              </tr>
+              <tr>
+                <td style="font-family: monospace; text-align: left;">char* <strong>strchr</strong>(const char* str, char c);</td>
+                <td style="text-align: left;">Busca caracter c en cadena cad.</td>
+              </tr>
+              <tr>
+                <td style="font-family: monospace; text-align: left;">char* <strong>strstr</strong>(const char* str, const char* substr);</td>
+                <td style="text-align: left;">Busca subcadena substr en cadena str.</td>
+              </tr>
+            </tbody>
+          </table>
+
+
+        </div>
+      </section>
+
+      <!-- SLIDE 13: Ejemplo (Pág 121) -->
+      <section>
+        <h2>Funciones de cadena de caracteres</h2>
+        <div class="contents-box" style="font-size: 0.8em; text-align: left;">
+          <p>Ejemplo: pedir nombre y apellido, unirlos, y comprobar si se trata de "Marie Curie".</p>
+
+          <pre style="margin-top: 0;"><code class="language-c" data-trim data-noescape style="font-size: 0.75em;">char nombre[20];
+char apellido[20];
+char* todo;
 
 printf("Nombre: ");
 gets(nombre);
 printf("Apellido: ");
 gets(apellido);
 
-printf("Nombre completo: %s %s\n", nombre, apellido);
-        </code></pre>
-      </section>
-
-      <!-- Slide 10: Librería <string.h> principales -->
-      <section>
-        <h2>Librería <code>&lt;string.h&gt;</code>: Gestión de Cadenas</h2>
-        <div class="syntax-layout">
-          <div class="syntax-chip">
-            <strong><code>strlen(cad)</code></strong>
-            <small>Devuelve el número de caracteres (sin contar el <code>\0</code> final).</small>
-          </div>
-          <div class="syntax-chip">
-            <strong><code>strcpy(dst, src)</code></strong>
-            <small>Copia el contenido de la cadena <code>src</code> en <code>dst</code>.</small>
-          </div>
-          <div class="syntax-chip">
-            <strong><code>strcat(dst, src)</code></strong>
-            <small>Concatena (añade) la cadena <code>src</code> al final de <code>dst</code>.</small>
-          </div>
-          <div class="syntax-chip">
-            <strong><code>strcmp(s1, s2)</code></strong>
-            <small>Compara alfabéticamente. Devuelve <code>0</code> si son iguales, <code>&lt;0</code> si <code>s1 &lt; s2</code>, y <code>&gt;0</code> si <code>s1 &gt; s2</code>.</small>
-          </div>
-        </div>
-      </section>
-
-      <!-- Slide 11: Variantes seguras y de búsqueda -->
-      <section>
-        <h2>Búsqueda y Variantes con Límite $N$</h2>
-        <div class="contents-box">
-          <ul class="contents-list">
-            <li><code>strncpy(dst, src, n)</code> / <code>strncat(dst, src, n)</code> / <code>strncmp(s1, s2, n)</code>: Operan limitando la acción a un máximo de $n$ caracteres.</li>
-            <li><code>strchr(str, c)</code>: Busca la primera aparición del carácter <code>c</code> en <code>str</code> (devuelve un puntero).</li>
-            <li><code>strstr(str, substr)</code>: Busca la primera ocurrencia de la subcadena <code>substr</code> dentro de <code>str</code>.</li>
-          </ul>
-        </div>
-        <pre><code class="language-c" data-trim data-noescape>
-#include &lt;stdio.h&gt;
-#include &lt;string.h&gt;
-#include &lt;stdlib.h&gt;
-
-char nombre[20] = "Marie", apellido[20] = "Curie";
-char* todo = (char*) malloc(strlen(nombre) + strlen(apellido) + 2);
+// Reserva espacio dinámico (+1 para espacio, +1 para \0)
+todo = (char*) malloc(strlen(nombre) + 1 + strlen(apellido) + 1);
 
 strcpy(todo, nombre);
 strcat(todo, " ");
 strcat(todo, apellido);
 
-if (strcmp(todo, "Marie Curie") == 0) {
-    puts("Es una científica notable.\n");
-}
-free(todo);
-        </code></pre>
+if (strcmp(todo, "Marie Curie") == 0)
+    puts("Es una científica\n");
+
+free(todo);</code></pre>
+        </div>
       </section>
 
-      <!-- Slide 12: Funciones de Conversión Numérica -->
+      <!-- SLIDE 14: Conversiones numéricas (Pág 122) -->
       <section>
-        <h2>Conversión entre Texto y Números</h2>
-        <div class="contents-box">
-          <p>Funciones para transformar numéricos a texto y viceversa:</p>
-          <ul class="contents-list">
-            <li><code>atoi(cad)</code> / <code>atof(cad)</code>: Convierte una cadena a entero (<code>int</code>) o real (<code>double</code>).</li>
-            <li><code>sscanf(cad, fmt, ...)</code>: Extrae datos formateados desde un string exactamente igual que <code>scanf</code>.</li>
-            <li><code>sprintf(cad, fmt, ...)</code>: Escribe datos formateados dentro de una cadena de caracteres.</li>
-          </ul>
+        <h2>Funciones de conversión de datos</h2>
+        <div class="contents-box" style="font-size: 0.75em; text-align: left;">
+          <p>Convierten cadenas de caracteres de/hacia tipos de datos numéricos.</p>
+
+          <strong style="color: #002B49;">Funciones más utilizadas:</strong>
+          <table class="data-table" style="margin-top: 5px;">
+            <tbody>
+              <tr><td style="font-family: monospace; text-align: left;">int <strong>atoi</strong>(const char* cad);</td><td style="text-align: left;">Obtiene entero decimal</td></tr>
+              <tr><td style="font-family: monospace; text-align: left;">double <strong>atof</strong>(const char* cad);</td><td style="text-align: left;">Obtiene valor real</td></tr>
+              <tr><td style="font-family: monospace; text-align: left;">double <strong>strtod</strong>(const char* cad, char** ptEnd);</td><td style="text-align: left;">Obtiene valor real y puntero al final de conversión</td></tr>
+              <tr><td style="font-family: monospace; text-align: left;">int <strong>sscanf</strong>(const char* cad, const char* fmt, ...);</td><td style="text-align: left;">Id. a scanf() pero obteniendo datos de cadena</td></tr>
+              <tr><td style="font-family: monospace; text-align: left;">char* <strong>itoa</strong>(int num);</td><td style="text-align: left;">Obtiene cadena decimal para entero</td></tr>
+              <tr><td style="font-family: monospace; text-align: left;">char* <strong>ftoa</strong>(double num);</td><td style="text-align: left;">Obtiene cadena decimal para real</td></tr>
+              <tr><td style="font-family: monospace; text-align: left;">int <strong>sprintf</strong>(char* cad, const char* fmt, ...);</td><td style="text-align: left;">Id. a printf() pero almacenando en cadena</td></tr>
+            </tbody>
+          </table>
         </div>
-        <pre><code class="language-c" data-trim data-noescape>
-char texto[40] = "POS = 90";
+      </section>
+
+      <!-- SLIDE 15: Ejemplo POS (Pág 123) -->
+      <section>
+        <h2>Funciones de cadena de caracteres</h2>
+        <div class="contents-box" style="font-size: 0.8em; text-align: left;">
+          <p>Ejemplo: pedir comando de texto y extraer valor entero en una variable (.... POS = 90 ....).</p>
+
+          <pre style="margin-top: 0;"><code class="language-c" data-trim data-noescape style="font-size: 0.75em;">char texto[40];
 int posicion;
-char* cmd = strstr(texto, "POS");
+char* cmd;
 
-if (cmd != NULL) {
-    cmd = strchr(cmd, '=');
-    if (cmd != NULL) {
-        posicion = atoi(cmd + 1); // Extrae el número 90
-    }
-}
-        </code></pre>
+printf("Comando: ");
+gets(texto);
+
+cmd = strstr(texto, "POS"); // Busca subcadena
+if (cmd != NULL)
+{
+    // Avanza puntero saltando 'POS' y espacios en blanco
+    for (cmd = cmd + strlen("POS"); *cmd == ' '; cmd++)
+        ; 
+        
+    if (*cmd == '=')
+        posicion = atoi(cmd + 1); // Extrae número tras '='
+}</code></pre>
+        </div>
       </section>
 
-      <!-- Slide 13: Recomendaciones de Seguridad -->
+      <!-- SLIDE 16: Resumen/Consideraciones (Pág 124) -->
       <section>
-        <h2>Buenas Prácticas con Cadenas</h2>
-        <div class="contents-box">
+        <h2>Cadenas de caracteres</h2>
+        <div class="contents-box" style="font-size: 0.8em; text-align: left;">
+          <p><strong>A tener en cuenta al usar cadenas de caracteres:</strong></p>
           <ul class="contents-list">
-            <li><strong>Espacio suficiente:</strong> Asegurarse de que el array de destino tiene capacidad para el texto concatenado más el nulo final.
-              <pre><code class="language-c" data-trim data-noescape>
-char txt[5] = "Pepe";
-strcat(txt, " Pérez"); // ¡ERROR! Desbordamiento de memoria (Buffer Overflow)
-              </code></pre>
+            <li>Son tablas como cualquier otra: requieren reserva de espacio en memoria, no hay comprobación de salida de rango, etc.</li>
+            <li>No se usa la longitud de la tabla, sino el código especial 0. ¡No se puede olvidar añadir el carácter 0 al manipular strings!</li>
+            <li>Se pueden manipular:
+              <ul>
+                <li>Carácter por carácter, usando índices o punteros.</li>
+                <li>Usando funciones de la librería estándar.</li>
+                <li>Creando funciones propias, sin parámetro de longitud.</li>
+              </ul>
             </li>
-            <li><strong>Siempre finalizar con <code>\0</code>:</strong> Si se modifica manualmente un array de caracteres, garantizar la presencia del código <code>0</code> al final.</li>
-            <li><strong>Memoria dinámica:</strong> Usar <code>malloc</code> para cadenas de tamaño desconocido o muy variable.</li>
           </ul>
+
+          <div style="background: #fef2f2; border-left: 3px solid #ef4444; padding: 6px 10px; margin-top: 10px; font-size: 0.85em;">
+            Siempre hay que asegurar que el tamaño reservado es capaz de albergar los datos:<br>
+            <code>char txt[5] = "Pepe"; strcat(txt," Pérez"); // Incorrecto</code><br>
+            <span style="color: #002B49;">Es habitual el uso de asignación dinámica de memoria.</span>
+          </div>
         </div>
       </section>
 
-      <!-- Slide 14: Ejercicios propuestos -->
+      <!-- SLIDE 17: Ejercicios propuestos (Pág 125) -->
       <section>
-        <h2>Ejercicios Propuestos</h2>
-        <div class="contents-box">
-          <ol class="contents-list" style="font-size: 0.75em;">
-            <li>Componer la ruta completa de un archivo a partir de unidad, directorio y nombre de fichero (ej. <code>"c:\user\practicas\ejemplo.txt"</code>).</li>
-            <li>Comprobar si una ruta dada tiene extensión <code>.txt</code> y pertenece al directorio <code>practicas</code>.</li>
-            <li>Crear una función que analice el comando <code>"POSICION=valor"</code> (admitiendo las abreviaturas <code>POS</code>, <code>POSI</code>, <code>POSIC</code>) y devuelva el entero correspondiente ignorando espacios.</li>
-            <li>Añadir control de errores al analizador anterior para notificar formatos incorrectos.</li>
-            <li>Parsear una cadena con formato <code>"[v1,v2,v3,...vn]"</code> y extraer sus elementos a un array dinámico de tipo <code>float</code>.</li>
-          </ol>
-        </div>
-      </section>
-
-      <!-- Slide 15: Resumen -->
-      <section>
-        <h2>Resumen del Tema</h2>
-        <div class="contents-box">
-          <ol class="contents-list">
-            <li>El tipo <code>char</code> representa un byte entero que codifica caracteres en ASCII.</li>
-            <li>Un string es un array de caracteres delimitado por el carácter nulo <code>\0</code>.</li>
-            <li>Las asignaciones y comparaciones de texto deben realizarse mediante funciones de <code>&lt;string.h&gt;</code>.</li>
-            <li><code>sprintf</code> y <code>sscanf</code> ofrecen un control potente para formatear y extraer datos de cadenas.</li>
-            <li>Prevenir siempre el desbordamiento reservando tamaño suficiente en los arrays.</li>
+        <h2>Ejercicios propuestos</h2>
+        <div class="contents-box" style="font-size: 0.75em; text-align: left;">
+          <ol class="contents-list" style="line-height: 1.5;">
+            <li style="margin-bottom: 8px;">Pedir por consola el nombre de una unidad lógica, directorio y archivo, y componer el camino completo hacia el archivo (ej: "c:\user\practicas\ejemplo.txt").</li>
+            <li style="margin-bottom: 8px;">Comprobar si el archivo anterior tiene extensión "txt" y se encuentra en el subdirectorio "practicas".</li>
+            <li style="margin-bottom: 8px;">Realizar una función que, dado un comando con el formato "POSICION=valor entero", devuelva el valor entero. Admitir que la palabra clave POSICION sea POS, POSI, POSIC o POSICION, y que haya espacios en blanco antes y después del '='.</li>
+            <li style="margin-bottom: 8px;">Añadir a la función anterior la posibilidad de devolver un código de error si no se encuentra el comando o el formato es incorrecto.</li>
+            <li>Pedir por consola una cadena con el formato "[v1,v2,v3,...vn]" y extraer de la misma los contenidos de una tabla de float con esos valores.</li>
           </ol>
         </div>
       </section>
@@ -467,7 +546,7 @@ strcat(txt, " Pérez"); // ¡ERROR! Desbordamiento de memoria (Buffer Overflow)
     Reveal.initialize({
       hash: true,
       slideNumber: 'c/t',
-      plugins: [RevealHighlight]
+      plugins: [ RevealHighlight ]
     });
   </script>
 </body>
