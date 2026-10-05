@@ -1,0 +1,937 @@
+--- PAGE 1 ---
+Control por Computador
+Ignacio Alvarez García
+Octubre - 2023
+
+
+--- PAGE 2 ---
+Indice
+ Introducción al control de procesos por computador
+ Conceptos básicos para programación de control
+ Interfaz del computador con el exterior
+ El control secuencial
+ Las matemáticas del control
+ Programación del lazo de control
+ Programación en lenguaje C
+ Implantación del control en el computador
+2
+
+--- PAGE 3 ---
+Indice
+ Introducción al control de procesos por computador
+ Conceptos básicos para programación de control
+ Interfaz del computador con el exterior
+ El control secuencial
+ Las matemáticas del control
+ Programación del lazo de control
+ Programación en lenguaje C
+ Implantación del control en el computador
+3
+
+--- PAGE 4 ---
+El Control de Procesos por Computador
+ Proceso o sistema
+ Conjunto de elementos físicos que cumplen un cometido común
+ Salidas del sistema: valores medibles cuya variación en el tiempo se desea controlar
+ Entradas al sistema: acciones que se pueden realizar para modificar los valores de las 
+salidas
+SistemaEnt Sal
+4
+Ejemplo 1: sistema térmico
+(calentador de fluido por gas)
+Ejemplo 2: sistema mecánico
+(motor CC + guía lineal)
+-
++
+Desplazamiento
+(salida)
+Tensión
+aplicada
+al motor
+(entrada)
+Velocidad
+(salida)
+
+--- PAGE 5 ---
+El Control de Procesos por Computador
+ Control de un proceso o sistema
+ Variables principales involucradas:
+Referencia o consigna
+: valor deseado para la salida en cada momento
+Error
+: Valor referencia – Valor salida
+Acción de control
+: valor a aplicar en la entrada para conseguir (idealmente) error cero
+ Todas las variables evolucionan en el tiempo
+ Control de proceso por computador
+ Un Computador lee las Salidas del sistema, realiza cálculos de control, y modifica las 
+Entradas del sistema de acuerdo con estos cálculos
+ Operación en Tiempo Real: es importante que la acción de control sea correcta y 
+realizada en tiempo
+Computador
+Programa
+Datos
+SistemaEnt Sal
+Sensores
+Ent
+Sal
+Accionadores
+Fuentes Energía
+5
+
+--- PAGE 6 ---
+El Control de Procesos por Computador
+ Elementos de un equipo 
+de control
+Computador
+Programa Datos
+Interfaz
+operador
+Comunica-
+ciones
+S1A
+S2A
+S3
+s
+A
+Control
+manual
+ Computador:
+El “
+cerebro” del control
+Programa
+ y datos alojados en memoria
+ Sensores:
+Dan al 
+computador información del estado de 
+los sistemas, midiendo sus salidas.
+ Accionadores:
+Permiten
+ al computador generar cambios
+sobre los sistemas, modulando la energía
+entregada por fuentes externas
+ Interfaz operador:
+Panel(
+es) que permite(n) al humano intervenir
+en el control, generando órdenes y recibiendo
+informaciones
+ Comunicaciones:
+Interconexión
+ con otros computadores para 
+intercambio de informaciones y comandos
+ Almacenamiento:
+De 
+configuraciones y resultados
+ Control manual:
+Reemplaza
+ las salidas del computador en
+caso de error o alarma
+s
+s
+6
+Almacena-
+miento
+
+--- PAGE 7 ---
+Ejemplos de sistemas
+Control de vuelo de un avión
+Control de temperatura en 
+horno-túnel
+ Robot de encolado automático
+Teléfono móvil
+Línea de fabricación de botes
+ 7
+
+--- PAGE 8 ---
+Computadores para control
+ El computador es capaz de:
+ Aceptar información digital procedente del exterior a través 
+de sus entradas.
+ Almacenar la información (datos) en su memoria (variables).
+ Procesar los datos de acuerdo a un programa (secuencia de 
+instrucciones sencillas) instalado en su memoria.
+ Generar comandos hacia el exterior a través de sus salidas.
+Computador
+Programa
+Datos
+Ent
+Sal
+datos del mundo real
+acciones hacia el mundo real
+8
+
+--- PAGE 9 ---
+Computadores para control
+ Microcontrolador
+ Procesador Digital de Señal (DSP)
+ Dispositivos Electrónicos Programables (FPGA, PLD)
+ Computador embebido
+ Ordenador Industrial
+ Autómata Programable (PLC)_______
+9
+
+--- PAGE 10 ---
+Sensores
+ Convierten magnitudes físicas en valores de pequeña
+tensión/corriente.
+ Clasificaciones:
+ Para obtener el valor medido:
+ Según la magnitud medida:
+De posición (lineal/angular)
+De velocidad (lineal/angular)
+De temperatura
+De presión
+De presencia
+…
+ Según el formato del 
+valor entregado:
+Analógicos
+Digitales
+ todo/nada
+De 
+tren de pulsos
+Numéricos
+Valor
+a medir o 
+detectar
+Sensor
+Electrónica
+adaptación
+señal
+Interfaz
+de 
+Entrada
+ValorLeido
+// PROGRAMA
+valorLeido = LeerEntrada() ;
+magnitudFísica = Cálculo (valorLeido); 
+Usar vble magnitudFísica
+Mundo exterior Computador
+
+--- PAGE 11 ---
+Accionadores
+ Permiten el comando del sistema mediante la energía
+procedente de una fuente externa, modulada por un 
+valor de pequeña tensión/ corriente.
+ Clasificaciones:
+ Para entregar la energía deseada:
+ Según la energía:
+Eléctricos
+Neumáticos
+Hidráulicos
+…
+ Según la 
+modulación:
+Analógicos
+Digitales
+ todo/nada
+PWM
+Numéricos
+ Según la acción:
+Desplazamiento
+Giro
+Calentamiento
+Compresión
+…
+11
+Energía
+Aplicada
+Electrónica
+adaptación
+señal
+Interfaz
+de Salida
+valorNuevo
+// PROGRAMA
+Calcular vble energiaDeseada
+valorNuevo = Cálculo(energiaDeseada);
+EscribirSalida(valorNuevo); 
+Mundo exterior Computador
+Acciona-
+dor
+Fuente Energía
+
+--- PAGE 12 ---
+Interfaz con el operador
+Interfaz tipo SCADA
+ Pupitre / botonera
+Display gráfico personal
+ Dispositivos salida interfaz 
+humana:
+Indicador luminoso (LED)
+Display (7 segmentos, LCD,…)
+Pantalla (texto/gráficos)
+Impresora
+…
+ Dispositivos entrada interfaz 
+humana:
+Botón / pulsador
+Selector rotativo
+Teclado
+Ratón / Puntero / Joystick
+…
+12
+
+--- PAGE 13 ---
+Comunicaciones
+ Punto a punto:
+ Serie (RS-232,USB)
+ Paralelo
+ Inalámbrica (Bluetooth)
+ Multipunto:
+ Serie (I2C, CAN, RS-485)
+ Red (Ethernet)
+ Inalámbrica (Wifi)
+13
+
+--- PAGE 14 ---
+Niveles de control
+ Control secuencial:
+ Genera la secuencia de acontecimientos deseada
+ Determina los valores deseados (consignas) de las variables 
+a controlar
+ Diagrama de estados /  transiciones
+ Cambio de estados por:
+Tiempo
+ máximo
+Combinación
+ de valores de entradas u otras variables
+Acciones
+ del operador o de otros computadores
+ Lazo de control:
+ Asegura que las variables a controlar alcancen el valor de 
+sus consignas con precisión y velocidad
+Obtiene
+ medida de la variable a controlar
+Calcula
+ error: consigna - variable a controlar, 
+Modifica
+ la acción de control para que el error tienda a cero
+14
+
+--- PAGE 15 ---
+Ejemplo de sistema de control
+ Control del posición de una carretilla
+Computador
+D/A
+Aire a
+presión Electro-válvula
+neumática
+Cilindro neumático
+Móvil Sensor
+ultrasónico
+Panel mando
+OFF
+ON
+Final de carrera
+mecánico
+Amplif.24VDC
+A/D
+DO
+DI
+Adap.
+señal
+Adap.
+señales
+Amplif.
+24VDC
+Botones
+Indicadores
+luminosos
+15
+Pos carga
+ Pos descarga
+
+--- PAGE 16 ---
+Niveles de control
+ Ejemplo: Control secuencial
+ Cuando se pulsa el botón ON, la 
+carretilla debe repetir el ciclo
+siguiente:
+Moverse a la posición de carga
+Permanecer 5 
+seg
+Moverse a la posición de 
+descarga
+Permanecer 2 
+seg
+ Si se alcanza el final de carrera
+mecánico, activar alarma y 
+detener ciclo
+ Si el operador pulsa el botón
+OFF, terminar último ciclo y no 
+repetir
+16
+
+--- PAGE 17 ---
+Niveles de control
+ Ejemplo: Lazo de control
+ Cuando ordena el movimiento
+de la carretilla a una posición, 
+se debe alcanzar la misma con 
+la precisión y velocidad
+requeridas
+ Repetir hasta llegar al destino
+(consigna):
+Leer posición actual del sensor 
+ultrasónico
+error=consigna
+-posición actual
+Calcular aire a inyectar para 
+reducir error a cero
+Abrir electro
+-válvula para 
+inyectar el aire deseado
+17
+
+--- PAGE 18 ---
+Indice
+ Introducción al control de procesos por computador
+ Conceptos básicos para programación de control
+ Interfaz del computador con el exterior
+ El control secuencial
+ Las matemáticas del control
+ Programación del lazo de control
+ Programación en lenguaje C
+ Implantación del control en el computador
+18
+
+--- PAGE 19 ---
+Variables continuas y discretas
+ En el mundo real, las variables son continuas y analógicas.
+ En el computador, las variables son discretas y digitales.
+ Se representa una señal analógica como x(t)
+ Se representa una secuencia de valores discretos como {xk}
+ En el computador sólo se dispone de valores discretos, 
+obtenidos en instantes separados Tm (periodo de muestreo).
+t
+x
+x(t)
+k
+Tm
+0 1 2 3 4 5 kk-1k-2
+t = K . Tm
+Funcionamiento hasta t∞
+No se pueden guardar ∞ valores
+de xk
+Instante actual
+xkxk-1
+x0 x1
+19
+
+--- PAGE 20 ---
+Variables temporales discretas
+ En el mundo real, el tiempo avanza…
+ Un instante Tm después:
+20
+t
+x
+x(t)
+k
+Tm
+0 1 2 3 4 5 kk-1k-2
+t = K . Tm
+t
+xkxk-1
+x0
+x1
+x
+x(t)
+Tm
+0 1 2 3 4 5 kk-1k-2
+t
+xkxk-1
+x0
+x1
+k+1
+xk+1
+ El nuevo valor de este 
+instante es xk+1 
+Los valores anteriores 
+se mantienen
+
+--- PAGE 21 ---
+Variables temporales discretas
+ Desde el punto de vista del programa de control, consideramos
+siempre el momento actual como el instante k, el tiempo pasa
+bajo él…
+ Un instante Tm después:
+21
+x x(t)
+Tm
+kk-1k-2
+tant
+xkxk-1
+xk-2
+x x(t)
+Tm
+kk-1k-2
+tant
+xk-1
+xk-2
+xk-3
+xk
+k-3
+El nuevo valor de este 
+instante es ahora xk
+El anterior xk ahora es 
+xk-1 (se ha retrasado un 
+periodo Tm respecto al 
+instante actual)
+El anterior xk-1 ahora 
+es xk-2
+...
+
+--- PAGE 22 ---
+Programa básico de control
+ Un programa básico de control tendrá el aspecto 
+siguiente:
+22
+#include ...
+int main()
+{
+// Declaración de variables necesarias, al menos:
+float ref_k;   // Valor de la consigna actual (instante k)
+float y_k;     // Valor de la salida actual
+float u_k;     // Valor de la acción de control a aplicar
+// Inicializaciones necesarias
+...
+// Bucle de control
+while (1)
+{
+ref_k=ValorDeLaReferencia(); // De operador, cálculo, medida, etc.
+y_k=ValorDeLaSalida(); // Medida mediante sensor
+u_k=CalculoAccionDeControl(y_k,ref_k); // Según algoritmo deseado
+AplicarAccionDeControl(uk); // Enviar a accionador
+Sleep(Tm);  // No ejecutar código hasta el siguiente Tm
+}
+}
+
+--- PAGE 23 ---
+Programa básico de control
+ Si el programa necesita manejar valores actuales y 
+anteriores de una señal (ejemplo, acción de control 
+depende de crecimiento de yk : necesita yk e yk-1)
+23
+#include ...
+int main()
+{
+float ref_k;   
+float y_k,y_k_menos_1;     // Valor de la salida actual y la anterior
+float u_k;     
+// Inicializaciones necesarias
+. . .
+// Bucle de control
+while (1)
+{
+y_k_menos_1=yk;  // La última yk (del instante anterior) es ahora yk-1
+ref_k=ValorDeLaReferencia(); 
+y_k=ValorDeLaSalida(); 
+u_k=CalculoAccionDeControl(y_k,y_k_menos_1,ref_k); 
+AplicarAccionDeControl(uk); 
+Sleep(Tm);  
+}
+}
+
+--- PAGE 24 ---
+Programa básico de control
+ Generalizando: el programa necesita el valor actual y 
+‘m’ anteriores de la señal v (vk,vk-1,…,vk-m)
+24
+#include ...
+#define M  6
+int main()
+{
+float v_k[M+1]; // Desde 0 a m incluido    
+// Inicializaciones
+...
+// Bucle de control
+while (1)
+{
+v_k[M]=v_k[M-1];
+v_k[M-1]=v_k[M-2];
+...
+v_k[2]=v_k[1];
+v_k[1]=v_k[0];
+v_k[0]=nuevo_valor();
+// Usar tabla v_k con la interpretación   
+Sleep(Tm);  
+}
+}
+v
+v(t)
+kkk-1k-2
+Instante
+ actual
+vkvk-1
+Tm
+v_k[0]v_k
+v_k[1]
+v_k[2]
+v_k[M]
+. . .
+vk
+vk-1
+vk-2
+vk-M
+Mejor función:
+Desplaza(v_k,M+1);
+Computador
+ Mundo
+real
+
+--- PAGE 25 ---
+Programa básico de control
+ Un ejemplo de la vida cotidiana: regar una planta. 
+Cada día comprobamos si tenemos que regar nuestra
+planta, utilizando la información de lo que ha llovido
+en la semana previa:
+ Periodo de muestreo: 1 día
+ Número de datos a "recordar": 1 semana
+ Cada día:
+Toda la 
+información acumulada es 1 día más vieja
+Se 
+añade la información del día actual (lluvia medida)
+Se 
+toma una decision sobre el riego del día actual con la información
+disponible (día actual y 6 anteriores)
+Se 
+espera 1 día para repetir la operación
+ Más detalles en
+http://isa.uniovi.es/~ialvarez/Curso/descargas/series_temporales_regando.pdf
+25
+
+--- PAGE 26 ---
+Indice
+ Introducción al control de procesos por computador
+ Conceptos básicos para programación de control
+ Interfaz del computador con el exterior
+ El control secuencial
+ Las matemáticas del control
+ Programación del lazo de control
+ Programación en lenguaje C
+ Implantación del control en el computador
+26
+
+--- PAGE 27 ---
+27
+Computador
+Programa
+Datos
+Ent
+Sal
+Interfaz del computador con el exterior
+ El programa del computador maneja datos que son variables 
+alojadas en su memoria
+ Los datos manejados por el programa de control proceden o 
+tienen como destino el mundo “real”
+ Los computadores disponen de subsistemas electrónicos llamados
+de Entrada y Salida (E/S ó I/O) para hacer el intercambio de 
+información entre mundo exterior y variables internas.
+ El interfaz se realiza mediante
+pequeñas tensiones y
+corrientes (potencia de mW)
+Mundo
+“real”
+Señales  
+mW
+
+--- PAGE 28 ---
+Interfaz con el “mundo real”
+ Entradas del computador: convierten valores
+continuos y analógicos (exterior) en valores discretos y 
+digitales (computador) que se almacenan en variables:
+ Conversores A/D
+ Entradas digitales (todo/nada).
+ Contadores de pulsos
+ Entradas numéricas
+ Salidas del computador: convierten valores discretos
+y digitales almacenados en variables (computador) en
+señales continuas y analógicas (exterior):
+ Conversores D/A
+ Salidas digitales (todo/nada) 
+ Generadores PWM
+ Salidas numéricas
+28
+
+--- PAGE 29 ---
+Interfaz con el “mundo real”
+ Entradas del computador: diversos dispositivos
+electrónicos en función de la naturaleza del sensor y la 
+información a extraer de él:
+ Conversor A/D (ADC) : 
+Para  
+sensores que generan una tensión analógica
+Proporcionan
+ al programa una variable de tipo entero proporcional a la tensión
+a su entrada
+ Entrada digital (DI): 
+Para 
+sensores que generan una tensión con únicamente 2 estados (0/1)
+Proporcionan
+ al programa un bit de una variable de tipo entero
+ Contador de pulsos (counter):
+Para 
+sensores que generan una tensión con únicamente 2 estados (0/1), de la 
+que no interesa el valor instantáneo sino el número de transiciones 0→1 y/o 
+1→0
+Proporcionan
+ al programa una variable de tipo entero con el valor de la cuenta
+ Entrada numérica:
+Sensores
+ con electronica adicional que entregan valores numéricos 29
+
+--- PAGE 30 ---
+Obtención de valores analógicos
+ Obtención de valores analógicos: conversores A/D
+ Sensor: genera una pequeña tensión o corriente 
+directamente relacionada con una magnitud física
+ Ejemplo: potenciómetro para medida de desplazamiento
+30
+Mundo
+real
+Magnitud 
+física
+ Sensor
+Pequeña
+U ó I
++Vcc
+usens
+x
+R
+R1 R2
+L
+
+
+--- PAGE 31 ---
+Obtención de valores analógicos
+ Obtención de valores analógicos: conversor A/D
+ Conversor A/D: genera un valor numérico (variable de tipo 
+entero) relacionada con la tensión a su entrada
+ Características: umin, umax, n_bits
+31
+U 
+(umin a umax)
+ ADC
+Valor
+numérico
+Valor entero 
+(0 a 2n_bits-1)
+variable
+Mundo real Computador
+u (V)umin umax
+0
+2n_bits-1
+vble
+u
+ad
+u (V)umin umax
+0
+2n_bits-1
+vble
+u
+ad
+Aprox Real
+1
+2
+
+--- PAGE 32 ---
+Obtención de valores analógicos
+ Conversor A/D
+ Funcionamiento del conversor A/D de n bits:
+Divide un rango de tensión de entrada en 2
+n intervalos, asociando a cada 
+uno de ellos un valor numérico (0…2n-1).
+Se realiza con electrónica mediante comparaciones sucesivas
+El resultado de la conversión es un valor entero utilizable por el programa.
+ Valores típicos de n: 8, 10, 12, 16, 20, 24, 32.
+ Tipos: flash, aproximaciones sucesivas, etc 
+(http://www.onmyphd.com/?p=analog.digital.converter)
+A/D
+n bits
+32
+uad ad
+umin
+umax
+n=1
+1
+0
+n=2
+11
+00
+01
+10
+n=3
+111
+110
+101
+100
+011
+010
+001
+000
+≡7
+≡0
+≡6
+
+--- PAGE 33 ---
+Obtención de valores analógicos
+ Si el rango de  tensiones generado por el sensor no 
+concuerda con el rango de tensiones del conversor:
+ Se precisa una electrónica de adaptación intermedia 
+(Amplificadores Operacionales)
+ El programa del computador sólo puede leer el valor 
+del conversor, que está relacionado (pero no es) con 
+la magnitud medida
+ El programa debe calcular la magnitud a partir de las 
+especificaciones de la cadena de medida (sensor, adap, ADC)
+33
+Mundo
+real Magnitud 
+física
+ Sensor usens
+ Adap uad
+ ADC ad valor
+Mundo real Computador
+
+--- PAGE 34 ---
+Obtención de valores analógicos
+ Ejemplo: adquisición de Tª medida por termopar con 
+conversor A/D de 10 bits y límites de tensión 0-5V
+34
+Programa:
+int adk;
+float Vad_k,Vhc_k,Th_k;
+float s=43e-6f; // V/ºC
+float Tc=0; 
+adk=LeerAD();
+Vad_k=adk*5.0f/1023;
+Vhc_k=Vad_k/500.0f;
+Th_k=Vhc_k/s-Tc;
+s=43 μV/ºC (termopar tipo T)
+¡¡ Usar #define para 
+todas las constantes !!
+Mejor en una función: float LeerTempDeg(); 
+
+--- PAGE 35 ---
+Entradas digitales
+ Algunos sensores generan información en forma de 
+todo/nada (true/false , 1/0), que serán capturadas
+mediante entradas digitales (DI) del computador
+ Ejemplo: interruptor (switch)
+ El hardware electrónico es de la máxima sencillez
+ En algunos equipos la conexión a +Vcc y la resistencia están ya
+integrados en la entrada digital (input pull-up)
+35
+Usens
+(0 ó Vcc)
+ DI
+Valor
+numérico
+Valor entero 
+0 ó 1
+variable
+Mundo real Computador
++Vcc
+SW
+
+--- PAGE 36 ---
+Entradas digitales
+ La interpretación de 0/1 en una DI por parte del 
+programa depende de:
+ El conexionado:
+ Y del tipo de interruptor:
+Normally Open (NO)
+Normally Closed (NC)
+36
++Vcc
+SW
++Vcc
+1 si SW abierto
+SW
+1 si SW cerrado
+
+
+--- PAGE 37 ---
+Entradas digitales
+ Es habitual que varias entradas digitales se agrupen 
+en bits diferentes de una sola variable
+ Ejemplo: interruptor (switch)
+37
+U7 (0 ó Vcc)
+DI
+Valor
+numérico …
+variable entera
+Mundo real Computador
+U6 (0 ó Vcc)
+U1 (0 ó Vcc)
+U0 (0 ó Vcc)
+b0b1b7 b6. . .
+bi ≡ estado Ui
+¿Cómo manejar bi:
+Ver tema “Operaciones con valores binarios”
+de Lenguaje C ?
+
+--- PAGE 38 ---
+Entradas tipo contador
+ Algunos sensores generan información en forma de 
+todo/nada (true/false , 1/0), de la que no interesa el 
+estado (1/0) sino la cuenta de transiciones (1→0 y/o 
+0 →1)
+ Estos sensores serán capturados mediante entradas 
+tipo contador
+ Ejemplo: encoder para medida de desplazamiento
+38
++Vcc
+usensx
+usens =
++Vcc si la escobilla
+toca conductor
+0 si la escobilla
+no toca conductor
+d
+x=d*(cuenta transiciones 0 →Vcc)
+
+--- PAGE 39 ---
+Entradas tipo contador
+ Entrada contador:
+ Incrementa un contador (entero de n bits) cada vez que se 
+produce un pulso (de subida, de bajada, ambos) en la señal de 
+entrada (todo/nada).
+ El valor del contador es un valor entero utilizable por el 
+programa.
+ Se puede reiniciar el contador a 0 por programa.
+ Se necesita una entrada digital auxiliar para definir el 0 absoluto.
+ ¡¡ Ojo con desbordamientos del contador !!
+39
+Usens
+(0 ó Vcc)
+ Counter
+Valor
+numérico
+Valor entero
+(cuenta transiciones)
+variable
+Mundo real Computador
+
+--- PAGE 40 ---
+Entradas tipo contador
+ Ejemplo: entrada de pulsos de un encóder óptico:
+40
+Computador
+Contador
+Contador de
+pulsos
+Tensión
+(0 a 5V)
+Programa:
+int count_k;
+float pos_k; // grados de giro
+int pulsos_rev=512;
+ResetContador();
+...
+count_k=LeerContador();
+pos_k=count_k*360.0f/pulsos_rev;
+Mejor en una función: float LeerPosDeg(); 

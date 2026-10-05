@@ -66,6 +66,16 @@
   <div class="reveal">
     <div class="slides">
 
+        <section>
+        <div style="text-align: center; margin-bottom: 15px;">
+          <img src="../../assets/img/tema0/logoUniovi.png" alt="Logo Universidad de Oviedo" style="max-height: 90px; width: auto; background: transparent; border: none; box-shadow: none;">
+        </div>
+        
+        <h1>Operaciones con valores binarios</h1>
+        <p class="subtitle">Introducción al computador y el lenguaje C</p>
+        <p class="subtitle subtitle-small">Ingeniería de Sistemas y Automática - Universidad de Oviedo</p>
+      </section>
+
       <!-- SLIDE 1 (Pág 127) -->
       <section>
         <div style="text-align: center; margin-bottom: 15px;">
@@ -130,30 +140,47 @@
         <div class="contents-box" style="font-size: 0.75em; text-align: left;">
           <p>Operadores de C para manejar bits (<strong>sólo valores enteros</strong>):</p>
           
-          <div class="syntax-layout">
-            <div class="syntax-code-card" style="flex: 1.2;">
-              <strong style="color: #002B49;">Binarios (2 operandos):</strong>
-              <ul style="margin-top: 5px; font-family: monospace; line-height: 1.6;">
-                <li><code>&amp;</code> (y): entA &amp; entB → entR</li>
-                <li><code>|</code> (o): entA | entB → entR</li>
-                <li><code>^</code> (o excl.): entA ^ entB → entR</li>
-              </ul>
+          <div class="syntax-layout" style="flex-direction: column;">
+
+            <div class="syntax-code-card" style="flex: none;">
+
+                            <strong style="color: #002B49; display: block; margin-top: 10px;">Binarios (2 operandos):</strong>
+
+
+              <ul style="margin: 0; padding-left: 18px; font-size: 0.78em; line-height: 1.6; color: #334155;">
+  <li style="margin-bottom: 6px;">
+    <code>&amp;</code> (AND): <strong>entA &amp; entB → entR</strong><br>
+    <small style="color: #64748b;">Da <code>1</code> solo si <strong>ambos bits son 1</strong> (ideal para máscaras y aislar bits).</small>
+  </li>
+  <li style="margin-bottom: 6px;">
+    <code>|</code> (OR): <strong>entA | entB → entR</strong><br>
+    <small style="color: #64748b;">Da <code>1</code> si <strong>al menos uno es 1</strong> (ideal para activar bits específicos).</small>
+  </li>
+  <li style="margin-bottom: 0;">
+    <code>^</code> (XOR): <strong>entA ^ entB → entR</strong><br>
+    <small style="color: #64748b;">Da <code>1</code> si <strong>los bits son distintos</strong> (ideal para invertir o bascular estados).</small>
+  </li>
+</ul>
               
-              <strong style="color: #002B49; display: block; margin-top: 10px;">Monarios:</strong>
-              <ul style="margin-top: 5px; font-family: monospace;">
-                <li><code>~</code> (negación lógica): ~entA → entR</li>
+              <strong style="color: #002B49; display: block; margin-top: 10px;">Monarios (1 operando):</strong>
+              <ul style="margin: 5px 0 0; padding-left: 1.2em; font-family: monospace;">
+                <li><code>~</code> (NOT): ~entA → entR</li>
+                  <small style="color: #64748b;">Invierte cada bit del número sobre el que se aplica.</small>
+
+              
               </ul>
             </div>
             
-            <div class="syntax-code-card" style="flex: 1.8; background: #0f172a; color: #f8fafc;">
+            <div class="syntax-code-card" style="flex: none; background: #0f172a; color: #f8fafc;">
               <strong style="color: #38bdf8;">Ejemplos:</strong>
-              <pre style="margin: 5px 0; background: transparent; box-shadow: none;"><code class="language-c" data-trim data-noescape style="font-size: 0.85em; line-height: 1.3;">int v1 = 77; // 00..01001101
-int v2 = 23; // 00..00010111
+              <pre style="margin: 5px 0; background: transparent; box-shadow: none;"><code class="language-c" data-trim data-noescape style="font-size: 0.85em; line-height: 1.3;">
+int v1 = 77; // 01001101
+int v2 = 23; // 00010111
 
-v1 &amp; v2  -> 00..00000101 (= 5)
-v1 | v2  -> 00..01011111 (= 95)
-v1 ^ v2  -> 00..01011010 (= 90)
-~v1      -> 11..10110010 (= -78)</code></pre>
+v1 &amp; v2  -> 00000101 (= 5)
+v1 | v2  -> 01011111 (= 95)
+v1 ^ v2  -> 01011010 (= 90)
+~v1      -> 10110010 (= -78)</code></pre>
             </div>
           </div>
         </div>
@@ -165,20 +192,20 @@ v1 ^ v2  -> 00..01011010 (= 90)
         <div class="contents-box" style="font-size: 0.75em; text-align: left;">
           <strong style="color: #002B49;">Binarios (2 operandos):</strong>
           
-          <ul class="contents-list" style="font-family: monospace; margin-top: 10px; margin-bottom: 15px;">
-            <li><code>&lt;&lt;</code> (desplazamiento a izquierda): entA &lt;&lt; entB → entR</li>
-            <li><code>&gt;&gt;</code> (desplazamiento a derecha): entA &gt;&gt; entB → entR</li>
-          </ul>
+          <ul><code>&lt;&lt;</code> (desplazamiento a izquierda): entA &lt;&lt; entB → entR</ul>
+          <ul><code>&gt;&gt;</code> (desplazamiento a derecha): entA &gt;&gt; entB → entR</ul>
+
+
           
           <div style="background: #fef2f2; border-left: 3px solid #ef4444; padding: 6px 10px; margin-bottom: 15px;">
-            <strong>Nota para &gt;&gt;:</strong> Los bits superiores se rellenan con <code>0</code> si entA es <em>unsigned</em>, o con el <strong>bit de signo</strong> de entA si es <em>signed</em>.
+            <strong>Nota para &gt;&gt;:</strong> Los bits superiores se rellenan con <code>0</code> si entA es <em>unsigned</em>, o con el <strong>bit de signo</strong> de entA si es <em>signed</em> (0: Positivo, 1: Negativo).
           </div>
 
-          <div class="syntax-code-card" style="background: #0f172a; color: #f8fafc; text-align: center;">
-            <pre style="margin: 0; background: transparent; box-shadow: none;"><code class="language-c" data-trim data-noescape style="font-size: 0.8em; line-height: 1.5;">int x = 26;          // 0000...00011010
-x &lt;&lt; 3 = 208         // 0000...11010000 (= 26 * 2³)
-x &gt;&gt; 3 = 3           // 0000...00000011 (= 26 / 2³)</code></pre>
-          </div>
+          <div style="text-align: center; margin-bottom: 15px;">
+          <img src="../../assets/img/tema06/desplazamiento_bit.png" alt="desplazamiento bits" style="max-height: auto; width: auto; background: transparent; border: none; box-shadow: none;">
+        </div>
+
+
         </div>
       </section>
 
@@ -251,21 +278,9 @@ mascara = 1 &lt;&lt; p; // mascara = 0..001 00..000 (2^p)</code></pre>
         <div class="contents-box" style="font-size: 0.75em; text-align: left;">
           <p>Operaciones habituales con varios datos comprimidos en un entero:</p>
           
-          <div class="syntax-code-card" style="background: #0f172a; color: #f8fafc;">
-            <pre style="margin: 0; background: transparent; box-shadow: none;"><code class="language-c" data-trim data-noescape style="font-size: 0.8em; line-height: 1.4;">int v; 
-int vx, vy, vz;
-// v = ... zzyxxx (z: peso 2⁵, y: peso 2³, x: peso 2⁰)
-
-// Extraer vx, vy, vz de v
-vx = v &amp; 0x7;          // vx = ...000xxx
-vy = (v &amp; 0x8) &gt;&gt; 3;   // vy = ...00000y (Nota: asumiendo 1 bit para y)
-vz = (v &amp; 0x30) &gt;&gt; 4;  // vz = ...0000zz (Rotación y Máscara)
-
-// Cambiar valor de los campos de v (dar valores a vx, vy, vz)
-v = (v &amp; ~0x7) | (vx &amp; 0x7);
-v = (v &amp; ~0x8) | ((vy &lt;&lt; 3) &amp; 0x8);
-v = (v &amp; ~0x30) | ((vz &lt;&lt; 4) &amp; 0x30);</code></pre>
-          </div>
+          <div style="text-align: center; margin-bottom: 15px;">
+          <img src="../../assets/img/tema06/ej_binarios_rot.png" alt="desplazamiento bits" style="max-height: auto; width: auto; background: transparent; border: none; box-shadow: none;">
+        </div>          
         </div>
       </section>
 
@@ -274,27 +289,11 @@ v = (v &amp; ~0x30) | ((vz &lt;&lt; 4) &amp; 0x30);</code></pre>
         <h2>Operaciones con valores binarios</h2>
         <div class="contents-box" style="font-size: 0.7em; text-align: left;">
           <p>Calcular máscara y rotación para un bit de comienzo y un nº de bits de un campo.</p>
-          <ul class="contents-list">
-            <li>Ej: <code>v = ...zzyxxx</code></li>
-            <li>Rotación = <code>bitstart_z = 4</code>, <code>nbits_z = 2</code></li>
-            <li>Máscara: <code>(((1&lt;&lt;(bitstart_z+nbits_z))-1) &amp; ~((1&lt;&lt;bitstart_z)-1))</code></li>
-          </ul>
 
-          <div class="syntax-code-card" style="margin-top: 10px; background: #0f172a;">
-            <pre style="margin: 0; background: transparent; box-shadow: none;"><code class="language-c" data-trim data-noescape style="font-size: 0.75em; line-height: 1.3;">#define BITSTART_X 0
-#define NBITS_X    3
-#define MASK_X     (((1&lt;&lt;(BITSTART_X+NBITS_X))-1) &amp; ~((1&lt;&lt;BITSTART_X)-1))
-
-#define BITSTART_Y (BITSTART_X+NBITS_X)
-#define NBITS_Y    1
-#define MASK_Y     (((1&lt;&lt;(BITSTART_Y+NBITS_Y))-1) &amp; ~((1&lt;&lt;BITSTART_Y)-1))
-
-#define BITSTART_Z (BITSTART_Y+NBITS_Y)
-#define NBITS_Z    2
-#define MASK_Z     (((1&lt;&lt;(BITSTART_Z+NBITS_Z))-1) &amp; ~((1&lt;&lt;BITSTART_Z)-1))
-
-vz = (v &amp; MASK_Z) &gt;&gt; BITSTART_Z; // vz = 0000zz</code></pre>
-          </div>
+                    
+          <div style="text-align: center; margin-bottom: 15px;">
+          <img src="../../assets/img/tema06/ej_binarios2.png" alt="desplazamiento bits" style="max-height: auto; width: auto; background: transparent; border: none; box-shadow: none;">
+        </div> 
         </div>
       </section>
 

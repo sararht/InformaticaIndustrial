@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Control por Computador</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css" />
+
+  <style>
+    :root {
+      --bg-0: #06141d;
+      --bg-1: #0b1f2f;
+      --bg-2: #0f2e46;
+      --panel: rgba(15, 23, 42, 0.72);
+      --panel-soft: rgba(148, 163, 184, 0.08);
+      --blue: #4ea1ff;
+      --cyan: #67e8f9;
+      --teal: #2dd4bf;
+      --amber: #fbbf24;
+      --rose: #f97316;
+      --violet: #8b5cf6;
+      --text: #e2e8f0;
+      --muted: #b6c3d5;
+      --dark-text: #0f172a;
+      --success: #34d399;
+      --danger: #fb7185;
+      --line: rgba(148, 163, 184, 0.2);
+      --shadow: 0 20px 45px rgba(2, 6, 23, 0.35);
+    }
+
+    body {
+      font-family: "Segoe UI", Inter, Arial, sans-serif;
+      background: linear-gradient(140deg, var(--bg-0), var(--bg-1) 40%, var(--bg-2));
+      color: var(--text);
+    }
+
+    .reveal {
+      font-size: 28px;
+      background: transparent;
+    }
+
+    .reveal .slides section {
+      padding: 28px 42px 32px;
+      line-height: 1.4;
+      text-align: left;
+      background: transparent;
+    }
+
+    .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+      color: #f8fafc;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.5em;
+    }
+
+    .reveal h1 { font-size: 1.8em; }
+    .reveal h2 { font-size: 1.3em; }
+    .reveal h3 { font-size: 1.05em; }
+    .reveal p, .reveal li, .reveal td, .reveal th {
+      color: var(--text);
+      font-size: 0.86em;
+    }
+
+    .reveal ul, .reveal ol {
+      margin-left: 1.25em;
+    }
+
+    .reveal li { margin: 0.28em 0; }
+
+    .reveal strong {
+      color: var(--cyan);
+      font-weight: 700;
+    }
+
+    .reveal .small {
+      font-size: 0.72em;
+      color: var(--muted);
+    }
+
+    .reveal .muted {
+      color: var(--muted);
+    }
+
+    .reveal .subtitle {
+      color: var(--cyan);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 0.7em;
+    }
+
+    .reveal .eyebrow {
+      display: inline-block;
+      padding: 0.35em 0.8em;
+      border-radius: 999px;
+      background: rgba(103, 232, 249, 0.12);
+      border: 1px solid rgba(103, 232, 249, 0.32);
+      color: var(--cyan);
+      font-size: 0.68em;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1em;
+    }
+
+    .cover {
+      background:
+        radial-gradient(circle at 15% 20%, rgba(79, 118, 255, 0.28), transparent 28%),
+        radial-gradient(circle at 80% 30%, rgba(45, 212, 191, 0.18), transparent 35%),
+        linear-gradient(135deg, rgba(6, 20, 29, 1), rgba(15, 45, 70, 1));
+    }
+
+    .cover .content {
+      display: grid;
+      grid-template-columns: 1.4fr 0.9fr;
+      gap: 2rem;
+      align-items: center;
+      min-height: 70vh;
+    }
+
+    .cover .left {
+      padding-right: 1rem;
+    }
+
+    .cover .right {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .stat-box {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1rem 1.1rem;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-box .value {
+      color: var(--cyan);
+      font-size: 1.8em;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 0.2em;
+    }
+
+    .stat-box .label {
+      color: var(--muted);
+      font-size: 0.72em;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .cover h1 {
+      font-size: 2.2em;
+      margin-bottom: 0.2em;
+    }
+
+    .cover .summary {
+      color: var(--muted);
+      font-size: 0.9em;
+      max-width: 560px;
+      line-height: 1.6;
+    }
+
+    .cover .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin-top: 1.5rem;
+      color: var(--muted);
+      font-size: 0.72em;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .cover .meta span {
+      background: rgba(148, 163, 184, 0.08);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.45rem 0.8rem;
+    }
+
+    .section-separator {
+      background: linear-gradient(135deg, rgba(7, 25, 39, 1), rgba(30, 64, 175, 0.8));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .section-separator h2 {
+      font-size: 2em;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--cyan);
+      margin: 0;
+    }
+
+    .section-separator p {
+      color: var(--muted);
+      font-size: 0.75em;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 0.5em;
+    }
+
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(220px, 1fr));
+      gap: 0.8rem 1.25rem;
+      margin-top: 1.2rem;
+    }
+
+    .toc-item {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+      background: rgba(148, 163, 184, 0.05);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0.68rem 0.8rem;
+    }
+
+    .toc-num {
+      width: 2.2rem;
+      height: 2.2rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(78, 161, 255, 0.18), rgba(45, 212, 191, 0.18));
+      color: var(--cyan);
+      font-weight: 700;
+      font-size: 0.8em;
+      flex-shrink: 0;
+    }
+
+    .toc-item span:last-child {
+      color: var(--text);
+      font-size: 0.82em;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1rem 1.1rem;
+      box-shadow: var(--shadow);
+    }
+
+    .card h3 {
+      color: var(--cyan);
+      font-size: 0.9em;
+      margin-bottom: 0.5rem;
+    }
+
+    .diagram-box {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1rem;
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.75rem;
+      align-items: stretch;
+      margin-top: 0.8rem;
+    }
+
+    .node {
+      background: linear-gradient(135deg, rgba(78, 161, 255, 0.16), rgba(103, 232, 249, 0.06));
+      border: 1px solid rgba(103, 232, 249, 0.35);
+      border-radius: 14px;
+      padding: 0.9rem 0.7rem;
+      text-align: center;
+      color: var(--text);
+      font-size: 0.7em;
+      line-height: 1.4;
+    }
+
+    .node strong {
+      color: var(--cyan);
+      display: block;
+      margin-bottom: 0.15em;
+      font-size: 1.05em;
+    }
+
+    .arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cyan);
+      font-size: 1.5em;
+      font-weight: 700;
+    }
+
+    .formula {
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      font-size: 1.1em;
+      color: var(--cyan);
+      font-weight: 700;
+      text-align: center;
+      margin-top: 0.8rem;
+    }
+
+    .code-panel {
+      margin-top: 0.8rem;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .code-panel pre {
+      margin: 0;
+      font-size: 0.62em;
+      line-height: 1.6;
+      background: rgba(15, 23, 42, 0.8);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.28rem 0.6rem;
+      background: rgba(45, 212, 191, 0.12);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      border-radius: 999px;
+      color: var(--teal);
+      font-size: 0.7em;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin: 0.2rem 0.3rem 0 0;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.9rem;
+      margin-top: 1rem;
+    }
+
+    .mini-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 0.9rem 0.8rem;
+    }
+
+    .mini-card h4 {
+      color: var(--amber);
+      margin-bottom: 0.35rem;
+      font-size: 0.84em;
+    }
+
+    .mini-card p {
+      font-size: 0.72em;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.7rem;
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      padding: 0.75rem 0.8rem;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.76em;
+      vertical-align: top;
+    }
+
+    .comparison-table th {
+      color: var(--cyan);
+      text-align: left;
+      background: rgba(78, 161, 255, 0.08);
+    }
+
+    .comparison-table td:first-child,
+    .comparison-table th:first-child {
+      width: 36%;
+    }
+
+    .final-summary {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .final-summary .card {
+      min-height: 180px;
+    }
+
+    .reveal .controls {
+      color: var(--cyan);
+    }
+
+    .reveal .progress {
+      color: var(--cyan);
+    }
+
+    .reveal .slide-number {
+      color: var(--cyan);
+      font-weight: 700;
+      font-size: 0.55em;
+      background: rgba(15, 23, 42, 0.7);
+      border-radius: 999px;
+      padding: 0.15rem 0.5rem;
+    }
+
+    @media (max-width: 900px) {
+      .reveal .slides section { padding: 18px 20px 20px; }
+      .cover .content,
+      .two-col,
+      .final-summary,
+      .toc-grid,
+      .mini-grid,
+      .flow {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section class="cover" data-background-color="#06141d">
+        <div class="content">
+          <div class="left">
+            <div class="eyebrow">Grado / Automatización</div>
+            <h1>Control por Computador</h1>
+            <p class="subtitle">Fundamentos de programación y automatización industrial</p>
+            <p class="summary">
+              Una presentación moderna para entender cómo un sistema físico, un sensor, un algoritmo y un actuador se integran en un bucle de control digital que funciona en tiempo real.
+            </p>
+            <div class="meta">
+              <span>Programación</span>
+              <span>Señales</span>
+              <span>Interfaces</span>
+              <span>Control</span>
+            </div>
+          </div>
+          <div class="right">
+            <div class="stat-box">
+              <div class="value">8</div>
+              <div class="label">bloques temáticos</div>
+            </div>
+            <div class="stat-box">
+              <div class="value">Real-time</div>
+              <div class="label">Bucle de control</div>
+            </div>
+            <div class="stat-box">
+              <div class="value">C</div>
+              <div class="label">Lenguaje protagonista</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Índice</h2>
+        <div class="toc-grid">
+          <div class="toc-item"><span class="toc-num">01</span><span>Contexto e introducción</span></div>
+          <div class="toc-item"><span class="toc-num">02</span><span>Señales y muestreo</span></div>
+          <div class="toc-item"><span class="toc-num">03</span><span>Interfaces del mundo real</span></div>
+          <div class="toc-item"><span class="toc-num">04</span><span>Control secuencial</span></div>
+          <div class="toc-item"><span class="toc-num">05</span><span>Lazo de control</span></div>
+          <div class="toc-item"><span class="toc-num">06</span><span>Programación en C</span></div>
+          <div class="toc-item"><span class="toc-num">07</span><span>Arquitecturas y comunicaciones</span></div>
+          <div class="toc-item"><span class="toc-num">08</span><span>Resumen y reflexión</span></div>
+        </div>
+      </section>
+
+      <section class="section-separator" data-background-color="#0b1f2f">
+        <div>
+          <h2>Bloque 01</h2>
+          <p>Contexto y fundamentos del control</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>El control de procesos por computador</h2>
+        <div class="two-col">
+          <div class="card">
+            <h3>Definición</h3>
+            <p>Un proceso o sistema es un conjunto de elementos físicos que cumplen una función común.</p>
+            <ul>
+              <li><strong>Entradas:</strong> acciones que se pueden modificar para afectar al sistema.</li>
+              <li><strong>Salidas:</strong> magnitudes físicas que se desean controlar.</li>
+              <li><strong>Referencia:</strong> valor deseado para la salida.</li>
+            </ul>
+          </div>
+          <div class="diagram-box">
+            <div class="flow">
+              <div class="node"><strong>Proceso</strong>Equipo físico</div>
+              <div class="arrow">→</div>
+              <div class="node"><strong>Salida</strong>Temperatura, velocidad, posición...</div>
+            </div>
+            <div class="flow">
+              <div class="node"><strong>Control</strong>Programa</div>
+              <div class="arrow">→</div>
+              <div class="node"><strong>Entrada</strong>Actuador / energía</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Variables que intervienen</h2>
+        <div class="two-col">
+          <div class="card">
+            <h3>Conceptos clave</h3>
+            <ul>
+              <li><strong>Referencia o consigna:</strong> valor deseado.</li>
+              <li><strong>Error:</strong> diferencia entre referencia y salida.</li>
+              <li><strong>Acción de control:</strong> decisión aplicada al sistema.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Idea central</h3>
+            <p>El programa lee la salida, calcula el error y modifica la entrada con la intención de hacer que el error tienda a cero.</p>
+            <div class="formula">e(k) = r(k) - y(k)</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Ejemplos clásicos de sistemas</h2>
+        <div class="mini-grid">
+          <div class="mini-card">
+            <h4>Sistema térmico</h4>
+            <p>Calefacción de un fluido o entorno; la temperatura es la variable de salida.</p>
+          </div>
+          <div class="mini-card">
+            <h4>Sistema mecánico</h4>
+            <p>Motor y guía lineal; velocidad o desplazamiento son magnitudes a controlar.</p>
+          </div>
+          <div class="mini-card">
+            <h4>Automatización industrial</h4>
+            <p>Robots, líneas de fabricación, trenes, procesos de envasado y control de temperatura.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Arquitectura de un equipo de control</h2>
+        <div class="two-col">
+          <div class="card">
+            <h3>Elementos</h3>
+            <ul>
+              <li><strong>Computador:</strong> ejecuta el programa y procesa datos.</li>
+              <li><strong>Sensores:</strong> convierten magnitudes físicas en señales eléctricas.</li>
+              <li><strong>Accionadores:</strong> cambian el sistema físico a partir de órdenes.</li>
+              <li><strong>Interfaz operador:</strong> permite supervisión y mando manual.</li>
+              <li><strong>Comunicaciones:</strong> enlazan con otros equipos o redes.</li>
+            </ul>
+          </div>
+          <div class="diagram-box">
+            <div class="flow">
+              <div class="node"><strong>Sensor</strong>mide</div>
+              <div class="arrow">→</div>
+              <div class="node"><strong>Controlador</strong>algoritmo</div>
+              <div class="arrow">→</div>
+              <div class="node"><strong>Actuador</strong>ejecuta</div>
+            </div>
+            <p class="small muted">En la práctica moderna: PLC, microcontrolador, computadora industrial, edge device o MCU + sensores.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-separator" data-background-color="#0b1f2f">
+        <div>
+          <h2>Bloque 02</h2>
+          <p>Señales, muestreo y lógica temporal</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Señales continuas y discretas</h2>
+        <div class="two-col">
+          <div class="card">
+            <p>En el mundo físico, las magnitudes cambian de forma continua: temperatura, velocidad, presión, posición.</p>
+            <p>En el computador, los valores son <strong>discretos</strong> porque solo se pueden almacenar y procesar en instantes determinados.</p>
+          </div>
+          <div class="diagram-box">
+            <div class="formula">x(t) &nbsp; → &nbsp; {x(k)} </div>
+            <p class="small muted">Cada muestra se obtiene cada periodo Tm (tiempo de muestreo), y el programa trabaja con la secuencia actual y previa.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Periodo de muestreo</h2>
+        <div class="card">
+          <p>El tiempo de muestreo define la frecuencia con la que el computador observa el sistema.</p>
+          <div class="formula">t = k · Tm</div>
+          <ul>
+            <li><strong>Si Tm es muy grande:</strong> el sistema se responde demasiado tarde.</li>
+            <li><strong>Si Tm es muy pequeño:</strong> se obtiene más detalle, pero se aumenta la carga computacional.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Programa básico de control</h2>
+        <div class="code-panel">
+          <pre><code class="language-c">while (1) {
+    ref_k = LeerReferencia();
+    y_k = LeerSalida();
+    u_k = CalculoAccionDeControl(y_k, ref_k);
+    AplicarAccionDeControl(u_k);
+    Sleep(Tm);
+}</code></pre>
+        </div>
+        <p class="small muted">Este patrón se mantiene vigente: medir, decidir y actuar de forma repetitiva; la diferencia hoy es la integración con sensores, redes, protocolos y mayor robustez.</p>
+      </section>
+
+      <section>
+        <h2>Valores actuales y anteriores</h2>
+        <div class="two-col">
+          <div class="card">
+            <p>Muchas decisiones no dependen solo de la lectura actual, sino de la evolución reciente.</p>
+            <ul>
+              <li>Velocidad basada en la diferencia entre muestras.</li>
+              <li>Filtro temporal para suavizar ruido.</li>
+              <li>Control proporcional o derivativo con memoria histórica.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Ejemplo</h3>
+            <div class="formula">u(k) = f(y(k), y(k-1), r(k))</div>
+            <p class="small muted">La historia de la señal se almacena en memoria para realizar cálculos más fiables.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Ejemplo cotidiano: regar una planta</h2>
+        <div class="card">
+          <ul>
+            <li><strong>Periodo de muestreo:</strong> 1 día.</li>
+            <li><strong>Historia:</strong> lluvia de los últimos siete días.</li>
+            <li><strong>Decisión:</strong> regar hoy si el balance y la humedad lo requieren.</li>
+          </ul>
+          <p class="small muted">Este tipo de esquema temporal es exactamente el mismo que usa un controlador automatizado: acumular información, evaluar el estado y actuar según un criterio.</p>
+        </div>
+      </section>
+
+      <section class="section-separator" data-background-color="#0b1f2f">
+        <div>
+          <h2>Bloque 03</h2>
+          <p>Interfaz con el mundo real</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Entradas y salidas del computador</h2>
+        <div class="two-col">
+          <div class="card">
+            <h3>Entradas</h3>
+            <ul>
+              <li>Conversores A/D</li>
+              <li>Entradas digitales</li>
+              <li>Contadores</li>
+              <li>Entradas numéricas / protocolos</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Salidas</h3>
+            <ul>
+              <li>Conversores D/A</li>
+              <li>Salidas digitales</li>
+              <li>PWM</li>
+              <li>Salidas numéricas y buses digitales</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Adquisición analógica</h2>
+        <div class="two-col">
+          <div class="card">
+            <p>El sensor genera una tensión o corriente proporcional a la magnitud física. El ADC convierte esa señal analógica en un valor digital que el programa puede entender.</p>
+            <div class="formula">u_in → ADC(n bits) → valor entero</div>
+          </div>
+          <div class="card">
+            <h3>Características clave</h3>
+            <ul>
+              <li>Rango de entrada: umin a umax</li>
+              <li>Resolución: 8, 10, 12, 16, 24 bits</li>
+              <li>Se requiere adaptación si la tensión del sensor no coincide con el rango del ADC</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Ejemplo: temperatura con termopar</h2>
+        <div class="code-panel">
+          <pre><code class="language-c">int adk;
+float vad_k, vhc_k, th_k;
+float s = 43e-6f; // V/°C
+
+adk = LeerAD();
+vad_k = adk * 5.0f / 1023.0f;
+vhc_k = vad_k / 500.0f;
+th_k = vhc_k / s;
+</code></pre>
+        </div>
+        <p class="small muted">El principio sigue siendo válido: la señal del sensor se adapta, se digitaliza y luego se transforma al valor físico que interesa medir.</p>
+      </section>
+
+      <section>
+        <h2>Entradas digitales y contadores</h2>
+        <div class="mini-grid">
+          <div class="mini-card">
+            <h4>Entradas digitales</h4>
+            <p>Estados todo/nada: 0/1, abierto/cerrado, presencia o ausencia.</p>
+          </div>
+          <div class="mini-card">
+            <h4>Contadores</h4>
+            <p>Se cuentan flancos de pulso; útiles para encoders y velocidad de giro.</p>
+          </div>
+          <div class="mini-card">
+            <h4>Encoder</h4>
+            <p>Un receptor optoelectrónico transforma movimiento en pulsos digitales.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Interfaz con el operador y SCADA</h2>
+        <div class="two-col">
+          <div class="card">
+            <h3>Entradas humanas</h3>
+            <ul>
+              <li>Pulsadores</li>
+              <li>Selector rotativo</li>
+              <li>Teclado, ratón, joystick</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Salidas humanas</h3>
+            <ul>
+              <li>LEDs</li>
+              <li>Displays</li>
+              <li>Pantallas</li>
+              <li>Alarmas y notificaciones</li>
+            </ul>
+          </div>
+        </div>
+        <p class="small muted">Hoy se integran además paneles HMI, dashboards web y visualización remota sobre redes industriales.</p>
+      </section>
+
+      <section>
+        <h2>Comunicaciones</h2>
+        <div class="comparison-table">
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Ejemplos</th>
+              <th>Uso actual</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Punto a punto</td>
+              <td>RS-232, USB, Bluetooth</td>
+              <td>Conexión local, depuración, periféricos</td>
+            </tr>
+            <tr>
+              <td>Multipunto / industrial</td>
+              <td>RS-485, CAN, I2C</td>
+              <td>Redes de campo robustas y fiables</td>
+            </tr>
+            <tr>
+              <td>Red</td>
+              <td>Ethernet, Wi‑Fi</td>
+              <td>Supervisión, cloud, edge y monitorización</td>
+            </tr>
+          </tbody>
+        </div>
+      </section>
+
+      <section class="section-separator" data-background-color="#0b1f2f">
+        <div>
+          <h2>Bloque 04</h2>
+          <p>Control secuencial y lazo de control</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Control secuencial</h2>
+        <div class="card">
+          <p>El control secuencial define una secuencia de estados y transiciones: “si ocurre esto, pasa a aquello” o “si el tiempo supera X, realiza una acción”.</p>
+          <ul>
+            <li>Secuencia de etapas</li>
+            <li>Transiciones por tiempo, entradas u otros eventos</li>
+            <li>Especialmente útil en automatización y procesos por etapas</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Ejemplo de control secuencial</h2>
+        <div class="card">
+          <p>Una carretilla debe:</p>
+          <ol>
+            <li>moverse a carga</li>
+            <li>esperar 5 s</li>
+            <li>moverse a descarga</li>
+            <li>esperar 2 s</li>
+            <li>repetir o detenerse</li>
+          </ol>
+          <p class="small muted">Si aparece una alarma o un fin de carrera, el sistema debe pasar a un estado seguro y detener la secuencia.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Lazo de control</h2>
+        <div class="card">
+          <p>El lazo de control se centra en mantener una variable de salida cerca de una referencia.</p>
+          <div class="formula">error = referencia - salida</div>
+          <p>El controlador calcula la acción adecuada para reducir ese error a cero, con la velocidad y precisión requeridas.</p>
+          <ul>
+            <li>Medir</li>
+            <li>Comparar</li>
+            <li>Decidir</li>
+            <li>Actuar</li>
+            <li>Repetir</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Control secuencial vs. lazo de control</h2>
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Enfoque</th>
+              <th>Control secuencial</th>
+              <th>Lazo de control</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Objetivo</td>
+              <td>Ordenar eventos y tiempos</td>
+              <td>Mantener una variable en un valor</td>
+            </tr>
+            <tr>
+              <td>Base</td>
+              <td>Estados y transiciones</td>
+              <td>Error y corrección</td>
+            </tr>
+            <tr>
+              <td>Ejemplo</td>
+              <td>Secuencia de una línea de producción</td>
+              <td>Temperatura de un horno o velocidad de motor</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section-separator" data-background-color="#0b1f2f">
+        <div>
+          <h2>Bloque 05</h2>
+          <p>Matemática y algoritmos del control</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Matemáticas del control</h2>
+        <div class="two-col">
+          <div class="card">
+            <h3>Conceptos fundamentales</h3>
+            <ul>
+              <li>Señal de referencia</li>
+              <li>Señal de salida</li>
+              <li>Error</li>
+              <li>Acción de control</li>
+              <li>Periodo de muestreo</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Idea clave</h3>
+            <p>El control digital reemplaza el análisis continuo por un modelo discreto que se ejecuta a intervalos regulares, y esto es exactamente lo que hace una aplicación industrial actual.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Tipos de acción de control</h2>
+        <div class="mini-grid">
+          <div class="mini-card">
+            <h4>Regulación on/off</h4>
+            <p>Enciende o apaga el actuador según el valor de una banda.</p>
+          </div>
+          <div class="mini-card">
+            <h4>Proporcional</h4>
+            <p>La acción es proporcional al error actual.</p>
+          </div>
+          <div class="mini-card">
+            <h4>PID</h4>
+            <p>Combina proporcional, integral y derivativa para responder mejor a la dinámica del proceso.</p>
+          </div>
+        </div>
+        <p class="small muted">En la práctica actual, el algoritmo puede estar en un PLC, un microcontrolador, un sistema embebido o en una aplicación de supervisión con control distribuido.</p>
+      </section>
+
+      <section>
+        <h2>¿Qué hemos aprendido hasta aquí?</h2>
+        <div class="card">
+          <ul>
+            <li>El control no es solo “programar”: es modelar el proceso, medirlo y reaccionar en el momento correcto.</li>
+            <li>La digitalización del mundo físico exige considerar tiempos, resolución y robustez.</li>
+            <li>La automatización moderna conserva estas bases aunque utilice PLCs, microcontroladores o computación en la nube.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section-separator" data-background-color="#0b1f2f">
+        <div>
+          <h2>Bloque 06</h2>
+          <p>Programación en C para control</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Lenguaje C en control</h2>
+        <div class="two-col">
+          <div class="card">
+            <h3>Por qué C</h3>
+            <ul>
+              <li>Es cercano al hardware.</li>
+              <li>Permite gestionar operaciones binarias y temporales.</li>
+              <li>Es preciso, eficiente y compatible con sectores industriales.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Conceptos básicos</h3>
+            <ul>
+              <li>Variables y tipos</li>
+              <li>Condicionales</li>
+              <li>Bucles</li>
+              <li>Funciones</li>
+              <li>Operaciones bit a bit</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Ejemplo de bucle de control</h2>
+        <div class="code-panel">
+          <pre><code class="language-c">float ref_k, y_k, u_k;
+
+while (1) {
+    ref_k = LeerReferencia();
+    y_k = LeerSalida();
+    u_k = CalculoAccionDeControl(y_k, ref_k);
+    EscribirSalida(u_k);
+    delay_ms(50);
+}</code></pre>
+        </div>
+      </section>
+
+      <section>
+        <h2>Memoria y señales</h2>
+        <div class="card">
+          <p>En ingeniería de control, la memoria no es un detalle: es la forma de guardar los valores previos de una señal y así poder evaluar tendencias, derivadas y estados del sistema.</p>
+          <div class="formula">v[k], v[k-1], v[k-2], ...</div>
+          <p class="small muted">Es habitual usar arrays o buffers para desplazar la historia temporal del sistema.</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Operaciones binarias</h2>
+        <div class="card">
+          <p>En control industrial, se trabaja con bits, máscaras y banderas. Esto es esencial para:</p>
+          <ul>
+            <li>interpretar entradas digitales</li>
+            <li>leer alarmas</li>
+            <li>manejar relés y salidas</li>
+            <li>comunicar con PLCs y buses industriales</li>
+          </ul>
+          <div class="formula">estado = entrada &amp; MASK;</div>
+        </div>
+      </section>
+
+      <section class="section-separator" data-background-color="#0b1f2f">
+        <div>
+          <h2>Bloque 07</h2>
+          <p>Arquitecturas y sistemas actuales</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Computadores para control</h2>
+        <div class="mini-grid">
+          <div class="mini-card">
+            <h4>Microcontrolador</h4>
+            <p>Muy adecuado para lógica de control embebida y tareas deterministas.</p>
+          </div>
+          <div class="mini-card">
+            <h4>DSP</h4>
+            <p>Procesado numérico intensivo, útil cuando se necesita análisis de señales.</p>
+          </div>
+          <div class="mini-card">
+            <h4>FPGA / PLD</h4>
+            <p>Hardware reconfigurable para alta velocidad y parallelism.</p>
+          </div>
+          <div class="mini-card">
+            <h4>Computador industrial</h4>
+            <p>Supervisión y toma de decisiones más complejas.</p>
+          </div>
+          <div class="mini-card">
+            <h4>PLC</h4>
+            <p>Estándar industrial para automatización secuencial y lógica de proceso.</p>
+          </div>
+          <div class="mini-card">
+            <h4>Edge / IoT</h4>
+            <p>Integración con nube, telemetría, supervisión y gestión remota.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Actualización del contexto</h2>
+        <div class="card">
+          <p>Los conceptos del PDF siguen vigentes, pero la implementación actual incluye nuevas herramientas y paradigmas:</p>
+          <ul>
+            <li><strong>Comunicación industrial:</strong> Ethernet/IP, Modbus TCP, OPC UA, CAN, MQTT.</li>
+            <li><strong>Supervisión:</strong> HMI, dashboards web, SCADA moderno.</li>
+            <li><strong>Edge computing:</strong> procesamiento local antes de enviar datos a la nube.</li>
+            <li><strong>Seguridad:</strong> mecanismos de robustez, diagnóstico y recuperación ante fallos.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section-separator" data-background-color="#0b1f2f">
+        <div>
+          <h2>Bloque 08</h2>
+          <p>Resumen y cierre</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Resumen final</h2>
+        <div class="final-summary">
+          <div class="card">
+            <h3>Qué debemos recordar</h3>
+            <ul>
+              <li>Un sistema físico necesita sensores, control y actuadores.</li>
+              <li>El error y la referencia son la base del control.</li>
+              <li>El muestreo transforma el mundo continuo en datos digitales.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Qué debe hacerse bien</h3>
+            <ul>
+              <li>Diseñar la interfaz entre realidad y software.</li>
+              <li>Elegir el periodo de muestreo adecuado.</li>
+              <li>Programar con lógica segura, legible y robusta.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Preguntas para reflexionar</h2>
+        <div class="card">
+          <ul>
+            <li>¿Qué magnitud física queremos controlar en un proceso real?</li>
+            <li>¿Cómo afecta el periodo de muestreo a la estabilidad del sistema?</li>
+            <li>¿Qué criterio define si un actuador debe encenderse o apagarse?</li>
+            <li>¿Qué papel tiene la seguridad y la diagnóstica en un sistema industrial?</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Conclusión</h2>
+        <div class="card">
+          <p>El control por computador combina electrónica, matemáticas, programación y automatización. Aunque la tecnología ha evolucionado, los principios fundamentales siguen siendo los mismos: observar, decidir y actuar con precisión, rapidez y fiabilidad.</p>
+          <p class="small muted">Hoy se sigue enseñando lo mismo que hace décadas, pero con sistemas, protocolos y herramientas más modernos, más conectados y más integrados en la industria digital.</p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      controls: true,
+      progress: true,
+      slideNumber: 'c/t',
+      keyboard: true,
+      transition: 'slide',
+      transitionSpeed: 'fast',
+      plugins: [RevealHighlight]
+    });
+  </script>
+</body>
+</html>
