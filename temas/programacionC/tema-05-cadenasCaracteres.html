@@ -92,6 +92,14 @@
     .reveal .hljs-ln-line.highlight-line * {
       color: #0f172a !important;
     }
+
+    /* Garantizar colores al exportar a PDF */
+    @media print {
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -167,9 +175,9 @@ letra = 'a';</code></pre>
             <strong style="color: #1d3f7a; font-size: 0.85em;">Como carácter ('a')</strong>
             <small style="color: #4b617f; display: block; margin-top: 4px;">En pantalla, esta secuencia de bits genera los puntitos de la 'a'.</small>
             <small style="color: #4b617f; display: block; margin-top: 4px;">En un teclado: la tecla envía al computador el código binario 01100001.</small>
-                  <div style="text-align: center; margin-bottom: 15px;">
-          <img src="../../assets/img/tema05/char_a.png" alt="Logo Universidad de Oviedo" style="max-height: auto; width: auto; background: transparent; border: none; box-shadow: none;">
-        </div>
+            <div style="text-align: center; margin-top: 10px;">
+              <img src="../../assets/img/tema05/char_a.png" alt="Carácter a" style="max-height: auto; width: auto; background: transparent; border: none; box-shadow: none;">
+            </div>
           </div>
         </div>
       </section>
@@ -179,9 +187,9 @@ letra = 'a';</code></pre>
         <h2>La tabla de códigos ASCII</h2>
         <div class="contents-box" style="font-size: 0.75em;">
           <p>ASCII utiliza 8 bits = 256 valores diferentes:</p>
-            <div style="text-align: center; margin-bottom: 15px;">
-          <img src="../../assets/img/tema05/tabla_car.png" alt="tabla_car" style="max-height: auto; width: auto; background: transparent; border: none; box-shadow: none;">
-        </div>
+          <div style="text-align: center; margin-bottom: 15px;">
+            <img src="../../assets/img/tema05/tabla_car.png" alt="tabla_car" style="max-height: auto; width: auto; background: transparent; border: none; box-shadow: none;">
+          </div>
         </div>
       </section>
 
@@ -293,14 +301,11 @@ char nom[5];
 <mark>nom = "Pepe";       // Incorrecto, ¡equivale a 3100 = 4000!</mark>
 <mark>nom = txt;          // Incorrecto, ¡equivale a 3100 = 3000!</mark></code></pre>
 
-            <div style="text-align: center; margin-bottom: 15px;">
-          <img src="../../assets/img/tema05/string.png" alt="tabla_car" style="max-height: auto; width: auto; background: transparent; border: none; box-shadow: none;">
-        </div>
-
+          <div style="text-align: center; margin-bottom: 15px;">
+            <img src="../../assets/img/tema05/string.png" alt="tabla_car" style="max-height: auto; width: auto; background: transparent; border: none; box-shadow: none;">
+          </div>
         </div>
       </section>
-
-
 
       <!-- SLIDE 9: Operaciones manuales -->
       <section>
@@ -334,14 +339,11 @@ for (i = 0; txt[i] != 0; i++) {
 
           <!-- COLUMNA DERECHA: Imagen de memoria -->
           <div class="syntax-code-card" style="flex: 0.8; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 12px; background: #ffffff; border: 1px solid #cbd5e1; box-sizing: border-box;">
-            <img src="../../assets/img/tema05/ej_car.png" alt="Representación en memoria de la copia y comparación de cadenas de caracteres" style="max-width: 95%; max-height: 380px; height: auto; object-fit: contain; border-radius: 4px;">
+            <img src="../../assets/img/tema05/ej_car.png" alt="Representación en memoria" style="max-width: 95%; max-height: 380px; height: auto; object-fit: contain; border-radius: 4px;">
           </div>
           
         </div>
       </section>
-
-
-
 
       <!-- SLIDE 10: Funciones E/S (Pág 118) -->
       <section>
@@ -351,7 +353,6 @@ for (i = 0; txt[i] != 0; i++) {
           <ul class="contents-list" style="font-family: monospace; font-size: 0.9em;">
             <li>char* gets(char* cad); <span style="color: #64748b; font-family: sans-serif;">// Pide una cadena por consola</span></li>
             <li>int puts(const char* cad); <span style="color: #64748b; font-family: sans-serif;">// Escribe una cadena en consola</span></li>
-          
           </ul>
           
           <div style="background: #f8fafc; border-left: 3px solid #10b981; padding: 6px 10px; margin: 10px 0; font-size: 0.85em;">
@@ -375,8 +376,10 @@ printf("Nombre completo: %s %s\n", nombre, apellido);</code></pre>
         <h2>Funciones de cadena de caracteres</h2>
         <div class="contents-box" style="font-size: 0.75em; text-align: left;">
           <p>Realizan los bucles más típicos en el tratamiento de strings (copiar, comparar, añadir, buscar, ...). Trabajan con tablas de char terminadas en el caracter 0. Incluir <code>&lt;string.h&gt;</code>.</p>
-          <li>Trabajan con tablas de char terminadas en el caracter 0</li>
-          <li>Incluir string.h</li>
+          <ul class="contents-list" style="margin-bottom: 8px;">
+            <li>Trabajan con tablas de char terminadas en el caracter 0.</li>
+            <li>Incluir <code>&lt;string.h&gt;</code>.</li>
+          </ul>
           <strong style="color: #002B49;">Funciones más utilizadas:</strong>
           <table class="data-table" style="margin-top: 5px;">
             <tbody>
@@ -417,8 +420,27 @@ printf("Nombre completo: %s %s\n", nombre, apellido);</code></pre>
               </tr>
             </tbody>
           </table>
+        </div>
+      </section>
 
+            <!-- SLIDE 14: Conversiones numéricas (Pág 122) -->
+      <section>
+        <h2>Funciones de conversión de datos</h2>
+        <div class="contents-box" style="font-size: 0.75em; text-align: left;">
+          <p>Convierten cadenas de caracteres de/hacia tipos de datos numéricos.</p>
 
+          <strong style="color: #002B49;">Funciones más utilizadas:</strong>
+          <table class="data-table" style="margin-top: 5px;">
+            <tbody>
+              <tr><td style="font-family: monospace; text-align: left;">int <strong>atoi</strong>(const char* cad);</td><td style="text-align: left;">Obtiene entero decimal</td></tr>
+              <tr><td style="font-family: monospace; text-align: left;">double <strong>atof</strong>(const char* cad);</td><td style="text-align: left;">Obtiene valor real</td></tr>
+              <tr><td style="font-family: monospace; text-align: left;">double <strong>strtod</strong>(const char* cad, char** ptEnd);</td><td style="text-align: left;">Obtiene valor real y puntero al final de conversión</td></tr>
+              <tr><td style="font-family: monospace; text-align: left;">int <strong>sscanf</strong>(const char* cad, const char* fmt, ...);</td><td style="text-align: left;">Id. a scanf() pero obteniendo datos de cadena</td></tr>
+              <tr><td style="font-family: monospace; text-align: left;">char* <strong>itoa</strong>(int num);</td><td style="text-align: left;">Obtiene cadena decimal para entero</td></tr>
+              <tr><td style="font-family: monospace; text-align: left;">char* <strong>ftoa</strong>(double num);</td><td style="text-align: left;">Obtiene cadena decimal para real</td></tr>
+              <tr><td style="font-family: monospace; text-align: left;">int <strong>sprintf</strong>(char* cad, const char* fmt, ...);</td><td style="text-align: left;">Id. a printf() pero almacenando en cadena</td></tr>
+            </tbody>
+          </table>
         </div>
       </section>
 
@@ -451,28 +473,7 @@ free(todo);</code></pre>
         </div>
       </section>
 
-      <!-- SLIDE 14: Conversiones numéricas (Pág 122) -->
-      <section>
-        <h2>Funciones de conversión de datos</h2>
-        <div class="contents-box" style="font-size: 0.75em; text-align: left;">
-          <p>Convierten cadenas de caracteres de/hacia tipos de datos numéricos.</p>
-
-          <strong style="color: #002B49;">Funciones más utilizadas:</strong>
-          <table class="data-table" style="margin-top: 5px;">
-            <tbody>
-              <tr><td style="font-family: monospace; text-align: left;">int <strong>atoi</strong>(const char* cad);</td><td style="text-align: left;">Obtiene entero decimal</td></tr>
-              <tr><td style="font-family: monospace; text-align: left;">double <strong>atof</strong>(const char* cad);</td><td style="text-align: left;">Obtiene valor real</td></tr>
-              <tr><td style="font-family: monospace; text-align: left;">double <strong>strtod</strong>(const char* cad, char** ptEnd);</td><td style="text-align: left;">Obtiene valor real y puntero al final de conversión</td></tr>
-              <tr><td style="font-family: monospace; text-align: left;">int <strong>sscanf</strong>(const char* cad, const char* fmt, ...);</td><td style="text-align: left;">Id. a scanf() pero obteniendo datos de cadena</td></tr>
-              <tr><td style="font-family: monospace; text-align: left;">char* <strong>itoa</strong>(int num);</td><td style="text-align: left;">Obtiene cadena decimal para entero</td></tr>
-              <tr><td style="font-family: monospace; text-align: left;">char* <strong>ftoa</strong>(double num);</td><td style="text-align: left;">Obtiene cadena decimal para real</td></tr>
-              <tr><td style="font-family: monospace; text-align: left;">int <strong>sprintf</strong>(char* cad, const char* fmt, ...);</td><td style="text-align: left;">Id. a printf() pero almacenando en cadena</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- SLIDE 15: Ejemplo POS (Pág 123) -->
+      <!-- SLIDE 14: Ejemplo POS (Pág 123) -->
       <section>
         <h2>Funciones de cadena de caracteres</h2>
         <div class="contents-box" style="font-size: 0.8em; text-align: left;">
@@ -495,6 +496,77 @@ if (cmd != NULL)
     if (*cmd == '=')
         posicion = atoi(cmd + 1); // Extrae número tras '='
 }</code></pre>
+        </div>
+      </section>
+
+      <!-- SLIDE 15: Conversión y Formato de Cadenas en C -->
+      <section>
+        <h2>Conversión y Formato de Cadenas</h2>
+        <p class="subtitle" style="font-size: 0.72em; margin-bottom: 12px;">
+          Funciones de conversión numérica y formateo de texto (<code>&lt;stdlib.h&gt;</code> y <code>&lt;stdio.h&gt;</code>)
+        </p>
+
+        <div class="syntax-layout" style="display: flex; gap: 14px; align-items: stretch; width: 100%;">
+          
+          <!-- Columna Izquierda: Conversión de Texto a Número -->
+          <div class="syntax-code-card" style="flex: 1; text-align: left; padding: 12px; box-sizing: border-box; background: #ffffff; border: 1px solid #cbd5e1;">
+            <strong style="font-size: 0.82em; color: #002B49; display: block; margin-bottom: 6px;">
+              1. Texto a Número (<code>atoi</code>, <code>atof</code>, <code>strtod</code>)
+            </strong>
+            
+            <pre style="margin: 0; box-shadow: none; background: #0f172a; border-radius: 6px; padding: 10px; border: 1px solid #1e293b;"><code class="language-c" data-trim data-noescape style="font-size: 0.72em; line-height: 1.35; color: #f8fafc;">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(void) {
+    // 1. atoi: Texto a entero (int)
+    int entero = atoi("452"); // 452
+
+    // 2. atof: Texto a real (double)
+    double real = atof("3.14159"); // 3.14159
+
+    // 3. strtod: Texto a double + puntero al final
+    char entrada[] = "12.50 Voltios";
+    char *fin;
+    double v = strtod(entrada, &amp;fin); 
+    // v = 12.50 | fin -> " Voltios"
+
+    return 0;
+}
+            </code></pre>
+            
+            <div style="background: #f1f5f9; border-left: 3px solid #0284c7; padding: 6px 8px; border-radius: 4px; font-size: 0.65em; color: #334155; margin-top: 8px;">
+              <strong>Nota de uso:</strong> Útiles para procesar comandos recibidos por puerto serie o ficheros donde los datos numéricos vienen formateados como texto.
+            </div>
+          </div>
+
+          <!-- Columna Derecha: Lectura y Formateo en Buffer -->
+          <div class="syntax-code-card" style="flex: 1; text-align: left; padding: 12px; box-sizing: border-box; background: #ffffff; border: 1px solid #cbd5e1;">
+            <strong style="font-size: 0.82em; color: #002B49; display: block; margin-bottom: 6px;">
+              2. Formateo y Extracción (<code>sscanf</code>, <code>sprintf</code>)
+            </strong>
+
+            <pre style="margin: 0; box-shadow: none; background: #0f172a; border-radius: 6px; padding: 10px; border: 1px solid #1e293b;"><code class="language-c" data-trim data-noescape style="font-size: 0.72em; line-height: 1.35; color: #f8fafc;">
+#include &lt;stdio.h&gt;
+
+int main(void) {
+    // 1. sscanf: Extrae datos desde un buffer
+    char reg[] = "Sensor_01 23.5";
+    char nombre[20];
+    float temp;
+    sscanf(reg, "%s %f", nombre, &amp;temp);
+
+    // 2. sprintf: Construye una cadena formateada
+    char mensaje[50];
+    int id = 101;
+    sprintf(mensaje, "ID: %d -> Temp: %.1f C", id, temp);
+    // Reemplaza de forma estándar a itoa() / ftoa()
+
+    return 0;
+}
+            </code></pre>
+          </div>
+
         </div>
       </section>
 
@@ -540,6 +612,7 @@ if (cmd != NULL)
     </div>
   </div>
 
+  <!-- Scripts Reveal.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
   <script>
