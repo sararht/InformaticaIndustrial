@@ -149,262 +149,578 @@
 
       <!-- Slide 3: Arquitectura E/S por Stream -->
       <section>
-        <h2>E/S por Stream: Arquitectura</h2>
+        <h2>E/S por Stream</h2>
         <div class="contents-box">
-          <p>Permite a los programas intercambiar información con dispositivos periféricos mediante abstracciones unificadas:</p>
+          <p>Permite a los programas intercambiar información con dispositivos periféricos mediante streams:</p>
         </div>
-        <div class="architecture-box">
-          <div class="architecture-grid">
-            <div class="arch-card">
-              <strong>Programa Usuario</strong>
-              <small>Llamadas a la API C</small>
-            </div>
-            <div class="arch-arrow">&harr;</div>
-            <div class="arch-card" style="border-color:#345b96; background:#f7faff;">
-              <strong>Sistema Operativo</strong>
-              <small>Streams e Interrupciones</small>
-            </div>
-            <div class="arch-arrow">&harr;</div>
-            <div class="arch-card">
-              <strong>Driver Dispositivo</strong>
-              <small>Acceso a Puertos</small>
-            </div>
-            <div class="arch-arrow">&harr;</div>
-            <div class="arch-card" style="background:#e8efff;">
-              <strong>Periférico / Archivo</strong>
-              <small>Hardware Físico</small>
-            </div>
-          </div>
-        </div>
-        <p style="font-size:0.75em; color:#4b617f; margin-top:15px;">
-          El SO gestiona la organización lógica y derechos de acceso; los drivers se encargan de la comunicación física con los puertos E/S e interrupciones.
-        </p>
+          <div class="syntax-code-card" style="flex: 0.9; text-align: center; padding: 8px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; display: flex; align-items: center; justify-content: center; box-sizing: border-box;">
+      <img src="../../assets/img/tema08/ent_sal.png" alt="E/S" style="max-width: 100%; max-height: 350px; height: auto; border-radius: 4px;">
+    </div>
       </section>
 
-      <!-- Slide 4: Concepto y Tipos de Streams -->
+
+
+
+      <!-- Slide 4: Arquitectura E/S por Stream -->
       <section>
-        <h2>¿Qué es un Stream?</h2>
+        <h2>E/S por Stream</h2>
         <div class="contents-box">
-          <p>Un **Stream** (corriente) es una secuencia ordenada de bytes enviada a o recibida desde un dispositivo. Todos los dispositivos se tratan de forma homogénea.</p>
-          <ul class="contents-list">
-            <li><strong>Según dirección:</strong> Entrada, Salida o Entrada/Salida bidireccional.</li>
-            <li><strong>Según soporte:</strong> Con memoria (archivos en disco) o Sin memoria (teclado, pantalla, puerto serie).</li>
-            <li><strong>Según formato:</strong> Orientados a Texto o Binarios.</li>
-            <li><strong>Identificación:</strong> Mediante cadena de caracteres (ej. <code>"COM1"</code>, <code>"/dev/ttyS0"</code>, <code>"C:\\datos.txt"</code>).</li>
-          </ul>
+          <p>Funcionamiento de la E/S por stream:</p>
         </div>
+          <div class="syntax-code-card" style="flex: 0.9; text-align: center; padding: 8px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; display: flex; align-items: center; justify-content: center; box-sizing: border-box;">
+        <img src="../../assets/img/tema08/ent_sal2.png" alt="E/S" style="max-width: 100%; max-height: 380px; height: auto; border-radius: 4px;">
+      </div>
       </section>
 
-      <!-- Slide 5: Apertura y Cierre de Streams -->
+
       <section>
-        <h2>Apertura y Cierre: <code>fopen</code> y <code>fclose</code></h2>
-        <div class="contents-box">
-          <p>Para manipular un stream se incluye <code>&lt;stdio.h&gt;</code> y se utiliza un puntero al identificador de tipo opaco <code>FILE*</code>.</p>
+  <h2>E/S por Stream</h2>
+
+  <!-- BLOQUE PRINCIPAL: Definición y Propiedades -->
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 12px; width: 92%; margin: 0.6rem auto 0 auto; text-align: left;">
+    
+    <!-- Definición General -->
+    <div style="width: 100%; box-sizing: border-box;">
+      <p style="margin: 0 0 6px 0; font-size: 0.82em; color: #334155; line-height: 1.45;">
+        Un <strong>Stream</strong> es una secuencia ordenada de bytes enviada a o recibida desde un dispositivo. Todos los dispositivos se tratan de forma homogénea.
+      </p>
+    </div>
+
+    <!-- Tipos de Streams (3 Columnas / Tarjetas) -->
+           
+      <p style="margin: 0 0 6px 0; font-size: 0.82em; color: #334155; line-height: 1.45;">Tipos de Streams:</p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; width: 100%;">
+      <!-- Card 1: Dirección -->
+      <div class="syntax-code-card" style="padding: 10px 12px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+        <strong style="color: #002B49; font-size: 0.78em; display: block; margin-bottom: 6px;">▫ Según dirección:</strong>
+        <ul style="list-style-type: '▪ '; margin: 0 0 0 14px; padding: 0; font-size: 0.68em; line-height: 1.4; color: #334155;">
+          <li>Entrada</li>
+          <li>Salida</li>
+          <li>Entrada/Salida (bidireccional)</li>
+        </ul>
+      </div>
+
+      <!-- Card 2: Soporte -->
+      <div class="syntax-code-card" style="padding: 10px 12px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+        <strong style="color: #002B49; font-size: 0.78em; display: block; margin-bottom: 6px;">▫ Según soporte:</strong>
+        <ul style="list-style-type: '▪ '; margin: 0 0 0 14px; padding: 0; font-size: 0.68em; line-height: 1.4; color: #334155;">
+          <li><strong>Con memoria:</strong> Archivos en disco</li>
+          <li><strong>Sin memoria:</strong> Teclado, pantalla, puerto serie...</li>
+        </ul>
+      </div>
+
+      <!-- Card 3: Formato -->
+      <div class="syntax-code-card" style="padding: 10px 12px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+        <strong style="color: #002B49; font-size: 0.78em; display: block; margin-bottom: 6px;">▫ Según formato:</strong>
+        <ul style="list-style-type: '▪ '; margin: 0 0 0 14px; padding: 0; font-size: 0.68em; line-height: 1.4; color: #334155;">
+          <li>Orientados a texto</li>
+          <li>Binarios</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Identificación -->
+    <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 12px; font-size: 0.72em; color: #334155;">
+      <strong>Identificación:</strong> Mediante cadena de caracteres (ej. <code>"COM1"</code>, <code>"/dev/ttyS0"</code>, <code>"C:\\datos.txt"</code>).
+    </div>
+
+    <!-- Capas de Gestión (Sistema Operativo vs Drivers) -->
+    <div class="syntax-code-card" style="padding: 10px 14px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+      <ul style="list-style-type: '▪ '; margin: 0 0 0 16px; padding: 0; font-size: 0.7em; line-height: 1.45; color: #334155;">
+        <li style="margin-bottom: 4px;">
+          El<strong>Sistema Operativo</strong> se encarga de la organización lógica (nombres, drivers, permisos, estado).
+        </li>
+        <li>
+          Los <strong>Drivers</strong> se encargan del acceso físico (puertos, gestión de interrupciones).
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- Slide: Funciones para manejo de streams -->
+<section>
+  <h2>Funciones para manejo de streams</h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 12px; width: 92%; margin: 0.6rem auto 0 auto; text-align: left;">
+    
+    <!-- PUNTOS CLAVE SUPERIORES -->
+    <div style="width: 100%; box-sizing: border-box;">
+      <ul style="list-style-type: '▫ '; margin: 0; padding: 0 0 0 18px; font-size: 0.78em; line-height: 1.5; color: #334155;">
+        <li style="margin-bottom: 6px;">
+          Permiten asignar un identificador a un stream, leer/escribir sobre él y liberar el stream asociado.
+        </li>
+        <li style="margin-bottom: 6px;">
+          Requieren incluir la librería <code>&lt;stdio.h&gt;</code>.
+        </li>
+        <li>
+          El identificador de stream se declara como una variable de tipo <code>FILE*</code>.
+        </li>
+      </ul>
+    </div>
+
+    <!-- TARJETA: FUNCIONES DE APERTURA Y CIERRE -->
+    <div class="syntax-code-card" style="width: 100%; padding: 14px 18px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+      <p style="margin: 0 0 10px 0; font-weight: bold; color: #002B49; font-size: 0.85em;">
+        ▫ Funciones de apertura / cierre de stream:
+      </p>
+
+      <!-- Bloque 1: fopen -->
+      <div style="margin-bottom: 12px;">
+        <code style="font-size: 0.82em; color: #002B49; background: #f8fafc; border: 1px solid #e2e8f0; padding: 4px 8px; border-radius: 4px; font-family: monospace; font-weight: bold;">
+          FILE* fopen(const char* name, const char* mode);
+        </code>
+        
+        <ul style="list-style-type: '▸ '; margin: 8px 0 0 20px; padding: 0; font-size: 0.72em; line-height: 1.45; color: #475569;">
+          <li style="margin-bottom: 4px;">
+            <strong style="color: #0284c7;">name:</strong> Nombre del dispositivo. Si no existe, se supone que es un archivo en un dispositivo de almacenamiento.
+          </li>
+          <li>
+            <strong style="color: #0284c7;">mode:</strong> Modo de apertura: lectura / escritura / añadir, texto / binario.
+          </li>
+        </ul>
+      </div>
+
+      <!-- Bloque 2: fclose -->
+      <div>
+        <code style="font-size: 0.82em; color: #002B49; background: #f8fafc; border: 1px solid #e2e8f0; padding: 4px 8px; border-radius: 4px; font-family: monospace; font-weight: bold;">
+          int fclose(FILE* fid);
+        </code>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+<!-- Slide: Funciones para manejo de streams (E/S en streams de texto) -->
+<section>
+  <h2>Funciones para manejo de streams</h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 8px; width: 94%; margin: 0.4rem auto 0 auto; text-align: left;">
+    
+    <!-- ENUNCIADO PRINCIPAL -->
+    <div style="width: 100%; box-sizing: border-box;">
+      <p style="margin: 0 0 2px 0; font-weight: bold; color: #002B49; font-size: 0.82em;">
+        ▫ Funciones de E/S en streams de texto:
+      </p>
+    </div>
+
+    <!-- RECUADRO 1: E/S DE CARACTERES -->
+    <div class="syntax-code-card" style="width: 100%; padding: 8px 12px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+      <p style="margin: 0 0 4px 0; font-weight: bold; color: #002B49; font-size: 0.74em;">
+        ▪ E/S de caracteres:
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 5px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 4px 10px; border-radius: 4px; border: 1px solid #e2e8f0;">
+          <code style="font-size: 0.74em; color: #002B49; font-weight: bold; font-family: monospace;">
+            int fgetc(FILE* fid);
+          </code>
+          <span style="font-size: 0.70em; color: #1e40af; font-weight: 600; font-family: monospace; white-space: nowrap;">// Lee 1 carácter</span>
         </div>
-        <pre><code class="language-c" data-trim data-noescape>
-FILE* fopen(const char* name, const char* mode);
-int fclose(FILE* fid);
-        </code></pre>
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Modo</th>
-              <th>Operación</th>
-              <th>Comportamiento</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code>"r"</code> / <code>"rb"</code></td>
-              <td>Lectura</td>
-              <td>Abre archivo existente. Devuelve <code>NULL</code> si no existe.</td>
-            </tr>
-            <tr>
-              <td><code>"w"</code> / <code>"wb"</code></td>
-              <td>Escritura</td>
-              <td>Crea un archivo nuevo o sobrescribe/vacía si ya existía.</td>
-            </tr>
-            <tr>
-              <td><code>"a"</code> / <code>"ab"</code></td>
-              <td>Añadir (Append)</td>
-              <td>Abre o crea el archivo para escribir siempre al final.</td>
-            </tr>
-            <tr>
-              <td><code>"r+"</code> / <code>"w+"</code></td>
-              <td>Lectura/Escritura</td>
-              <td>Apertura combinada para actualizar información.</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
 
-      <!-- Slide 6: E/S en Streams de Texto -->
-      <section>
-        <h2>E/S Orientada a Texto</h2>
-        <div class="syntax-layout">
-          <div class="syntax-chip">
-            <strong>Caracteres: <code>fgetc</code> / <code>fputc</code></strong>
-            <small><code>int fgetc(FILE* fid);</code><br><code>int fputc(int car, FILE* fid);</code></small>
-          </div>
-          <div class="syntax-chip">
-            <strong>Cadenas: <code>fgets</code> / <code>fputs</code></strong>
-            <small><code>char* fgets(char* str, int n, FILE* fid);</code><br><code>int fputs(const char* str, FILE* fid);</code></small>
-          </div>
-          <div class="syntax-chip">
-            <strong>Formateada: <code>fscanf</code> / <code>fprintf</code></strong>
-            <small><code>int fscanf(FILE* fid, char* fmt, ...);</code><br><code>int fprintf(FILE* fid, char* fmt, ...);</code></small>
-          </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 4px 10px; border-radius: 4px; border: 1px solid #e2e8f0;">
+          <code style="font-size: 0.74em; color: #002B49; font-weight: bold; font-family: monospace;">
+            int fputc(int car, FILE* fid);
+          </code>
+          <span style="font-size: 0.70em; color: #1e40af; font-weight: 600; font-family: monospace; white-space: nowrap;">// Escribe 1 carácter</span>
         </div>
-        <pre><code class="language-c" data-trim data-noescape>
-FILE* f = fopen("salida.txt", "w");
-if (f != NULL) {
-    fprintf(f, "Resultado: %d\n", 42);
-    fputs("Línea completada\n", f);
-    fclose(f);
-}
-        </code></pre>
-      </section>
+      </div>
+    </div>
 
-      <!-- Slide 7: Streams Estándar de Consola -->
-      <section>
-        <h2>Streams Estándar y Redirección</h2>
-        <div class="contents-box">
-          <p>Al iniciar un programa se abren automáticamente tres streams conectados a la consola:</p>
-          <ul class="contents-list">
-            <li><code>stdin</code>: Entrada estándar (teclado).</li>
-            <li><code>stdout</code>: Salida estándar (pantalla).</li>
-            <li><code>stderr</code>: Salida de errores (pantalla).</li>
-          </ul>
-          <p style="margin-top:10px;">
-            Las funciones convencionales de consola son alias de streams: <code>printf(...)</code> &equiv; <code>fprintf(stdout, ...)</code>.
-          </p>
-          <p><strong>Redirección en línea de comandos:</strong></p>
-          <p><code>Miprograma.exe &lt; entrada.txt &gt; salida.txt</code></p>
+    <!-- RECUADRO 2: E/S DE CADENAS -->
+    <div class="syntax-code-card" style="width: 100%; padding: 8px 12px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+      <p style="margin: 0 0 4px 0; font-weight: bold; color: #002B49; font-size: 0.74em;">
+        ▪ E/S de cadenas:
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 5px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 4px 10px; border-radius: 4px; border: 1px solid #e2e8f0;">
+          <code style="font-size: 0.74em; color: #002B49; font-weight: bold; font-family: monospace;">
+            char* fgets(char* str, int n, FILE* fid);
+          </code>
+          <span style="font-size: 0.70em; color: #1e40af; font-weight: 600; font-family: monospace; white-space: nowrap;">// Lee 1 línea</span>
         </div>
-      </section>
 
-      <!-- Slide 8: E/S Binaria -->
-      <section>
-        <h2>Entrada/Salida Binaria</h2>
-        <div class="contents-box">
-          <p>Permite transferir bloques crudos de memoria desde/hacia un archivo sin conversiones de formato o formato numérico a texto.</p>
+        <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 4px 10px; border-radius: 4px; border: 1px solid #e2e8f0;">
+          <code style="font-size: 0.74em; color: #002B49; font-weight: bold; font-family: monospace;">
+            int fputs(const char* str, FILE* fid);
+          </code>
+          <span style="font-size: 0.70em; color: #1e40af; font-weight: 600; font-family: monospace; white-space: nowrap;">// Escribe 1 línea</span>
         </div>
-        <pre><code class="language-c" data-trim data-noescape>
-// Lectura binaria
-int fread(void* buffer, size_t size, size_t count, FILE* fid);
+      </div>
+    </div>
 
-// Escritura binaria
-int fwrite(const void* buffer, size_t size, size_t count, FILE* fid);
-        </code></pre>
-        <div class="syntax-layout">
-          <div class="syntax-chip">
-            <strong>Parámetro <code>buffer</code></strong>
-            <small>Dirección de memoria inicial de la variable o array.</small>
-          </div>
-          <div class="syntax-chip">
-            <strong>Parámetros <code>size</code> y <code>count</code></strong>
-            <small>Tamaño en bytes de cada elemento (<code>sizeof</code>) y número de elementos. Devuelven el total de elementos leídos/escritos con éxito.</small>
-          </div>
+    <!-- RECUADRO 3: E/S CON FORMATO -->
+    <div class="syntax-code-card" style="width: 100%; padding: 8px 12px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+      <p style="margin: 0 0 4px 0; font-weight: bold; color: #002B49; font-size: 0.74em;">
+        ▪ E/S con formato:
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 5px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 4px 10px; border-radius: 4px; border: 1px solid #e2e8f0;">
+          <code style="font-size: 0.74em; color: #002B49; font-weight: bold; font-family: monospace;">
+            int fscanf(FILE* fid, char* fmt, ...);
+          </code>
+          <span style="font-size: 0.70em; color: #1e40af; font-weight: 600; font-family: monospace; white-space: nowrap;">// Lee con formato</span>
         </div>
-      </section>
 
-      <!-- Slide 9: Posicionamiento en Archivos -->
-      <section>
-        <h2>Navegación y Posicionamiento</h2>
-        <div class="contents-box">
-          <p>Funciones para consultar y desplazar el cursor dentro de archivos con memoria:</p>
-          <ul class="contents-list">
-            <li><code>long ftell(FILE* fid);</code> Devuelve la posición actual (en bytes) desde el inicio.</li>
-            <li><code>void rewind(FILE* fid);</code> Vuelve a colocar el cursor al principio del archivo.</li>
-            <li><code>int fseek(FILE* fid, long offset, int origin);</code> Desplaza el cursor $offset$ bytes según el origen:
-              <ul>
-                <li><code>SEEK_SET</code>: Desde el principio del archivo.</li>
-                <li><code>SEEK_CUR</code>: Desde la posición actual.</li>
-                <li><code>SEEK_END</code>: Desde el final del archivo.</li>
-              </ul>
-            </li>
-          </ul>
+        <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 4px 10px; border-radius: 4px; border: 1px solid #e2e8f0;">
+          <code style="font-size: 0.74em; color: #002B49; font-weight: bold; font-family: monospace;">
+            int fprintf(FILE* fid, char* fmt, ...);
+          </code>
+          <span style="font-size: 0.70em; color: #1e40af; font-weight: 600; font-family: monospace; white-space: nowrap;">// Escribe con formato</span>
         </div>
-      </section>
+      </div>
+    </div>
 
-      <!-- Slide 10: Control de Estado y Buffers -->
-      <section>
-        <h2>Control de Estado y Vaciado de Buffers</h2>
-        <div class="syntax-layout">
-          <div class="syntax-chip">
-            <strong><code>feof(fid)</code></strong>
-            <small>Devuelve distinto de cero (TRUE) cuando se alcanza el fin del archivo.</small>
-          </div>
-          <div class="syntax-chip">
-            <strong><code>ferror(fid)</code> / <code>clearerr(fid)</code></strong>
-            <small>Consulta el código del último error (0 = OK) o limpia los indicadores de error del stream.</small>
-          </div>
-          <div class="syntax-chip">
-            <strong><code>fflush(fid)</code></strong>
-            <small>Fuerza la escritura física en el dispositivo de los datos pendientes en el buffer intermedio del SO. En streams de entrada elimina datos residuales del buffer.</small>
-          </div>
+  </div>
+</section>
+
+
+<!-- Slide: Streams por defecto para consola -->
+<section>
+  <h2>Streams por defecto para consola</h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 10px; width: 92%; margin: 0.5rem auto 0 auto; text-align: left;">
+    
+    <!-- RECUADRO 1: STREAMS POR DEFECTO -->
+    <div class="syntax-code-card" style="width: 100%; padding: 10px 14px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+      <p style="margin: 0 0 6px 0; font-weight: bold; color: #002B49; font-size: 0.78em;">
+        ▫ Streams por defecto: permiten realizar E/S a consola con <code>printf()</code>, <code>scanf()</code>, <code>gets()</code>, <code>puts()</code>, <code>getchar()</code>, <code>putchar()</code>:
+      </p>
+
+      <ul style="list-style-type: '▪ '; margin: 0 0 0 18px; padding: 0; font-size: 0.72em; line-height: 1.45; color: #334155;">
+        <li><strong style="color: #002B49; font-family: monospace;">stdin:</strong> entrada estándar</li>
+        <li><strong style="color: #002B49; font-family: monospace;">stdout:</strong> salida estándar</li>
+        <li><strong style="color: #002B49; font-family: monospace;">stderr:</strong> salida de error</li>
+      </ul>
+    </div>
+
+    <!-- RECUADRO 2: EQUIVALENCIA -->
+    <div class="syntax-code-card" style="width: 100%; padding: 8px 14px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+      <p style="margin: 0; font-size: 0.76em; color: #002B49; font-family: monospace; font-weight: bold;">
+        ▫ Ej: printf(...) ≡ fprintf(stdout, ...)
+      </p>
+    </div>
+
+    <!-- RECUADRO 3: CONEXIÓN Y REDIRECCIÓN -->
+    <div class="syntax-code-card" style="width: 100%; padding: 10px 14px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+      <p style="margin: 0 0 6px 0; font-weight: bold; color: #002B49; font-size: 0.78em;">
+        ▫ Estos streams están conectados por defecto a la consola, en modo texto (stdin a lectura, stdout y stderr a escritura), pero pueden redirigirse a otros dispositivos (ej. a archivo):
+      </p>
+
+      <div style="background: #f8fafc; padding: 6px 12px; border-radius: 4px; border: 1px solid #e2e8f0; font-family: monospace; font-size: 0.74em; color: #1e40af; font-weight: bold;">
+        ▪ Miprograma.exe &lt; entrada.txt &gt; salida.txt
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Slide: Funciones para manejo de streams (E/S en streams binarios) -->
+<section>
+  <h2>Funciones para manejo de streams</h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 10px; width: 92%; margin: 0.5rem auto 0 auto; text-align: left;">
+    
+    <!-- ENUNCIADO PRINCIPAL -->
+    <div style="width: 100%; box-sizing: border-box;">
+      <p style="margin: 0 0 4px 0; font-weight: bold; color: #002B49; font-size: 0.88em;">
+        ▫ Funciones de E/S en streams binarios:
+      </p>
+    </div>
+
+    <!-- RECUADRO 1: LECTURA DE DATOS -->
+    <div class="syntax-code-card" style="width: 100%; padding: 10px 14px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+      <p style="margin: 0 0 6px 0; font-weight: bold; color: #002B49; font-size: 0.78em;">
+        ▪ Lectura de datos:
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="background: #f8fafc; padding: 6px 10px; border-radius: 4px; border: 1px solid #e2e8f0; overflow-x: auto;">
+          <code style="font-size: 0.70em; color: #002B49; font-weight: bold; font-family: monospace;">
+            int fread(void* buffer, size_t size, size_t count, FILE *fid);
+          </code>
         </div>
-      </section>
 
-      <!-- Slide 11: E/S de Bajo Nivel sin Buffer -->
-      <section>
-        <h2>E/S Sin Buffer (Bajo Nivel)</h2>
-        <div class="contents-box">
-          <p>Se realiza el acceso directamente contra los drivers sin conversiones intermedias ni memoria intermedia de stream:</p>
-          <ul class="contents-list">
-            <li><strong>Identificador de dispositivo:</strong> Un número entero (descriptor de archivo) de tipo <code>int</code>.
-              <ul>
-                <li><code>0</code> &equiv; <code>stdin</code>, <code>1</code> &equiv; <code>stdout</code>, <code>2</code> &equiv; <code>stderr</code>.</li>
-              </ul>
-            </li>
-            <li><strong>Funciones típicas (POSIX / Unix):</strong> <code>open()</code>, <code>close()</code>, <code>read()</code>, <code>write()</code>, <code>creat()</code>, <code>tell()</code>.</li>
-            <li>Acceso a llamadas avanzadas del SO: <code>ioctl()</code>, <code>fcntl()</code>, <code>select()</code>.</li>
-          </ul>
+        <ul style="list-style-type: '▸ '; margin: 2px 0 0 16px; padding: 0; font-size: 0.70em; line-height: 1.4; color: #1e40af; font-family: monospace;">
+          <li>Lee un conjunto de count*size bytes del stream y los almacena en el mismo formato en el buffer</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- RECUADRO 2: ESCRITURA DE DATOS -->
+    <div class="syntax-code-card" style="width: 100%; padding: 10px 14px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+      <p style="margin: 0 0 6px 0; font-weight: bold; color: #002B49; font-size: 0.78em;">
+        ▪ Escritura de datos:
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="background: #f8fafc; padding: 6px 10px; border-radius: 4px; border: 1px solid #e2e8f0; overflow-x: auto;">
+          <code style="font-size: 0.70em; color: #002B49; font-weight: bold; font-family: monospace;">
+            int fwrite(const void* buffer, size_t size, size_t count, FILE *fid);
+          </code>
         </div>
-      </section>
 
-      <!-- Slide 12: Ejemplos Prácticos de Lectura -->
-      <section>
-        <h2>Ejemplo: Lectura de Matriz desde Fichero</h2>
-        <pre><code class="language-c" data-trim data-noescape>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+        <ul style="list-style-type: '▸ '; margin: 2px 0 0 16px; padding: 0; font-size: 0.70em; line-height: 1.4; color: #1e40af; font-family: monospace;">
+          <li>Envía al stream un conjunto de count*size bytes indicados a partir de la dirección de memoria buffer</li>
+        </ul>
+      </div>
+    </div>
 
-int main(void) {
-    FILE* f = fopen("matriz.txt", "r");
-    int n, m, i, j;
-    float* datos;
+    <!-- RECUADRO 3: VALOR DE RETORNO -->
+    <div class="syntax-code-card" style="width: 100%; padding: 8px 14px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+      <p style="margin: 0 0 4px 0; font-weight: bold; color: #002B49; font-size: 0.78em;">
+        ▪ En ambos casos:
+      </p>
 
-    if (f == NULL) return -1;
+      <ul style="list-style-type: '▸ '; margin: 0 0 0 16px; padding: 0; font-size: 0.72em; line-height: 1.4; color: #334155;">
+        <li>Las funciones devuelven el nº de elementos (bytes/size) realmente escritos o leídos.</li>
+      </ul>
+    </div>
 
-    fscanf(f, "%d %d", &n, &m); // Lee dimensiones
-    datos = (float*) malloc(n * m * sizeof(float));
+  </div>
+</section>
 
-    for (i = 0; i < n; i++) {
-        for (j = 0; j < m; j++) {
-            fscanf(f, "%f", &datos[i * m + j]); // Lee elementos
-        }
-    }
-    fclose(f);
-    free(datos);
-    return 0;
-}
-        </code></pre>
-      </section>
 
-      <!-- Slide 13: Ejercicios propuestos -->
-      <section>
-        <h2>Ejercicios Propuestos</h2>
-        <div class="contents-box">
-          <ol class="contents-list" style="font-size: 0.75em;">
-            <li>Leer los datos de una matriz de reales desde un fichero de texto con dimensiones $n \times m$ en cabecera.</li>
-            <li>Desarrollar un programa que lea un archivo línea a línea y cuente cuántas líneas contienen una cadena buscada.</li>
-            <li>Crear un programa que reemplace en un fichero la marca <code>"&lt;x&gt;"</code> por el valor entero de una variable elegida por teclado.</li>
-            <li>Leer el máximo número de <code>float</code>s de un archivo binario y guardarlos formateados en una matriz en un archivo de texto.</li>
-            <li>Implementar la lectura de matriz desde archivo cuando no se conocen de antemano $n$ y $m$ en la primera línea.</li>
-          </ol>
+<!-- Slide: Funciones para manejo de streams (E/S en streams con almacenamiento/archivos) -->
+<section>
+  <h2>Funciones para manejo de streams</h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 8px; width: 95%; margin: 0.4rem auto 0 auto; text-align: left;">
+    
+    <!-- ENUNCIADO PRINCIPAL -->
+    <div style="width: 100%; box-sizing: border-box;">
+      <p style="margin: 0 0 2px 0; font-weight: bold; color: #002B49; font-size: 0.85em;">
+        ▫ Funciones auxiliares para streams con almacenamiento (archivos):
+      </p>
+    </div>
+
+    <!-- RECUADRO 1: FEOF -->
+    <div class="syntax-code-card" style="width: 100%; padding: 8px 12px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <div style="background: #f8fafc; padding: 4px 10px; border-radius: 4px; border: 1px solid #e2e8f0;">
+          <code style="font-size: 0.72em; color: #002B49; font-weight: bold; font-family: monospace; white-space: nowrap;">
+            int feof(FILE* fid);
+          </code>
         </div>
-      </section>
+
+        <ul style="list-style-type: '▸ '; margin: 2px 0 0 14px; padding: 0; font-size: 0.70em; line-height: 1.35; color: #1e40af;">
+          <li>Indica si se ha alcanzado el fin de archivo</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- RECUADRO 2: REWIND -->
+    <div class="syntax-code-card" style="width: 100%; padding: 8px 12px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <div style="background: #f8fafc; padding: 4px 10px; border-radius: 4px; border: 1px solid #e2e8f0;">
+          <code style="font-size: 0.72em; color: #002B49; font-weight: bold; font-family: monospace; white-space: nowrap;">
+            void rewind(FILE* fid);
+          </code>
+        </div>
+
+        <ul style="list-style-type: '▸ '; margin: 2px 0 0 14px; padding: 0; font-size: 0.70em; line-height: 1.35; color: #1e40af;">
+          <li>Vuelve al principio del archivo</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- RECUADRO 3: FTELL -->
+    <div class="syntax-code-card" style="width: 100%; padding: 8px 12px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <div style="background: #f8fafc; padding: 4px 10px; border-radius: 4px; border: 1px solid #e2e8f0;">
+          <code style="font-size: 0.72em; color: #002B49; font-weight: bold; font-family: monospace; white-space: nowrap;">
+            long ftell(FILE *fid);
+          </code>
+        </div>
+
+        <ul style="list-style-type: '▸ '; margin: 2px 0 0 14px; padding: 0; font-size: 0.70em; line-height: 1.35; color: #1e40af;">
+          <li>Devuelve la posición actual (en bytes) desde el principio del stream</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- RECUADRO 4: FSEEK -->
+    <div class="syntax-code-card" style="width: 100%; padding: 8px 12px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+
+
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <div style="background: #f8fafc; padding: 4px 10px; border-radius: 4px; border: 1px solid #e2e8f0;">
+          <code style="font-size: 0.72em; color: #002B49; font-weight: bold; font-family: monospace; white-space: nowrap;">
+            int fseek(FILE *fid, long offset, int origin);
+          </code>
+        </div>
+
+        <ul style="list-style-type: '▸ '; margin: 2px 0 0 14px; padding: 0; font-size: 0.70em; line-height: 1.35; color: #1e40af;">
+          <li>Coloca el puntero en la posición (bytes) deseada a partir de:
+            <ul style="list-style-type: '▫ '; margin: 2px 0 0 14px; padding: 0; color: #334155; font-family: monospace;">
+              <li>el principio: <strong>origin = SEEK_SET</strong></li>
+              <li>la posición actual: <strong>origin = SEEK_CUR</strong></li>
+              <li>el final: <strong>origin = SEEK_END</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+<!-- Slide: El preprocesador (Funciones auxiliares para streams) -->
+<section>
+  <h2>Funciones para manejo de streams </h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 8px; width: 95%; margin: 0.4rem auto 0 auto; text-align: left;">
+    
+    <!-- ENUNCIADO PRINCIPAL -->
+    <div style="width: 100%; box-sizing: border-box;">
+      <p style="margin: 0 0 2px 0; font-weight: bold; color: #002B49; font-size: 0.85em;">
+        ▫ Funciones auxiliares para streams:
+      </p>
+    </div>
+
+    <!-- RECUADRO 1: FERROR -->
+    <div class="syntax-code-card" style="width: 100%; padding: 8px 12px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+
+
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <div style="background: #f8fafc; padding: 4px 10px; border-radius: 4px; border: 1px solid #e2e8f0;">
+          <code style="font-size: 0.72em; color: #002B49; font-weight: bold; font-family: monospace; white-space: nowrap;">
+            int ferror(FILE* fid);
+          </code>
+        </div>
+
+        <ul style="list-style-type: '▸ '; margin: 2px 0 0 14px; padding: 0; font-size: 0.70em; line-height: 1.35; color: #1e40af;">
+          <li>Devuelve el código del último error (0 = ok)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- RECUADRO 2: CLEARERR -->
+    <div class="syntax-code-card" style="width: 100%; padding: 8px 12px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+
+
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <div style="background: #f8fafc; padding: 4px 10px; border-radius: 4px; border: 1px solid #e2e8f0;">
+          <code style="font-size: 0.72em; color: #002B49; font-weight: bold; font-family: monospace; white-space: nowrap;">
+            void clearerr(FILE* fid);
+          </code>
+        </div>
+
+        <ul style="list-style-type: '▸ '; margin: 2px 0 0 14px; padding: 0; font-size: 0.70em; line-height: 1.35; color: #1e40af;">
+          <li>Borra el código del último error</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- RECUADRO 3: FFLUSH -->
+    <div class="syntax-code-card" style="width: 100%; padding: 8px 12px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+
+
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <div style="background: #f8fafc; padding: 4px 10px; border-radius: 4px; border: 1px solid #e2e8f0;">
+          <code style="font-size: 0.72em; color: #002B49; font-weight: bold; font-family: monospace; white-space: nowrap;">
+            int fflush(FILE *fid);
+          </code>
+        </div>
+
+        <ul style="list-style-type: '▸ '; margin: 2px 0 0 14px; padding: 0; font-size: 0.70em; line-height: 1.35; color: #1e40af;">
+          <li>Vacía los búferes intermedios con los que el S.O. gestiona la E/S física del dispositivo asociado al stream:
+            <ul style="list-style-type: '▫ '; margin: 2px 0 0 14px; padding: 0; color: #334155;">
+              <li>Si estaba abierto para salida, asegura que dicha salida se escribe físicamente.</li>
+              <li>Si estaba abierto para entrada, elimina los datos de los búferes intermedios.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+<!-- Slide: Funciones de E/S sin buffer -->
+<section>
+  <h2>Funciones de E/S sin buffer</h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 8px; width: 95%; margin: 0.4rem auto 0 auto; text-align: left;">
+    
+    <!-- RECUADRO 1: CONCEPTO Y CARACTERÍSTICAS -->
+    <div class="syntax-code-card" style="width: 100%; padding: 8px 12px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+      <p style="margin: 0 0 4px 0; font-weight: bold; color: #002B49; font-size: 0.76em;">
+        ▫ Acceso directo al driver:
+      </p>
+
+      <ul style="list-style-type: '▪ '; margin: 0 0 0 14px; padding: 0; font-size: 0.70em; line-height: 1.35; color: #334155;">
+        <li style="margin-bottom: 2px;">
+          Se realiza la E/S directamente al driver, sin conversiones ni búferes intermedios.
+        </li>
+        <li style="margin-bottom: 2px;">
+          Identificador de dispositivo: tipo de datos <code style="font-size: 0.9em; color: #002B49; font-weight: bold;">int</code>.
+        </li>
+        <li>
+          Dispositivos por defecto: <code style="font-size: 0.9em; color: #002B49; font-weight: bold;">stdin ≡ 0</code>, <code style="font-size: 0.9em; color: #002B49; font-weight: bold;">stdout ≡ 1</code>, <code style="font-size: 0.9em; color: #002B49; font-weight: bold;">stderr ≡ 2</code>.
+        </li>
+      </ul>
+    </div>
+
+    <!-- RECUADRO 2: FUNCIONES PRINCIPALES -->
+    <div class="syntax-code-card" style="width: 100%; padding: 8px 12px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+      <p style="margin: 0 0 4px 0; font-weight: bold; color: #002B49; font-size: 0.76em;">
+        ▫ Funciones básicas de bajo nivel:
+      </p>
+
+      <div style="background: #f8fafc; padding: 4px 10px; border-radius: 4px; border: 1px solid #e2e8f0; margin-bottom: 4px;">
+        <code style="font-size: 0.72em; color: #002B49; font-weight: bold; font-family: monospace; white-space: nowrap;">
+          open(), creat(), close(), read(), write(), tell(), ...
+        </code>
+      </div>
+
+      <ul style="list-style-type: '▸ '; margin: 0 0 0 14px; padding: 0; font-size: 0.70em; line-height: 1.35; color: #1e40af;">
+        <li>No forman parte del estándar ANSI, aunque están presentes en la mayoría de implementaciones.</li>
+      </ul>
+    </div>
+
+    <!-- RECUADRO 3: ENTORNO UNIX Y ESPECIALIZADAS -->
+    <div class="syntax-code-card" style="width: 100%; padding: 8px 12px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+      <p style="margin: 0 0 4px 0; font-weight: bold; color: #002B49; font-size: 0.76em;">
+        ▫ Funciones especializadas en entornos estilo Unix:
+      </p>
+
+      <div style="background: #f8fafc; padding: 4px 10px; border-radius: 4px; border: 1px solid #e2e8f0; margin-bottom: 4px;">
+        <code style="font-size: 0.72em; color: #002B49; font-weight: bold; font-family: monospace; white-space: nowrap;">
+          ioctl(), fcntl(), select()
+        </code>
+      </div>
+
+      <ul style="list-style-type: '▸ '; margin: 0 0 0 14px; padding: 0; font-size: 0.70em; line-height: 1.35; color: #334155;">
+        <li>Permiten control avanzado de dispositivos y operaciones de E/S no bloqueantes o multiplexadas.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+
+
+
 
       <!-- Slide 14: Resumen -->
       <section>

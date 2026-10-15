@@ -118,37 +118,85 @@
         </div>
       </section>
 
-      <!-- Slide 3: De Alto Nivel a Código Máquina -->
-      <section>
-        <h2>Fases de Obtención del Ejecutable</h2>
-        <div class="contents-box">
-          <p>El proceso de transformación del código fuente a código ejecutable consta de varias etapas:</p>
-        </div>
-        <div class="pipeline-diagram">
-          <div class="pipeline-step">
-            <strong>Editor</strong>
-            <small><code>.c</code> / <code>.h</code> (Texto fuente)</small>
-          </div>
-          <div class="pipeline-arrow">&rarr;</div>
-          <div class="pipeline-step">
-            <strong>Preprocesador</strong>
-            <small>Expansión de texto</small>
-          </div>
-          <div class="pipeline-arrow">&rarr;</div>
-          <div class="pipeline-step">
-            <strong>Compilador</strong>
-            <small><code>.obj</code> (Código objeto)</small>
-          </div>
-          <div class="pipeline-arrow">&rarr;</div>
-          <div class="pipeline-step">
-            <strong>Enlazador (Linker)</strong>
-            <small><code>.exe</code> + <code>.lib</code></small>
-          </div>
-        </div>
-        <p style="font-size:0.75em; color:#4b617f; margin-top:15px;">
-          El <strong>Cargador (Loader)</strong> del sistema operativo vuelca el archivo <code>.exe</code> en la memoria RAM y establece el Registro Contador de Programa (PC) en la primera instrucción de <code>main()</code>.
-        </p>
-      </section>
+  <section>
+  <h2>Alto nivel &rarr; código máquina</h2>
+  
+  <div class="syntax-layout" style="display: flex; gap: 16px; align-items: center; width: 100%; margin-top: 0.8rem;">
+    
+    <!-- COLUMNA IZQUIERDA: Pasos principales -->
+    <div class="syntax-code-card" style="flex: 1; text-align: left; padding: 16px; background: #ffffff; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      <p style="margin: 0 0 16px 0; font-size: 0.85em; font-weight: bold; color: #002B49;">
+        Pasos en la obtención de código máquina:
+      </p>
+      
+      <ul style="list-style-type: '▪ '; margin: 0 0 0 20px; padding: 0; font-size: 0.75em; line-height: 1.6; color: #1e293b;">
+        <li style="margin-bottom: 20px;">
+          <strong style="color: #0284c7;">Escribir código fuente</strong><br>
+          <span style="color: #64748b;">(programa editor)</span>
+        </li>
+        <li style="margin-bottom: 20px;">
+          <strong style="color: #0284c7;">Compilar código fuente</strong><br>
+          <span style="color: #64748b;">(programa compilador)</span>
+        </li>
+        <li>
+          <strong style="color: #0284c7;">Enlazar código objeto y librerías</strong><br>
+          <span style="color: #64748b;">(programa enlazador)</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- COLUMNA DERECHA: Imagen explicativa codMaq -->
+    <div class="syntax-code-card" style="flex: 1; display: flex; justify-content: center; align-items: center; padding: 12px; background: #ffffff; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      <img src="../../assets/img/tema07/codMaq.png" alt="Diagrama del proceso de Editor, Compilador y Enlazador para obtención de código máquina" style="max-width: 100%; max-height: 420px; height: auto; object-fit: contain; border-radius: 4px;">
+    </div>
+
+  </div>
+</section>
+
+<!-- Slide: Ejecución del programa -->
+<section>
+  <h2>Ejecución del programa</h2>
+
+  <div class="syntax-layout" style="display: flex; gap: 16px; align-items: flex-start; width: 100%;">
+    
+    <!-- COLUMNA IZQUIERDA: Puntos explicativos -->
+    <div class="syntax-code-card" style="flex: 1.2; text-align: left; padding: 12px 16px; background: #ffffff; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      
+      <p style="margin: 0 0 10px 0; font-weight: bold; color: #002B49; font-size: 0.85em;">
+        ▫ Ejecución de un programa:
+      </p>
+
+      <ul style="list-style-type: '▪ '; margin: 0; padding-left: 18px; font-size: 0.72em; line-height: 1.5; color: #334155;">
+        <li style="margin-bottom: 12px;">
+          El programa <strong>Cargador (Loader)</strong> vuelca en memoria el archivo ejecutable.
+        </li>
+        <li style="margin-bottom: 12px;">
+          El cargador pone en el <strong>PC (Contador de Programa)</strong> la dirección de la 1ª instrucción del programa (el resto se ejecutan secuencialmente).
+        </li>
+        <li style="margin-bottom: 0;">
+          O bien cargar en memoria y ejecutar paso a paso con un <strong>programa depurador</strong>.
+        </li>
+      </ul>
+
+    </div>
+
+    <!-- COLUMNA DERECHA: Imagen explicativa ejecucion.png -->
+    <div class="syntax-code-card" style="flex: 0.9; text-align: center; padding: 12px; background: #ffffff; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      <img src="../../assets/img/tema07/ejecucion.png" alt="Esquema del cargador volcando el ejecutable en memoria" style="max-width: 100%; max-height: 380px; height: auto; border-radius: 6px;">
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
 
       <!-- Slide 4: Compilación Separada -->
       <section>
@@ -158,22 +206,25 @@
           <ul class="contents-list">
             <li><strong>Modularidad:</strong> Cada fichero <code>.c</code> se compila de forma aislada generando su correspondiente fichero objeto <code>.obj</code>.</li>
             <li><strong>Reutilización y Eficiencia:</strong> Al modificar un único archivo, solo es necesario re-compilar ese módulo antes de volver a enlazar.</li>
-            <li><strong>Enlazado final:</strong> El Linker une todos los <code>.obj</code> y las librerías estáticas (<code>.lib</code>) resolviendo los símbolos exported/extern.</li>
+            <li><strong>Enlazado final:</strong> El Linker une todos los <code>.obj</code> y las librerías estáticas (<code>.lib</code>).</li>
           </ul>
         </div>
+        <div class="syntax-code-card" style="flex: 0.9; text-align: center; padding: 12px; background: #ffffff; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      <img src="../../assets/img/tema07/enlazado.png" alt="Esquema del cargador volcando el ejecutable en memoria" style="max-width: 100%; max-height: 250px; height: auto; border-radius: 6px;">
+    </div>
       </section>
 
       <!-- Slide 5: Directivas del Preprocesador -->
       <section>
         <h2>El Preprocesador en C</h2>
         <div class="contents-box">
-          <p>Actúa <strong>antes</strong> del proceso de compilación propiamente dicho, realizando manipulaciones de texto sobre el código fuente.</p>
-          <p>Todas las directivas comienzan por el símbolo <code>#</code> y ocupan una sola línea:</p>
+          <li>Se puede indicar ciertas acciones <strong>previas al compilado</strong> mediante directivas de preprocesador.</li>
+          <li>Todas las directivas comienzan por el símbolo <code>#</code> y ocupan una sola línea:</li>
         </div>
         <div class="syntax-layout">
           <div class="syntax-chip">
             <strong><code>#include</code></strong>
-            <small>Inserta textualmente el contenido de un fichero de cabecera.</small>
+            <small>Inclusión de un archivo de cabecera.</small>
           </div>
           <div class="syntax-chip">
             <strong><code>#define</code></strong>
@@ -190,6 +241,37 @@
         </div>
       </section>
 
+
+
+      <!-- Slide 6: Preprocesador -->
+      <section>
+        <h2>El Preprocesador en C</h2>
+        <div class="contents-box">
+          <p>Las directivas del preprocesador actúan sobre el texto que va a ser compilado, no en tiempo de ejecución.</p>
+        </div>
+        <div class="syntax-code-card" style="flex: 0.9; text-align: center; padding: 12px; background: #ffffff; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      <img src="../../assets/img/tema07/preprocesador.png" alt="Preprocesador" style="max-width: 100%; max-height: 350px; height: auto; border-radius: 6px;">
+    </div>
+      </section>
+
+
+      <!-- Slide 7: Preprocesador -->
+      <section>
+        <h2>Preprocesador y compilación separada</h2>
+        <div class="contents-box">
+          <p>Cuando se realiza compilación separada, se utiliza la directiva <strong>#include</strong> para que todos los módulos utilicen las mismas definiciones
+(prototipos de función, constantes, etc).</p>
+        </div>
+        <div class="syntax-code-card" style="flex: 0.9; text-align: center; padding: 12px; background: #ffffff; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      <img src="../../assets/img/tema07/preprocesador2.png" alt="Preprocesador" style="max-width: 100%; max-height: 350px; height: auto; border-radius: 6px;">
+    </div>
+      </section>
+
+
+
+
+
+
       <!-- Slide 6: Ficheros .c vs .h -->
       <section>
         <h2>Ficheros Fuente (<code>.c</code>) vs. Cabeceras (<code>.h</code>)</h2>
@@ -198,137 +280,241 @@
             <strong>Ficheros Fuente (<code>.c</code>)</strong>
             <ul style="font-size: 0.7em; margin-top: 8px; text-align: left;">
               <li>Se compilan individualmente para generar archivos <code>.obj</code>.</li>
-              <li>Contienen el código ejecutable (definición de funciones, lógica, algoritmos).</li>
-              <li>Declaran el almacenamiento de variables globales.</li>
+              <li>Contienen el código ejecutable (definición de funciones, sentencias, expresiones).</li>
             </ul>
           </div>
           <div class="syntax-code-card">
             <strong>Ficheros de Cabecera (<code>.h</code>)</strong>
             <ul style="font-size: 0.7em; margin-top: 8px; text-align: left;">
               <li>Nunca se compilan directamente; se incluyen via <code>#include</code> en los <code>.c</code>.</li>
-              <li>Solo contienen <strong>declaraciones</strong> necesarias para los clientes del módulo:
-                <ul>
+              <li>Solo contienen <strong>declaraciones</strong> necesarias para los .c que los incluyan               <ul>
                   <li>Prototipos de función terminados en <code>;</code></li>
                   <li>Constantes e Inclusiones</li>
                   <li>Nuevos tipos (<code>struct</code>, <code>enum</code>, <code>typedef</code>)</li>
+                  <li>Otros <code>#include</code> necesarios</li>
                 </ul>
               </li>
             </ul>
           </div>
+          
+        </div>
+<div class="contents-box" style="margin-top: 14px; padding: 10px 14px; background: #e0f2fe; border-left: 4px solid #0284c7; border-radius: 6px; text-align: left;">
+          <p style="margin: 0; font-size: 0.72em; color: #0369a1; line-height: 1.45;">
+            Es práctica habitual asociar un fichero de cabecera <code>.h</code> a cada módulo <code>.c</code>. Este debe contener únicamente las declaraciones imprescindibles (y no más) para utilizar las funciones públicas de dicho módulo desde otros archivos.
+          </p>
         </div>
       </section>
 
-      <!-- Slide 7: Uso de Variables Globales entre Módulos -->
+
+
+
+      <!-- Slide 7: Preprocesador -->
       <section>
-        <h2>Variables Globales Compartidas (<code>extern</code>)</h2>
+        <h2>Compilación separada</h2>
         <div class="contents-box">
-          <p>Para compartir una variable global entre varios archivos fuente:</p>
-          <ul class="contents-list">
-            <li><strong>Módulo principal / Propietario (<code>uno.c</code>):</strong> Declara la variable para reservar memoria.</li>
-            <li><strong>Módulo secundario (<code>dos.c</code>):</strong> Declara la variable anteponiendo la palabra clave <code>extern</code>.</li>
-          </ul>
+          <p>En caso de utilizar variables globales, uno de los módulos declara su almacenamiento, y el resto debe
+preceder la declaración con extern</p>
         </div>
-        <pre><code class="language-c" data-trim data-noescape>
-// ----- Fichero: uno.c -----
-#include "dos.h"
-int _vble_global = 10; // Reserva espacio en memoria RAM
-
-int main(void) {
-    FnDos();
-    return 0;
-}
-
-// ----- Fichero: dos.c -----
-#include "dos.h"
-extern int _vble_global; // Indica al compilador que existe en otro .obj
-
-void FnDos(void) {
-    _vble_global = 20;   // Modifica la variable global compartida
-}
-        </code></pre>
+        <div class="syntax-code-card" style="flex: 0.9; text-align: center; padding: 12px; background: #ffffff; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      <img src="../../assets/img/tema07/varglob.png" alt="Variables Globales" style="max-width: 100%; max-height: 350px; height: auto; border-radius: 6px;">
+    </div>
       </section>
 
-      <!-- Slide 8: Macros con Parámetros -->
-      <section>
-        <h2>Macros con Parámetros</h2>
-        <div class="contents-box">
-          <p>Sustituyen texto antes de compilar. A diferencia de una función, no generan sobrecarga de llamadas, pero deben construirse con precaución:</p>
-        </div>
-        <pre><code class="language-c" data-trim data-noescape>
-// Definición incorrecta (sin paréntesis):
-#define CUADRADO(x) x * x
-// Invocación: CUADRADO(1 + 2) -> Expande a: 1 + 2 * 1 + 2 = 5 (¡ERROR!)
 
-// Definición correcta (con paréntesis en argumentos y expresión):
-#define CUADRADO(x) ((x) * (x))
-// Invocación: CUADRADO(1 + 2) -> Expande a: ((1 + 2) * (1 + 2)) = 9
 
-// Macro segura de comparación:
-#define MIN(a, b) (((a) < (b)) ? (a) : (b))
-        </code></pre>
-      </section>
+<!-- Slide: El preprocesador (Macros y Parámetros) -->
+<section>
+  <h2>El preprocesador</h2>
 
-      <!-- Slide 9: Compilación Condicional -->
-      <section>
-        <h2>Compilación Condicional</h2>
-        <div class="contents-box">
-          <p>Permite incluir o excluir fragmentos de código fuente durante la compilación.</p>
-          <p>Diferencia clave entre <code>#if</code> (Preprocesador) e <code>if()</code> (Lenguaje C):</p>
-          <ul class="contents-list">
-            <li><code>#if</code>: Se evalúa en tiempo de compilación. El código omitido **no se incluye** en el archivo binario final.</li>
-            <li><code>if()</code>: Se evalúa en tiempo de ejecución. Todo el código forma parte del binario ejecutable.</li>
-          </ul>
-        </div>
-        <pre><code class="language-c" data-trim data-noescape>
-#define DEPURANDO 1 // Cambiar a 0 en la versión de producción
-
-int main(void) {
-    int resultado = 42;
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 14px; width: 92%; margin: 0.8rem auto 0 auto;">
     
-#if DEPURANDO > 0
-    printf("DEBUG: Valor parcial de resultado = %d\n", resultado);
-#endif
+    <!-- BLOQUE SUPERIOR: Definición de constantes y macros -->
+    <div style="width: 100%; text-align: left; padding: 2px 0; box-sizing: border-box;">
+      <p style="margin: 0 0 10px 0; font-weight: bold; color: #002B49; font-size: 0.85em;">
+        ▫ Definición de constantes y macros
+      </p>
 
-    return 0;
-}
+      <ul style="list-style-type: '▪ '; margin: 0 0 0 20px; padding: 0; font-size: 0.72em; line-height: 1.5; color: #334155;">
+        <li style="margin-bottom: 12px;">
+          <strong>Sin parámetros:</strong><br>
+          <div style="display: flex; align-items: center; gap: 16px; margin-top: 6px; flex-wrap: wrap;">
+            <code style="font-size: 0.95em; color: #0284c7; background: #f8fafc; border: 1px solid #cbd5e1; padding: 4px 10px; border-radius: 4px; font-weight: bold;">
+              #define N 50
+            </code>
+            <div style="background: #e0f2fe; border-left: 3px solid #0284c7; padding: 6px 12px; border-radius: 4px; font-size: 0.88em; color: #0369a1; flex: 1;">
+              ⬅ Todas las apariciones del identificador <strong>N</strong> serán sustituidas por el valor <strong>50</strong> antes de compilar.
+            </div>
+          </div>
+        </li>
+        <li>
+          <strong>Con parámetros:</strong><br>
+          <code style="font-size: 0.95em; color: #0284c7; background: #f8fafc; border: 1px solid #cbd5e1; padding: 4px 10px; border-radius: 4px; font-weight: bold; display: inline-block; margin-top: 6px;">
+            #define MIN(a,b) (a>b) ? a : b
+          </code>
+        </li>
+      </ul>
+    </div>
+
+    <!-- BLOQUE INFERIOR: Reglas y uso correcto de paréntesis -->
+    <div class="syntax-code-card" style="width: 100%; text-align: left; padding: 14px 18px; background: #ffffff; border: 1px solid #cbd5e1; box-sizing: border-box;">
+      <p style="margin: 0 0 8px 0; font-weight: bold; color: #002B49; font-size: 0.82em;">
+        ▫ Macros con parámetros:
+      </p>
+
+      <ul style="list-style-type: '▪ '; margin: 0 0 10px 20px; padding: 0; font-size: 0.7em; line-height: 1.45; color: #334155;">
+        <li style="margin-bottom: 6px;">
+          Aunque su invocación es similar a la de una función, su funcionamiento es diferente. Usar únicamente para código sencillo y repetitivo (ej. <code>MIN</code>).
+        </li>
+        <li>
+          Evitar problemas en la expansión de macros poniendo paréntesis tanto a los parámetros como a la expresión completa:
+        </li>
+      </ul>
+
+      <div style="text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px; margin-top: 6px;">
+        <code style="font-size: 0.9em; font-weight: bold; color: #0f172a; font-family: monospace;">
+          #define MIN(a,b) <span style="color: #ef4444; font-weight: bold;">(</span> <span style="color: #ef4444; font-weight: bold;">(</span><span style="color: #1e40af;">(a)</span><span style="color: #1e40af;">&gt;</span><span style="color: #1e40af;">(b)</span><span style="color: #ef4444; font-weight: bold;">)</span> ? <span style="color: #1e40af;">(a)</span> : <span style="color: #1e40af;">(b)</span> <span style="color: #ef4444; font-weight: bold;">)</span>
+        </code>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- Slide: El preprocesador (Compilación condicional) -->
+<section>
+  <h2>El preprocesador</h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 12px; width: 92%; margin: 0.6rem auto 0 auto; text-align: left;">
+    
+    <!-- SECCIÓN 1: Compilación condicional -->
+    <div style="width: 100%; box-sizing: border-box;">
+      <p style="margin: 0 0 6px 0; font-weight: bold; color: #002B49; font-size: 0.85em;">
+        ▫ Compilación condicional:
+      </p>
+
+      <div class="syntax-code-card" style="padding: 12px 16px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+        <pre style="margin: 0; background: transparent; box-shadow: none;"><code class="language-c" data-trim data-noescape style="font-size: 0.72em; line-height: 1.4; font-family: monospace; background: transparent; color: #0f172a;">
+<span style="color: #0284c7; font-weight: bold;">#if</span> condición_evaluable_en_tiempo_de_compilación
+    <span style="color: #64748b;">// Código a compilar si condición != 0</span>
+<span style="color: #0284c7; font-weight: bold;">#else</span>
+    <span style="color: #64748b;">// Alternativa opcional</span>
+    <span style="color: #64748b;">// Código a compilar si condición == 0</span>
+<span style="color: #0284c7; font-weight: bold;">#endif</span>
         </code></pre>
-      </section>
+      </div>
+    </div>
 
-      <!-- Slide 10: Inclusión Múltiple / Include Guards -->
-      <section>
-        <h2>Protección contra Inclusión Múltiple (<em>Include Guards</em>)</h2>
-        <div class="contents-box">
-          <p>Cuando varias cabeceras incluyen a su vez el mismo fichero <code>.h</code>, se produce un error de **duplicidad de tipos/estructuras** en compilación.</p>
-          <p>Solución: Envolver el contenido del fichero <code>.h</code> con la directiva <code>#ifndef</code>.</p>
+    <!-- SECCIÓN 2: Alternativas a #if -->
+    <div style="width: 100%; box-sizing: border-box;">
+      <p style="margin: 0 0 6px 0; font-weight: bold; color: #002B49; font-size: 0.82em;">
+        ▫ Alternativas a <code>#if</code>:
+      </p>
+
+      <div class="syntax-code-card" style="padding: 10px 16px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px;">
+        <div style="font-family: monospace; font-size: 0.75em; color: #0284c7; font-weight: bold; line-height: 1.6;">
+          <div>#ifdef identif_constante</div>
+          <div>#ifndef identif_constante</div>
         </div>
-        <pre><code class="language-c" data-trim data-noescape>
-// ----- Fichero: matrices.h -----
-#ifndef _INC_MATRICES_H
-#define _INC_MATRICES_H
+      </div>
+    </div>
 
-struct matriz {
-    int filas;
-    int columnas;
-    float* datos;
+    <!-- SECCIÓN 3: Diferenciar entre compilación y ejecución -->
+    <div class="syntax-code-card" style="width: 100%; padding: 12px 16px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+      <p style="margin: 0 0 8px 0; font-weight: bold; color: #002B49; font-size: 0.82em;">
+        ▫ Diferenciar entre:
+      </p>
+
+      <ul style="list-style-type: '▪ '; margin: 0 0 0 18px; padding: 0; font-size: 0.7em; line-height: 1.45; color: #334155;">
+        <li style="margin-bottom: 8px;">
+          <strong style="color: #0284c7; font-family: monospace;">#if... :</strong> Se produce la comprobación en <strong>tiempo de compilación</strong>. El código que no cumple no forma parte del ejecutable.
+        </li>
+        <li>
+          <strong style="color: #0284c7; font-family: monospace;">if () :</strong> Se produce la comprobación en <strong>tiempo de ejecución</strong>. Todo el código forma parte del ejecutable.
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- Slide: El preprocesador (Ejemplos de compilación condicional) -->
+<section>
+  <h2>El preprocesador</h2>
+
+  <div class="syntax-layout" style="display: flex; flex-direction: column; gap: 14px; width: 92%; margin: 0.6rem auto 0 auto; text-align: left;">
+    
+    <!-- ENUNCIADO SUPERIOR -->
+    <div style="width: 100%; box-sizing: border-box;">
+      <p style="margin: 0 0 6px 0; font-weight: bold; color: #002B49; font-size: 0.9em;">
+        ▫ Ejemplos de compilación condicional:
+      </p>
+    </div>
+
+    <!-- BLOQUE DE CÓDIGO CON FONDO BLANCO Y COLORES OSCUROS DE ALTO CONTRASTE -->
+    <div class="syntax-code-card" style="width: 100%; padding: 16px 20px; background: #000000; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+      <pre style="margin: 0; background: transparent; box-shadow: none;"><code class="language-c" data-trim data-noescape style="font-size: 0.88em; line-height: 1.5; font-family: monospace; background: transparent; color: #0f172a;">
+<span style="color: #991b1b; font-weight: bold;">#define</span> DEPURANDO <span style="color: #1e3a8a; font-weight: bold;">0</span>            <span style="color: #475569; font-style: italic;">// cambiar por 1 ó 2</span>
+
+...
+<span style="color: #991b1b; font-weight: bold;">#if</span> DEPURANDO &gt; <span style="color: #1e3a8a; font-weight: bold;">0</span>
+    <span style="color: #0369a1; font-weight: bold;">printf</span>(<span style="color: #047857; font-weight: bold;">"Resultado parcial 1 = %d\n"</span>, ...);
+<span style="color: #991b1b; font-weight: bold;">#endif</span>
+
+<span style="color: #991b1b; font-weight: bold;">#if</span> DEPURANDO &gt; <span style="color: #1e3a8a; font-weight: bold;">1</span>
+    <span style="color: #0369a1; font-weight: bold;">printf</span>(<span style="color: #047857; font-weight: bold;">"Resultado parcial 2 = %d\n"</span>, ...);
+<span style="color: #991b1b; font-weight: bold;">#endif</span>
+      </code></pre>
+    </div>
+
+
+
+  </div>
+</section>
+
+
+  <!-- Slide: Inclusión Múltiple / Include Guards -->
+<!-- Slide 10: Inclusión Múltiple / Include Guards -->
+<section>
+  <h2>El preprocesador</h2>
+
+  <!-- Texto de introducción explicativo (sin recuadro) -->
+  <p style="text-align: left; font-size: 0.72em; line-height: 1.45; color: #334155; margin: 0 0 12px 0;">
+    <strong>Protección contra Inclusión Múltiple:</strong> Incluir el mismo fichero <code>.h</code> varias veces genera errores de duplicidad de tipos o estructuras en compilación. Se evita envolviendo la cabecera con la directiva <code>#ifndef</code>.
+  </p>
+
+  <!-- Layout de 2 columnas: Imagen a la izquierda, Código a la derecha -->
+  <div class="syntax-layout" style="display: flex; gap: 14px; align-items: stretch; width: 100%;">
+    
+    <!-- COLUMNA IZQUIERDA: Imagen explicativa -->
+    <div class="syntax-code-card" style="flex: 0.9; text-align: center; padding: 8px; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; display: flex; align-items: center; justify-content: center; box-sizing: border-box;">
+      <img src="../../assets/img/tema07/incMultiple.png" alt="Esquema de inclusión múltiple" style="max-width: 100%; max-height: 250px; height: auto; border-radius: 4px;">
+    </div>
+
+    <!-- COLUMNA DERECHA: Código C con Include Guards -->
+    <div class="syntax-code-card" style="flex: 1.1; text-align: left; padding: 10px 12px; background: #000000; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;">
+      <small style="display: block; color: #dde4e9; font-weight: bold; font-family: monospace; font-size: 0.72em; margin-bottom: 6px;">Fichero: matrices.h</small>
+      <pre style="margin: 0; background: transparent; box-shadow: none;"><code class="language-c" data-trim data-noescape style="font-size: 0.72em; line-height: 1.35; font-family: monospace; background: transparent; color: #0f172a;">
+<span style="color: #991b1b; font-weight: bold;">#ifndef</span> _INC_MATRICES_H
+<span style="color: #991b1b; font-weight: bold;">#define</span> _INC_MATRICES_H
+
+<span style="color: #0284c7; font-weight: bold;">struct</span> matriz {
+    <span style="color: #1e3a8a; font-weight: bold;">int</span> filas;
+    <span style="color: #1e3a8a; font-weight: bold;">int</span> columnas;
+    <span style="color: #1e3a8a; font-weight: bold;">float</span>* datos;
 };
 
-void InicializarMatriz(struct matriz* m);
+<span style="color: #1e3a8a; font-weight: bold;">void</span> InicializarMatriz(<span style="color: #0284c7; font-weight: bold;">struct</span> matriz* m);
 
-#endif // _INC_MATRICES_H
-        </code></pre>
-      </section>
+<span style="color: #991b1b; font-weight: bold;">#endif</span> <span style="color: #475569; font-style: italic;">// _INC_MATRICES_H</span>
+      </code></pre>
+    </div>
 
-      <!-- Slide 11: Ejercicios propuestos -->
-      <section>
-        <h2>Ejercicios Propuestos</h2>
-        <div class="contents-box">
-          <ol class="contents-list" style="font-size: 0.75em;">
-            <li>Diseñar un programa modularizado en dos ficheros fuente (<code>principal.c</code> y <code>funciones.c</code>) y una cabecera (<code>funciones.h</code>) para calcular la desviación típica de un array.</li>
-            <li>Implementar una macro segura con parámetros que genere la máscara binaria dado el bit de inicio y el número de bits del campo.</li>
-            <li>Desarrollar un programa que gestione el desplazamiento de un array de reales e incluya un modo de traza configurable mediante <code>#define</code> y <code>#ifdef</code> para imprimir o no el contenido en cada iteración.</li>
-          </ol>
-        </div>
-      </section>
+  </div>
+</section>
+
+
 
       <!-- Slide 12: Resumen -->
       <section>
@@ -339,7 +525,7 @@ void InicializarMatriz(struct matriz* m);
             <li>Los archivos <code>.c</code> contienen la implementación ejecutable; las cabeceras <code>.h</code> exponen las interfaces públicas.</li>
             <li>Se utiliza <code>extern</code> para compartir el acceso a variables globales declaradas en otro módulo.</li>
             <li>Encerrar las macros parametrizadas siempre entre paréntesis para evitar errores de evaluación.</li>
-            <li>Proteger **todas** las cabeceras <code>.h</code> mediante <em>Include Guards</em> (<code>#ifndef ... #define ... #endif</code>).</li>
+            <li>Proteger todas las cabeceras <code>.h</code> mediante (<code>#ifndef ... #define ... #endif</code>).</li>
           </ol>
         </div>
       </section>
