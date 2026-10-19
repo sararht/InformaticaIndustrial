@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Ejercicios Tipo Test - Tema 07: Preprocesador y Compilación Separada</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 1.5cm;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #0f172a;
+      line-height: 1.5;
+      font-size: 11pt;
+      background: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      border-bottom: 3px solid #002B49;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      color: #002B49;
+      font-size: 18pt;
+      margin: 0 0 4px 0;
+    }
+    .subtitle {
+      color: #0284c7;
+      font-size: 11pt;
+      font-weight: 600;
+      margin: 0;
+    }
+    .meta-info {
+      color: #64748b;
+      font-size: 9pt;
+      margin-top: 4px;
+    }
+    .question-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+    .question-title {
+      font-weight: bold;
+      color: #002B49;
+      margin-bottom: 8px;
+    }
+    pre {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid #0284c7;
+      border-radius: 4px;
+      padding: 8px 12px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 9.5pt;
+      margin: 8px 0;
+      overflow-x: auto;
+    }
+    ul.options {
+      list-style-type: none;
+      padding-left: 0;
+      margin: 8px 0;
+    }
+    ul.options li {
+      padding: 4px 0;
+      font-size: 10pt;
+    }
+    code {
+      font-family: 'Consolas', monospace;
+      background: #f1f5f9;
+      padding: 1px 4px;
+      border-radius: 3px;
+      font-size: 9.5pt;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Ejercicios de Autoevaluación (Tipo Test)</h1>
+    <p class="subtitle">Tema 07: Preprocesador y Compilación Separada</p>
+    <p class="meta-info">Informática Industrial y Comunicaciones — Universidad de Oviedo</p>
+  </header>
+
+  <!-- Pregunta 1 -->
+  <div class="question-card">
+    <div class="question-title">1. ¿Qué valor imprimirá este programa por pantalla tras ser procesado y ejecutado?</div>
+<pre><code>#include &lt;stdio.h&gt;
+
+#define DOBLE(x) x + x
+
+int main(void) {
+    int resultado = DOBLE(3) * DOBLE(3);
+    printf("%d\n", resultado);
+    return 0;
+}</code></pre>
+    <ul class="options">
+      <li>a) 36</li>
+      <li>b) 15</li>
+      <li>c) 12</li>
+      <li>d) Error de compilación por falta de paréntesis en la macro.</li>
+    </ul>
+  </div>
+
+  <!-- Pregunta 2 -->
+  <div class="question-card">
+    <div class="question-title">2. Analiza la estructura del siguiente proyecto compuesto por tres archivos (<code>motor.h</code>, <code>uno.c</code> y <code>dos.c</code>):</div>
+<pre><code>// ----- Archivo: motor.h -----
+#ifndef MOTOR_H
+#define MOTOR_H
+int estado_motor = 0; // 0 = Apagado, 1 = Encendido
+#endif
+
+// ----- Archivo: uno.c -----
+#include "motor.h"
+// Código del módulo uno.c...
+
+// ----- Archivo: dos.c -----
+#include "motor.h"
+// Código del módulo dos.c...</code></pre>
+    <ul class="options">
+      <li>a) Compilará y enlazará perfectamente gracias a la protección del <code>#ifndef MOTOR_H</code>.</li>
+      <li>b) Dará un error en tiempo de compilación dentro de <code>dos.c</code> diciendo que <code>estado_motor</code> no está definido.</li>
+      <li>c) Compilará cada .c por separado, pero el enlazador (linker) fallará con un error de múltiple definición.</li>
+      <li>d) Ninguna de las anteriores.</li>
+    </ul>
+  </div>
+
+  <!-- Pregunta 3 -->
+  <div class="question-card">
+    <div class="question-title">3. Observa el siguiente código y determina qué valor almacenará la variable <code>res</code>:</div>
+<pre><code>#include &lt;stdio.h&gt;
+
+#define RESTA(a, b) a - b
+
+int main(void) {
+    int res = RESTA(10, 5 - 2);
+    printf("%d\n", res);
+    return 0;
+}</code></pre>
+    <ul class="options">
+      <li>a) 7 (resultado de 10 − 3)</li>
+      <li>b) 3</li>
+      <li>c) 13</li>
+      <li>d) Error de sintaxis en la llamada a la macro.</li>
+    </ul>
+  </div>
+
+  <!-- Pregunta 4 -->
+  <div class="question-card">
+    <div class="question-title">4. Dado el siguiente proyecto para controlar un temporizador:</div>
+<pre><code>// --- temporizador.h ---
+#ifndef TEMPORIZADOR_H
+#define TEMPORIZADOR_H
+extern int ms_transcurridos; 
+void Tick(void);
+#endif
+
+// --- temporizador.c ---
+#include "temporizador.h"
+int ms_transcurridos = 0; 
+void Tick(void) { ms_transcurridos++; }
+
+// --- main.c ---
+#include &lt;stdio.h&gt;
+#include "temporizador.h"
+int main(void) {
+    Tick();
+    printf("%d\n", ms_transcurridos);
+    return 0;
+}</code></pre>
+    <ul class="options">
+      <li>a) Fallará en la compilación de <code>main.c</code> porque no sabe qué tipo de dato es <code>ms_transcurridos</code>.</li>
+      <li>b) Dará error de enlazado porque <code>ms_transcurridos</code> se declara dos veces.</li>
+      <li>c) Compilará y enlazará correctamente, imprimiendo el valor 1 por pantalla.</li>
+      <li>d) Dará error de compilación porque <code>extern</code> solo se puede usar dentro de archivos <code>.c</code> y nunca en un <code>.h</code>.</li>
+    </ul>
+  </div>
+
+  <!-- Pregunta 5 -->
+  <div class="question-card">
+    <div class="question-title">5. Considera el siguiente programa con directivas del preprocesador:</div>
+<pre><code>#include &lt;stdio.h&gt;
+
+#define MODO_DEPURACION 0
+
+int main(void) {
+    int x = 50;
+
+#if MODO_DEPURACION &gt; 0
+    printf("Modo depuracion activo. x = %d\n", x);
+#else
+    printf("Modo produccion activo.\n");
+#endif
+
+    return 0;
+}</code></pre>
+    <ul class="options">
+      <li>a) El compilador incluirá las dos instrucciones <code>printf</code> en el ejecutable final y la condición se evaluará en tiempo de ejecución.</li>
+      <li>b) El preprocesador eliminará el primer printf antes de la compilación, por lo que en el fichero ejecutable solo existirá el mensaje de producción.</li>
+      <li>c) Ocurrirá un error de compilación porque <code>#if</code> no puede comparar con el número 0.</li>
+      <li>d) Imprimirá ambos mensajes por pantalla.</li>
+    </ul>
+  </div>
+
+  <!-- Pregunta 6 -->
+  <div class="question-card">
+    <div class="question-title">6. Observa la estructura del siguiente proyecto dividido en tres archivos (<code>utilidades.h</code>, <code>uno.c</code> y <code>dos.c</code>):</div>
+<pre><code>// ----- Archivo: utilidades.h -----
+#ifndef UTILIDADES_H
+#define UTILIDADES_H
+
+void ImprimirMensaje(void) {
+    printf("Hola desde utilidades\n");
+}
+
+#endif
+
+// ----- Archivo: uno.c -----
+#include "utilidades.h"
+// Código del módulo uno.c...
+
+// ----- Archivo: dos.c -----
+#include "utilidades.h"
+// Código del módulo dos.c...</code></pre>
+    <ul class="options">
+      <li>a) Funciona correctamente porque los include guards impiden que la función se duplique.</li>
+      <li>b) El preprocesador da un error al leer la llave <code>{</code> dentro de un archivo de cabecera.</li>
+      <li>c) El enlazador (linker) falla con un error de función duplicada (multiple definition of 'ImprimirMensaje').</li>
+      <li>d) Se ejecuta dos veces la función al iniciar el programa.</li>
+    </ul>
+  </div>
+
+</body>
+</html>
