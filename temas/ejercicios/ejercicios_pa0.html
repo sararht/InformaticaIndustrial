@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>PA-00: Ejercicio Introductorio (Escalado de Temperatura y Filtrado Digital)</title>
+  
+  <!-- MathJax para el renderizado exacto de las ecuaciones LaTeX -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 1.5cm 2cm;
+    }
+
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      color: #000000;
+      line-height: 1.35;
+      font-size: 11pt;
+      background: #ffffff;
+      margin: 0 auto;
+      max-width: 190mm; /* Ancho ajustado para dar margen lateral */
+      padding: 20px 40px; /* Relleno por los lados */
+      box-sizing: border-box;
+    }
+
+    /* Encabezado Superior con Logos */
+    header {
+      width: 100%;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #000000;
+      padding-bottom: 8px;
+    }
+
+    .header-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .header-table td {
+      vertical-align: middle;
+      padding: 0;
+    }
+
+    .logo-img {
+      max-height: 55px;
+      width: auto;
+      display: block;
+    }
+
+    .univ-title {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5pt;
+      font-weight: bold;
+      color: #000000;
+      text-transform: uppercase;
+      margin: 0;
+      text-align: center;
+    }
+
+    .dept-title {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8.5pt;
+      color: #000000;
+      margin: 2px 0 0 0;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    .doc-type {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5pt;
+      font-weight: bold;
+      color: #000000;
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    /* Ficha Técnica de la Asignatura */
+    .metadata-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8.5pt;
+      margin-bottom: 18px;
+      border: 1px solid #000000;
+    }
+
+    .metadata-table td {
+      border: 1px solid #000000;
+      padding: 3px 6px;
+      vertical-align: middle;
+    }
+
+    .metadata-table td strong {
+      font-weight: bold;
+    }
+
+    /* Título de la Práctica */
+    .practice-title {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5pt;
+      font-weight: bold;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    /* Enunciado y Texto */
+    .problem-statement {
+      margin-bottom: 12px;
+      text-align: justify;
+    }
+
+    .problem-statement p {
+      margin: 4px 0;
+    }
+
+    /* Algoritmo y Código */
+    .horner-block {
+      margin-left: 20px;
+      margin-bottom: 12px;
+    }
+
+    .horner-step {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 10pt;
+      margin: 2px 0;
+    }
+
+    /* Tabla de Traza / Datos */
+    .trace-table {
+      width: 85%;
+      border-collapse: collapse;
+      margin: 14px 0 20px 0;
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 10.5pt;
+    }
+
+    .trace-table th, .trace-table td {
+      border: 1px solid #000000;
+      padding: 4px 8px;
+      text-align: left;
+    }
+
+    .trace-table th {
+      font-weight: normal;
+    }
+
+    /* Pie de página institucional */
+    footer {
+      position: fixed;
+      bottom: 1.5cm;
+      left: 2cm;
+      right: 2cm;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8pt;
+      font-weight: bold;
+      color: #000000;
+    }
+
+    .dept-footer {
+      text-align: left;
+      line-height: 1.1;
+    }
+
+    @media print {
+      body {
+        padding: 0;
+      }
+      footer {
+        position: absolute;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ENCABEZADO SUPERIOR CON DOS LOGOS -->
+  <header>
+    <table class="header-table">
+      <tr>
+        <!-- Logo ISA (Izquierda) -->
+        <td style="width: 20%; text-align: left;">
+          <img src="../../assets/img/tema0/logoisa.png" alt="Logo ISA" class="logo-img">
+        </td>
+        
+        <!-- Texto Central -->
+        <td style="width: 60%;">
+          <div class="univ-title">UNIVERSIDAD DE OVIEDO</div>
+          <div class="dept-title">
+            Departamento de Ingeniería Eléctrica, Electrónica, de Computadores y Sistemas
+          </div>
+          <div class="doc-type">Guía de Prácticas de Aula</div>
+        </td>
+
+        <!-- Logo UniOvi (Derecha) -->
+        <td style="width: 20%; text-align: right;">
+          <img src="../../assets/img/tema0/logoUniovi.png" alt="Logo Universidad de Oviedo" class="logo-img" style="margin-left: auto;">
+        </td>
+      </tr>
+    </table>
+  </header>
+
+  <!-- FICHA TÉCNICA (METADATOS) -->
+  <table class="metadata-table">
+    <tr>
+      <td style="width: 50%;"><strong>ASIGNATURA:</strong> Informática Industrial y Comunicaciones</td>
+      <td style="width: 50%;"><strong>CENTRO:</strong> Escuela Politécnica de Ingeniería de Gijón</td>
+    </tr>
+    <tr>
+      <td><strong>ESTUDIOS:</strong> Grado en Ingeniería Electrónica y Automática</td>
+      <td>
+        <table style="width: 100%; border-collapse: collapse; font-size: 8.5pt;">
+          <tr>
+            <td style="border: none; padding: 0;"><strong>CURSO:</strong> 3°</td>
+            <td style="border: none; padding: 0;"><strong>CUATRIMESTRE:</strong> 1</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td><strong>CARÁCTER:</strong> Obligatoria</td>
+      <td><strong>CRÉDITOS ECTS:</strong> 6</td>
+    </tr>
+    <tr>
+      <td colspan="2"><strong>PROFESORADO:</strong> Sara Roos Hoefgeest, José Mª Enguita, Victor M. González</td>
+    </tr>
+  </table>
+
+  <!-- TÍTULO DE LA PRÁCTICA -->
+  <div class="practice-title">
+    PRACTICA AULA 00: Ejercicio introductorio (Escalado de Temperatura y Filtrado Digital)
+  </div>
+
+  <!-- ENUNCIADO DE LA PRÁCTICA -->
+  <div class="problem-statement">
+    <p>
+      Realizar un programa en C estructurado en <strong>dos funciones independientes</strong> que procesen una tabla de lecturas enteras en cuentas del ADC (<i>x<sub>i</sub></i>) de un sensor de temperatura de <strong>n</strong> elementos:
+    </p>
+    <p style="margin: 6px 0 6px 15px;">
+      1. <code>EscalarSensor()</code>: Convierte los valores a grados Celsius reales mediante una recta de ajuste basada en constantes globales definidas con <code>#define</code> (Ganancia \( G = 0.1 \) y Offset \( V_{off} = -10.0 \)):
+    </p>
+    <p style="text-align: center; margin: 8px 0;">
+      \( y_{i} = G \cdot x_{i} + V_{off} \)
+    </p>
+    <p style="margin: 6px 0 6px 15px;">
+      2. <code>FiltrarMediaMovil()</code>: Aplica un algoritmo de filtrado digital de media móvil sobre los datos escalados.
+    </p>
+  </div>
+
+  <!-- PASOS DE LOS ALGORITMOS -->
+  <div class="horner-block">
+    <div class="horner-step" style="margin-top: 6px;">// Algoritmo de filtrado:</div>
+    <div class="horner-step">temp_filtrada = 0.0</div>
+    <div class="horner-step">Desde i=0 hasta n-1:</div>
+    <div class="horner-step" style="margin-left: 20px;">temp_filtrada = (temp_filtrada + y[i]) / 2.0</div>
+  </div>
+
+  <!-- FÓRMULA Y DATOS DEL EJEMPLO -->
+  <div class="problem-statement" style="margin-top: 10px;">
+    <p><strong>Ejemplo de muestras:</strong> \( x_{i} = [200, 500, 300, 800] \text{ cuentas} \)</p>
+    <p>Valores convertidos a ºC: \( y_{i} = [10.0, 40.0, 20.0, 70.0] \text{ ºC} \)</p>
+    <p style="margin-top: 12px;">Traza de ejecución de la función de filtrado paso a paso:</p>
+  </div>
+
+  <!-- TABLA DE TRAZA DE PASOS -->
+  <table class="trace-table">
+    <thead>
+      <tr>
+        <th style="width: 10%;">i</th>
+        <th style="width: 25%;">x<sub>i</sub> (cuentas)</th>
+        <th style="width: 25%;">y<sub>i</sub> (ºC)</th>
+        <th style="width: 40%;">temp_filtrada = (previo + y<sub>i</sub>) / 2.0</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>0</td>
+        <td>200</td>
+        <td>10.0 ºC</td>
+        <td>\( (0.0 + 10.0) / 2.0 = \mathbf{5.0 \text{ ºC}} \)</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>500</td>
+        <td>40.0 ºC</td>
+        <td>\( (5.0 + 40.0) / 2.0 = \mathbf{22.5 \text{ ºC}} \)</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>300</td>
+        <td>20.0 ºC</td>
+        <td>\( (22.5 + 20.0) / 2.0 = \mathbf{21.25 \text{ ºC}} \)</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>800</td>
+        <td>70.0 ºC</td>
+        <td>\( (21.25 + 70.0) / 2.0 = \mathbf{45.625 \text{ ºC}} \)</td>
+      </tr>
+      <tr>
+        <td>FIN</td>
+        <td>—</td>
+        <td>—</td>
+        <td><strong>Temperatura final acumulada: 45.625 ºC</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+</body>
+</html>
