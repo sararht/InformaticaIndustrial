@@ -4,8 +4,8 @@ from playwright.async_api import async_playwright
 
 async def exportar_presentacion_pdf():
     # Ruta relativa al archivo HTML
-    rel_html_path = os.path.join("temas", "programacionC", "tema-08-entradaSalida.html")
-    rel_pdf_path = os.path.join("temas", "programacionC", "tema-08-entradaSalida.pdf")
+    rel_html_path = os.path.join("temas", "PAs", "PA6.html")
+    rel_pdf_path = os.path.join("temas", "PAs", "PA6.pdf")
 
     abs_html_path = os.path.abspath(rel_html_path)
     abs_pdf_path = os.path.abspath(rel_pdf_path)

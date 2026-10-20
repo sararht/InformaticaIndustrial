@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>PA-04: Cadenas de Caracteres y Manipulación de Bits</title>
+  
+  <!-- MathJax para el renderizado de las ecuaciones LaTeX -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 1.5cm 2cm;
+    }
+
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      color: #000000;
+      line-height: 1.35;
+      font-size: 11pt;
+      background: #ffffff;
+      margin: 0 auto;
+      max-width: 190mm; /* Ancho ajustado para dar margen lateral */
+      padding: 20px 40px; /* Relleno por los lados */
+      box-sizing: border-box;
+    }
+
+    /* Encabezado Superior con Logos y Títulos */
+    header {
+      width: 100%;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #000000;
+      padding-bottom: 8px;
+    }
+
+    .header-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .header-table td {
+      vertical-align: middle;
+      padding: 0;
+    }
+
+    .logo-img {
+      max-height: 55px;
+      width: auto;
+      display: block;
+    }
+
+    .univ-title {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5pt;
+      font-weight: bold;
+      color: #000000;
+      text-transform: uppercase;
+      margin: 0;
+      text-align: center;
+    }
+
+    .dept-title {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8.5pt;
+      color: #000000;
+      margin: 2px 0 0 0;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    .doc-type {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5pt;
+      font-weight: bold;
+      color: #000000;
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    /* Ficha Técnica de la Asignatura */
+    .metadata-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8.5pt;
+      margin-bottom: 18px;
+      border: 1px solid #000000;
+    }
+
+    .metadata-table td {
+      border: 1px solid #000000;
+      padding: 3px 6px;
+      vertical-align: middle;
+    }
+
+    .metadata-table td strong {
+      font-weight: bold;
+    }
+
+    /* Título de la Práctica */
+    .practice-title {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5pt;
+      font-weight: bold;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    /* Enunciado y Texto */
+    .problem-statement {
+      margin-bottom: 12px;
+      text-align: justify;
+    }
+
+    .problem-statement p {
+      margin: 4px 0;
+    }
+
+    /* Esquema del computador / puertos */
+    .schema-container {
+      text-align: center;
+      margin: 10px 0 14px 0;
+    }
+
+    .schema-img {
+      max-width: 75%;
+      height: auto;
+      display: inline-block;
+    }
+
+    /* Código de la función */
+    .code-box {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 9.5pt;
+      background: #ffffff;
+      border: 1px solid #000000;
+      padding: 6px 10px;
+      margin: 10px 0;
+    }
+
+    /* Tabla de Traza de Memoria */
+    .memory-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 8.5pt;
+      margin: 14px 0;
+    }
+
+    .memory-table th, .memory-table td {
+      border: 1px solid #000000;
+      padding: 3px 6px;
+      text-align: left;
+    }
+
+    .memory-table th {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: bold;
+      background-color: #f2f2f2;
+    }
+
+    /* Pie de página institucional */
+    footer {
+      position: fixed;
+      bottom: 1.5cm;
+      left: 2cm;
+      right: 2cm;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8pt;
+      font-weight: bold;
+      color: #000000;
+    }
+
+    .dept-footer {
+      text-align: left;
+      line-height: 1.1;
+    }
+
+    @media print {
+      body {
+        padding: 0;
+      }
+      footer {
+        position: absolute;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ENCABEZADO SUPERIOR CON LOGOS Y TITULAR -->
+  <header>
+    <table class="header-table">
+      <tr>
+        <!-- Logo ISA (Izquierda) -->
+        <td style="width: 20%; text-align: left;">
+          <img src="../../assets/img/tema0/logoisa.png" alt="Logo ISA" class="logo-img">
+        </td>
+        
+        <!-- Texto Central -->
+        <td style="width: 60%;">
+          <div class="univ-title">UNIVERSIDAD DE OVIEDO</div>
+          <div class="dept-title">
+            Departamento de Ingeniería Eléctrica, Electrónica, de Computadores y Sistemas
+          </div>
+          <div class="doc-type">Guía de Prácticas</div>
+        </td>
+
+        <!-- Logo UniOvi (Derecha) -->
+        <td style="width: 20%; text-align: right;">
+          <img src="../../assets/img/tema0/logoUniovi.png" alt="Logo Universidad de Oviedo" class="logo-img" style="margin-left: auto;">
+        </td>
+      </tr>
+    </table>
+  </header>
+
+  <!-- FICHA TÉCNICA (METADATOS) -->
+  <table class="metadata-table">
+    <tr>
+      <td style="width: 50%;"><strong>ASIGNATURA:</strong> Informática Industrial y Comunicaciones</td>
+      <td style="width: 50%;"><strong>CENTRO:</strong> Escuela Politécnica de Ingeniería de Gijón</td>
+    </tr>
+    <tr>
+      <td><strong>ESTUDIOS:</strong> Grado en Ingeniería Electrónica y Automática</td>
+      <td>
+        <table style="width: 100%; border-collapse: collapse; font-size: 8.5pt;">
+          <tr>
+            <td style="border: none; padding: 0;"><strong>CURSO:</strong> 3°</td>
+            <td style="border: none; padding: 0;"><strong>CUATRIMESTRE:</strong> 1</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td><strong>CARÁCTER:</strong> Obligatoria</td>
+      <td><strong>CRÉDITOS ECTS:</strong> 6</td>
+    </tr>
+    <tr>
+      <td colspan="2"><strong>PROFESORADO:</strong> Ignacio Alvarez, Víctor M. Suárez</td>
+    </tr>
+  </table>
+
+  <!-- TÍTULO DE LA PRÁCTICA -->
+  <div class="practice-title">
+    PRACTICA AULA 04: Ejercicio tipo examen con cadenas de caracteres y manipulación de bits.
+  </div>
+
+  <!-- ENUNCIADO GENERAL -->
+  <div class="problem-statement">
+    <p>
+      Se dispone de una conexión de dos puertos de E/S digital de 8 bits a un computador.
+    </p>
+  </div>
+
+  <!-- ESQUEMA Y FUNCIONES DE ACCESO -->
+  <table style="width: 100%; border-collapse: collapse; margin: 8px 0 12px 0;">
+    <tr>
+      <td style="width: 55%; vertical-align: middle; text-align: center;">
+        <img src="../../assets/img/Pas/pa4_1.png" alt="Esquema del computador y puertos DI/DO" class="schema-img">
+      </td>
+      <td style="width: 50%; vertical-align: middle; padding-left: 10px;">
+        <p style="margin: 0 0 6px 0; font-family: Arial, sans-serif; font-size: 8.5pt;">
+          Se dispone de las funciones siguientes para acceso a los puertos DI y DO:
+        </p>
+        <div class="code-box" style="margin: 0;">
+          int ReadDI(); // Obtiene el valor de los bits del puerto DI<br>
+          int ReadDO(); // Obtiene el valor de los bits del puerto DO<br>
+          void WriteDO(int value); // Escribe el valor de los bits del puerto DO
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- INSTRUCCIONES DE LA FUNCIÓN A REALIZAR -->
+  <div class="problem-statement">
+    <p>
+      Escribir una función que reciba una cadena de caracteres con un comando de usuario que contenga un texto con formato:
+    </p>
+    <p style="text-align: center; font-family: 'Courier New', monospace; font-weight: bold; margin: 6px 0;">
+      DO5=DI3
+    </p>
+    <p>
+      y, si es correcto, realice la opción solicitada: cambiar el estado del bit indicado (5 en este caso) del puerto de salidas DO para que sea igual al bit indicado (3 en este caso) del puerto de entradas DI, sin modificar el resto de bits del puerto de salidas DO.
+    </p>
+  </div>
+
+  <p style="font-family: Arial, sans-serif; font-size: 8.5pt; margin: 8px 0 4px 0; "><strong>Formato de la función a realizar:</strong></p>
+  
+  <table style="width: 100%; border-collapse: collapse;">
+    <tr>
+      <td style="width: 30%; vertical-align: top;">
+        <div class="code-box" style="margin: 0;">
+          int MiFn(const char* cmd);
+        </div>
+      </td>
+      <td style="width: 40%; vertical-align: top; padding-left: 10px; font-size: 8.5pt; font-family: Arial, sans-serif;">
+        // Con int devolvemos código de error: no usar printf()...<br>
+        // ... para indicar errores porque no sirve para control automático
+      </td>
+    </tr>
+  </table>
+
+<div style="text-align: center; margin-top: 20px;">
+  <img src="../../assets/img/Pas/pa4_2.png" alt="Trazas de memoria RAM" class="schema-img" style="margin-top: 15px;">
+</div>
+
+
+
+</body>
+</html>

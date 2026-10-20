@@ -237,5 +237,29 @@ void ImprimirMensaje(void) {
     </ul>
   </div>
 
+
+  <!-- Enunciado de Práctica Modular -->
+  <div class="question-card" style="border-left: 4px solid #0284c7;">
+    <div class="question-title" style="font-size: 11pt; margin-bottom: 6px;">
+      Práctica de Programación Modular: Módulo de Geometría
+    </div>
+
+    <p style="margin: 0 0 8px 0; font-size: 10pt; color: #334155;">
+      Diseñar un programa en C estructurado en tres archivos (<code>geometria.h</code>, <code>geometria.c</code> y <code>main.c</code>):
+    </p>
+
+    <ul style="margin: 0 0 8px 0; padding-left: 20px; font-size: 9.5pt; color: #0f172a; line-height: 1.45;">
+      <li style="margin-bottom: 4px;">
+        <strong><code>geometria.h</code>:</strong> Interfaz pública del módulo. Debe incluir las <strong>guardas de inclusión</strong> (Include Guards), definir la constante <code>PI</code> (3.14159), una macro parametrizada <code>CUADRADO(x)</code> libre de efectos secundarios, y los prototipos para calcular el <strong>área</strong> y el <strong>perímetro</strong> de un círculo dado su radio.
+      </li>
+      <li style="margin-bottom: 4px;">
+        <strong><code>geometria.c</code>:</strong> Implementará la lógica ejecutable de las funciones declaradas en la cabecera.
+      </li>
+      <li>
+        <strong><code>main.c</code>:</strong> Solicitará un radio al usuario por teclado e imprimirá el área y el perímetro calculados. Además, definirá una macro de configuración <code>MODO_DEPURACION</code> y, mediante <strong>compilación condicional</strong>, mostrará un mensaje adicional con el resultado de la macro <code>CUADRADO</code> únicamente si la depuración está activa (&gt; 0).
+      </li>
+    </ul>
+  </div>
+
 </body>
 </html>

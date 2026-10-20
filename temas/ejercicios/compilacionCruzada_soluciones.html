@@ -280,5 +280,98 @@ void ImprimirMensaje(void) {
     </div>
   </div>
 
+<!-- Enunciado de Práctica Modular con Solución Integrada -->
+  <div class="question-card" style="border-left: 4px solid #0284c7;">
+    <div class="question-title" style="font-size: 11pt; margin-bottom: 6px;">
+      Práctica de Programación Modular: Módulo de Geometría
+    </div>
+
+    <p style="margin: 0 0 8px 0; font-size: 10pt; color: #334155;">
+      Diseñar un programa en C estructurado en tres archivos (<code>geometria.h</code>, <code>geometria.c</code> y <code>main.c</code>):
+    </p>
+
+    <ul style="margin: 0 0 12px 0; padding-left: 20px; font-size: 9.5pt; color: #0f172a; line-height: 1.45;">
+      <li style="margin-bottom: 4px;">
+        <strong><code>geometria.h</code>:</strong> Interfaz pública del módulo. Debe incluir las <strong>guardas de inclusión</strong> (Include Guards), definir la constante <code>PI</code> (3.14159), una macro parametrizada <code>CUADRADO(x)</code> libre de efectos secundarios, y los prototipos para calcular el <strong>área</strong> y el <strong>perímetro</strong> de un círculo dado su radio.
+      </li>
+      <li style="margin-bottom: 4px;">
+        <strong><code>geometria.c</code>:</strong> Implementará la lógica ejecutable de las funciones declaradas en la cabecera.
+      </li>
+      <li>
+        <strong><code>main.c</code>:</strong> Solicitará un radio al usuario por teclado e imprimirá el área y el perímetro calculados. Además, definirá una macro de configuración <code>MODO_DEPURACION</code> y, mediante <strong>compilación condicional</strong>, mostrará un mensaje adicional con el resultado de la macro <code>CUADRADO</code> únicamente si la depuración está activa (&gt; 0).
+      </li>
+    </ul>
+
+    <!-- Desplegable con la Solución -->
+
+      <div style="margin-top: 8px; border-top: 1px dashed #cbd5e1; padding-top: 8px;">
+        
+        <p style="margin: 4px 0; font-weight: bold; color: #002B49;">1. Archivo: <code>geometria.h</code></p>
+<pre><code>#ifndef GEOMETRIA_H
+#define GEOMETRIA_H
+
+// Constante simbólica de Pi
+#define PI 3.14159f
+
+// Macro con paréntesis preventivos en parámetros y en la expresión global
+#define CUADRADO(x) ((x) * (x))
+
+// Prototipos de las funciones públicas del módulo
+float CalcularAreaCirculo(float radio);
+float CalcularPerimetroCirculo(float radio);
+
+#endif // GEOMETRIA_H</code></pre>
+
+        <p style="margin: 8px 0 4px 0; font-weight: bold; color: #002B49;">2. Archivo: <code>geometria.c</code></p>
+<pre><code>#include "geometria.h"
+
+// Cálculo del área: PI * r^2
+float CalcularAreaCirculo(float radio) {
+    return PI * CUADRADO(radio);
+}
+
+// Cálculo del perímetro: 2 * PI * r
+float CalcularPerimetroCirculo(float radio) {
+    return 2.0f * PI * radio;
+}</code></pre>
+
+        <p style="margin: 8px 0 4px 0; font-weight: bold; color: #002B49;">3. Archivo: <code>main.c</code></p>
+<pre><code>#include &lt;stdio.h&gt;
+#include "geometria.h"
+
+// Configuración de compilación condicional
+#define MODO_DEPURACION 1
+
+int main(void) {
+    float radio;
+
+    printf("Introduzca el radio del circulo: ");
+    if (scanf("%f", &amp;radio) != 1 || radio &lt; 0.0f) {
+        printf("Error: Radio invalido.\n");
+        return 1;
+    }
+
+    // Invocación a las funciones del módulo
+    float area = CalcularAreaCirculo(radio);
+    float perimetro = CalcularPerimetroCirculo(radio);
+
+    printf("\n--- RESULTADOS ---\n");
+    printf("Area del circulo     : %.2f\n", area);
+    printf("Perimetro del circulo: %.2f\n", perimetro);
+
+    // Compilación condicional evaluada en tiempo de preprocesado
+#if MODO_DEPURACION &gt; 0
+    printf("\n[DEBUG] Evaluacion de la macro CUADRADO(%.2f) = %.2f\n", 
+           radio, CUADRADO(radio));
+#endif
+
+    return 0;
+}</code></pre>
+
+      </div>
+
+  </div>
+
+
 </body>
 </html>

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>PA-06: Lectura/Escritura de Archivos</title>
+  
+  <!-- MathJax para el renderizado de ecuaciones LaTeX -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 1.5cm 2cm;
+    }
+
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      color: #000000;
+      line-height: 1.35;
+      font-size: 11pt;
+      background: #ffffff;
+      margin: 0 auto;
+      max-width: 190mm; /* Ancho ajustado para dar margen lateral */
+      padding: 20px 40px; /* Relleno por los lados */
+      box-sizing: border-box;
+    }
+
+    /* Encabezado Superior con Logos y Títulos */
+    header {
+      width: 100%;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #000000;
+      padding-bottom: 8px;
+    }
+
+    .header-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .header-table td {
+      vertical-align: middle;
+      padding: 0;
+    }
+
+    .logo-img {
+      max-height: 55px;
+      width: auto;
+      display: block;
+    }
+
+    .univ-title {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5pt;
+      font-weight: bold;
+      color: #000000;
+      text-transform: uppercase;
+      margin: 0;
+      text-align: center;
+    }
+
+    .dept-title {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8.5pt;
+      color: #000000;
+      margin: 2px 0 0 0;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    .doc-type {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5pt;
+      font-weight: bold;
+      color: #000000;
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    /* Ficha Técnica de la Asignatura */
+    .metadata-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8.5pt;
+      margin-bottom: 18px;
+      border: 1px solid #000000;
+    }
+
+    .metadata-table td {
+      border: 1px solid #000000;
+      padding: 3px 6px;
+      vertical-align: middle;
+    }
+
+    .metadata-table td strong {
+      font-weight: bold;
+    }
+
+    /* Título de la Práctica */
+    .practice-title {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5pt;
+      font-weight: bold;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    /* Enunciado y Texto */
+    .problem-statement {
+      margin-bottom: 12px;
+      text-align: justify;
+    }
+
+    .problem-statement p {
+      margin: 4px 0;
+    }
+
+    /* Código/Llamada */
+    .code-box {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 10pt;
+      background: #ffffff;
+      border: 1px solid #000000;
+      padding: 6px 10px;
+      margin: 8px 0;
+    }
+
+    /* Bloque del Ejemplo de Archivos */
+    .file-example-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0px 0;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 9.5pt;
+    }
+
+    .file-example-table td {
+      vertical-align: top;
+      padding: 0 5px;
+    }
+
+    .file-card {
+      border: 1px solid #000000;
+      padding: 8px;
+      min-height: 12px;
+    }
+
+    .file-title {
+      font-weight: bold;
+      margin-bottom: 6px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 9pt;
+      border-bottom: 1px solid #000000;
+      padding-bottom: 2px;
+    }
+
+    /* Lista de Notas con Checkbox */
+    .notes-container {
+      margin-top: 0px;
+      font-size: 10.5pt;
+    }
+
+    .note-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .checkbox-square {
+      display: inline-block;
+      min-width: 11px;
+      height: 11px;
+      border: 1px solid #000000;
+      margin-top: 3px;
+    }
+
+    .sub-notes {
+      margin-left: 24px;
+    }
+
+    .sub-note-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      margin-bottom: 3px;
+    }
+
+    /* Pie de página institucional */
+    footer {
+      position: fixed;
+      bottom: 1.5cm;
+      left: 2cm;
+      right: 2cm;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8pt;
+      font-weight: bold;
+      color: #000000;
+    }
+
+    .dept-footer {
+      text-align: left;
+      line-height: 1.1;
+    }
+
+    @media print {
+      body {
+        padding: 0;
+      }
+      footer {
+        position: absolute;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ENCABEZADO SUPERIOR CON LOGOS Y TITULAR -->
+  <header>
+    <table class="header-table">
+      <tr>
+        <!-- Logo ISA (Izquierda) -->
+        <td style="width: 20%; text-align: left;">
+          <img src="../../assets/img/tema0/logoisa.png" alt="Logo ISA" class="logo-img">
+        </td>
+        
+        <!-- Texto Central -->
+        <td style="width: 60%;">
+          <div class="univ-title">UNIVERSIDAD DE OVIEDO</div>
+          <div class="dept-title">
+            Departamento de Ingeniería Eléctrica, Electrónica, de Computadores y Sistemas
+          </div>
+          <div class="doc-type">Guía de Prácticas</div>
+        </td>
+
+        <!-- Logo UniOvi (Derecha) -->
+        <td style="width: 20%; text-align: right;">
+          <img src="../../assets/img/tema0/logoUniovi.png" alt="Logo Universidad de Oviedo" class="logo-img" style="margin-left: auto;">
+        </td>
+      </tr>
+    </table>
+  </header>
+
+  <!-- FICHA TÉCNICA (METADATOS) -->
+  <table class="metadata-table">
+    <tr>
+      <td style="width: 50%;"><strong>ASIGNATURA:</strong> Informática Industrial y Comunicaciones</td>
+      <td style="width: 50%;"><strong>CENTRO:</strong> Escuela Politécnica de Ingeniería de Gijón</td>
+    </tr>
+    <tr>
+      <td><strong>ESTUDIOS:</strong> Grado en Ingeniería Electrónica y Automática</td>
+      <td>
+        <table style="width: 100%; border-collapse: collapse; font-size: 8.5pt;">
+          <tr>
+            <td style="border: none; padding: 0;"><strong>CURSO:</strong> 3°</td>
+            <td style="border: none; padding: 0;"><strong>CUATRIMESTRE:</strong> 1</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td><strong>CARÁCTER:</strong> Obligatoria</td>
+      <td><strong>CRÉDITOS ECTS:</strong> 6</td>
+    </tr>
+    <tr>
+      <td colspan="2"><strong>PROFESORADO:</strong> Sara Roos Hoefgeest, José Mª Enguita, Víctor M. Suárez</td>
+    </tr>
+  </table>
+
+  <!-- TÍTULO DE LA PRÁCTICA -->
+  <div class="practice-title">
+    PRACTICA AULA 06: Ejercicio tipo examen con lectura/escritura de archivos.
+  </div>
+
+  <!-- ENUNCIADO DE LA PRÁCTICA -->
+  <div class="problem-statement">
+    <p>
+      Realizar una función que, dado el nombre de un archivo de texto y una cadena a buscar, escriba en
+      un archivo de salida sólo aquellas líneas que no contengan dicha cadena (máxima longitud de línea =
+      80 caracteres), y devuelva el nº de líneas eliminadas (o el valor -1 si no se puede abrir algún archivo).
+    </p>
+    <p style="margin-top: 6px;">
+      El nombre del archivo de salida se formará con <code>nombre_entrada + "_sin_" + cadena_eliminada + extensión</code>.
+    </p>
+  </div>
+
+  <!-- EJEMPLO DE LLAMADA -->
+  <p style="font-family: Arial, sans-serif; font-size: 8.5pt; margin: 10px 0 2px 0;"><strong>Ejemplo de llamada a la función:</strong></p>
+  <div class="code-box">
+    n_elim = Eliminar("entrada.txt", "QUITAR");
+  </div>
+
+  <!-- EJEMPLO DE ARCHIVOS DE ENTRADA Y SALIDA -->
+  <p style="margin: 10px 0 4px 0;">donde el archivo "entrada.txt" contiene:</p>
+
+  <table class="file-example-table">
+    <tr>
+        <div class="file-card">
+          <div class="file-title">entrada.txt</div>
+          Esta línea sí la quiero<br>
+          Esta línea se debe QUITAR<br>
+          Esta otra se debe QUITAR también<br>
+          Esta línea debe permanecer<br>
+          La última línea la hay que QUITAR
+        </div>
+      </tr>
+      </table>
+
+<p style="margin: 10px 0 4px 0;"></p>El resultado debe producir la generación del archivo:</p>
+
+    <table class="file-example-table">
+      <tr>
+        <div class="file-card">
+          <div class="file-title">entrada sin QUITAR.txt</div>
+          Esta línea sí la quiero<br>
+          Esta línea debe permanecer
+        </div>
+    </tr>
+    <tr>
+      <p>y devolver el valor 3</p>
+    </tr>
+  </table>
+
+  <!-- NOTAS CON CHECKBOX -->
+  <div class="notes-container">
+    <p style="margin: 0px 0 0px 0;"><strong>NOTAS:</strong></p>
+
+    <div class="note-item">
+      <span class="checkbox-square"></span>
+      <span>Leer línea del archivo de entrada: <code>fgets()</code>. Devuelve <code>NULL</code> si se ha llegado a fin de archivo.</span>
+    </div>
+
+    <div class="note-item">
+      <span class="checkbox-square"></span>
+      <span>Escribir línea en el archivo de salida: <code>fputs()</code> ó <code>fprintf("%s", ...)</code>.</span>
+    </div>
+
+    <div class="note-item">
+      <span class="checkbox-square"></span>
+      <span>Composición del nombre del archivo de salida:</span>
+    </div>
+
+    <div class="sub-notes">
+      <div class="sub-note-item">
+        <span>o</span>
+        <span>Calcular y reservar espacio necesario (<code>malloc</code>).</span>
+      </div>
+      <div class="sub-note-item">
+        <span>o</span>
+        <span>Buscar la posición del '.' en el nombre del archivo de entrada.</span>
+      </div>
+      <div class="sub-note-item">
+        <span>o</span>
+        <span>Copiar hasta el '.'</span>
+      </div>
+      <div class="sub-note-item">
+        <span>o</span>
+        <span>Concatenar "_sin_"</span>
+      </div>
+      <div class="sub-note-item">
+        <span>o</span>
+        <span>Concatenar <code>cadena_eliminada</code></span>
+      </div>
+      <div class="sub-note-item">
+        <span>o</span>
+        <span>Concatenar desde la posición del '.' del nombre del archivo de entrada</span>
+      </div>
+      <div class="sub-note-item">
+        <span>o</span>
+        <span>Liberar memoria asignada.</span>
+      </div>
+    </div>
+  </div>
+
+
+
+</body>
+</html>

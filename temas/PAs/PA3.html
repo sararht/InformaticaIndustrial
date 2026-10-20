@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>PA-03: Asignación y Liberación Dinámica de Memoria (Producto de Polinomios)</title>
+  
+  <!-- MathJax para el renderizado exacto de las ecuaciones LaTeX -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 1.5cm 2cm;
+    }
+
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      color: #000000;
+      line-height: 1.35;
+      font-size: 11pt;
+      background: #ffffff;
+      margin: 0 auto;
+      max-width: 190mm; /* Ancho ajustado para dar margen lateral */
+      padding: 20px 40px; /* Relleno por los lados */
+      box-sizing: border-box;
+    }
+
+    /* Encabezado Superior con Logos y Títulos */
+    header {
+      width: 100%;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #000000;
+      padding-bottom: 8px;
+    }
+
+    .header-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .header-table td {
+      vertical-align: middle;
+      padding: 0;
+    }
+
+    .logo-img {
+      max-height: 55px;
+      width: auto;
+      display: block;
+    }
+
+    .univ-title {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5pt;
+      font-weight: bold;
+      color: #000000;
+      text-transform: uppercase;
+      margin: 0;
+      text-align: center;
+    }
+
+    .dept-title {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8.5pt;
+      color: #000000;
+      margin: 2px 0 0 0;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    .doc-type {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5pt;
+      font-weight: bold;
+      color: #000000;
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    /* Ficha Técnica de la Asignatura */
+    .metadata-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8.5pt;
+      margin-bottom: 18px;
+      border: 1px solid #000000;
+    }
+
+    .metadata-table td {
+      border: 1px solid #000000;
+      padding: 3px 6px;
+      vertical-align: middle;
+    }
+
+    .metadata-table td strong {
+      font-weight: bold;
+    }
+
+    /* Título de la Práctica */
+    .practice-title {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5pt;
+      font-weight: bold;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    /* Enunciado y Texto */
+    .problem-statement {
+      margin-bottom: 12px;
+      text-align: justify;
+    }
+
+    .problem-statement p {
+      margin: 4px 0;
+    }
+
+    /* Estructura C / Código */
+    .struct-box {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 10pt;
+      margin: 10px 0 14px 20px;
+      line-height: 1.3;
+    }
+
+    /* Ejemplo de polinomios */
+    .example-block {
+      margin-top: 14px;
+      font-size: 10.5pt;
+    }
+
+    .example-equations {
+      margin: 10px 0 10px 30px;
+      font-family: 'Times New Roman', Times, serif;
+    }
+
+    .example-equations p {
+      margin: 4px 0;
+    }
+
+    /* Pie de página institucional */
+    footer {
+      position: fixed;
+      bottom: 1.5cm;
+      left: 2cm;
+      right: 2cm;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8pt;
+      font-weight: bold;
+      color: #000000;
+    }
+
+    .dept-footer {
+      text-align: left;
+      line-height: 1.1;
+    }
+
+    @media print {
+      body {
+        padding: 0;
+      }
+      footer {
+        position: absolute;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ENCABEZADO SUPERIOR CON LOGOS Y TITULAR -->
+  <header>
+    <table class="header-table">
+      <tr>
+        <!-- Logo ISA (Izquierda) -->
+        <td style="width: 20%; text-align: left;">
+          <img src="../../assets/img/tema0/logoisa.png" alt="Logo ISA" class="logo-img">
+        </td>
+        
+        <!-- Texto Central -->
+        <td style="width: 60%;">
+          <div class="univ-title">UNIVERSIDAD DE OVIEDO</div>
+          <div class="dept-title">
+            Departamento de Ingeniería Eléctrica, Electrónica, de Computadores y Sistemas
+          </div>
+          <div class="doc-type">Guía de Prácticas</div>
+        </td>
+
+        <!-- Logo UniOvi (Derecha) -->
+        <td style="width: 20%; text-align: right;">
+          <img src="../../assets/img/tema0/logoUniovi.png" alt="Logo Universidad de Oviedo" class="logo-img" style="margin-left: auto;">
+        </td>
+      </tr>
+    </table>
+  </header>
+
+  <!-- FICHA TÉCNICA (METADATOS) -->
+  <table class="metadata-table">
+    <tr>
+      <td style="width: 50%;"><strong>ASIGNATURA:</strong> Informática Industrial y Comunicaciones</td>
+      <td style="width: 50%;"><strong>CENTRO:</strong> Escuela Politécnica de Ingeniería de Gijón</td>
+    </tr>
+    <tr>
+      <td><strong>ESTUDIOS:</strong> Grado en Ingeniería Electrónica y Automática</td>
+      <td>
+        <table style="width: 100%; border-collapse: collapse; font-size: 8.5pt;">
+          <tr>
+            <td style="border: none; padding: 0;"><strong>CURSO:</strong> 3°</td>
+            <td style="border: none; padding: 0;"><strong>CUATRIMESTRE:</strong> 1</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td><strong>CARÁCTER:</strong> Obligatoria</td>
+      <td><strong>CRÉDITOS ECTS:</strong> 6</td>
+    </tr>
+    <tr>
+      <td colspan="2"><strong>PROFESORADO:</strong> Sara Roos Hoefgeest, José Mª Enguita, Víctor M. Suárez</td>
+    </tr>
+  </table>
+
+  <!-- TÍTULO DE LA PRÁCTICA -->
+  <div class="practice-title">
+    PRACTICA AULA 03: Ejercicio tipo examen con asignación y liberación dinámica de memoria.
+  </div>
+
+  <!-- ENUNCIADO DE LA PRÁCTICA -->
+  <div class="problem-statement">
+    <p>
+      Realizar una función que, dados dos polinomios expresados mediante una estructura que contiene una
+      tabla de reales y un valor entero, calcule y devuelva el polinomio resultado del producto de ambos:
+    </p>
+    <p style="margin-top: 8px;">
+      No se puede suponer a priori el valor de la potencia máxima de los polinomios (por tanto el número máximo de coeficientes de los mismos) &rarr; usar asignación dinámica de memoria.
+    </p>
+  </div>
+
+  <!-- FÓRMULA Y ESTRUCTURA POL -->
+  <table style="width: 100%; border-collapse: collapse; margin: 10px 0;">
+    <tr>
+      <td style="width: 1%; vertical-align: middle;">
+        \( p(x) = a_{0} \cdot x^{n} + a_{1} \cdot x^{n-1} + ... + a_{n-1} \cdot x + a_{n} \)
+      </td>
+      <td style="width: 10%; text-align: center; vertical-align: middle;">
+        &leftarrow;
+      </td>
+      <td style="width: 65%; vertical-align: middle;">
+        <div class="struct-box" style="margin: 0;">
+          struct pol<br>
+          {<br>
+          &nbsp;&nbsp;int grado;<br>
+          &nbsp;&nbsp;float* coef;<br> &nbsp;&nbsp;//coef[i] &equiv; a<sub>i</sub>, i=0...grado<br>
+          };
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- EJEMPLO EN MAIN -->
+  <div class="example-block">
+    <p style="margin: 6px 0;">Escribir un ejemplo de main() que llame a dicha función para calcular el resultado de:</p>
+    
+    <div class="example-equations">
+      <p>\( p(x) \equiv 3x + 2 \)</p>
+      <p>\( q(x) \equiv 2x^{2} - x - 1 \)</p>
+      <p>\( r(x) = p(x) * q(x) \equiv 6x^{3} + x^{2} - 5x - 2 \)</p>
+    </div>
+  </div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>PA-02: Cálculo de Transformaciones Lineales (Producto Escalar)</title>
+  
+  <!-- MathJax para el renderizado exacto de las ecuaciones LaTeX -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 1.5cm 2cm;
+    }
+
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      color: #000000;
+      line-height: 1.35;
+      font-size: 11pt;
+      background: #ffffff;
+      margin: 0 auto;
+      max-width: 190mm; /* Ancho ajustado para dar margen lateral */
+      padding: 20px 40px; /* Relleno por los lados */
+      box-sizing: border-box;
+    }
+
+    /* Encabezado Superior con Logos y Títulos */
+    header {
+      width: 100%;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #000000;
+      padding-bottom: 8px;
+    }
+
+    .header-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .header-table td {
+      vertical-align: middle;
+      padding: 0;
+    }
+
+    .logo-img {
+      max-height: 55px;
+      width: auto;
+      display: block;
+    }
+
+    .univ-title {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5pt;
+      font-weight: bold;
+      color: #000000;
+      text-transform: uppercase;
+      margin: 0;
+      text-align: center;
+    }
+
+    .dept-title {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8.5pt;
+      color: #000000;
+      margin: 2px 0 0 0;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    .doc-type {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5pt;
+      font-weight: bold;
+      color: #000000;
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    /* Ficha Técnica de la Asignatura */
+    .metadata-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8.5pt;
+      margin-bottom: 18px;
+      border: 1px solid #000000;
+    }
+
+    .metadata-table td {
+      border: 1px solid #000000;
+      padding: 3px 6px;
+      vertical-align: middle;
+    }
+
+    .metadata-table td strong {
+      font-weight: bold;
+    }
+
+    /* Título de la Práctica */
+    .practice-title {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5pt;
+      font-weight: bold;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    /* Enunciado y Texto */
+    .problem-statement {
+      margin-bottom: 12px;
+      text-align: justify;
+    }
+
+    .problem-statement p {
+      margin: 4px 0;
+    }
+
+    /* Tabla de Casos a), b) y c) */
+    .cases-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 16px 0;
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 10.5pt;
+    }
+
+    .cases-table td {
+      padding: 6px 4px;
+      vertical-align: middle;
+    }
+
+    /* Bloque de Notas y Vectores de Pesos */
+    .nota-block {
+      margin-top: 14px;
+      font-size: 10.5pt;
+    }
+
+    .vector-list {
+      margin: 10px 0 10px 20px;
+      font-family: 'Times New Roman', Times, serif;
+    }
+
+    .vector-item {
+      margin: 6px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .checkbox-square {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 1px solid #000000;
+    }
+
+    .warning-text {
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5pt;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    /* Pie de página institucional */
+    footer {
+      position: fixed;
+      bottom: 1.5cm;
+      left: 2cm;
+      right: 2cm;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8pt;
+      font-weight: bold;
+      color: #000000;
+    }
+
+    .dept-footer {
+      text-align: left;
+      line-height: 1.1;
+    }
+
+    @media print {
+      body {
+        padding: 0;
+      }
+      footer {
+        position: absolute;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ENCABEZADO SUPERIOR CON LOGOS Y TITULAR -->
+  <header>
+    <table class="header-table">
+      <tr>
+        <!-- Logo ISA (Izquierda) -->
+        <td style="width: 20%; text-align: left;">
+          <img src="../../assets/img/tema0/logoisa.png" alt="Logo ISA" class="logo-img">
+        </td>
+        
+        <!-- Texto Central -->
+        <td style="width: 60%;">
+          <div class="univ-title">UNIVERSIDAD DE OVIEDO</div>
+          <div class="dept-title">
+            Departamento de Ingeniería Eléctrica, Electrónica, de Computadores y Sistemas
+          </div>
+          <div class="doc-type">Guía de Prácticas de Aula</div>
+        </td>
+
+        <!-- Logo UniOvi (Derecha) -->
+        <td style="width: 20%; text-align: right;">
+          <img src="../../assets/img/tema0/logoUniovi.png" alt="Logo Universidad de Oviedo" class="logo-img" style="margin-left: auto;">
+        </td>
+      </tr>
+    </table>
+  </header>
+
+  <!-- FICHA TÉCNICA (METADATOS) -->
+  <table class="metadata-table">
+    <tr>
+      <td style="width: 50%;"><strong>ASIGNATURA:</strong> Informática Industrial y Comunicaciones</td>
+      <td style="width: 50%;"><strong>CENTRO:</strong> Escuela Politécnica de Ingeniería de Gijón</td>
+    </tr>
+    <tr>
+      <td><strong>ESTUDIOS:</strong> Grado en Ingeniería Electrónica y Automática</td>
+      <td>
+        <table style="width: 100%; border-collapse: collapse; font-size: 8.5pt;">
+          <tr>
+            <td style="border: none; padding: 0;"><strong>CURSO:</strong> 3°</td>
+            <td style="border: none; padding: 0;"><strong>CUATRIMESTRE:</strong> 1</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td><strong>CARÁCTER:</strong> Obligatoria</td>
+      <td><strong>CRÉDITOS ECTS:</strong> 6</td>
+    </tr>
+    <tr>
+      <td colspan="2"><strong>PROFESORADO:</strong> Sara Roos Hoefgeest, Víctor M. González</td>
+    </tr>
+  </table>
+
+  <!-- TÍTULO DE LA PRÁCTICA -->
+  <div class="practice-title">
+    PRACTICA AULA 02: Ejercicio tipo examen (cálculo de transformaciones lineales)
+  </div>
+
+  <!-- ENUNCIADO DE LA PRÁCTICA -->
+  <div class="problem-statement">
+    <p>
+      Realizar un programa que solicite por pantalla el nº de datos (n) de una tabla (x), los valores de los
+      elementos de la misma (x<sub>i</sub>) y a continuación un carácter que indique la operación a realizar con los
+      datos:
+    </p>
+  </div>
+
+  <!-- OPERACIONES A), B) Y C) -->
+  <table class="cases-table">
+    <tr>
+      <td style="width: 4%; font-weight: bold; vertical-align: top;">a)</td>
+      <td style="width: 56%; vertical-align: middle;">Calcular la media aritmética de los valores de la tabla:</td>
+      <td style="width: 40%; text-align: center; vertical-align: middle;">
+        \( m_{a} = \frac{\sum_{i=0}^{n-1} x_{i}}{n} \)
+      </td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold; vertical-align: top;">b)</td>
+      <td style="vertical-align: middle;">
+        Calcular la media ponderada (pesos decrecientes) de los valores de la tabla:
+      </td>
+      <td style="text-align: center; vertical-align: middle;">
+        \( m_{p} = \frac{\sum_{i=0}^{n-1} (n-i) \cdot x_{i}}{\sum_{i=0}^{n-1} (n-i)} \)
+      </td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold; vertical-align: top;">c)</td>
+      <td style="vertical-align: middle;">Calcular la diferencia entre el 1º y el último valor:</td>
+      <td style="text-align: center; vertical-align: middle;">
+        \( dif = x_{0} - x_{n-1} \)
+      </td>
+    </tr>
+  </table>
+
+  <div class="problem-statement">
+    <p>volcando el resultado del cálculo sobre una variable (r), que se escribirá en pantalla.</p>
+    <p>Se requiere utilizar para todos los casos una única función ProductoEscalar(), a desarrollar.</p>
+  </div>
+
+  <!-- NOTA Y VECTORES DE PESOS -->
+  <div class="nota-block">
+    <p style="margin: 6px 0;"><strong>NOTA:</strong></p>
+    <p style="margin: 4px 0;">
+      Si se observan con detalle, las 3 operaciones solicitadas se pueden realizar con producto escalar:
+    </p>
+    <p style="text-align: center; margin: 8px 0; font-style: italic;">
+    result = <i>x</i>&#8407; · <i>w</i>&#8407;
+    </p>
+    <p style="margin: 4px 0;">utilizando vectores diferentes de pesos:</p>
+
+    <div class="vector-list">
+      <div class="vector-item">
+        <span class="checkbox-square"></span>
+        <span>\( w\_caso\_a = \{1/n, 1/n, ...., 1/n, 1/n\} \)</span>
+      </div>
+      <div class="vector-item">
+        <span class="checkbox-square"></span>
+        <span>\( w\_caso\_b = \{n/sum, (n-1)/sum, ...., 2/sum, 1/sum\} \)</span>
+      </div>
+      <div class="vector-item">
+        <span class="checkbox-square"></span>
+        <span>\( w\_caso\_c = \{1, 0, 0, 0, ...., 0, -1\} \)</span>
+      </div>
+    </div>
+
+    <p style="margin: 8px 0;">
+      Por tanto, el ejercicio se resuelve desarrollando una única función ProductoEscalar(), y estableciendo previamente el valor del vector de pesos según el caso solicitado.
+    </p>
+  </div>
+
+  <!-- ADVERTENCIA DESTACADA -->
+  <div class="warning-text">
+    ¡¡ ATENCIÓN A LAS DIVISIONES CON ENTEROS !!!
+  </div>
+
+  <!-- PIE DE PÁGINA INSTITUCIONAL -->
+
+
+</body>
+</html>

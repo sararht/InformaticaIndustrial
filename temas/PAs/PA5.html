@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>PA-05: Ejercicio Tipo Examen con Tablas y Cadenas de Caracteres</title>
+  
+  <!-- MathJax para el renderizado exacto de las ecuaciones LaTeX -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 1.5cm 2cm;
+    }
+
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      color: #000000;
+      line-height: 1.35;
+      font-size: 11pt;
+      background: #ffffff;
+      margin: 0 auto;
+      max-width: 190mm; /* Ancho ajustado para dar margen lateral */
+      padding: 20px 40px; /* Relleno por los lados */
+      box-sizing: border-box;
+    }
+
+    /* Encabezado Superior con Logos y Títulos */
+    header {
+      width: 100%;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #000000;
+      padding-bottom: 8px;
+    }
+
+    .header-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .header-table td {
+      vertical-align: middle;
+      padding: 0;
+    }
+
+    .logo-img {
+      max-height: 55px;
+      width: auto;
+      display: block;
+    }
+
+    .univ-title {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5pt;
+      font-weight: bold;
+      color: #000000;
+      text-transform: uppercase;
+      margin: 0;
+      text-align: center;
+    }
+
+    .dept-title {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8.5pt;
+      color: #000000;
+      margin: 2px 0 0 0;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    .doc-type {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5pt;
+      font-weight: bold;
+      color: #000000;
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    /* Ficha Técnica de la Asignatura */
+    .metadata-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8.5pt;
+      margin-bottom: 18px;
+      border: 1px solid #000000;
+    }
+
+    .metadata-table td {
+      border: 1px solid #000000;
+      padding: 3px 6px;
+      vertical-align: middle;
+    }
+
+    .metadata-table td strong {
+      font-weight: bold;
+    }
+
+    /* Título de la Práctica */
+    .practice-title {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10.5pt;
+      font-weight: bold;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    /* Enunciado y Texto */
+    .problem-statement {
+      margin-bottom: 12px;
+      text-align: justify;
+    }
+
+    .problem-statement p {
+      margin: 4px 0;
+    }
+
+    .notes-list {
+      margin: 8px 0 12px 20px;
+      padding: 0;
+      font-size: 10.5pt;
+    }
+
+    .notes-list li {
+      margin-bottom: 6px;
+    }
+
+    /* Diagramas de Traza de Memoria / Bucles */
+    .trace-step {
+      margin: 12px 0;
+      page-break-inside: avoid;
+    }
+
+    .trace-title {
+      font-weight: bold;
+      margin-bottom: 4px;
+      font-size: 10pt;
+    }
+
+    .pointer-row {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 9.5pt;
+      margin-bottom: 4px;
+    }
+
+    .char-array-table {
+      border-collapse: collapse;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 10pt;
+      margin-top: 4px;
+    }
+
+    .char-array-table td {
+      border: 1px solid #000000;
+      padding: 4px 8px;
+      text-align: center;
+      min-width: 24px;
+    }
+
+    /* Pie de página institucional */
+    footer {
+      position: fixed;
+      bottom: 1.5cm;
+      left: 2cm;
+      right: 2cm;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8pt;
+      font-weight: bold;
+      color: #000000;
+    }
+
+    .dept-footer {
+      text-align: left;
+      line-height: 1.1;
+    }
+
+    @media print {
+      body {
+        padding: 0;
+      }
+      footer {
+        position: absolute;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ENCABEZADO SUPERIOR CON LOGOS Y TITULAR -->
+  <header>
+    <table class="header-table">
+      <tr>
+        <!-- Logo ISA (Izquierda) -->
+        <td style="width: 20%; text-align: left;">
+          <img src="../../assets/img/tema0/logoisa.png" alt="Logo ISA" class="logo-img">
+        </td>
+        
+        <!-- Texto Central -->
+        <td style="width: 60%;">
+          <div class="univ-title">UNIVERSIDAD DE OVIEDO</div>
+          <div class="dept-title">
+            Departamento de Ingeniería Eléctrica, Electrónica, de Computadores y Sistemas
+          </div>
+          <div class="doc-type">Guía de Prácticas</div>
+        </td>
+
+        <!-- Logo UniOvi (Derecha) -->
+        <td style="width: 20%; text-align: right;">
+          <img src="../../assets/img/tema0/logoUniovi.png" alt="Logo Universidad de Oviedo" class="logo-img" style="margin-left: auto;">
+        </td>
+      </tr>
+    </table>
+  </header>
+
+  <!-- FICHA TÉCNICA (METADATOS) -->
+  <table class="metadata-table">
+    <tr>
+      <td style="width: 50%;"><strong>ASIGNATURA:</strong> Informática Industrial y Comunicaciones</td>
+      <td style="width: 50%;"><strong>CENTRO:</strong> Escuela Politécnica de Ingeniería de Gijón</td>
+    </tr>
+    <tr>
+      <td><strong>ESTUDIOS:</strong> Grado en Ingeniería Electrónica y Automática</td>
+      <td>
+        <table style="width: 100%; border-collapse: collapse; font-size: 8.5pt;">
+          <tr>
+            <td style="border: none; padding: 0;"><strong>CURSO:</strong> 3°</td>
+            <td style="border: none; padding: 0;"><strong>CUATRIMESTRE:</strong> 1</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td><strong>CARÁCTER:</strong> Obligatoria</td>
+      <td><strong>CRÉDITOS ECTS:</strong> 6</td>
+    </tr>
+    <tr>
+      <td colspan="2"><strong>PROFESORADO:</strong> Sara Roos Hoefgeest, José Mª Enguita, Víctor M. Suárez</td>
+    </tr>
+  </table>
+
+  <!-- TÍTULO DE LA PRÁCTICA -->
+  <div class="practice-title">
+    PRACTICA AULA 05: Ejercicio tipo examen con tablas y cadenas de caracteres.
+  </div>
+
+  <!-- ENUNCIADO GENERAL -->
+  <div class="problem-statement">
+    <p>
+      Realizar una función que, dado un texto que expresa un polinomio en el formato:
+    </p>
+    <p style="text-align: center; font-family: 'Courier New', monospace; margin: 8px 0;">
+      texto = "... POL = [a<sub>0</sub> a<sub>1</sub> ... a<sub>n-1</sub> a<sub>n</sub>] ..."
+    </p>
+    <p>
+      obtenga y devuelva el polinomio como una estructura (asignación dinámica de memoria).
+    </p>
+    <p>
+      No se puede suponer a priori el tamaño máximo del polinomio.
+    </p>
+  </div>
+
+  <!-- NOTAS -->
+  <p style="margin: 10px 0 4px 0;"><strong>NOTAS:</strong></p>
+  <ol class="notes-list">
+    <li>
+      Localizar el texto "POL", saltar espacios tras él, comprobar que el siguiente carácter es '=', saltar espacios tras él, comprobar que el siguiente carácter es '[', saltar una posición.
+    </li>
+    <li>
+      Si todo ha ido bien, utilizar en bucle función <code>strtod()</code> para ir leyendo valores reales y obteniendo puntero al final de cada conversión.
+    </li>
+    <li>
+      Terminar cuando el puntero final devuelto por <code>strtod()</code> es igual al comienzo.
+    </li>
+  </ol>
+
+  <p style="margin: 14px 0 6px 0;"><strong>Ejemplo:</strong> <code>texto="xxPOL  = [3.1 -4 5]"</code></p>
+
+  <!-- PASO 1: LOCALIZAR Y TRAZA -->
+  <div class="trace-step">
+
+    <table class="char-array-table">
+      <tr>
+            <img src="../../assets/img/Pas/pa5_1.png" alt="" class="schema-img">
+      </tr>
+      <tr>
+            <img src="../../assets/img/Pas/pa5_2.png" alt="" class="schema-img">
+
+    </table>
+  </div>
+
+
+
+
+
+</body>
+</html>
