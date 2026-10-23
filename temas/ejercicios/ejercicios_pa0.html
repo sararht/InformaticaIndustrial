@@ -123,12 +123,6 @@
       margin-bottom: 12px;
     }
 
-    .horner-step {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 10pt;
-      margin: 2px 0;
-    }
-
     /* Tabla de Traza / Datos */
     .trace-table {
       width: 85%;
@@ -180,91 +174,62 @@
 </head>
 <body>
 
-  <!-- ENCABEZADO SUPERIOR CON DOS LOGOS -->
-  <header>
-    <table class="header-table">
-      <tr>
-        <!-- Logo ISA (Izquierda) -->
-        <td style="width: 20%; text-align: left;">
-          <img src="../../assets/img/tema0/logoisa.png" alt="Logo ISA" class="logo-img">
-        </td>
-        
-        <!-- Texto Central -->
-        <td style="width: 60%;">
-          <div class="univ-title">UNIVERSIDAD DE OVIEDO</div>
-          <div class="dept-title">
-            Departamento de Ingeniería Eléctrica, Electrónica, de Computadores y Sistemas
-          </div>
-          <div class="doc-type">Guía de Prácticas de Aula</div>
-        </td>
-
-        <!-- Logo UniOvi (Derecha) -->
-        <td style="width: 20%; text-align: right;">
-          <img src="../../assets/img/tema0/logoUniovi.png" alt="Logo Universidad de Oviedo" class="logo-img" style="margin-left: auto;">
-        </td>
-      </tr>
-    </table>
-  </header>
-
-  <!-- FICHA TÉCNICA (METADATOS) -->
-  <table class="metadata-table">
-    <tr>
-      <td style="width: 50%;"><strong>ASIGNATURA:</strong> Informática Industrial y Comunicaciones</td>
-      <td style="width: 50%;"><strong>CENTRO:</strong> Escuela Politécnica de Ingeniería de Gijón</td>
-    </tr>
-    <tr>
-      <td><strong>ESTUDIOS:</strong> Grado en Ingeniería Electrónica y Automática</td>
-      <td>
-        <table style="width: 100%; border-collapse: collapse; font-size: 8.5pt;">
-          <tr>
-            <td style="border: none; padding: 0;"><strong>CURSO:</strong> 3°</td>
-            <td style="border: none; padding: 0;"><strong>CUATRIMESTRE:</strong> 1</td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-    <tr>
-      <td><strong>CARÁCTER:</strong> Obligatoria</td>
-      <td><strong>CRÉDITOS ECTS:</strong> 6</td>
-    </tr>
-    <tr>
-      <td colspan="2"><strong>PROFESORADO:</strong> Sara Roos Hoefgeest, José Mª Enguita, Victor M. González</td>
-    </tr>
-  </table>
+ 
 
   <!-- TÍTULO DE LA PRÁCTICA -->
   <div class="practice-title">
     PRACTICA AULA 00: Ejercicio introductorio (Escalado de Temperatura y Filtrado Digital)
   </div>
 
-  <!-- ENUNCIADO DE LA PRÁCTICA -->
+  <!-- ENUNCIADO DE LA PRÁCTICA INTEGRADO Y SINTETIZADO -->
   <div class="problem-statement">
     <p>
-      Realizar un programa en C estructurado en <strong>dos funciones independientes</strong> que procesen una tabla de lecturas enteras en cuentas del ADC (<i>x<sub>i</sub></i>) de un sensor de temperatura de <strong>n</strong> elementos:
+      El objetivo de este ejercicio es capturar lecturas en cuentas del ADC de un sensor de temperatura y procesarlas en C mediante escalado lineal, filtrado digital y análisis estadístico.
     </p>
-    <p style="margin: 6px 0 6px 15px;">
-      1. <code>EscalarSensor()</code>: Convierte los valores a grados Celsius reales mediante una recta de ajuste basada en constantes globales definidas con <code>#define</code> (Ganancia \( G = 0.1 \) y Offset \( V_{off} = -10.0 \)):
+    <p>
+      El programa se estructurará de forma modular en tres archivos (<code>sensor.h</code>, <code>sensor.c</code> y <code>main.c</code>). 
     </p>
-    <p style="text-align: center; margin: 8px 0;">
+    <p>      Desde <code>main.c</code> se solicitará un número de muestras <i>n</i> &gt; 1, se reservará memoria dinámicamente con <code>malloc()</code> para los vectores de lecturas (<i>x<sub>i</sub></i>) y temperaturas (<i>y<sub>i</sub></i>) verificando que no sea <code>NULL</code>, y se liberará con <code>free()</code> al finalizar.
+</p>
+    <p>
+      El módulo <code>sensor</code> dispondrá de las siguientes funciones:
+    </p>
+    <p style="margin: 6px 0 4px 15px;">
+      1. <code>EscalarSensor()</code>: Convierte las cuentas enteras (<i>x<sub>i</sub></i>) a ºC (<i>y<sub>i</sub></i>) mediante la recta de ajuste con constantes <code>#define</code> (<i>G</i> = 0.1 ºC/cuenta, <i>V<sub>off</sub></i> = -10.0 ºC):
+    </p>
+    <p style="text-align: center; margin: 4px 0;">
       \( y_{i} = G \cdot x_{i} + V_{off} \)
     </p>
-    <p style="margin: 6px 0 6px 15px;">
-      2. <code>FiltrarMediaMovil()</code>: Aplica un algoritmo de filtrado digital de media móvil sobre los datos escalados.
+    <p style="margin: 4px 0 4px 15px;">
+      2. <code>FiltrarMediaMovil()</code>: Aplica un filtro digital acumulativo de media móvil exponencial sobre las muestras en ºC.
+    </p>
+    <p style="margin: 4px 0 6px 15px;">
+      3. <code>CalcularEstadisticas()</code>: Evalúa la media, el mínimo y el máximo de la serie en ºC, devolviendo los tres valores agrupados dentro de una estructura <code>struct Estadisticas</code>.
     </p>
   </div>
 
-  <!-- PASOS DE LOS ALGORITMOS -->
-  <div class="horner-block">
-    <div class="horner-step" style="margin-top: 6px;">// Algoritmo de filtrado:</div>
-    <div class="horner-step">temp_filtrada = 0.0</div>
-    <div class="horner-step">Desde i=0 hasta n-1:</div>
-    <div class="horner-step" style="margin-left: 20px;">temp_filtrada = (temp_filtrada + y[i]) / 2.0</div>
-  </div>
+ <!-- ALGORITMO DE FILTRADO DIGITAL (MEDIA MÓVIL) -->
+<!-- ALGORITMO DE FILTRADO DIGITAL (MEDIA MÓVIL) -->
+<div class="horner-block">
+  <p style="font-weight: bold; font-family: sans-serif; font-size: 0.9em; margin: 0 0 4px 0; color: #002B49;">
+    Algoritmo de Filtrado Acumulativo (Media Móvil):
+  </p>
+  <ol style="margin: 0; padding-left: 18px; font-size: 0.95em; text-align: justify;">
+    <li style="margin-bottom: 2px;"><b>Inicialización:</b> Se fija el acumulador a \( T_{acum} = 0.0 \text{ ºC} \).</li>
+    <li style="margin-bottom: 2px;">
+      <b>Iteración:</b> Para cada muestra \( T[i] \), se actualiza el acumulador recursivamente:
+      <div style="text-align: center; margin: 4px 0;">
+        \( T_{acum} = \frac{T_{acum} + T[i]}{2.0} \)
+      </div>
+    </li>
+    <li><b>Salida:</b> Devuelve el valor final de \( T_{acum} \) tras procesar todas las muestras.</li>
+  </ol>
+</div>
 
   <!-- FÓRMULA Y DATOS DEL EJEMPLO -->
   <div class="problem-statement" style="margin-top: 10px;">
-    <p><strong>Ejemplo de muestras:</strong> \( x_{i} = [200, 500, 300, 800] \text{ cuentas} \)</p>
-    <p>Valores convertidos a ºC: \( y_{i} = [10.0, 40.0, 20.0, 70.0] \text{ ºC} \)</p>
+    <p><strong>Ejemplo de muestras (n = 4):</strong> \( x_{i} = [200, 500, 300, 800] \text{ cuentas} \)</p>
+    <p><strong>Valores convertidos a ºC:</strong> \( y_{i} = [10.0, 40.0, 20.0, 70.0] \text{ ºC} \)</p>
     <p style="margin-top: 12px;">Traza de ejecución de la función de filtrado paso a paso:</p>
   </div>
 
@@ -311,7 +276,6 @@
       </tr>
     </tbody>
   </table>
-
 
 
 </body>
