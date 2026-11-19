@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Comunicaciones - Informática Industrial y Comunicaciones</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Hojas de Estilos Reveal.js -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css">
+  <link rel="stylesheet" href="../../css/uniovi-theme.css">
+
+  <style>
+    /* Estilos personalizados del Tema */
+    .syntax-layout {
+      display: flex;
+      gap: 12px;
+      align-items: stretch;
+      width: 100%;
+      margin-top: 0.6rem;
+    }
+    .syntax-code-card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 10px 12px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+      box-sizing: border-box;
+    }
+    .syntax-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .syntax-chip {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    .syntax-chip strong {
+      display: block;
+      color: #002B49;
+      font-size: 0.85em;
+      margin-bottom: 2px;
+    }
+    .syntax-chip small {
+      color: #64748b;
+      font-size: 0.7em;
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.65em;
+      margin-top: 0.4rem;
+    }
+    .data-table th, .data-table td {
+      border: 1px solid #cbd5e1;
+      padding: 5px 8px;
+      text-align: center;
+    }
+    .data-table th {
+      background-color: #002B49;
+      color: #ffffff;
+      font-weight: bold;
+    }
+    .data-table tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+    .diagram-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 8px;
+      font-family: monospace;
+      font-size: 0.68em;
+      text-align: center;
+      margin-top: 6px;
+    }
+    .node-green {
+      background: #10b981;
+      color: #ffffff;
+      font-weight: bold;
+      padding: 6px 12px;
+      border-radius: 6px;
+      display: inline-block;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .node-blue {
+      background: #002B49;
+      color: #ffffff;
+      font-weight: bold;
+      padding: 6px 12px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+    .alert-box {
+      background: #fef2f2;
+      border-left: 3px solid #ef4444;
+      padding: 6px 10px;
+      margin-top: 8px;
+      font-size: 0.75em;
+      text-align: left;
+    }
+    .info-box {
+      background: #f1f5f9;
+      border-left: 3px solid #0284c7;
+      padding: 6px 10px;
+      margin-top: 8px;
+      font-size: 0.75em;
+      text-align: left;
+    }
+    
+    /* Resaltado estricto de líneas en bloques de código (mark) */
+    .reveal pre code mark {
+      display: block !important;
+      background-color: #fef08a !important; 
+      color: #0f172a !important;            
+      margin: 0 -1em !important;             
+      padding: 0 1em !important;            
+      border-left: 4px solid #eab308 !important; 
+      font-weight: bold !important;
+    }
+    .reveal pre code mark * {
+      color: #0f172a !important;
+    }
+
+    @media print {
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- SLIDE 1: Portada (Pág 1) -->
+      <section>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 30px; margin-bottom: 15px;">
+          <img src="../../assets/img/tema0/logoisa.png" alt="Logo ISA" style="max-height: 85px; width: auto; background: transparent; border: none; box-shadow: none;">
+          <img src="../../assets/img/tema0/logoUniovi.png" alt="Logo Universidad de Oviedo" style="max-height: 85px; width: auto; background: transparent; border: none; box-shadow: none;">
+        </div>
+        
+        <span class="badge">Tema</span>
+        <h1>Comunicaciones</h1>
+        <p class="subtitle">Ignacio Álvarez García — Julio 2022 / 2025</p>
+        <p class="subtitle subtitle-small">Ingeniería de Sistemas y Automática - Universidad de Oviedo</p>
+      </section>
+
+      <!-- SLIDE 2: Comunicación Humana Oral (Pág 2) -->
+      <section>
+        <h2>Comunicación</h2>
+        <div class="contents-box" style="font-size: 0.75em; text-align: left;">
+          <ul class="contents-list" style="margin-bottom: 8px;">
+            <li>Permite enviar informaciones desde un emisor a un receptor.</li>
+            <li>Emisor y receptor pueden (y suelen) intercambiar sus papeles.</li>
+            <li>La información se codifica en <strong>tramas</strong>: secuencias de datos entendibles por ambos.</li>
+            <li>Es necesario un <strong>protocolo</strong>: ¿cuándo enviar/recibir? ¿qué hay que responder? ¿cómo se codifica/decodifica cada trama?</li>
+          </ul>
+
+          <div class="syntax-code-card" style="background: #f8fafc;">
+            <strong style="display: block; text-align: center; color: #002B49; margin-bottom: 6px;">COMUNICACIÓN HUMANA ORAL</strong>
+            <div style="display: flex; justify-content: space-between; align-items: center; text-align: center; font-size: 0.85em;">
+              <div style="display: flex; flex-direction: column; gap: 4px; width: 32%;">
+                <div class="node-green">Emisor</div>
+                <small>↓ Tiene info que comunicar</small>
+                <div class="node-green">Codifica info en frase</div>
+                <small>↓ Secuencia fonemas</small>
+                <div class="node-green">Envía fonemas ordenados</div>
+              </div>
+              <div style="width: 34%; font-weight: bold; color: #0284c7;">
+                ──────────▶<br>MEDIO FÍSICO
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 4px; width: 32%;">
+                <div class="node-green">Receptor</div>
+                <small>↑ Info recibida</small>
+                <div class="node-green">Decodifica info en frase</div>
+                <small>↑ Secuencia fonemas</small>
+                <div class="node-green">Recibe fonemas ordenados</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: Comunicación entre Computadores (Pág 3) -->
+      <section>
+        <h2>Comunicación</h2>
+        <div class="contents-box" style="font-size: 0.75em; text-align: left;">
+          <ul class="contents-list" style="margin-bottom: 8px;">
+            <li>Permite enviar informaciones desde un emisor a un receptor.</li>
+            <li>Emisor y receptor pueden (y suelen) intercambiar sus papeles.</li>
+            <li>La información se codifica en <strong>tramas</strong>: secuencias de datos entendibles por ambos.</li>
+            <li>Es necesario un <strong>protocolo</strong>: ¿cuándo enviar/recibir? ¿qué hay que responder? ¿cómo se codifica/decodifica cada trama?</li>
+          </ul>
+
+          <div class="syntax-code-card" style="background: #f8fafc;">
+            <strong style="display: block; text-align: center; color: #002B49; margin-bottom: 6px;">COMUNICACIÓN ENTRE COMPUTADORES</strong>
+            <div style="display: flex; justify-content: space-between; align-items: center; text-align: center; font-size: 0.85em;">
+              <div style="display: flex; flex-direction: column; gap: 4px; width: 32%;">
+                <div class="node-green">Emisor</div>
+                <small>↓ Tiene info que comunicar</small>
+                <div class="node-green">Codifica info en <span style="color: #fef08a;">trama</span></div>
+                <small>↓ Secuencia <strong>bytes</strong></small>
+                <div class="node-green">Envía <span style="color: #fef08a;">bytes</span> ordenados</div>
+              </div>
+              <div style="width: 34%; font-weight: bold; color: #0284c7;">
+                ──────────▶<br>MEDIO FÍSICO
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 4px; width: 32%;">
+                <div class="node-green">Receptor</div>
+                <small>↑ Info recibida</small>
+                <div class="node-green">Decodifica info de <span style="color: #fef08a;">trama</span></div>
+                <small>↑ Secuencia <strong>bytes</strong></small>
+                <div class="node-green">Recibe <span style="color: #fef08a;">bytes</span> ordenados</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 4: Terminología (Pág 4) -->
+      <section>
+        <h2>Comunicaciones</h2>
+        <div class="contents-box" style="font-size: 0.75em; text-align: left;">
+          <p style="margin-bottom: 8px;">Mecanismo(s) de intercambio de información entre 2 ó más computadores conectados entre sí o a través de otros.</p>
+          <strong style="color: #002B49;">Terminología:</strong>
+          <ul class="contents-list" style="margin-top: 4px; line-height: 1.35;">
+            <li><strong>Trama:</strong> unidad de información a transmitir (secuencia de bytes).</li>
+            <li><strong>Medio:</strong> elemento físico por el que circula la información, y características de dicho medio.</li>
+            <li><strong>Interfaz:</strong> conexión del computador al medio físico.</li>
+            <li><strong>Emisor:</strong> dispositivo/programa que genera y envía una trama.</li>
+            <li><strong>Receptor:</strong> dispositivo/programa que debe recibir y procesar una trama.</li>
+            <li><strong>Cliente:</strong> dispositivo/programa que inicia una secuencia de comunicación.</li>
+            <li><strong>Servidor:</strong> dispositivo/programa que espera una comunicación.</li>
+            <li><strong>Protocolo:</strong> conjunto de todas las características de la comunicación para que sea viable (interfaz, codificación de tramas, control de errores, secuenciación de tramas, ...).</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SLIDE 5: Topologías de Comunicación (Pág 5) -->
+      <section>
+        <h2>Comunicaciones</h2>
+        <div class="syntax-layout" style="flex-direction: column; gap: 10px;">
+          <div class="syntax-code-card" style="text-align: left; border-left: 4px solid #0284c7;">
+            <strong style="color: #002B49; font-size: 0.85em;">Punto a punto:</strong> <span style="font-size: 0.78em;">sólo hay un emisor y un receptor</span>
+            <ul style="font-size: 0.72em; margin: 4px 0 0 20px;">
+              <li>Serie (RS-232, USB) | Paralelo | Inalámbrica (Bluetooth)</li>
+            </ul>
+          </div>
+
+          <div class="syntax-code-card" style="text-align: left; border-left: 4px solid #10b981;">
+            <strong style="color: #002B49; font-size: 0.85em;">En bus:</strong> <span style="font-size: 0.78em;">varios emisores y receptores, todos conectados al mismo medio físico</span>
+            <ul style="font-size: 0.72em; margin: 4px 0 0 20px;">
+              <li>Serie (RS-485, I2C, SPI, CAN, ...)</li>
+            </ul>
+          </div>
+
+          <div class="syntax-code-card" style="text-align: left; border-left: 4px solid #f59e0b;">
+            <strong style="color: #002B49; font-size: 0.85em;">En red:</strong> <span style="font-size: 0.78em;">varios emisores y receptores, no todos conectados al mismo medio físico</span>
+            <ul style="font-size: 0.72em; margin: 4px 0 0 20px;">
+              <li>Red cableada (Ethernet) | Red inalámbrica (Wifi)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 6: Esquemas Punto a Punto, Bus y Red (Pág 6) -->
+      <section>
+        <h2>Comunicaciones</h2>
+        <div class="syntax-layout" style="flex-direction: column; gap: 8px; font-size: 0.75em;">
+          <div class="syntax-code-card" style="display: flex; justify-content: space-between; align-items: center;">
+            <strong style="color: #002B49; width: 25%; text-align: left;">▪ Punto a punto</strong>
+            <div style="width: 75%; font-family: monospace; background: #f8fafc; padding: 6px; border-radius: 6px;">
+              [PC 1] ────────────────────────── [PC 2]
+            </div>
+          </div>
+
+          <div class="syntax-code-card" style="display: flex; justify-content: space-between; align-items: center;">
+            <strong style="color: #002B49; width: 25%; text-align: left;">▪ En bus</strong>
+            <div style="width: 75%; font-family: monospace; background: #f8fafc; padding: 6px; border-radius: 6px;">
+              [PC 1] ───┬────────┬────────┬─── [PC 4]<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[PC 2]&nbsp;&nbsp;&nbsp;[PC 3]
+            </div>
+          </div>
+
+          <div class="syntax-code-card" style="display: flex; justify-content: space-between; align-items: center;">
+            <strong style="color: #002B49; width: 25%; text-align: left;">▪ En red</strong>
+            <div style="width: 75%; font-family: monospace; background: #f8fafc; padding: 6px; border-radius: 6px;">
+              [PCs] ── [Switch] ── [Router] ═══ (Red / WiFi) ═══ [Router] ── [Switch] ── [Servidor / PCs]
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 7: Modelo de Capas ISO/OSI (Pág 7) -->
+      <section>
+        <h2>Comunicaciones</h2>
+        <p style="font-size: 0.75em; text-align: left; margin-bottom: 6px;"><strong>Especificación de comunicaciones: modelo de capas (ISO/OSI)</strong></p>
+        
+        <div class="syntax-layout" style="align-items: center;">
+          <div style="flex: 1.3;">
+            <table class="data-table" style="margin-top: 0;">
+              <thead>
+                <tr><th colspan="2">LA PILA OSI</th></tr>
+              </thead>
+              <tbody>
+                <tr style="background: #dbeafe;"><td><strong>7. Nivel de Aplicación</strong></td><td>Servicios de red a aplicaciones</td></tr>
+                <tr><td><strong>6. Nivel de Presentación</strong></td><td>Representación de los datos</td></tr>
+                <tr><td><strong>5. Nivel de Sesión</strong></td><td>Comunicación entre dispositivos de la red</td></tr>
+                <tr><td><strong>4. Nivel de Transporte</strong></td><td>Conexión extremo-a-extremo y fiabilidad</td></tr>
+                <tr><td><strong>3. Nivel de Red</strong></td><td>Determinación de ruta e IP (Dir. lógico)</td></tr>
+                <tr><td><strong>2. Nivel de Enlace de Datos</strong></td><td>Direccionamiento físico (MAC y LLC)</td></tr>
+                <tr style="background: #dcfce7;"><td><strong>1. Nivel Físico</strong></td><td>Señal y transmisión binaria</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="syntax-legend" style="flex: 0.9;">
+            <div class="syntax-chip" style="border-left: 3px solid #0284c7;">
+              <strong>Capa de Aplicación</strong>
+              <small>Secuencia de comunicación y contenido de las tramas (responsabilidad del programador).</small>
+            </div>
+            <div class="syntax-chip">
+              <strong>Capas Intermedias</strong>
+              <small>Aseguran el enrutado, conexión lógica, encriptación, chequeo de errores, etc. Cada capa usa los servicios de la inferior.</small>
+            </div>
+            <div class="syntax-chip" style="border-left: 3px solid #10b981;">
+              <strong>Capa Física</strong>
+              <small>Definición del medio físico, cableado, conectores, niveles de tensión/corriente, flujo de bits, etc.</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 8: Programación en Capa de Aplicación (Pág 8) -->
+      <section>
+        <h2>Comunicaciones</h2>
+        <div class="contents-box" style="font-size: 0.76em; text-align: left;">
+          <p><strong>La programación de comunicaciones a nivel de capa de aplicación:</strong></p>
+          <ul class="contents-list">
+            <li>Codificar en tramas los contenidos a transmitir.</li>
+            <li>Definir la secuencia de comunicación: establecimiento de conexión, envío/recepción, fin de conexión.</li>
+            <li>Identificar al receptor en comunicaciones multi-punto.</li>
+            <li>Establecer protocolo de acceso al medio si no existe en las capas inferiores.</li>
+            <li>Establecer método de detección/corrección de errores si no existe en las capas inferiores.</li>
+          </ul>
+
+          <div class="syntax-layout" style="margin-top: 12px;">
+            <div class="syntax-code-card" style="flex: 1; border-top: 3px solid #f59e0b;">
+              <strong style="color: #002B49; font-size: 0.85em;">Equipos "pequeños" (sin S.O.)</strong>
+              <small style="display: block; color: #4b617f; margin-top: 4px;">Programación del interfaz a nivel de puertos e interrupciones (o librerías disponibles).</small>
+            </div>
+            <div class="syntax-code-card" style="flex: 1; border-top: 3px solid #0284c7;">
+              <strong style="color: #002B49; font-size: 0.85em;">Equipos "grandes" (con S.O.)</strong>
+              <small style="display: block; color: #4b617f; margin-top: 4px;">Programación a nivel de dispositivos de E/S.</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 9: Protocolo Tipo Texto ASCII (Pág 9) -->
+      <section>
+        <h2>Comunicaciones (Protocolo ASCII)</h2>
+        <div class="contents-box" style="font-size: 0.72em; text-align: left;">
+          <div style="text-align: center; font-family: monospace; margin-bottom: 6px; background: #f8fafc; padding: 4px; border-radius: 6px;">
+            <strong>[A: My Program]</strong> ──────── (serie, red, etc.) ──────── <strong>[B: Other Program]</strong>
+          </div>
+          <p style="margin: 2px 0;"><strong>Programa A:</strong> Abrir dispositivo → <code>device</code> | ¿Protocolo tipo texto (<strong>ASCII</strong>) o binario?</p>
+          
+          <pre style="margin: 6px 0;"><code class="language-c" data-trim data-noescape style="font-size: 0.75em;">char send[TAM_MAX_SEND], recv[TAM_MAX_RECV];
+// Componer en send con sprintf(), strcpy(), strcat()
+Funcion_Write(device, send, strlen(send));
+Funcion_Recv(device, recv, TAM_MAX_RECV);
+// Extraer desde recv con strcmp(), strchr(), strstr(), sscanf(), atoi(), atof()</code></pre>
+
+          <div class="info-box" style="font-size: 0.9em;">
+            <strong>Ejemplo GPS (RS-232):</strong> Envía trama NMEA en texto:<br>
+            <code>$GNGGA,hhmmss.ss,ddmm.mmmm,n,dddmm.mmmm,e,q,ss,y.y,a.a,z,g.g,z,t.t,iii*CC\n</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 10: Protocolo Tipo Binario (Pág 10) -->
+      <section>
+        <h2>Comunicaciones (Protocolo Binario)</h2>
+        <div class="contents-box" style="font-size: 0.72em; text-align: left;">
+          <div style="text-align: center; font-family: monospace; margin-bottom: 6px; background: #f8fafc; padding: 4px; border-radius: 6px;">
+            <strong>[A: My Program]</strong> ──────── (serie, red, etc.) ──────── <strong>[B: Other Program]</strong>
+          </div>
+          <p style="margin: 2px 0;"><strong>Programa A:</strong> Abrir dispositivo → <code>device</code> | Protocolo <strong>Binario (no ASCII)</strong>:</p>
+          
+          <pre style="margin: 6px 0;"><code class="language-c" data-trim data-noescape style="font-size: 0.75em;">uint8_t send[TAM_MAX_SEND], recv[TAM_MAX_RECV];
+// Componer en send según contenido de la trama. ¡Ojo little/big endian!
+Funcion_Write(device, send, len_trama_snd);
+Funcion_Recv(device, recv, len_trama_recv);
+// Obtener desde recv según contenido de la trama. ¡Ojo little/big endian!</code></pre>
+
+          <div class="info-box" style="font-size: 0.9em;">
+            <strong>Ejemplo NTP (UDP/IP) para obtener hora exacta:</strong><br>
+            Request (48 bytes): <code>0x23 0x00 0x00 0x00 ...</code> ──▶ Answer (48 bytes): <code>0x24 0x03 0x00 ...</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 11: Protocolos Estándar y Específicos (Pág 11) -->
+      <section>
+        <h2>Comunicaciones</h2>
+        <div class="syntax-layout" style="font-size: 0.72em;">
+          <div class="syntax-code-card" style="flex: 0.9; text-align: left;">
+            <strong style="color: #002B49;">Protocolos estándar:</strong>
+            <ul class="contents-list" style="margin-bottom: 10px;">
+              <li>HTTP, MODBUS (RTU/TCP)</li>
+              <li>CANopen, EtherCAT, ProfiBus, GigE Vision</li>
+            </ul>
+            <strong style="color: #002B49;">Protocolos específicos:</strong>
+            <ul class="contents-list" style="margin-bottom: 10px;">
+              <li>Desarrollados por un fabricante para sus productos.</li>
+            </ul>
+            <strong style="color: #002B49;">Protocolos ad hoc:</strong>
+            <ul class="contents-list">
+              <li>Para un problema concreto.</li>
+            </ul>
+          </div>
+
+          <div class="syntax-code-card" style="flex: 1.1; text-align: left;">
+            <strong style="color: #10b981; display: block; text-align: center;">Ejemplo Trama Binaria (Maestro ⇄ Esclavo)</strong>
+            <table class="data-table">
+              <thead><tr><th>Bytes</th><th>TMCL Command Format (Maestro → Esclavo)</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>Module address</td></tr>
+                <tr><td>1</td><td>Command number</td></tr>
+                <tr><td>1</td><td>Type number</td></tr>
+                <tr><td>1</td><td>Motor or Bank number</td></tr>
+                <tr><td>4</td><td>Value (MSB first!)</td></tr>
+                <tr><td>1</td><td>Checksum</td></tr>
+              </tbody>
+            </table>
+            <table class="data-table" style="margin-top: 6px;">
+              <thead><tr><th>Bytes</th><th>TMCL Reply Format (Esclavo → Maestro)</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>Reply address | 1: Module addr | 1: Status (100=OK)</td></tr>
+                <tr><td>1</td><td>Command number | 4: Value (MSB first!) | 1: Checksum</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 12: Comunicaciones Serie y en Bus (Pág 12) -->
+      <section>
+        <h2>Comunicaciones serie y en bus</h2>
+        <div class="contents-box" style="font-size: 0.78em; text-align: left;">
+          <p><strong>Protocolos estándar de comunicación serie:</strong></p>
+          <ul class="contents-list" style="margin-bottom: 12px;">
+            <li><strong>UART (RS-232, RS-485):</strong> largas distancias (metros o cientos de metros), baja velocidad (menor que 1 Mbps).</li>
+            <li><strong>I2C, SPI:</strong> pequeñas distancias (cm), alta velocidad (decenas de Mbps).</li>
+            <li><strong>USB</strong></li>
+            <li><strong>Otros (industriales):</strong> CAN, ProfiBus, ...</li>
+          </ul>
+
+          <div class="syntax-code-card" style="border-left: 4px solid #0284c7;">
+            <strong style="color: #002B49;">Características principales:</strong>
+            <ul class="contents-list" style="margin-top: 4px;">
+              <li>Síncrono / asíncrono (con / sin señal de reloj).</li>
+              <li>Velocidad (bits por segundo).</li>
+              <li>Selección de esclavo (sólo en caso de bus).</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 13: Comunicaciones Serie Tipo UART (Pág 13) -->
+      <section>
+        <h2>Comunicaciones serie tipo UART</h2>
+        <div class="syntax-layout" style="font-size: 0.74em; text-align: left;">
+          <div class="syntax-code-card" style="flex: 1.1;">
+            <ul class="contents-list">
+              <li>Todos los bits se transmiten por un mismo hilo, uno después de otro.</li>
+              <li>Sin niveles intermedios entre la capa de aplicación y el medio físico: <strong>todo es responsabilidad del programador</strong>.</li>
+              <li><strong>Estándares más usados:</strong>
+                <ul>
+                  <li><strong>RS-232:</strong> punto a punto</li>
+                  <li><strong>RS-485:</strong> multi-punto</li>
+                </ul>
+              </li>
+            </ul>
+            <div class="info-box">
+              Las señales RS-232 son <strong>single-ended</strong> (referidas a masa común).
+            </div>
+          </div>
+
+          <div class="syntax-code-card" style="flex: 0.9;">
+            <strong style="color: #002B49; display: block; text-align: center;">RS-232: Configuración mínima (DB9)</strong>
+            <div class="diagram-box" style="margin: 10px 0;">
+              [Equipo A] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [Equipo B]<br>
+              TD (Pin 3) ───────────▶ RD (Pin 2)<br>
+              RD (Pin 2) ◀─────────── TD (Pin 3)<br>
+              GND (Pin 5) ─────────── GND (Pin 5)
+            </div>
+            <small style="color: #64748b; display: block;">Otros pines DB9: Pin 1 DCD, Pin 4 DTR, Pin 6 DSR, Pin 7 RTS, Pin 8 CTS, Pin 9 RI.</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 14: Niveles de Tensión RS-232 vs TTL (Pág 14) -->
+      <section>
+        <h2>Comunicaciones serie RS-232</h2>
+        <p style="font-size: 0.75em; text-align: left; color: #ef4444; font-weight: bold;">ATENCIÓN: ambos equipos tienen que usar los mismos niveles de tensión para las señales</p>
+        
+        <div class="syntax-layout" style="font-size: 0.72em;">
+          <div class="syntax-code-card" style="flex: 1; border-top: 3px solid #0284c7;">
+            <strong style="color: #002B49;">Niveles de tensión estándar original</strong>
+            <table class="data-table">
+              <thead><tr><th>Valor Lógico</th><th>Transmitter</th><th>Receiver</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Boolean «0»</strong></td><td>+5 V a +15 V</td><td>+3 V a +25 V</td></tr>
+                <tr style="background: #fef2f2;"><td><strong>Uncertainty Zone</strong></td><td>-5 V a +5 V</td><td>-3 V a +3 V</td></tr>
+                <tr><td><strong>Boolean «1»</strong></td><td>-5 V a -15 V</td><td>-3 V a -25 V</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="syntax-code-card" style="flex: 1; border-top: 3px solid #10b981;">
+            <strong style="color: #002B49;">Niveles de tensión equipos pequeños (TTL)</strong>
+            <table class="data-table">
+              <thead><tr><th>Nivel</th><th>TTL Output</th><th>TTL Input</th></tr></thead>
+              <tbody>
+                <tr><td><strong>High («1»)</strong></td><td>2.7 V a 5 V</td><td>2.0 V a 5 V</td></tr>
+                <tr><td><strong>Low («0»)</strong></td><td>0 V a 0.5 V</td><td>0 V a 0.8 V</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 15: Trama Serie RS-232 (Pág 15) -->
+      <section>
+        <h2>Comunicaciones serie RS-232</h2>
+        <div class="contents-box" style="font-size: 0.75em; text-align: left;">
+          <ul class="contents-list">
+            <li>La línea de transmisión <strong>TD</strong> se mantiene a <strong>1 (Mark)</strong> si no hay datos que enviar.</li>
+            <li>Cada equipo usa su propio reloj.</li>
+            <li>Antes del comienzo de datos, se baja la línea TD a <strong>0 (Space)</strong> durante un periodo (<strong>start bit</strong>).</li>
+            <li>Se envían los bits de un dato a impulsos del reloj (LSB primero: bit 0 a bit 7).</li>
+            <li>Al finalizar un dato, se envía un bit de paridad (opcional) y uno o varios de <strong>stop (línea a 1)</strong>.</li>
+          </ul>
+
+          <div class="diagram-box" style="margin-top: 12px; font-size: 0.78em;">
+            Mark (1) ───┐ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ┌───┬───┬───┬───┬───┬───┬───┬───┬───────┐<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;Start &nbsp;│ 0 │ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ Stop &nbsp;│ Start<br>
+            Space (0) &nbsp;&nbsp;└─────────┴───┴───┴───┴───┴───┴───┴───┴───┘ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└────
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 16: Parámetros de Comunicación RS-232 (Pág 16) -->
+      <section>
+        <h2>Comunicaciones serie RS-232</h2>
+        <div class="contents-box" style="font-size: 0.76em; text-align: left;">
+          <p><strong>Los programas de los dos equipos conectados tienen que utilizar los mismos parámetros de comunicación:</strong></p>
+          <ul class="contents-list" style="line-height: 1.45;">
+            <li><strong>Baudrate:</strong> velocidad de reloj (bits/segundo).<br>
+            <small style="color: #64748b;">Valores normalizados: 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200, 230400, 460800, 921600.</small></li>
+            <li><strong>Número de bits de datos:</strong> 5 a 8.</li>
+            <li><strong>Uso de paridad:</strong> par (even), impar (odd), ninguna (none).</li>
+            <li><strong>Número de bits de stop:</strong> 1, 1.5 ó 2.</li>
+            <li><strong>Sincronización hardware:</strong> líneas auxiliares <code>RTS/CTS</code> (Request To Send / Clear To Send).</li>
+            <li><strong>Sincronización software:</strong> bytes especiales <code>XON/XOFF</code>.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SLIDE 17: Programación Puerto Serie en C (Pág 17) -->
+      <section>
+        <h2>Comunicaciones serie RS-232</h2>
+        <div class="contents-box" style="font-size: 0.75em; text-align: left;">
+          <p>Aunque es posible programar la comunicación con el estándar C (<code>FILE* fid, fopen(), fclose(), ...</code>):</p>
+          <ul class="contents-list" style="margin-bottom: 10px;">
+            <li>Este juego de funciones no admite cambiar los parámetros de la comunicación.</li>
+            <li>No existe la posibilidad de controlar las líneas auxiliares.</li>
+          </ul>
+
+          <p><strong>Más habitual con funciones no estándar del S.O.:</strong></p>
+          <div class="syntax-layout">
+            <div class="syntax-code-card" style="flex: 1; border-top: 3px solid #0284c7;">
+              <strong style="color: #002B49;">Windows:</strong>
+              <pre style="margin: 6px 0 0 0;"><code class="language-c" data-trim style="font-size: 0.75em;">HANDLE fid;
+CreateFile(), ReadFile(), WriteFile()</code></pre>
+            </div>
+            <div class="syntax-code-card" style="flex: 1; border-top: 3px solid #10b981;">
+              <strong style="color: #002B49;">Linux:</strong>
+              <pre style="margin: 6px 0 0 0;"><code class="language-c" data-trim style="font-size: 0.75em;">int fid;
+open(), read(), write()
+// Control: ioctl(), fcntl(),
+// tcgetattr(), tcsetattr(), tcflush()</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 18: Ejemplo Arduino Uno (Pág 18) -->
+      <section>
+        <h2>Comunicaciones serie RS-232</h2>
+        <div class="syntax-layout" style="font-size: 0.76em; text-align: left;">
+          <div class="syntax-code-card" style="flex: 1;">
+            <strong style="color: #002B49;">Ejemplo con comentarios:</strong>
+            <p style="margin: 6px 0;">Comunicación serie con Arduino Uno:</p>
+            <code style="font-size: 0.78em; word-break: break-all;">http://isa.uniovi.es/~ialvarez/Curso/infindycom/ejemplos/SerialPort.pdf</code>
+          </div>
+
+          <div class="syntax-code-card" style="flex: 1.2; background: #1e1b4b; color: #ffffff;">
+            <strong style="color: #fef08a; font-size: 1.05em; display: block; text-align: center;">Arduino Uno</strong>
+            <small style="display: block; text-align: center; color: #cbd5e1; margin-bottom: 8px;">Microcontrolador programable en C/C++ con Arduino IDE (ojo, el main() está "escondido")</small>
+            <pre style="margin: 0;"><code class="language-c" data-trim style="font-size: 0.78em;">main()
+{
+    setup();      // Función de usuario
+    while (1)
+        loop();   // Función de usuario
+}</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 19: Bus RS-485 Cableado (Pág 19) -->
+      <section>
+        <h2>Comunicaciones en bus RS-485</h2>
+        <div class="contents-box" style="font-size: 0.72em; text-align: left;">
+          <ul class="contents-list" style="margin-bottom: 6px;">
+            <li>Estrategia <strong>maestro/esclavos</strong> | Niveles de <strong>tensión diferencial</strong> (no single-ended).</li>
+            <li>Necesarias <strong>resistencias de terminación (120 Ω)</strong> en los extremos del bus.</li>
+          </ul>
+
+          <div class="syntax-layout">
+            <div class="syntax-code-card" style="flex: 1;">
+              <strong style="color: #002B49;">Half dúplex (2 líneas + GND)</strong>
+              <div class="diagram-box" style="font-size: 0.72em;">
+                [Master] ═══ (DATA B+ / DATA A-) ═══ [Slave 1] ══ [Slave 2] ══ [Slave 3]<br>
+                <small>Un par trenzado y masa</small>
+              </div>
+            </div>
+            <div class="syntax-code-card" style="flex: 1;">
+              <strong style="color: #002B49;">Full dúplex (4 líneas + GND)</strong>
+              <div class="diagram-box" style="font-size: 0.72em;">
+                [Master TD±] ══▶ [Slaves RD±]<br>
+                [Master RD±] ◀══ [Slaves TD±]<br>
+                <small>Dos pares trenzados y masa</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 20: Bus RS-485 Funcionamiento (Pág 20) -->
+      <section>
+        <h2>Comunicaciones en bus RS-485</h2>
+        <div class="contents-box" style="font-size: 0.8em; text-align: left;">
+          <ul class="contents-list" style="line-height: 1.5;">
+            <li>El <strong>maestro</strong> siempre inicia la comunicación.</li>
+            <li>Los <strong>esclavos</strong> deben tener un identificador único (número del 1 al 255).</li>
+            <li>El <strong>1<sup>er</sup> byte</strong> transmitido por el maestro indica el ID del esclavo que debe responder.</li>
+            <li>Una vez recibida la respuesta del esclavo, el maestro puede comenzar una nueva secuencia de comunicación.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SLIDE 21: Buses I2C y SPI (Pág 21) -->
+      <section>
+        <h2>Comunicaciones serie I2C y SPI</h2>
+        <div class="contents-box" style="font-size: 0.7em; text-align: left;">
+          <p style="margin-bottom: 6px;">Para pequeñas distancias (cm) y alta velocidad (decenas de Mbps). Habituales con sensores y accionadores integrados.</p>
+          
+          <div class="syntax-layout">
+            <div class="syntax-code-card" style="flex: 1; border-top: 3px solid #0284c7;">
+              <strong style="color: #002B49;">Bus I2C (2 hilos + Pull-Up)</strong>
+              <ul style="margin: 4px 0 0 18px; line-height: 1.35;">
+                <li><strong>SDA:</strong> Datos | <strong>SCL:</strong> Reloj (Maestro → Esclavos).</li>
+                <li>Trama: <code>START</code> → Dir. Esclavo (7 bits) + bit <code>R/W</code> → <code>ACK</code> → Datos (8 bits) + <code>ACK</code> → <code>STOP</code>.</li>
+              </ul>
+            </div>
+
+            <div class="syntax-code-card" style="flex: 1; border-top: 3px solid #10b981;">
+              <strong style="color: #002B49;">Bus SPI (4 hilos, Full-Duplex)</strong>
+              <ul style="margin: 4px 0 0 18px; line-height: 1.35;">
+                <li><strong>SCLK:</strong> Reloj | <strong>MOSI:</strong> Master Out Slave In | <strong>MISO:</strong> Master In Slave Out.</li>
+                <li><strong>SS (Slave Select):</strong> Se pone en bajo (0) todo el tiempo que dure la comunicación con el esclavo elegido.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 22: Redes de Ordenadores TCP/IP (Pág 22) -->
+      <section>
+        <h2>Comunicaciones en red TCP/IP</h2>
+        <div class="contents-box" style="font-size: 0.72em; text-align: left;">
+          <p><strong>Redes de ordenadores:</strong> grupo de ordenadores autónomos interconectados (excluye maestro/esclavo).</p>
+          
+          <div class="syntax-layout">
+            <div class="syntax-code-card" style="flex: 1;">
+              <strong style="color: #002B49;">Para las empresas:</strong>
+              <ul class="contents-list">
+                <li>Compartición de recursos</li>
+                <li>Mayor fiabilidad y flexibilidad</li>
+                <li>Reducción de costes</li>
+                <li>Agilización de comunicación</li>
+              </ul>
+            </div>
+            <div class="syntax-code-card" style="flex: 1;">
+              <strong style="color: #002B49;">Público general e Industria:</strong>
+              <ul class="contents-list">
+                <li>Acceso a información remota</li>
+                <li>Comunicación personal</li>
+                <li>Entretenimiento</li>
+                <li><strong>Industria:</strong> Control distribuido</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 23: Funciones del Sistema de Comunicación (Pág 23) -->
+      <section>
+        <h2>Comunicaciones en red TCP/IP</h2>
+        <div class="contents-box" style="font-size: 0.75em; text-align: left;">
+          <p><strong>Sistema de comunicación:</strong> conjunto de hardware y software que permite la comunicación entre estaciones.</p>
+          <strong style="color: #002B49;">Funciones del sistema de comunicación:</strong>
+          <ul class="contents-list" style="margin-top: 4px; columns: 2;">
+            <li>Identificar las estaciones de la red</li>
+            <li>Establecimiento de conexiones y multiplexación</li>
+            <li>Control de errores durante la comunicación</li>
+            <li>Fragmentación y reconstrucción de mensajes</li>
+            <li>Compactación de mensajes</li>
+            <li>Manejo de congestiones y control de flujo</li>
+            <li>Sincronización</li>
+            <li>Establecimiento de niveles de prioridad</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SLIDE 24: Capas OSI y Protocolos TCP/IP (Pág 24) -->
+      <section>
+        <h2>Comunicaciones en red TCP/IP</h2>
+        <p style="font-size: 0.75em; text-align: left; margin-bottom: 4px;"><strong>Modelo de capas ISO/OSI y protocolos asociados:</strong></p>
+        <table class="data-table">
+          <thead>
+            <tr><th>Layer</th><th>OSI Model Name</th><th>Example Protocols</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>7</strong></td><td>Application Layer</td><td>HTTP, FTP, DNS, SNMP, Telnet</td></tr>
+            <tr><td><strong>6</strong></td><td>Presentation Layer</td><td>SSL, TLS</td></tr>
+            <tr><td><strong>5</strong></td><td>Session Layer</td><td>NetBIOS, PPTP</td></tr>
+            <tr><td><strong>4</strong></td><td>Transport Layer</td><td><strong>TCP, UDP</strong></td></tr>
+            <tr><td><strong>3</strong></td><td>Network Layer</td><td><strong>IP</strong>, ARP, ICMP, IPSec</td></tr>
+            <tr><td><strong>2</strong></td><td>Data Link Layer</td><td>PPP, ATM, Ethernet</td></tr>
+            <tr><td><strong>1</strong></td><td>Physical Layer</td><td>Ethernet, USB, Bluetooth, IEEE 802.11</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- SLIDE 25: Protocolos IP, TCP y UDP (Pág 25) -->
+      <section>
+        <h2>Comunicaciones en red TCP/IP</h2>
+        <div class="syntax-layout" style="flex-direction: column; gap: 8px; font-size: 0.72em; text-align: left;">
+          <div class="syntax-code-card" style="border-left: 4px solid #002B49;">
+            <strong style="color: #002B49;">Protocolo de red IP (Internet Protocol):</strong>
+            <span>Identificación de nodo: <strong>dirección IP</strong> (4 bytes) | Identificación de programa usuario: <strong>nº de puerto</strong>.</span>
+          </div>
+
+          <div class="syntax-code-card" style="border-left: 4px solid #10b981;">
+            <strong style="color: #002B49;">Protocolo de transporte con conexión: TCP</strong>
+            <ul style="margin: 2px 0 0 18px;">
+              <li>Conexión punto a punto (dirección IP + nº puerto): Conexión → envío de datos → cierre conexión.</li>
+              <li><strong>Conexión segura:</strong> asegura que no hay pérdida de mensajes, el troceado, la reconstrucción y el orden.</li>
+            </ul>
+          </div>
+
+          <div class="syntax-code-card" style="border-left: 4px solid #f59e0b;">
+            <strong style="color: #002B49;">Protocolo de transporte sin conexión: UDP</strong>
+            <ul style="margin: 2px 0 0 18px;">
+              <li>No hay conexión. Envío y recepción de datos a cualquier punto (dirección IP + nº puerto).</li>
+              <li><strong>Envío y recepción no seguros.</strong></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 26: Encaminamiento IP y Tipos de Dirección (Pág 26) -->
+      <section>
+        <h2>Comunicaciones en red TCP/IP</h2>
+        <div class="contents-box" style="font-size: 0.7em; text-align: left;">
+          <p><strong>Protocolo de encaminamiento IP:</strong> hace llegar paquetes a destino mediante routers. Valor de 32 bits (<code>x.x.x.x</code>).</p>
+          <ul class="contents-list" style="margin-bottom: 6px;">
+            <li><strong>Estática:</strong> fija, para equipos siempre en el mismo lugar | <strong>Dinámica (DHCP):</strong> variable, asignada por servidor DHCP.</li>
+            <li><strong>Global:</strong> única y accesible desde cualquier equipo (servidores) | <strong>Local:</strong> puede repetirse en subredes (clientes).</li>
+            <li><strong>DNS:</strong> servidor de nombres como "agenda" para direcciones IP.</li>
+          </ul>
+          <div class="diagram-box" style="font-size: 0.72em;">
+            [C: 192.168.1.103] ──▶ [Router LAN 192.168.1.1 | WAN 80.97.102.155] ══▶ [Router 156.35.154.94] ──▶ [X: 156.35.152.5 (isa.uniovi.es)]
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 27: Equipos Especiales DNS y DHCP (Pág 27) -->
+      <section>
+        <h2>Comunicaciones en red TCP/IP</h2>
+        <div class="syntax-layout" style="font-size: 0.7em; text-align: left;">
+          <div class="syntax-code-card" style="flex: 0.9;">
+            <strong style="color: #002B49;">Equipos especiales en IP:</strong>
+            <ul class="contents-list" style="margin-top: 6px;">
+              <li><strong>Servidor DNS:</strong> convierte nombres estilo texto (<code>isa.uniovi.es</code>) en direcciones IP (<code>156.35.152.5</code>).</li>
+              <li><strong>Servidor DHCP:</strong> asigna direcciones IP dinámicas para equipos sin dirección fija (estática).</li>
+            </ul>
+          </div>
+
+          <div class="syntax-code-card" style="flex: 1.1; background: #0f172a; color: #e2e8f0; font-family: monospace; font-size: 0.75em;">
+            <span style="color: #38bdf8;">C:\Users\ialvarez&gt; ipconfig /all</span><br>
+            Adaptador de LAN inalámbrica Wi-Fi:<br>
+            &nbsp;&nbsp;DHCP habilitado . . . . . . : Sí<br>
+            &nbsp;&nbsp;Dirección IPv4 . . . . . . : 192.168.1.38<br>
+            &nbsp;&nbsp;Máscara de subred . . . . . : 255.255.255.0<br>
+            &nbsp;&nbsp;Puerta de enlace predeter. : 192.168.1.1<br>
+            &nbsp;&nbsp;Servidor DHCP . . . . . . . : 192.168.1.1<br>
+            &nbsp;&nbsp;Servidores DNS . . . . . . : 80.58.61.254 / .250
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 28: Interfaces, Puertos y Sockets (Pág 28) -->
+      <section>
+        <h2>Comunicaciones en red TCP/IP</h2>
+        <p style="font-size: 0.74em; text-align: left; margin-bottom: 6px;">Relación entre <strong>Programas</strong>, <strong>Sockets</strong>, <strong>Puertos (0..65535)</strong> e <strong>Interfaces (IP)</strong>:</p>
+        <div class="diagram-box" style="font-size: 0.72em; line-height: 1.5; text-align: left; padding: 12px;">
+          <strong>[Equipo A]</strong><br>
+          &nbsp;&nbsp;• Programa X (socket) ──▶ Puerto x ┐<br>
+          &nbsp;&nbsp;• Programa Y (socket) ──▶ Puerto y ┴─▶ <strong>Interfaz A1 (IP)</strong> ══ [Routers] ══ <strong>Interfaz B1 (IP)</strong> ──▶ Puerto t ──▶ Programa T <strong>[Equipo B]</strong><br>
+          &nbsp;&nbsp;• Programa Z (socket) ──▶ Puerto z ───▶ <strong>Interfaz A2 (IP)</strong> ══ [Routers] ══ <strong>Interfaz C1 (IP)</strong> ──▶ Puerto q ──▶ Programa Q <strong>[Equipo C]</strong>
+        </div>
+      </section>
+
+      <!-- SLIDE 29: El Papel del Router (LAN y WAN) (Pág 29) -->
+      <section>
+        <h2>El papel del router</h2>
+        <div class="contents-box" style="font-size: 0.72em; text-align: left;">
+          <p>El router (o gateway) conecta físicamente los equipos. Dispone de 2 tipos de conexiones, cada una con su IP:</p>
+          <ul class="contents-list" style="margin-bottom: 8px;">
+            <li><strong>LAN:</strong> con los equipos cercanos (cableadas Ethernet e inalámbricas WiFi).</li>
+            <li><strong>WAN:</strong> con el resto de la red (típicamente cableada).</li>
+          </ul>
+          <div class="diagram-box" style="font-size: 0.72em;">
+            [Equipos LAN: 192.168.1.XXX, Mask: 255.255.255.0, GW: 192.168.1.1]<br>
+            ▲ (Eth / WiFi A.P.)<br>
+            <strong>[ROUTER: LAN IP 192.168.1.1 (DHCP) | NAT | WAN IP 156.35.152.KKK]</strong> ──▶ Siguiente Router (156.35.152.1)
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 30: Conexiones LAN en el Router (Pág 30) -->
+      <section>
+        <h2>El papel del router</h2>
+        <div class="contents-box" style="font-size: 0.74em; text-align: left;">
+          <p><strong>Conexiones LAN en el router:</strong></p>
+          <ul class="contents-list">
+            <li><strong>Todas:</strong>
+              <ul>
+                <li>Las direcciones IP de todos los clientes deben estar en la misma subred y ser diferentes.</li>
+                <li>Requieren configuración de <strong>IP, Subnet y Gateway</strong> en el cliente (Estática o Dinámica vía DHCP).</li>
+                <li><strong>Gateway:</strong> dirección a la que se envían paquetes con destino a otras redes.</li>
+                <li><strong>Subnet:</strong> bits que indican qué parte de la dirección IP se considera en la misma subred.</li>
+              </ul>
+            </li>
+            <li><strong>Cableadas (Ethernet):</strong> negocian con el router parámetros de conexión (velocidad, etc.).</li>
+            <li><strong>Inalámbricas (WiFi):</strong> negocian canal/velocidad y requieren nombre de A.P. y contraseña.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SLIDE 31: Protocolo NAT (Pág 31) -->
+      <section>
+        <h2>El papel del router</h2>
+        <div class="contents-box" style="font-size: 0.72em; text-align: left;">
+          <p><strong>El protocolo NAT (Network Address Translation) en el router:</strong></p>
+          <ul class="contents-list" style="margin-bottom: 8px;">
+            <li>Equipos conectados a routers diferentes pueden tener la misma dirección IP local (subredes distintas).</li>
+            <li>Al enviar hacia fuera, el router modifica la IP/puerto origen mediante <strong>NAT</strong> antes de reenviar; a la recepción hace el trabajo inverso.</li>
+          </ul>
+          <div class="diagram-box" style="font-size: 0.74em;">
+            <strong>Paquete LAN:</strong> Desde <code>192.168.1.XXX:pppp</code> → Para <code>156.35.152.5:qqqq</code> [MSG]<br>
+            ⬇ <strong>Traducción NAT en Router</strong> ⬇<br>
+            <strong>Paquete WAN:</strong> Desde <code>156.35.152.KKK:rrrr</code> → Para <code>156.35.152.5:qqqq</code> [MSG]
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 32: Puertos IP Estándar (Pág 32) -->
+      <section>
+        <h2>Puertos IP</h2>
+        <div class="syntax-layout" style="font-size: 0.68em; text-align: left;">
+          <div class="syntax-code-card" style="flex: 1.3;">
+            <strong style="color: #002B49;">Puertos estándar más conocidos:</strong>
+            <div style="columns: 2; margin-top: 6px; font-family: monospace; line-height: 1.4;">
+              20/21: FTP<br>22: SSH<br>23: Telnet<br>25: SMTP<br>53: DNS<br>68: DHCP<br>80: HTTP<br>110: POP3<br>123: NTP<br>143: IMAP<br>161: SNMP<br>443: HTTPS/SSL<br>445: SMB
+            </div>
+          </div>
+
+          <div class="syntax-code-card" style="flex: 0.9; border-top: 3px solid #0284c7;">
+            <strong style="color: #002B49;">Rangos de Puertos IP:</strong>
+            <ul class="contents-list" style="margin-top: 6px;">
+              <li><strong>0 - 1023:</strong> System or well-known ports.</li>
+              <li><strong>1024 - 49151:</strong> User or registered ports.</li>
+              <li><strong>&gt; 49151 (49152 a 65535):</strong> Dynamic / private ports (aplicaciones de usuario).</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 33: Secuencia Típica de Conexión a Red (Pág 33) -->
+      <section>
+        <h2>Comunicaciones en red</h2>
+        <div class="contents-box" style="font-size: 0.72em; text-align: left;">
+          <p><strong>Una secuencia típica: conexión a red de cliente y servidor</strong></p>
+          <div class="syntax-code-card" style="margin-bottom: 8px; border-left: 3px solid #0284c7;">
+            <strong style="color: #002B49;">1. Cliente y servidor: conexión a red</strong>
+            <ul style="margin: 2px 0 0 18px;">
+              <li>Conexión física/enlace con el router (velocidad + canal/contraseña en WiFi).</li>
+              <li>Configuración IP fija o mediante protocolo <strong>DHCP</strong> (IP local, gateway, subred y DNS).</li>
+            </ul>
+          </div>
+          <div class="syntax-code-card" style="border-left: 3px solid #10b981;">
+            <strong style="color: #002B49;">2. Para cada envío:</strong>
+            <ul style="margin: 2px 0 0 18px;">
+              <li>Se envía cada paquete al router más cercano (gateway).</li>
+              <li>El router aplica <strong>NAT</strong> y reenvía al siguiente router.</li>
+              <li>El router con conexión directa al receptor entrega el paquete con la ruta de respuesta.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 34: Secuencia Cliente/Servidor UDP (NTP) (Pág 34) -->
+      <section>
+        <h2>Comunicaciones en red UDP/IP</h2>
+        <p style="font-size: 0.72em; text-align: left; margin-bottom: 4px;"><strong>Secuencia típica: cliente/servidor de tiempos (NTP)</strong></p>
+        <div class="syntax-layout" style="font-size: 0.7em; text-align: left;">
+          <div class="syntax-code-card" style="flex: 1; border-top: 3px solid #0284c7;">
+            <strong style="color: #002B49;">Cliente (desea obtener hora actual)</strong>
+            <ol style="margin: 4px 0 0 18px; line-height: 1.4;">
+              <li>Solicitud a DNS de la IP del servidor.</li>
+              <li>Envío de paquete <strong>UDP</strong> de solicitud (formato NTP).</li>
+              <li>Espera respuesta del servidor.</li>
+              <li>Procesamiento de respuesta para obtener fecha/hora.</li>
+            </ol>
+          </div>
+          <div class="syntax-code-card" style="flex: 1; border-top: 3px solid #10b981;">
+            <strong style="color: #002B49;">Servidor (espera solicitudes)</strong>
+            <ol style="margin: 4px 0 0 18px; line-height: 1.4;">
+              <li>Recibe y comprueba solicitud UDP.</li>
+              <li>Compone y envía respuesta según especificación NTP.</li>
+            </ol>
+          </div>
+        </div>
+        <div class="info-box" style="font-size: 0.68em;">
+          Ejemplo: <code>http://isa.uniovi.es/~ialvarez/Curso/infindycom/ejemplos/ClienteUDP_NTP.pdf</code>
+        </div>
+      </section>
+
+      <!-- SLIDE 35: Secuencia Cliente/Servidor TCP (Web) (Pág 35) -->
+      <section>
+        <h2>Comunicaciones en red TCP/IP</h2>
+        <p style="font-size: 0.72em; text-align: left; margin-bottom: 4px;"><strong>Secuencia típica: cliente/servidor de páginas web (HTTP/HTTPS)</strong></p>
+        <div class="syntax-layout" style="font-size: 0.68em; text-align: left;">
+          <div class="syntax-code-card" style="flex: 1; border-top: 3px solid #0284c7;">
+            <strong style="color: #002B49;">Cliente</strong>
+            <ol style="margin: 4px 0 0 18px; line-height: 1.35;">
+              <li>Solicitud DNS → IP del servidor.</li>
+              <li>Conexión mediante protocolo <strong>TCP</strong>.</li>
+              <li>Negociación <strong>TLS</strong> (si es HTTPS).</li>
+              <li>Envío solicitud HTML (<code>GET + servidor + página</code>) encriptada si procede.</li>
+              <li>Espera respuesta, desencripta y presenta página web.</li>
+            </ol>
+          </div>
+          <div class="syntax-code-card" style="flex: 1; border-top: 3px solid #10b981;">
+            <strong style="color: #002B49;">Servidor</strong>
+            <ol style="margin: 4px 0 0 18px; line-height: 1.35;">
+              <li>Acepta conexión TCP.</li>
+              <li>Inicia negociación TLS (si HTTPS).</li>
+              <li>Espera solicitud <code>GET</code> y desencripta.</li>
+              <li>Compone, encripta (si procede) y envía respuesta con contenido HTML.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 36: Programación Sockets TCP/UDP - Creación y Bind (Pág 36) -->
+      <section>
+        <h2>Programación sockets TCP / UDP</h2>
+        <div class="contents-box" style="font-size: 0.72em; text-align: left;">
+          <p><strong>Librería básica Windows/Linux (socket):</strong> identificación de conexión punto a punto (IP + puerto). Incluir <code>&lt;socket.h&gt;</code> (en Windows <code>"winsock2.h"</code>, tipo <code>SOCKET</code>).</p>
+          <pre style="margin: 6px 0;"><code class="language-c" data-trim data-noescape style="font-size: 0.75em;">int sock; // Declaración de identificador
+
+// 1er paso: crear id. válido de socket (SOCK_STREAM para TCP, SOCK_DGRAM para UDP)
+sock = socket(AF_INET, SOCK_STREAM, 0);
+
+// 2º paso: asignar puerto local al socket
+struct sockaddr_in add_local;
+// Rellenar campos de add_local: dirección IP, puerto (network order), protocolo
+err = bind(sock, (struct sockaddr*) &amp;add_local, sizeof(struct sockaddr_in));</code></pre>
+        </div>
+      </section>
+
+      <!-- SLIDE 37: Programación Sockets sin Conexión (UDP) (Pág 37) -->
+      <section>
+        <h2>Comunicaciones en red UDP/IP</h2>
+        <div class="contents-box" style="font-size: 0.72em; text-align: left;">
+          <p><strong>Programación de sockets sin conexión (UDP):</strong></p>
+          <pre style="margin: 4px 0;"><code class="language-c" data-trim data-noescape style="font-size: 0.72em;">// Enviar datos:
+ssize_t sendto(int sockfd, const void *buf, size_t len, int flags,
+               const struct sockaddr *dest_add, socklen_t add_len);
+
+// Recibir datos:
+ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags,
+                 struct sockaddr *src_addr, socklen_t *addrlen);
+
+// Cerrar el socket:
+close(sock);</code></pre>
+          <ul class="contents-list" style="margin-top: 6px; font-size: 0.9em;">
+            <li>Con el mismo socket se puede enviar a diferentes destinatarios (incluso <strong>broadcast</strong>).</li>
+            <li>No hay seguridad de llegada ni de orden aunque <code>err == 0</code>; el usuario debe trocear/recomponer mensajes grandes.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- SLIDE 38: Programación Sockets con Conexión (TCP) (Pág 38) -->
+      <section>
+        <h2>Programación sockets TCP/IP</h2>
+        <p style="font-size: 0.7em; text-align: left; margin-bottom: 4px;">Establecimiento de conexión modelo cliente/servidor. Asegura llegada, orden y troceado automático.</p>
+        <div class="syntax-layout" style="font-size: 0.68em; text-align: left;">
+          <div class="syntax-code-card" style="flex: 1; border-top: 3px solid #0284c7;">
+            <strong style="color: #002B49;">LADO CLIENTE</strong>
+            <pre style="margin: 4px 0;"><code class="language-c" data-trim style="font-size: 0.72em;">struct sockaddr_in addr_servidor;
+// Rellenar campos de addr_servidor
+err = connect(sock, (struct sockaddr*)
+      &amp;addr_servidor, sizeof(addr_servidor));
+
+// Enviar y recibir:
+send(sock, ...);
+recv(sock, ...);
+close(sock);</code></pre>
+          </div>
+
+          <div class="syntax-code-card" style="flex: 1; border-top: 3px solid #10b981;">
+            <strong style="color: #002B49;">LADO SERVIDOR</strong>
+            <pre style="margin: 4px 0;"><code class="language-c" data-trim style="font-size: 0.72em;">err = listen(sock, n_conex_max);
+
+struct sockaddr_in addr_cliente;
+int len = sizeof(addr_cliente);
+conn = accept(sock, (struct sockaddr*)
+       &amp;addr_cliente, &amp;len);
+
+// Enviar y recibir con socket conn:
+send(conn, ...);
+recv(conn, ...);
+close(conn);</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 39: Ejemplo TCP/IP Cliente Página Web (Pág 39) -->
+      <section>
+        <h2>Ejemplo TCP/IP: cliente página web</h2>
+        <div class="syntax-layout" style="font-size: 0.68em; text-align: left;">
+          <div class="syntax-code-card" style="flex: 1; border-top: 3px solid #0284c7;">
+            <strong style="color: #002B49;">LADO CLIENTE (Conecta a 156.35.152.5:80)</strong>
+            <pre style="margin: 4px 0;"><code class="language-http" data-trim style="font-size: 0.72em;">GET http://isa.uniovi.es/~ialvarez/Descargas/pagina_de_prueba.htm HTTP/1.1\r\n
+Host: isa.uniovi.es\r\n
+Accept: text/html\r\n
+Keep-Alive: timeout=5\r\n
+\r\n</code></pre>
+            <small>Tras enviar comando HTTP, leer respuesta.</small>
+          </div>
+
+          <div class="syntax-code-card" style="flex: 1; border-top: 3px solid #10b981;">
+            <strong style="color: #002B49;">LADO SERVIDOR (Espera en puerto 80)</strong>
+            <pre style="margin: 4px 0;"><code class="language-html" data-trim style="font-size: 0.72em;">HTTP/1.1 200 OK
+Server: Apache/2.2.22 (Debian)
+
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Pagina web de prueba&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;&lt;p&gt;Una pagina web sencilla.&lt;/p&gt;&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            <small>Retorna respuesta HTTP y cierra conexión.</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 40: Librerías Disponibles Qt-SDK (Pág 40) -->
+      <section>
+        <h2>Programación sockets TCP/IP</h2>
+        <div class="contents-box" style="font-size: 0.74em; text-align: left;">
+          <p><strong>Clases Qt-SDK para cliente/servidor (usan modelo signal/slot):</strong></p>
+          <table class="data-table">
+            <thead><tr><th>Clases Qt Network</th><th>Propósito</th></tr></thead>
+            <tbody>
+              <tr><td style="font-family: monospace;">QHostAddress, QHostInfo</td><td>Gestión de direcciones</td></tr>
+              <tr><td style="font-family: monospace;">QUdpSocket, QTcpSocket, QTcpServer</td><td>Socket básico (protocolo a implementar por el programador)</td></tr>
+              <tr><td style="font-family: monospace;">QNetworkRequest, QNetworkReply</td><td>Protocolo HTTP</td></tr>
+              <tr><td style="font-family: monospace;">QSslServer, QSslSocket, QSslCertificate</td><td>Encriptación</td></tr>
+            </tbody>
+          </table>
+          <div class="info-box" style="margin-top: 10px;">
+            Documentación: <code>https://doc.qt.io/qt-6/qtnetwork-module.html</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 41: Otras Librerías OOP (Pág 41) -->
+      <section>
+        <h2>Programación sockets TCP/IP</h2>
+        <div class="contents-box" style="font-size: 0.72em; text-align: left;">
+          <p><strong>Otras librerías disponibles para programación de comunicaciones (OOP):</strong></p>
+          <ul class="contents-list" style="line-height: 1.45;">
+            <li><strong>C/C++ genéricas:</strong> <code>boost::asio</code> (sockets), <code>boost::beast</code> (http, etc.).</li>
+            <li><strong>Python genéricas:</strong> <code>socket.socket</code> (sockets), <code>http.client</code>, <code>http.server</code> (http).</li>
+            <li><strong>Matlab:</strong> <code>tcpserver</code>, <code>tcpclient</code>.</li>
+            <li><strong>Arduino y compatibles:</strong>
+              <ul>
+                <li><code>Ethernet, EthernetClient, EthernetServer</code> (sockets).</li>
+                <li><code>WiFi, WiFiClient, WiFiServer, WiFiUDP</code> (sockets y conexión WiFi).</li>
+              </ul>
+            </li>
+          </ul>
+          <div class="info-box" style="margin-top: 8px;">
+            Ayuda configuración y ejemplos: <code>http://isa.uniovi.es/~ialvarez/Curso/descargas/tcp-client-server-varios-lenguajes.pdf</code>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Scripts Reveal.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      plugins: [ RevealHighlight ]
+    });
+  </script>
+</body>
+</html>
