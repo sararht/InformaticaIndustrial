@@ -702,7 +702,7 @@
 
                 <!-- Etiquetas b0..b7 -->
                 <g font-family="monospace" font-size="7.5" font-weight="bold" fill="#0f172a">
-                  <text x="170" y="11" text-anchor="middle">b7 ... b0 (N hilos de datos + GND)</text>
+                  <text x="170" y="11" text-anchor="middle">b7 ... b0 (N hilos de datos)</text>
                 </g>
               </svg>
 
@@ -748,9 +748,7 @@
                 <rect x="188" y="27" width="16" height="18" rx="3" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.3"/>
                 <text x="196" y="39" font-family="monospace" font-size="8.5" font-weight="bold" fill="#002B49" text-anchor="middle">b0</text>
 
-                <!-- Línea GND -->
-                <line x1="76" y1="62" x2="264" y2="62" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,2"/>
-                <text x="170" y="58" font-family="sans-serif" font-size="7.5" fill="#475569" text-anchor="middle">1 hilo de datos (+ reloj opcional) + GND</text>
+
               </svg>
 
               <ul style="list-style-type: '▪ '; margin: 0 0 0 15px; padding: 0; line-height: 1.4; color: #334155;">
@@ -798,518 +796,600 @@
         </div>
       </section>
 
-      <!-- SLIDE: Comunicaciones serie tipo UART -->
-      <section>
-        <h2>Comunicaciones Serie Tipo UART</h2>
-
-        <div class="syntax-layout" style="font-size: 0.7em; text-align: left; gap: 14px; align-items: stretch;">
-          
-          <!-- COLUMNA IZQUIERDA: Conceptos clave y estándares -->
-          <div style="flex: 1.05; display: flex; flex-direction: column; gap: 10px;">
-            
-            <div class="syntax-code-card" style="border-top: 4px solid #0284c7; padding: 10px 14px; flex: 1;">
-              <strong style="color: #002B49; font-size: 0.85em; display: block; margin-bottom: 6px;">
-                Características principales
-              </strong>
-              <ul style="list-style-type: '▪ '; margin: 0 0 0 16px; padding: 0; line-height: 1.48; color: #334155;">
-                <li style="margin-bottom: 5px;">
-                  <strong>Transmisión serie por hilo único:</strong> todos los bits viajan por un mismo conductor, uno detrás de otro.
-                </li>
-                <li style="margin-bottom: 5px;">
-                  <strong>Sin capas intermedias:</strong> enlace directo entre la capa de aplicación y el medio físico; <em>todo es responsabilidad del programador</em> (tramas, sincronización, errores).
-                </li>
-                <li style="margin-bottom: 0;">
-                  <strong>Estándares más usados:</strong>
-                  <ul style="list-style-type: '▸ '; margin: 3px 0 0 14px; padding: 0; line-height: 1.4;">
-                    <li><strong>RS-232:</strong> enlace punto a punto (2 equipos).</li>
-                    <li><strong>RS-485:</strong> enlace multipunto en bus (Maestro / Esclavos).</li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-
-          </div>
-       
-        </div>
-      </section>
-
-      <!-- SLIDE: UART / RS-232 - Trama, Parámetros y Programación en C -->
-      <section>
-        <h2>Comunicación Serie UART: RS-232</h2>
-
-        <div class="syntax-layout" style="font-size: 0.67em; text-align: left; gap: 12px; align-items: stretch;">
-          
-          <!-- COLUMNA IZQUIERDA: Cronograma físico + Parámetros pactados -->
-          <div style="flex: 1.08; display: flex; flex-direction: column; gap: 10px;">
-            
-            <!-- Tarjeta 1: Cronograma físico de trama RS-232 -->
-            <div class="syntax-code-card" style="border-top: 4px solid #0284c7; padding: 10px 14px;">
-              <strong style="color: #002B49; font-size: 0.85em; display: block; margin-bottom: 4px;">
-      1. Trama Asíncrona en Línea TD (Sin hilo de reloj)
-              </strong>
-              <p style="margin: 0 0 6px 0; font-size: 0.9em; color: #334155; line-height: 1.35;">
-                Cada equipo usa su reloj interno. La línea reposa a <strong>1 (Mark)</strong>, baja a <strong>0 (Start)</strong> un periodo, envía los datos y cierra con un bit de <strong>paridad (opcional)</strong> y uno o varios de <strong>Stop (1)</strong>:
-              </p>
-              <!-- Esquema SVG de onda digital con hueco de Paridad -->
-             <svg viewBox="0 0 420 92" style="width: 100%; max-height: 86px; height: auto;" role="img" aria-label="Cronograma de trama RS-232 con Mark, Space, Start Bit, 8 Data Bits y Stop Bit">
-                <!-- Niveles guía -->
-                <line x1="48" y1="22" x2="410" y2="22" stroke="#cbd5e1" stroke-dasharray="3,3" stroke-width="1"/>
-                <line x1="48" y1="64" x2="410" y2="64" stroke="#cbd5e1" stroke-dasharray="3,3" stroke-width="1"/>
-                <text x="44" y="25" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#0284c7" text-anchor="end">1 (Mark)</text>
-                <text x="44" y="67" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#dc2626" text-anchor="end">0 (Space)</text>
-
-                <!-- Señal TD: Reposo (1) -> Start (0) -> 8 bits -> Stop (1) -> Siguiente Start -->
-                <polyline points="50,22 86,22 86,64 114,64 114,22 322,22 322,64" fill="none" stroke="#002B49" stroke-width="2"/>
-                <line x1="114" y1="64" x2="322" y2="64" stroke="#002B49" stroke-width="1.5" stroke-dasharray="3,2"/>
-                <!-- Stop bit alto -->
-                <polyline points="322,64 322,22 365,22 365,64 395,64" fill="none" stroke="#16a34a" stroke-width="2.2"/>
-
-                <!-- Divisiones verticales de los 8 bits de datos (0 a 7) -->
-                <g stroke="#64748b" stroke-dasharray="2,2" stroke-width="1">
-                  <line x1="140" y1="22" x2="140" y2="64"/>
-                  <line x1="166" y1="22" x2="166" y2="64"/>
-                  <line x1="192" y1="22" x2="192" y2="64"/>
-                  <line x1="218" y1="22" x2="218" y2="64"/>
-                  <line x1="244" y1="22" x2="244" y2="64"/>
-                  <line x1="270" y1="22" x2="270" y2="64"/>
-                  <line x1="296" y1="22" x2="296" y2="64"/>
-                </g>
-
-                <!-- Números de bits 0..7 -->
-                <g font-family="monospace" font-size="10" font-weight="bold" fill="#1e3a8a" text-anchor="middle">
-                  <text x="127" y="47">0</text>
-                  <text x="153" y="47">1</text>
-                  <text x="179" y="47">2</text>
-                  <text x="205" y="47">3</text>
-                  <text x="231" y="47">4</text>
-                  <text x="257" y="47">5</text>
-                  <text x="283" y="47">6</text>
-                  <text x="309" y="47">7</text>
-                </g>
-
-                <!-- Etiquetas inferiores y superiores -->
-                <text x="218" y="13" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#002B49" text-anchor="middle">Data Bits</text>
-                <text x="344" y="13" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#16a34a" text-anchor="middle">Stop Bit(s)</text>
-                <text x="100" y="80" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#dc2626" text-anchor="middle">Start Bit</text>
-                <text x="380" y="80" font-family="sans-serif" font-size="9" fill="#64748b" text-anchor="middle">Next Start</text>
-              </svg>
-            </div>
-
-            <!-- Tarjeta 2: Parámetros que deben coincidir en ambos extremos -->
-      <div class="syntax-code-card" style="border-top: 4px solid #10b981; padding: 10px 14px; flex: 1;">
-              <strong style="color: #002B49; font-size: 0.85em; display: block; margin-bottom: 5px;">
-      2. Parámetros de Configuración (Iguales en ambos equipos)
-              </strong>
-              <ul style="list-style-type: '▪ '; margin: 0 0 0 15px; padding: 0; line-height: 1.4; color: #334155;">
-                <li><strong>Baudrate:</strong> velocidad de reloj en bps (ej. 9600, 115200).</li>
-                <li><strong>Número de bits de datos:</strong> 5 a 8 bits (habitual: 8).</li>
-                <li>
-                  <strong>Paridad (detección básica de errores):</strong> bit extra que ajusta el nº de <code>1</code>s de la trama:
-                  <ul style="list-style-type: '▸ '; margin: 2px 0 2px 14px; padding: 0; font-size: 0.94em; color: #475569;">
-                    <li><strong>None:</strong> sin bit de paridad.</li>
-                    <li><strong>Even (par) / Odd (impar):</strong> fuerza a que el total de unos sea par o impar.</li>
-                  </ul>
-                </li>
-                <li><strong>Número de bits de Stop:</strong> 1, 1.5 ó 2 bits (ej. <code>9600, 8N1</code>).</li>
-              </ul>
-            </div>
-
-          </div>
-
-          <!-- COLUMNA DERECHA: Cableado/Tensiones + Programación en C -->
-          <div style="flex: 0.92; display: flex; flex-direction: column; gap: 10px;">
-            
-            <!-- Tarjeta 3: Cableado cruzado y Niveles TTL vs RS-232 -->
-            <div class="syntax-code-card" style="border-top: 4px solid #ef4444; padding: 10px 14px;">
-              <strong style="color: #002B49; font-size: 0.85em; display: block; margin-bottom: 4px;">
-      3. RS-232: Configuración Mínima
-              </strong>
-
-              <!-- Esquema SVG de bloques azules y líneas rojas TD/RD/GND -->
-              <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 4px 8px; margin-bottom: 5px; text-align: center;">
-              <svg viewBox="0 0 360 66" style="width: 100%; max-height: 62px; height: auto;" role="img" aria-label="Conexión UART TX a RX">
-                <rect x="16" y="6" width="82" height="54" rx="5" fill="#002B49"/>
-                <text x="57" y="36" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">Equipo A</text>
-
-                <rect x="262" y="6" width="82" height="54" rx="5" fill="#0284c7"/>
-                <text x="303" y="36" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">Equipo B</text>
-
-                <polyline points="98,16 155,16 205,34 262,34" fill="none" stroke="#dc2626" stroke-width="2"/>
-                <polygon points="258,31 264,34 258,37" fill="#dc2626"/>
-                <polyline points="262,16 205,16 155,34 98,34" fill="none" stroke="#16a34a" stroke-width="2"/>
-                <polygon points="102,31 96,34 102,37" fill="#16a34a"/>
-                <line x1="98" y1="50" x2="262" y2="50" stroke="#475569" stroke-width="2"/>
-
-                <g font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#0f172a">
-                  <text x="104" y="13">TD</text>
-                  <text x="256" y="13" text-anchor="end">TD</text>
-                  <text x="104" y="30">RD</text>
-                  <text x="256" y="30" text-anchor="end">RD</text>
-                  <text x="180" y="46" text-anchor="middle" fill="#475569">GND</text>
-                </g>
-              </svg>
-                <small style="display: block; font-size: 0.82em; color: #475569; margin-top: 1px;">
-                  <strong>TD:</strong> Transmisión &nbsp;|&nbsp; <strong>RD:</strong> Recepción &nbsp;|&nbsp; <strong>GND:</strong> Masa común (0 V)
-                </small>
-              </div>
-
-            </div>
-
-            <!-- Tarjeta 4: Programación del puerto serie en C -->
-            <div class="syntax-code-card" style="border-top: 4px solid #6366f1; padding: 10px 14px; flex: 1;">
-              <strong style="color: #002B49; font-size: 0.85em; display: block; margin-bottom: 5px;">
-      4. Programación del Puerto Serie en C
-              </strong>
-              <ul style="list-style-type: '▪ '; margin: 0 0 0 15px; padding: 0; line-height: 1.38; color: #334155;">
-                <li style="margin-bottom: 5px;">
-                  <strong>Estándar C (<code>FILE*</code>, <code>fopen</code>, <code>fclose</code>):</strong> limitado, <em>no permite</em> cambiar los parámetros de configuración ni controlar líneas auxiliares.
-                </li>
-                <li style="margin-bottom: 0;">
-                  <strong>No estándar (API del Sistema Operativo):</strong>
-                  <ul style="list-style-type: '▸ '; margin: 3px 0 0 14px; padding: 0; line-height: 1.38;">
-                    <li style="margin-bottom: 3px;">
-                      <strong>Windows:</strong> <code>HANDLE</code>, <code>CreateFile()</code>, <code>ReadFile()</code>, <code>WriteFile()</code>.
-                    </li>
-                    <li style="margin-bottom: 0;">
-                      <strong>Linux (POSIX):</strong> <code>int fid</code>, <code>open()</code>, <code>read()</code>, <code>write()</code> + control con <code>ioctl()</code>, <code>fcntl()</code>, <code>tcgetattr()</code>, <code>tcsetattr()</code>.
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE: Comunicaciones en bus RS-485 -->
-      <section>
-        <h2>Comunicación Serie UART: RS-485</h2>
-
-        <div class="syntax-layout" style="display: flex; gap: 12px; width: 100%; align-items: stretch; font-size: 0.67em; text-align: left;">
-          
-          <!-- COLUMNA IZQUIERDA: Características físicas y Protocolo Maestro/Esclavo -->
-          <div style="flex: 0.95; display: flex; flex-direction: column; gap: 10px;">
-            
-            <!-- Tarjeta 1: Características del Bus RS-485 -->
-            <div class="syntax-code-card" style="border-top: 4px solid #0284c7; padding: 10px 14px; background: #ffffff; border: 1px solid #cbd5e1; border-top-width: 4px; box-sizing: border-box;">
-              <strong style="color: #002B49; font-size: 0.85em; display: block; margin-bottom: 5px;">
-      1. Características Físicas y Topología
-              </strong>
-              <ul style="list-style-type: '▪ '; margin: 0 0 0 15px; padding: 0; line-height: 1.42; color: #334155;">
-                <li>Estrategia <strong>maestro/esclavos</strong>.</li>
-                <li><strong>Half dúplex</strong> (dos líneas) o <strong>Full dúplex</strong> (4 líneas).</li>
-              </ul>
-            </div>
-
-            <!-- Tarjeta 2: Secuencia de Comunicación Maestro / Esclavos -->
-            <div class="syntax-code-card" style="border-top: 4px solid #10b981; padding: 10px 14px; background: #ffffff; border: 1px solid #cbd5e1; border-top-width: 4px; flex: 1; box-sizing: border-box;">
-              <strong style="color: #002B49; font-size: 0.85em; display: block; margin-bottom: 5px;">
-      2. Funcionamiento Maestro / Esclavos
-              </strong>
-              <ul style="list-style-type: '▪ '; margin: 0 0 0 15px; padding: 0; line-height: 1.42; color: #334155;">
-                <li style="margin-bottom: 4px;">
-                  El <strong>maestro</strong> siempre inicia la comunicación.
-                </li>
-                <li style="margin-bottom: 4px;">
-                  Los <strong>esclavos</strong> deben tener un <strong>identificador único</strong> (número del <code>1</code> al <code>255</code>).
-                </li>
-                <li style="margin-bottom: 4px;">
-                  El <strong>1<sup>er</sup> byte</strong> transmitido por el maestro indica el <strong>id del esclavo</strong> que debe responder.
-                </li>
-                <li style="margin-bottom: 0;">
-                  Una vez recibida la respuesta del esclavo, el maestro puede comenzar una nueva secuencia de comunicación.
-                </li>
-              </ul>
-            </div>
-
-          </div>
-
-          <!-- COLUMNA DERECHA: Esquemas de Cableado Half Dúplex y Full Dúplex -->
-          <div style="flex: 1.05; display: flex; flex-direction: column; gap: 10px;">
-            
-            <!-- Tarjeta 3: Esquema Half Dúplex (2 líneas) -->
-            <div class="syntax-code-card" style="border-top: 4px solid #f59e0b; padding: 8px 12px; background: #ffffff; border: 1px solid #cbd5e1; border-top-width: 4px; box-sizing: border-box;">
-              <strong style="color: #002B49; font-size: 0.82em; display: block; margin-bottom: 4px;">
-                Half dúplex (2 líneas: par trenzado + GND)
-              </strong>
-              <svg viewBox="0 0 430 96" style="width: 100%; max-height: 92px; height: auto;" role="img" aria-label="Esquema RS-485 Half dúplex con Master y Slaves">
-                <!-- Master -->
-                <rect x="6" y="28" width="46" height="52" rx="3" fill="#e2e8f0" stroke="#64748b" stroke-width="1"/>
-                <rect x="6" y="28" width="46" height="13" rx="2" fill="#0284c7"/>
-                <text x="29" y="22" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Master</text>
-                <text x="29" y="37" font-family="sans-serif" font-size="7" font-weight="bold" fill="#ffffff" text-anchor="middle">RS-485</text>
-                <text x="29" y="50" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#0f172a" text-anchor="middle">DATA (B)+</text>
-                <text x="29" y="62" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#0f172a" text-anchor="middle">DATA (A)-</text>
-                <text x="29" y="74" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#0f172a" text-anchor="middle">GND</text>
-
-                <!-- Bus horizontal: DATA(B)+ amarillo, DATA(A)- azul, GND gris -->
-                <line x1="52" y1="48" x2="418" y2="48" stroke="#eab308" stroke-width="2"/>
-                <line x1="52" y1="60" x2="418" y2="60" stroke="#0284c7" stroke-width="2"/>
-                <line x1="52" y1="72" x2="418" y2="72" stroke="#64748b" stroke-width="2"/>
-                <!-- Flechas finales -->
-                <polygon points="418,45 424,48 418,51" fill="#eab308"/>
-                <polygon points="418,57 424,60 418,63" fill="#0284c7"/>
-                <polygon points="418,69 424,72 418,75" fill="#64748b"/>
-
-                <!-- Slave 1 -->
-                <text x="150" y="9" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Slave 1</text>
-                <rect x="106" y="13" width="88" height="22" rx="3" fill="#e2e8f0" stroke="#64748b" stroke-width="1"/>
-                <rect x="106" y="13" width="88" height="10" rx="2" fill="#0284c7"/>
-                <text x="150" y="20.5" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#ffffff" text-anchor="middle">RS-485</text>
-                <text x="122" y="31.5" font-family="sans-serif" font-size="6" font-weight="bold" fill="#0f172a" text-anchor="middle">DATA(B)+</text>
-                <text x="152" y="31.5" font-family="sans-serif" font-size="6" font-weight="bold" fill="#0f172a" text-anchor="middle">DATA(A)-</text>
-                <text x="180" y="31.5" font-family="sans-serif" font-size="6" font-weight="bold" fill="#0f172a" text-anchor="middle">GND</text>
-                <line x1="122" y1="35" x2="122" y2="48" stroke="#eab308" stroke-width="1.8"/>
-                <line x1="152" y1="35" x2="152" y2="60" stroke="#0284c7" stroke-width="1.8"/>
-                <line x1="180" y1="35" x2="180" y2="72" stroke="#64748b" stroke-width="1.8"/>
-
-                <!-- Slave 2 -->
-                <text x="256" y="9" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Slave 2</text>
-                <rect x="212" y="13" width="88" height="22" rx="3" fill="#e2e8f0" stroke="#64748b" stroke-width="1"/>
-                <rect x="212" y="13" width="88" height="10" rx="2" fill="#0284c7"/>
-                <text x="256" y="20.5" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#ffffff" text-anchor="middle">RS-485</text>
-                <text x="228" y="31.5" font-family="sans-serif" font-size="6" font-weight="bold" fill="#0f172a" text-anchor="middle">DATA(B)+</text>
-                <text x="258" y="31.5" font-family="sans-serif" font-size="6" font-weight="bold" fill="#0f172a" text-anchor="middle">DATA(A)-</text>
-                <text x="286" y="31.5" font-family="sans-serif" font-size="6" font-weight="bold" fill="#0f172a" text-anchor="middle">GND</text>
-                <line x1="228" y1="35" x2="228" y2="48" stroke="#eab308" stroke-width="1.8"/>
-                <line x1="258" y1="35" x2="258" y2="60" stroke="#0284c7" stroke-width="1.8"/>
-                <line x1="286" y1="35" x2="286" y2="72" stroke="#64748b" stroke-width="1.8"/>
-
-                <!-- Slave 3 -->
-                <text x="362" y="9" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Slave 3</text>
-                <rect x="318" y="13" width="88" height="22" rx="3" fill="#e2e8f0" stroke="#64748b" stroke-width="1"/>
-                <rect x="318" y="13" width="88" height="10" rx="2" fill="#0284c7"/>
-                <text x="362" y="20.5" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#ffffff" text-anchor="middle">RS-485</text>
-                <text x="334" y="31.5" font-family="sans-serif" font-size="6" font-weight="bold" fill="#0f172a" text-anchor="middle">DATA(B)+</text>
-                <text x="364" y="31.5" font-family="sans-serif" font-size="6" font-weight="bold" fill="#0f172a" text-anchor="middle">DATA(A)-</text>
-                <text x="392" y="31.5" font-family="sans-serif" font-size="6" font-weight="bold" fill="#0f172a" text-anchor="middle">GND</text>
-                <line x1="334" y1="35" x2="334" y2="48" stroke="#eab308" stroke-width="1.8"/>
-                <line x1="364" y1="35" x2="364" y2="60" stroke="#0284c7" stroke-width="1.8"/>
-                <line x1="392" y1="35" x2="392" y2="72" stroke="#64748b" stroke-width="1.8"/>
-
-                <!-- Pie SVG -->
-                <text x="175" y="88" font-family="sans-serif" font-size="7.5" font-weight="bold" fill="#334155" text-anchor="middle">One twisted pair and ground wire</text>
-                <text x="365" y="88" font-family="sans-serif" font-size="7.5" font-weight="bold" fill="#334155" text-anchor="middle">To the rest RS-485 devices</text>
-              </svg>
-            </div>
-
-            <!-- Tarjeta 4: Esquema Full Dúplex (4 líneas) -->
-            <div class="syntax-code-card" style="border-top: 4px solid #6366f1; padding: 8px 12px; background: #ffffff; border: 1px solid #cbd5e1; border-top-width: 4px; flex: 1; box-sizing: border-box;">
-              <strong style="color: #002B49; font-size: 0.82em; display: block; margin-bottom: 4px;">
-                Full dúplex (4 líneas: dos pares trenzados cruzados TD↔RD + GND)
-              </strong>
-              <svg viewBox="0 0 430 108" style="width: 100%; max-height: 104px; height: auto;" role="img" aria-label="Esquema RS-485 Full dúplex con Master y Slaves">
-                <!-- Master -->
-                <rect x="6" y="26" width="44" height="68" rx="3" fill="#e2e8f0" stroke="#64748b" stroke-width="1"/>
-                <rect x="6" y="26" width="44" height="12" rx="2" fill="#0284c7"/>
-                <text x="28" y="20" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Master</text>
-                <text x="28" y="34.5" font-family="sans-serif" font-size="7" font-weight="bold" fill="#ffffff" text-anchor="middle">RS-485</text>
-                <text x="28" y="46" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#0f172a" text-anchor="middle">TD(B)+</text>
-                <text x="28" y="57" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#0f172a" text-anchor="middle">TD(A)-</text>
-                <text x="28" y="68" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#0f172a" text-anchor="middle">RD(B)+</text>
-                <text x="28" y="79" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#0f172a" text-anchor="middle">RD(A)-</text>
-                <text x="28" y="90" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#0f172a" text-anchor="middle">GND</text>
-
-                <!-- Cruce Master -> Bus -->
-                <!-- Master TD(B)+ (y=44) -> Bus línea 3 (y=66) verde -> Slaves RD(B)+ -->
-                <polyline points="50,44 76,44 96,66 418,66" fill="none" stroke="#16a34a" stroke-width="1.8"/>
-                <!-- Master TD(A)- (y=55) -> Bus línea 4 (y=77) morado -> Slaves RD(A)- -->
-                <polyline points="50,55 70,55 92,77 418,77" fill="none" stroke="#7e22ce" stroke-width="1.8"/>
-                <!-- Master RD(B)+ (y=66) -> Bus línea 1 (y=44) amarillo -> Slaves TD(B)+ -->
-                <polyline points="50,66 72,66 94,44 418,44" fill="none" stroke="#eab308" stroke-width="1.8"/>
-                <!-- Master RD(A)- (y=77) -> Bus línea 2 (y=55) azul -> Slaves TD(A)- -->
-                <polyline points="50,77 78,77 98,55 418,55" fill="none" stroke="#0284c7" stroke-width="1.8"/>
-                <!-- GND (y=88) recto -->
-                <line x1="50" y1="88" x2="418" y2="88" stroke="#64748b" stroke-width="1.8"/>
-
-                <!-- Flechas finales -->
-                <polygon points="418,41 424,44 418,47" fill="#eab308"/>
-                <polygon points="418,52 424,55 418,58" fill="#0284c7"/>
-                <polygon points="418,63 424,66 418,69" fill="#16a34a"/>
-                <polygon points="418,74 424,77 418,80" fill="#7e22ce"/>
-                <polygon points="418,85 424,88 418,91" fill="#64748b"/>
-
-                <!-- Slave 1 -->
-                <text x="182" y="9" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Slave 1</text>
-                <rect x="118" y="13" width="128" height="22" rx="3" fill="#e2e8f0" stroke="#64748b" stroke-width="1"/>
-                <rect x="118" y="13" width="128" height="10" rx="2" fill="#0284c7"/>
-                <text x="182" y="20.5" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#ffffff" text-anchor="middle">RS-485</text>
-                <text x="132" y="31.5" font-family="sans-serif" font-size="5.8" font-weight="bold" fill="#0f172a" text-anchor="middle">TD(B)+</text>
-                <text x="158" y="31.5" font-family="sans-serif" font-size="5.8" font-weight="bold" fill="#0f172a" text-anchor="middle">TD(A)-</text>
-                <text x="184" y="31.5" font-family="sans-serif" font-size="5.8" font-weight="bold" fill="#0f172a" text-anchor="middle">RD(B)+</text>
-                <text x="210" y="31.5" font-family="sans-serif" font-size="5.8" font-weight="bold" fill="#0f172a" text-anchor="middle">RD(A)-</text>
-                <text x="234" y="31.5" font-family="sans-serif" font-size="5.8" font-weight="bold" fill="#0f172a" text-anchor="middle">GND</text>
-                <line x1="132" y1="35" x2="132" y2="44" stroke="#eab308" stroke-width="1.6"/>
-                <line x1="158" y1="35" x2="158" y2="55" stroke="#0284c7" stroke-width="1.6"/>
-                <line x1="184" y1="35" x2="184" y2="66" stroke="#16a34a" stroke-width="1.6"/>
-                <line x1="210" y1="35" x2="210" y2="77" stroke="#7e22ce" stroke-width="1.6"/>
-                <line x1="234" y1="35" x2="234" y2="88" stroke="#64748b" stroke-width="1.6"/>
-
-                <!-- Slave 2 -->
-                <text x="336" y="9" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Slave 2</text>
-                <rect x="272" y="13" width="128" height="22" rx="3" fill="#e2e8f0" stroke="#64748b" stroke-width="1"/>
-                <rect x="272" y="13" width="128" height="10" rx="2" fill="#0284c7"/>
-                <text x="336" y="20.5" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#ffffff" text-anchor="middle">RS-485</text>
-                <text x="286" y="31.5" font-family="sans-serif" font-size="5.8" font-weight="bold" fill="#0f172a" text-anchor="middle">TD(B)+</text>
-                <text x="312" y="31.5" font-family="sans-serif" font-size="5.8" font-weight="bold" fill="#0f172a" text-anchor="middle">TD(A)-</text>
-                <text x="338" y="31.5" font-family="sans-serif" font-size="5.8" font-weight="bold" fill="#0f172a" text-anchor="middle">RD(B)+</text>
-                <text x="364" y="31.5" font-family="sans-serif" font-size="5.8" font-weight="bold" fill="#0f172a" text-anchor="middle">RD(A)-</text>
-                <text x="388" y="31.5" font-family="sans-serif" font-size="5.8" font-weight="bold" fill="#0f172a" text-anchor="middle">GND</text>
-                <line x1="286" y1="35" x2="286" y2="44" stroke="#eab308" stroke-width="1.6"/>
-                <line x1="312" y1="35" x2="312" y2="55" stroke="#0284c7" stroke-width="1.6"/>
-                <line x1="338" y1="35" x2="338" y2="66" stroke="#16a34a" stroke-width="1.6"/>
-                <line x1="364" y1="35" x2="364" y2="77" stroke="#7e22ce" stroke-width="1.6"/>
-                <line x1="388" y1="35" x2="388" y2="88" stroke="#64748b" stroke-width="1.6"/>
-
-                <!-- Pie SVG -->
-                <text x="175" y="102" font-family="sans-serif" font-size="7.5" font-weight="bold" fill="#334155" text-anchor="middle">Two twisted pairs and a ground wire</text>
-                <text x="365" y="102" font-family="sans-serif" font-size="7.5" font-weight="bold" fill="#334155" text-anchor="middle">To the rest RS-485 devices</text>
-              </svg>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE: Buses Síncronos en Placa: I2C y SPI -->
-      <section>
-        <h2>Buses Síncronos en Placa: I²C y SPI</h2>
-        <p class="subtitle" style="font-size: 0.72em; margin-bottom: 10px;">Comunicación de alta velocidad entre microcontroladores, sensores y periféricos</p>
-
-        <div class="syntax-layout" style="display: flex; gap: 12px; width: 100%; align-items: stretch; font-size: 0.65em; text-align: left;">
-          
-          <!-- COLUMNA IZQUIERDA: I2C -->
-          <div style="flex: 1; display: flex; flex-direction: column; gap: 9px;">
-            <div class="syntax-code-card" style="border-top: 4px solid #0284c7; padding: 10px 14px; background: #ffffff; border: 1px solid #cbd5e1; border-top-width: 4px; flex: 1; box-sizing: border-box;">
-              <strong style="color: #002B49; font-size: 0.88em; display: block; margin-bottom: 5px;">
-      1. Bus I²C (Inter-Integrated Circuit)
-              </strong>
-              <ul style="list-style-type: '▪ '; margin: 0 0 8px 15px; padding: 0; line-height: 1.38; color: #334155;">
-                <li><strong>2 cables (Half-Duplex):</strong> <code>SDA</code> (datos) y <code>SCL</code> (reloj del maestro) con <strong>resistencias Pull-Up</strong> a V<sub>CC</sub>.</li>
-                <li><strong>Protocolo:</strong> <em>Start</em> &rarr; <strong>Dirección esclavo (7 bits)</strong> + <code>R/W</code> &rarr; <strong>ACK</strong> &rarr; Datos &rarr; <em>Stop</em>.</li>
-              </ul>
-
-              <div style="background: #f0fdf4; border-left: 3px solid #10b981; padding: 5px 8px; margin-bottom: 6px; color: #1e293b;">
-                <strong>✓ Ventajas:</strong> Solo 2 hilos para conectar <strong>hasta 127 dispositivos</strong> (soporta multimaestro) y tiene confirmación <code>ACK</code>.
-              </div>
-              <div style="background: #fef2f2; border-left: 3px solid #ef4444; padding: 5px 8px; margin-bottom: 6px; color: #1e293b;">
-                <strong>✕ Desventajas:</strong> Más lento que SPI (100–400 kbps habituales) por las <em>pull-up</em> y los bits de dirección/ACK.
-              </div>
-              <small style="color: #475569;"><strong>Ejemplos:</strong> Sensores múltiples, pantallas OLED, relojes RTC.</small>
-            </div>
-          </div>
-
-          <!-- COLUMNA DERECHA: SPI -->
-          <div style="flex: 1; display: flex; flex-direction: column; gap: 9px;">
-            <div class="syntax-code-card" style="border-top: 4px solid #6366f1; padding: 10px 14px; background: #ffffff; border: 1px solid #cbd5e1; border-top-width: 4px; flex: 1; box-sizing: border-box;">
-              <strong style="color: #002B49; font-size: 0.88em; display: block; margin-bottom: 5px;">
-      2. Bus SPI (Serial Peripheral Interface)
-              </strong>
-              <ul style="list-style-type: '▪ '; margin: 0 0 8px 15px; padding: 0; line-height: 1.38; color: #334155;">
-                <li><strong>4 cables (Full-Duplex):</strong> <code>SCK</code> (reloj), <code>MOSI</code> (maestro &rarr; esclavo), <code>MISO</code> (esclavo &rarr; maestro) y <code>SS</code> (selección).</li>
-                <li><strong>Sin direcciones:</strong> el maestro activa al esclavo poniendo a <code>0</code> su hilo hardware <code>SS</code>.</li>
-              </ul>
-
-              <div style="background: #f0fdf4; border-left: 3px solid #10b981; padding: 5px 8px; margin-bottom: 6px; color: #1e293b;">
-                <strong>✓ Ventajas:</strong> <strong>Máxima velocidad</strong> (varios Mbps), <em>Full-Duplex</em> real y envío continuo sin bits de Start/Stop.
-              </div>
-              <div style="background: #fef2f2; border-left: 3px solid #ef4444; padding: 5px 8px; margin-bottom: 6px; color: #1e293b;">
-                <strong>✕ Desventajas:</strong> Gasta muchos pines (4 + <strong>1 pin <code>SS</code> por cada esclavo</strong>), solo 1 maestro y sin <code>ACK</code> ni paridad.
-              </div>
-              <small style="color: #475569;"><strong>Ejemplos:</strong> Tarjetas SD, pantallas rápidas, módulos Ethernet W5500.</small>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-<!-- SLIDE: Redes y Transporte (TCP/IP y UDP) -->
+    <!-- SLIDE 1: Comunicaciones serie tipo UART -->
 <section>
-  <h2>Comunicaciones en Red: TCP/IP y UDP</h2>
+  <h2>Comunicaciones Serie UART (Universal Asynchronous Receiver-Transmitter)</h2>
 
-  <div class="syntax-layout" style="margin-top: 0.4rem; align-items: stretch;">
-    <!-- Columna Izquierda: Familia TCP/IP y TCP vs UDP -->
-    <div class="syntax-code-card" style="flex: 1.15; text-align: left; border-top: 4px solid #0284c7; display: flex; flex-direction: column; justify-content: space-between; gap: 8px;">
-      <div>
-        <strong style="color: #002B49; font-size: 0.8em; display: block; margin-bottom: 4px;">
-          Protocolos de transporte
-        </strong>
-        <p style="font-size: 0.66em; color: #334155; line-height: 1.4; margin: 0 0 8px 0;">
-          Conjunto de protocolos para comunicar equipos a través de redes (LAN, Internet) mediante routers y switches.
-        </p>
+  <div class="syntax-layout" style="font-size: 0.69em; text-align: left; gap: 14px; align-items: stretch;">
+    <!-- COLUMNA IZQUIERDA -->
+    <div style="flex: 1.1; display: flex; flex-direction: column;">
+      <div class="syntax-code-card" style="border-top: 4px solid #0284c7; padding: 12px 14px; flex: 1;">
 
-        <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.65em; color: #334155;">
-          <div style="background: #f0f9ff; border-left: 3px solid #0284c7; padding: 5px 8px; border-radius: 4px;">
-            <strong style="color: #0369a1;">TCP:</strong> Orientado a conexión; entrega fiable y ordenada de flujo de bytes.
-          </div>
-          <div style="background: #ecfdf5; border-left: 3px solid #059669; padding: 5px 8px; border-radius: 4px;">
-            <strong style="color: #047857;">UDP:</strong> Sin conexión; envía datagramas rápidos sin garantizar entrega ni orden.
-          </div>
-        </div>
-      </div>
-
-      <div style="font-size: 0.62em; color: #475569; border-top: 1px dashed #cbd5e1; padding-top: 6px;">
-        En C se programan ambos mediante <strong>sockets</strong> (<code>SOCK_STREAM</code> / <code>SOCK_DGRAM</code>).
+        <ul style="list-style-type: '▪ '; margin: 0 0 0 16px; padding: 0; line-height: 1.48; color: #334155;">
+          <li style="margin-bottom: 6px;">
+            <strong>Transmisión serie:</strong> todos los bits se transmiten por un mismo hilo, uno después de otro
+          </li>
+          <li style="margin-bottom: 6px;">
+            <strong>Comunicación asíncrona:</strong> no hay línea de reloj compartida; emisor y receptor acuerdan previamente la velocidad (<em>baudrate</em>) y el formato de trama.
+          </li>
+          <li style="margin-bottom: 6px;">
+            <strong>Sin pila de red intermedia:</strong> el programador define el formato de mensajes, turnos, direcciones y control de errores en aplicación/protocolo.
+          </li>
+          <li style="margin-bottom: 0;">
+            <strong>Estándares físicos habituales sobre UART:</strong>
+            <ul style="list-style-type: '▸ '; margin: 4px 0 0 14px; padding: 0; line-height: 1.42;">
+              <li><strong>RS-232:</strong> enlace punto a punto </li>
+              <li><strong>RS-485:</strong> bus multipunto.</li>
+            </ul>
+          </li>
+        </ul>
       </div>
     </div>
 
-    <!-- Columna Derecha: IP, Puerto y Cliente/Servidor -->
-    <div style="flex: 1; display: flex; flex-direction: column; gap: 8px; text-align: left;">
+
+  </div>
+</section>
+
+<!-- SLIDE 2: UART / RS-232 - Trama, Parámetros y Programación en C -->
+<section>
+  <h2>Comunicación Serie Asíncrona (UART) y Enlace RS-232</h2>
+
+  <div class="syntax-layout" style="font-size: 0.67em; text-align: left; gap: 12px; align-items: stretch;">
+    <!-- COLUMNA IZQUIERDA -->
+    <div style="flex: 1.08; display: flex; flex-direction: column; gap: 10px;">
+      <div class="syntax-code-card" style="border-top: 4px solid #0284c7; padding: 10px 14px;">
+        <strong style="color: #002B49; font-size: 0.85em; display: block; margin-bottom: 4px;">
+          1. Trama Asíncrona en Línea TD (Sin hilo de reloj)
+        </strong>
+        <p style="margin: 0 0 6px 0; font-size: 0.9em; color: #334155; line-height: 1.35;">
+          Cada equipo usa su reloj interno. La línea reposa a <strong>1 </strong>, baja a <strong>0 (Start)</strong> un periodo, envía los datos y cierra con un bit de <strong>paridad (opcional)</strong> y uno o varios de <strong>Stop (1)</strong>
+        </p>
+<svg viewBox="0 0 420 92" style="width: 100%; max-height: 86px; height: auto;" role="img" aria-label="Cronograma de trama RS-232 con Mark, Space, Start Bit, 8 Data Bits y Stop Bit">
+  <!-- Niveles guía -->
+  <line x1="48" y1="22" x2="410" y2="22" stroke="#cbd5e1" stroke-dasharray="3,3" stroke-width="1"/>
+  <line x1="48" y1="64" x2="410" y2="64" stroke="#cbd5e1" stroke-dasharray="3,3" stroke-width="1"/>
+  <text x="44" y="25" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#0284c7" text-anchor="end">1 (Mark)</text>
+  <text x="44" y="67" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#dc2626" text-anchor="end">0 (Space)</text>
+
+  <!-- Señal TD: Reposo (1) -> Start (0) -> 8 bits -> Stop (1) -> Siguiente Start -->
+  <polyline points="50,22 86,22 86,64 114,64 114,22 322,22 322,64" fill="none" stroke="#002B49" stroke-width="2"/>
+  <line x1="114" y1="64" x2="322" y2="64" stroke="#002B49" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <!-- Stop bit alto -->
+  <polyline points="322,64 322,22 365,22 365,64 395,64" fill="none" stroke="#16a34a" stroke-width="2.2"/>
+
+  <!-- Divisiones verticales de los 8 bits de datos (0 a 7) -->
+  <g stroke="#64748b" stroke-dasharray="2,2" stroke-width="1">
+    <line x1="140" y1="22" x2="140" y2="64"/>
+    <line x1="166" y1="22" x2="166" y2="64"/>
+    <line x1="192" y1="22" x2="192" y2="64"/>
+    <line x1="218" y1="22" x2="218" y2="64"/>
+    <line x1="244" y1="22" x2="244" y2="64"/>
+    <line x1="270" y1="22" x2="270" y2="64"/>
+    <line x1="296" y1="22" x2="296" y2="64"/>
+  </g>
+
+  <!-- Números de bits 0..7 -->
+  <g font-family="monospace" font-size="10" font-weight="bold" fill="#1e3a8a" text-anchor="middle">
+    <text x="127" y="47">0</text>
+    <text x="153" y="47">1</text>
+    <text x="179" y="47">2</text>
+    <text x="205" y="47">3</text>
+    <text x="231" y="47">4</text>
+    <text x="257" y="47">5</text>
+    <text x="283" y="47">6</text>
+    <text x="309" y="47">7</text>
+  </g>
+
+  <!-- Etiquetas inferiores y superiores -->
+  <text x="218" y="13" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#002B49" text-anchor="middle">Data Bits</text>
+  <text x="344" y="13" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#16a34a" text-anchor="middle">Stop Bit(s)</text>
+  <text x="100" y="80" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#dc2626" text-anchor="middle">Start Bit</text>
+  <text x="380" y="80" font-family="sans-serif" font-size="9" fill="#64748b" text-anchor="middle">Next Start</text>
+</svg>
+      </div>
+
+      <div class="syntax-code-card" style="border-top: 4px solid #10b981; padding: 10px 14px; flex: 1;">
+        <strong style="color: #002B49; font-size: 0.85em; display: block; margin-bottom: 5px;">
+          2. Parámetros de Configuración (Iguales en ambos extremos)
+        </strong>
+        <ul style="list-style-type: '▪ '; margin: 0 0 0 15px; padding: 0; line-height: 1.4; color: #334155;">
+          <li><strong>Baudrate:</strong> velocidad en bps (ej. 9600, 115200).</li>
+          <li><strong>Bits de datos:</strong> 5 a 8 bits (habitual: 8).</li>
+          <li>
+            <strong>Paridad (detección básica de errores):</strong> <strong>None</strong>, <strong>Even</strong> (n.º par de unos) o <strong>Odd</strong> (n.º impar de unos).
+          </li>
+          <li><strong>Bits de Stop:</strong> 1, 1.5 ó 2 bits.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- COLUMNA DERECHA -->
+    <div style="flex: 0.92; display: flex; flex-direction: column; gap: 10px;">
+      <div class="syntax-code-card" style="border-top: 4px solid #ef4444; padding: 10px 14px;">
+        <strong style="color: #002B49; font-size: 0.85em; display: block; margin-bottom: 4px;">
+          3. RS-232: Enlace Punto a Punto
+        </strong>
+
+        <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 4px 8px; margin-bottom: 5px; text-align: center;">
+          <svg viewBox="0 0 360 66" style="width: 100%; max-height: 62px; height: auto;" role="img" aria-label="Conexión cruzada RS-232 TD a RD y RD a TD con GND">
+            <rect x="16" y="6" width="82" height="54" rx="5" fill="#002B49"/>
+            <text x="57" y="36" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">Equipo A</text>
+
+            <rect x="262" y="6" width="82" height="54" rx="5" fill="#0284c7"/>
+            <text x="303" y="36" font-family="sans-serif" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">Equipo B</text>
+
+            <polyline points="98,16 155,16 205,34 262,34" fill="none" stroke="#dc2626" stroke-width="2"/>
+            <polygon points="258,31 264,34 258,37" fill="#dc2626"/>
+            <polyline points="262,16 205,16 155,34 98,34" fill="none" stroke="#16a34a" stroke-width="2"/>
+            <polygon points="102,31 96,34 102,37" fill="#16a34a"/>
+            <line x1="98" y1="50" x2="262" y2="50" stroke="#475569" stroke-width="2"/>
+
+            <g font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#0f172a">
+              <text x="104" y="13">TD</text>
+              <text x="256" y="13" text-anchor="end">TD</text>
+              <text x="104" y="30">RD</text>
+              <text x="256" y="30" text-anchor="end">RD</text>
+              <text x="180" y="46" text-anchor="middle" fill="#475569">GND</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="syntax-code-card" style="border-top: 4px solid #6366f1; padding: 10px 14px; flex: 1;">
+        <strong style="color: #002B49; font-size: 0.85em; display: block; margin-bottom: 5px;">
+          4. Programación del Puerto Serie en C
+        </strong>
+        <ul style="list-style-type: '▪ '; margin: 0 0 0 15px; padding: 0; line-height: 1.38; color: #334155;">
+          <li style="margin-bottom: 5px;">
+            <strong>C estándar (<code>FILE*</code>, <code>fopen</code>, <code>fclose</code>):</strong> no permite configurar <em>baudrate</em>, formato ni líneas de control.
+          </li>
+          <li style="margin-bottom: 0;">
+            <strong>API del Sistema Operativo:</strong>
+            <ul style="list-style-type: '▸ '; margin: 3px 0 0 14px; padding: 0; line-height: 1.38;">
+              <li style="margin-bottom: 3px;">
+                <strong>Windows:</strong> <code>HANDLE</code>, <code>CreateFile()</code>, <code>ReadFile()</code>, <code>WriteFile()</code>.
+              </li>
+              <li style="margin-bottom: 0;">
+                <strong>Linux (POSIX):</strong> <code>open()</code>, <code>read()</code>, <code>write()</code> + <code>tcgetattr()</code>, <code>tcsetattr()</code>, <code>ioctl()</code>.
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+<!-- SLIDE 3: Comunicaciones en bus RS-485 -->
+<section>
+  <h2>Capa Física en Bus: RS-485 (sobre UART)</h2>
+
+  <div class="syntax-layout" style="display: flex; gap: 12px; width: 100%; align-items: stretch; font-size: 0.67em; text-align: left;">
+    <!-- COLUMNA IZQUIERDA -->
+    <div style="flex: 0.95; display: flex; flex-direction: column; gap: 10px;">
+
+
+      <div class="syntax-code-card" style="border-top: 4px solid #10b981; padding: 10px 14px; flex: 1; box-sizing: border-box;">
+        <strong style="color: #002B49; font-size: 0.85em; display: block; margin-bottom: 5px;">
+          Protocolo en Bus: Maestro / Esclavos
+        </strong>
+        <ul style="list-style-type: '▪ '; margin: 0 0 0 15px; padding: 0; line-height: 1.42; color: #334155;">
+          <li style="margin-bottom: 4px;">
+            El <strong>maestro</strong> siempre inicia la secuencia.
+          </li>
+          <li style="margin-bottom: 4px;">
+            Cada <strong>esclavo</strong> tiene un <strong>ID único</strong> (habitualmente <code>1</code> a <code>255</code>).
+          </li>
+          <li style="margin-bottom: 4px;">
+            El <strong>1<sup>er</sup> byte</strong> de la trama indica el <strong>ID del esclavo</strong> destinatario.
+          </li>
+          <li style="margin-bottom: 0;">
+            Tras recibir respuesta (o <em>timeout</em>), el maestro lanza la siguiente petición.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- COLUMNA DERECHA: Esquemas Half y Full Dúplex -->
+    <div style="flex: 1.05; display: flex; flex-direction: column; gap: 10px;">
+      <div class="syntax-code-card" style="border-top: 4px solid #f59e0b; padding: 8px 12px; box-sizing: border-box;">
+        <strong style="color: #002B49; font-size: 0.82em; display: block; margin-bottom: 4px;">
+          Half dúplex (2 líneas: par trenzado + GND)
+        </strong>
+        <svg viewBox="0 0 430 96" style="width: 100%; max-height: 92px; height: auto;" role="img" aria-label="Esquema RS-485 Half dúplex con Master y Slaves">
+          <rect x="6" y="28" width="46" height="52" rx="3" fill="#e2e8f0" stroke="#64748b" stroke-width="1"/>
+          <rect x="6" y="28" width="46" height="13" rx="2" fill="#0284c7"/>
+          <text x="29" y="22" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Master</text>
+          <text x="29" y="37" font-family="sans-serif" font-size="7" font-weight="bold" fill="#ffffff" text-anchor="middle">RS-485</text>
+          <text x="29" y="50" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#0f172a" text-anchor="middle">DATA (B)+</text>
+          <text x="29" y="62" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#0f172a" text-anchor="middle">DATA (A)-</text>
+          <text x="29" y="74" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#0f172a" text-anchor="middle">GND</text>
+
+          <line x1="52" y1="48" x2="418" y2="48" stroke="#eab308" stroke-width="2"/>
+          <line x1="52" y1="60" x2="418" y2="60" stroke="#0284c7" stroke-width="2"/>
+          <line x1="52" y1="72" x2="418" y2="72" stroke="#64748b" stroke-width="2"/>
+          <polygon points="418,45 424,48 418,51" fill="#eab308"/>
+          <polygon points="418,57 424,60 418,63" fill="#0284c7"/>
+          <polygon points="418,69 424,72 418,75" fill="#64748b"/>
+
+          <text x="150" y="9" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Slave 1</text>
+          <rect x="106" y="13" width="88" height="22" rx="3" fill="#e2e8f0" stroke="#64748b" stroke-width="1"/>
+          <rect x="106" y="13" width="88" height="10" rx="2" fill="#0284c7"/>
+          <text x="150" y="20.5" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#ffffff" text-anchor="middle">RS-485</text>
+          <text x="122" y="31.5" font-family="sans-serif" font-size="6" font-weight="bold" fill="#0f172a" text-anchor="middle">DATA(B)+</text>
+          <text x="152" y="31.5" font-family="sans-serif" font-size="6" font-weight="bold" fill="#0f172a" text-anchor="middle">DATA(A)-</text>
+          <text x="180" y="31.5" font-family="sans-serif" font-size="6" font-weight="bold" fill="#0f172a" text-anchor="middle">GND</text>
+          <line x1="122" y1="35" x2="122" y2="48" stroke="#eab308" stroke-width="1.8"/>
+          <line x1="152" y1="35" x2="152" y2="60" stroke="#0284c7" stroke-width="1.8"/>
+          <line x1="180" y1="35" x2="180" y2="72" stroke="#64748b" stroke-width="1.8"/>
+
+          <text x="256" y="9" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Slave 2</text>
+          <rect x="212" y="13" width="88" height="22" rx="3" fill="#e2e8f0" stroke="#64748b" stroke-width="1"/>
+          <rect x="212" y="13" width="88" height="10" rx="2" fill="#0284c7"/>
+          <text x="256" y="20.5" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#ffffff" text-anchor="middle">RS-485</text>
+          <text x="228" y="31.5" font-family="sans-serif" font-size="6" font-weight="bold" fill="#0f172a" text-anchor="middle">DATA(B)+</text>
+          <text x="258" y="31.5" font-family="sans-serif" font-size="6" font-weight="bold" fill="#0f172a" text-anchor="middle">DATA(A)-</text>
+          <text x="286" y="31.5" font-family="sans-serif" font-size="6" font-weight="bold" fill="#0f172a" text-anchor="middle">GND</text>
+          <line x1="228" y1="35" x2="228" y2="48" stroke="#eab308" stroke-width="1.8"/>
+          <line x1="258" y1="35" x2="258" y2="60" stroke="#0284c7" stroke-width="1.8"/>
+          <line x1="286" y1="35" x2="286" y2="72" stroke="#64748b" stroke-width="1.8"/>
+
+          <text x="362" y="9" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Slave 3</text>
+          <rect x="318" y="13" width="88" height="22" rx="3" fill="#e2e8f0" stroke="#64748b" stroke-width="1"/>
+          <rect x="318" y="13" width="88" height="10" rx="2" fill="#0284c7"/>
+          <text x="362" y="20.5" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#ffffff" text-anchor="middle">RS-485</text>
+          <text x="334" y="31.5" font-family="sans-serif" font-size="6" font-weight="bold" fill="#0f172a" text-anchor="middle">DATA(B)+</text>
+          <text x="364" y="31.5" font-family="sans-serif" font-size="6" font-weight="bold" fill="#0f172a" text-anchor="middle">DATA(A)-</text>
+          <text x="392" y="31.5" font-family="sans-serif" font-size="6" font-weight="bold" fill="#0f172a" text-anchor="middle">GND</text>
+          <line x1="334" y1="35" x2="334" y2="48" stroke="#eab308" stroke-width="1.8"/>
+          <line x1="364" y1="35" x2="364" y2="60" stroke="#0284c7" stroke-width="1.8"/>
+          <line x1="392" y1="35" x2="392" y2="72" stroke="#64748b" stroke-width="1.8"/>
+
+          <text x="175" y="88" font-family="sans-serif" font-size="7.5" font-weight="bold" fill="#334155" text-anchor="middle">One twisted pair and ground wire</text>
+          <text x="365" y="88" font-family="sans-serif" font-size="7.5" font-weight="bold" fill="#334155" text-anchor="middle">To the rest RS-485 devices</text>
+        </svg>
+      </div>
+
+      <div class="syntax-code-card" style="border-top: 4px solid #6366f1; padding: 8px 12px; flex: 1; box-sizing: border-box;">
+        <strong style="color: #002B49; font-size: 0.82em; display: block; margin-bottom: 4px;">
+          Full dúplex (4 líneas: dos pares trenzados cruzados TD↔RD + GND)
+        </strong>
+        <svg viewBox="0 0 430 108" style="width: 100%; max-height: 104px; height: auto;" role="img" aria-label="Esquema RS-485 Full dúplex con Master y Slaves">
+          <rect x="6" y="26" width="44" height="68" rx="3" fill="#e2e8f0" stroke="#64748b" stroke-width="1"/>
+          <rect x="6" y="26" width="44" height="12" rx="2" fill="#0284c7"/>
+          <text x="28" y="20" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Master</text>
+          <text x="28" y="34.5" font-family="sans-serif" font-size="7" font-weight="bold" fill="#ffffff" text-anchor="middle">RS-485</text>
+          <text x="28" y="46" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#0f172a" text-anchor="middle">TD(B)+</text>
+          <text x="28" y="57" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#0f172a" text-anchor="middle">TD(A)-</text>
+          <text x="28" y="68" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#0f172a" text-anchor="middle">RD(B)+</text>
+          <text x="28" y="79" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#0f172a" text-anchor="middle">RD(A)-</text>
+          <text x="28" y="90" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#0f172a" text-anchor="middle">GND</text>
+
+          <polyline points="50,44 76,44 96,66 418,66" fill="none" stroke="#16a34a" stroke-width="1.8"/>
+          <polyline points="50,55 70,55 92,77 418,77" fill="none" stroke="#7e22ce" stroke-width="1.8"/>
+          <polyline points="50,66 72,66 94,44 418,44" fill="none" stroke="#eab308" stroke-width="1.8"/>
+          <polyline points="50,77 78,77 98,55 418,55" fill="none" stroke="#0284c7" stroke-width="1.8"/>
+          <line x1="50" y1="88" x2="418" y2="88" stroke="#64748b" stroke-width="1.8"/>
+
+          <polygon points="418,41 424,44 418,47" fill="#eab308"/>
+          <polygon points="418,52 424,55 418,58" fill="#0284c7"/>
+          <polygon points="418,63 424,66 418,69" fill="#16a34a"/>
+          <polygon points="418,74 424,77 418,80" fill="#7e22ce"/>
+          <polygon points="418,85 424,88 418,91" fill="#64748b"/>
+
+          <text x="182" y="9" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Slave 1</text>
+          <rect x="118" y="13" width="128" height="22" rx="3" fill="#e2e8f0" stroke="#64748b" stroke-width="1"/>
+          <rect x="118" y="13" width="128" height="10" rx="2" fill="#0284c7"/>
+          <text x="182" y="20.5" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#ffffff" text-anchor="middle">RS-485</text>
+          <text x="132" y="31.5" font-family="sans-serif" font-size="5.8" font-weight="bold" fill="#0f172a" text-anchor="middle">TD(B)+</text>
+          <text x="158" y="31.5" font-family="sans-serif" font-size="5.8" font-weight="bold" fill="#0f172a" text-anchor="middle">TD(A)-</text>
+          <text x="184" y="31.5" font-family="sans-serif" font-size="5.8" font-weight="bold" fill="#0f172a" text-anchor="middle">RD(B)+</text>
+          <text x="210" y="31.5" font-family="sans-serif" font-size="5.8" font-weight="bold" fill="#0f172a" text-anchor="middle">RD(A)-</text>
+          <text x="234" y="31.5" font-family="sans-serif" font-size="5.8" font-weight="bold" fill="#0f172a" text-anchor="middle">GND</text>
+          <line x1="132" y1="35" x2="132" y2="44" stroke="#eab308" stroke-width="1.6"/>
+          <line x1="158" y1="35" x2="158" y2="55" stroke="#0284c7" stroke-width="1.6"/>
+          <line x1="184" y1="35" x2="184" y2="66" stroke="#16a34a" stroke-width="1.6"/>
+          <line x1="210" y1="35" x2="210" y2="77" stroke="#7e22ce" stroke-width="1.6"/>
+          <line x1="234" y1="35" x2="234" y2="88" stroke="#64748b" stroke-width="1.6"/>
+
+          <text x="336" y="9" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Slave 2</text>
+          <rect x="272" y="13" width="128" height="22" rx="3" fill="#e2e8f0" stroke="#64748b" stroke-width="1"/>
+          <rect x="272" y="13" width="128" height="10" rx="2" fill="#0284c7"/>
+          <text x="336" y="20.5" font-family="sans-serif" font-size="6.5" font-weight="bold" fill="#ffffff" text-anchor="middle">RS-485</text>
+          <text x="286" y="31.5" font-family="sans-serif" font-size="5.8" font-weight="bold" fill="#0f172a" text-anchor="middle">TD(B)+</text>
+          <text x="312" y="31.5" font-family="sans-serif" font-size="5.8" font-weight="bold" fill="#0f172a" text-anchor="middle">TD(A)-</text>
+          <text x="338" y="31.5" font-family="sans-serif" font-size="5.8" font-weight="bold" fill="#0f172a" text-anchor="middle">RD(B)+</text>
+          <text x="364" y="31.5" font-family="sans-serif" font-size="5.8" font-weight="bold" fill="#0f172a" text-anchor="middle">RD(A)-</text>
+          <text x="388" y="31.5" font-family="sans-serif" font-size="5.8" font-weight="bold" fill="#0f172a" text-anchor="middle">GND</text>
+          <line x1="286" y1="35" x2="286" y2="44" stroke="#eab308" stroke-width="1.6"/>
+          <line x1="312" y1="35" x2="312" y2="55" stroke="#0284c7" stroke-width="1.6"/>
+          <line x1="338" y1="35" x2="338" y2="66" stroke="#16a34a" stroke-width="1.6"/>
+          <line x1="364" y1="35" x2="364" y2="77" stroke="#7e22ce" stroke-width="1.6"/>
+          <line x1="388" y1="35" x2="388" y2="88" stroke="#64748b" stroke-width="1.6"/>
+
+          <text x="175" y="102" font-family="sans-serif" font-size="7.5" font-weight="bold" fill="#334155" text-anchor="middle">Two twisted pairs and a ground wire</text>
+          <text x="365" y="102" font-family="sans-serif" font-size="7.5" font-weight="bold" fill="#334155" text-anchor="middle">To the rest RS-485 devices</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+<!-- SLIDE: Comunicaciones serie I2C y SPI -->
+<!-- SLIDE: Comunicaciones serie síncronas I2C y SPI -->
+<section>
+  <h2>Comunicaciones Serie Síncronas: I2C y SPI</h2>
+
+  <!-- Recuadro superior moderno: características generales -->
+  <div style="background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); border: 1px solid #e2e8f0; border-top: 3px solid #0284c7; border-radius: 12px; padding: 8px 14px; margin-bottom: 10px; box-shadow: 0 6px 16px -4px rgba(15, 23, 42, 0.08); font-size: 0.64em; text-align: left;">
+    <strong style="color: #0f172a; font-size: 0.9em; letter-spacing: 0.01em;">Características generales:</strong>
+    <span style="color: #334155;">
+      Cortas distancias (<strong>cm</strong>), alta velocidad (<strong>decenas de Mbps</strong>) y reloj compartido (<strong>síncronos</strong>). <strong>Maestro:</strong> genera el reloj. <strong>Esclavo:</strong> usa el reloj del maestro.
+    </span>
+  </div>
+
+  <div class="syntax-layout" style="display: flex; gap: 14px; width: 100%; align-items: stretch; font-size: 0.64em; text-align: left;">
+    
+    <!-- COLUMNA IZQUIERDA: I2C -->
+    <div style="flex: 1; display: flex; flex-direction: column;">
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 3px solid #10b981; border-radius: 12px; padding: 10px 14px; flex: 1; box-sizing: border-box; box-shadow: 0 8px 20px -6px rgba(15, 23, 42, 0.08);">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px;">
+          <strong style="color: #0f172a; font-size: 0.92em; letter-spacing: -0.01em;">
+            I2C (2 hilos: SCL y SDA + Pull-Up)
+          </strong>
+          <span style="background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; border-radius: 999px; padding: 1px 8px; font-size: 0.72em; font-weight: 600;">
+            Maestro / Esclavo
+          </span>
+        </div>
+
+        <ul style="list-style-type: '▪ '; margin: 0 0 8px 15px; padding: 0; line-height: 1.35; color: #334155;">
+          <li><strong>SCL</strong> (reloj en serie del maestro) y <strong>SDA</strong> (datos en serie); habitual con sensores y módulos.</li>
+          <li>El maestro envía <strong>dirección del esclavo</strong> + bit <code>R/W</code>, el esclavo responde con <strong>ACK</strong> si coincide, se intercambian datos (con ACK) y el maestro cierra con <strong>STOP</strong>.</li>
+        </ul>
+
+        <!-- Esquema SVG I2C -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 6px; text-align: center; box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.04);">
+          <svg viewBox="0 0 390 142" style="width: 100%; max-height: 132px; height: auto;" role="img" aria-label="Esquema de bus I2C con título I2C, resistencias pull-up a Vcc, buses SCL y SDA y conexiones a Maestro, Esclavo 1 y Esclavo n">
+            <text x="374" y="22" font-family="sans-serif" font-size="18" font-weight="bold" fill="#0f172a" text-anchor="end">I2C</text>
+
+            <line x1="68" y1="26" x2="215" y2="26" stroke="#dc2626" stroke-width="1.8"/>
+            <text x="60" y="29" font-family="sans-serif" font-size="9" font-weight="bold" fill="#0f172a" text-anchor="end">Vcc</text>
+
+            <line x1="112" y1="26" x2="112" y2="36" stroke="#0f172a" stroke-width="1.4"/>
+            <circle cx="112" cy="26" r="2.2" fill="#0f172a"/>
+            <rect x="108" y="36" width="8" height="16" rx="1.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.4"/>
+            <line x1="112" y1="52" x2="112" y2="62" stroke="#0f172a" stroke-width="1.4"/>
+            <circle cx="112" cy="62" r="2.4" fill="#16a34a"/>
+
+            <line x1="138" y1="26" x2="138" y2="36" stroke="#0f172a" stroke-width="1.4"/>
+            <circle cx="138" cy="26" r="2.2" fill="#0f172a"/>
+            <rect x="134" y="36" width="8" height="16" rx="1.5" fill="#ffffff" stroke="#0f172a" stroke-width="1.4"/>
+            <line x1="138" y1="52" x2="138" y2="80" stroke="#0f172a" stroke-width="1.4"/>
+            <circle cx="138" cy="80" r="2.4" fill="#0284c7"/>
+
+            <text x="150" y="42" font-family="sans-serif" font-size="8" font-weight="bold" fill="#0f172a">Resistencias</text>
+            <text x="150" y="52" font-family="sans-serif" font-size="8" font-weight="bold" fill="#0f172a">Pull-Up</text>
+
+            <line x1="68" y1="62" x2="375" y2="62" stroke="#16a34a" stroke-width="2"/>
+            <text x="60" y="65" font-family="sans-serif" font-size="9" font-weight="bold" fill="#0f172a" text-anchor="end">SDA</text>
+
+            <line x1="68" y1="80" x2="375" y2="80" stroke="#0284c7" stroke-width="2"/>
+            <text x="60" y="83" font-family="sans-serif" font-size="9" font-weight="bold" fill="#0f172a" text-anchor="end">SCL</text>
+
+            <rect x="52" y="96" width="46" height="32" rx="4" fill="#fef3c7" stroke="#0f172a" stroke-width="1.2"/>
+            <text x="94" y="108" font-family="sans-serif" font-size="7.5" font-weight="bold" fill="#0f172a" text-anchor="end">SDA</text>
+            <text x="94" y="121" font-family="sans-serif" font-size="7.5" font-weight="bold" fill="#0f172a" text-anchor="end">SCL</text>
+            <text x="75" y="139" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Maestro</text>
+            <polyline points="98,105 118,105 118,62" fill="none" stroke="#16a34a" stroke-width="1.8"/>
+            <circle cx="118" cy="62" r="2.2" fill="#16a34a"/>
+            <polyline points="98,118 128,118 128,80" fill="none" stroke="#0284c7" stroke-width="1.8"/>
+            <circle cx="128" cy="80" r="2.2" fill="#0284c7"/>
+
+            <rect x="166" y="96" width="46" height="32" rx="4" fill="#e0f2fe" stroke="#0f172a" stroke-width="1.2"/>
+            <text x="208" y="108" font-family="sans-serif" font-size="7.5" font-weight="bold" fill="#0f172a" text-anchor="end">SDA</text>
+            <text x="208" y="121" font-family="sans-serif" font-size="7.5" font-weight="bold" fill="#0f172a" text-anchor="end">SCL</text>
+            <text x="189" y="139" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Esclavo 1</text>
+            <polyline points="212,105 226,105 226,62" fill="none" stroke="#16a34a" stroke-width="1.8"/>
+            <circle cx="226" cy="62" r="2.2" fill="#16a34a"/>
+            <polyline points="212,118 236,118 236,80" fill="none" stroke="#0284c7" stroke-width="1.8"/>
+            <circle cx="236" cy="80" r="2.2" fill="#0284c7"/>
+
+            <circle cx="262" cy="112" r="2" fill="#0f172a"/>
+            <circle cx="272" cy="112" r="2" fill="#0f172a"/>
+            <circle cx="282" cy="112" r="2" fill="#0f172a"/>
+
+            <rect x="302" y="96" width="46" height="32" rx="4" fill="#e0f2fe" stroke="#0f172a" stroke-width="1.2"/>
+            <text x="344" y="108" font-family="sans-serif" font-size="7.5" font-weight="bold" fill="#0f172a" text-anchor="end">SDA</text>
+            <text x="344" y="121" font-family="sans-serif" font-size="7.5" font-weight="bold" fill="#0f172a" text-anchor="end">SCL</text>
+            <text x="325" y="139" font-family="sans-serif" font-size="8.5" font-weight="bold" fill="#0f172a" text-anchor="middle">Esclavo n</text>
+            <polyline points="348,105 358,105 358,62" fill="none" stroke="#16a34a" stroke-width="1.8"/>
+            <circle cx="358" cy="62" r="2.2" fill="#16a34a"/>
+            <polyline points="348,118 368,118 368,80" fill="none" stroke="#0284c7" stroke-width="1.8"/>
+            <circle cx="368" cy="80" r="2.2" fill="#0284c7"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUMNA DERECHA: SPI -->
+    <div style="flex: 1; display: flex; flex-direction: column;">
+      <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 3px solid #6366f1; border-radius: 12px; padding: 10px 14px; flex: 1; box-sizing: border-box; box-shadow: 0 8px 20px -6px rgba(15, 23, 42, 0.08);">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px;">
+          <strong style="color: #0f172a; font-size: 0.92em; letter-spacing: -0.01em;">
+            SPI (Full-duplex: MOSI, MISO, SCLK/SCK, SS)
+          </strong>
+          <span style="background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe; border-radius: 999px; padding: 1px 8px; font-size: 0.72em; font-weight: 600;">
+            Full-duplex
+          </span>
+        </div>
+
+        <ul style="list-style-type: '▪ '; margin: 0 0 8px 15px; padding: 0; line-height: 1.35; color: #334155;">
+          <li><strong>MOSI</strong> (salida maestro → entrada esclavo) y <strong>MISO</strong> (entrada maestro ← salida esclavo) transmiten a la vez con reloj <strong>SCLK/SCK</strong>.</li>
+          <li><strong>SS</strong> (selección de esclavo, activo en bajo) habilita el esclavo; sin dirección en trama, más rápido y simple que I2C.</li>
+        </ul>
+
+        <!-- Esquema SVG SPI -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 6px; text-align: center; box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.04);">
+          <svg viewBox="0 0 420 230" style="width: 100%; max-height: 126px; height: auto;" role="img" aria-label="Esquema SPI con un Maestro a la izquierda y tres Esclavos a la derecha conectados mediante SCLK, MOSI, MISO y señales SS1, SS2 y SS3">
+            <defs>
+              <marker id="spi-arrow-right" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+                <path d="M 0 1.2 L 9 5 L 0 8.8 z" fill="#0f172a"/>
+              </marker>
+              <marker id="spi-arrow-left" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto">
+                <path d="M 9 1.2 L 0 5 L 9 8.8 z" fill="#0f172a"/>
+              </marker>
+            </defs>
+
+            <rect x="12" y="18" width="118" height="122" rx="8" fill="#ffedd5" stroke="#ea580c" stroke-width="1.5"/>
+            <text x="48" y="72" font-family="sans-serif" font-size="11" font-weight="bold" fill="#7c2d12" text-anchor="middle">SPI</text>
+            <text x="48" y="86" font-family="sans-serif" font-size="11" font-weight="bold" fill="#7c2d12" text-anchor="middle">Master</text>
+
+            <text x="122" y="34" font-family="monospace" font-size="9.5" font-weight="bold" fill="#0f172a" text-anchor="end">SCLK</text>
+            <text x="122" y="52" font-family="monospace" font-size="9.5" font-weight="bold" fill="#0f172a" text-anchor="end">MOSI</text>
+            <text x="122" y="70" font-family="monospace" font-size="9.5" font-weight="bold" fill="#0f172a" text-anchor="end">MISO</text>
+            <text x="122" y="88" font-family="monospace" font-size="9.5" font-weight="bold" fill="#0f172a" text-anchor="end" text-decoration="overline">SS1</text>
+            <text x="122" y="106" font-family="monospace" font-size="9.5" font-weight="bold" fill="#0f172a" text-anchor="end" text-decoration="overline">SS2</text>
+            <text x="122" y="124" font-family="monospace" font-size="9.5" font-weight="bold" fill="#0f172a" text-anchor="end" text-decoration="overline">SS3</text>
+
+            <rect x="296" y="10" width="112" height="64" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.4"/>
+            <text x="382" y="39" font-family="sans-serif" font-size="10" font-weight="bold" fill="#14532d" text-anchor="middle">SPI</text>
+            <text x="382" y="52" font-family="sans-serif" font-size="10" font-weight="bold" fill="#14532d" text-anchor="middle">Slave</text>
+            <text x="304" y="23" font-family="monospace" font-size="8.5" font-weight="bold" fill="#0f172a">SCLK</text>
+            <text x="304" y="36" font-family="monospace" font-size="8.5" font-weight="bold" fill="#0f172a">MOSI</text>
+            <text x="304" y="49" font-family="monospace" font-size="8.5" font-weight="bold" fill="#0f172a">MISO</text>
+            <text x="304" y="62" font-family="monospace" font-size="8.5" font-weight="bold" fill="#0f172a" text-decoration="overline">SS</text>
+
+            <rect x="296" y="84" width="112" height="64" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.4"/>
+            <text x="382" y="113" font-family="sans-serif" font-size="10" font-weight="bold" fill="#1e3a8a" text-anchor="middle">SPI</text>
+            <text x="382" y="126" font-family="sans-serif" font-size="10" font-weight="bold" fill="#1e3a8a" text-anchor="middle">Slave</text>
+            <text x="304" y="97" font-family="monospace" font-size="8.5" font-weight="bold" fill="#0f172a">SCLK</text>
+            <text x="304" y="110" font-family="monospace" font-size="8.5" font-weight="bold" fill="#0f172a">MOSI</text>
+            <text x="304" y="123" font-family="monospace" font-size="8.5" font-weight="bold" fill="#0f172a">MISO</text>
+            <text x="304" y="136" font-family="monospace" font-size="8.5" font-weight="bold" fill="#0f172a" text-decoration="overline">SS</text>
+
+            <rect x="296" y="158" width="112" height="64" rx="8" fill="#f3e8ff" stroke="#7c3aed" stroke-width="1.4"/>
+            <text x="382" y="187" font-family="sans-serif" font-size="10" font-weight="bold" fill="#4c1d95" text-anchor="middle">SPI</text>
+            <text x="382" y="200" font-family="sans-serif" font-size="10" font-weight="bold" fill="#4c1d95" text-anchor="middle">Slave</text>
+            <text x="304" y="171" font-family="monospace" font-size="8.5" font-weight="bold" fill="#0f172a">SCLK</text>
+            <text x="304" y="184" font-family="monospace" font-size="8.5" font-weight="bold" fill="#0f172a">MOSI</text>
+            <text x="304" y="197" font-family="monospace" font-size="8.5" font-weight="bold" fill="#0f172a">MISO</text>
+            <text x="304" y="210" font-family="monospace" font-size="8.5" font-weight="bold" fill="#0f172a" text-decoration="overline">SS</text>
+
+            <line x1="130" y1="31" x2="294" y2="31" stroke="#0284c7" stroke-width="1.6" marker-end="url(#spi-arrow-right)"/>
+            <line x1="238" y1="31" x2="238" y2="168" stroke="#0284c7" stroke-width="1.6"/>
+            <line x1="238" y1="94" x2="294" y2="94" stroke="#0284c7" stroke-width="1.6" marker-end="url(#spi-arrow-right)"/>
+            <line x1="238" y1="168" x2="294" y2="168" stroke="#0284c7" stroke-width="1.6" marker-end="url(#spi-arrow-right)"/>
+            <circle cx="238" cy="31" r="2.5" fill="#0284c7"/>
+            <circle cx="238" cy="94" r="2.5" fill="#0284c7"/>
+
+            <line x1="130" y1="49" x2="294" y2="49" stroke="#16a34a" stroke-width="1.6" marker-end="url(#spi-arrow-right)"/>
+            <line x1="252" y1="49" x2="252" y2="181" stroke="#16a34a" stroke-width="1.6"/>
+            <line x1="252" y1="107" x2="294" y2="107" stroke="#16a34a" stroke-width="1.6" marker-end="url(#spi-arrow-right)"/>
+            <line x1="252" y1="181" x2="294" y2="181" stroke="#16a34a" stroke-width="1.6" marker-end="url(#spi-arrow-right)"/>
+            <circle cx="252" cy="49" r="2.5" fill="#16a34a"/>
+            <circle cx="252" cy="107" r="2.5" fill="#16a34a"/>
+
+            <line x1="296" y1="46" x2="222" y2="46" stroke="#d97706" stroke-width="1.6"/>
+            <line x1="296" y1="120" x2="222" y2="120" stroke="#d97706" stroke-width="1.6"/>
+            <line x1="296" y1="194" x2="222" y2="194" stroke="#d97706" stroke-width="1.6"/>
+            <line x1="222" y1="46" x2="222" y2="194" stroke="#d97706" stroke-width="1.6"/>
+            <line x1="222" y1="67" x2="132" y2="67" stroke="#d97706" stroke-width="1.6" marker-end="url(#spi-arrow-left)"/>
+            <circle cx="222" cy="67" r="2.5" fill="#d97706"/>
+            <circle cx="222" cy="120" r="2.5" fill="#d97706"/>
+
+            <polyline points="130,85 204,85 204,59 294,59" fill="none" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="3.5,2" marker-end="url(#spi-arrow-right)"/>
+            <polyline points="130,103 188,103 188,133 294,133" fill="none" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="3.5,2" marker-end="url(#spi-arrow-right)"/>
+            <polyline points="130,121 172,121 172,207 294,207" fill="none" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="3.5,2" marker-end="url(#spi-arrow-right)"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+
+
+
+<!-- SLIDE: Comunicaciones en Red: TCP/IP y UDP -->
+<section>
+  <h2>Comunicaciones en Red: TCP/IP y UDP</h2>
+
+  <div class="syntax-layout" style="margin-top: 0.4rem; align-items: stretch; gap: 14px; text-align: left;">
+    <!-- Columna Izquierda: IP, Puerto y Cliente/Servidor -->
+    <div style="flex: 0.95; display: flex; flex-direction: column; gap: 8px;">
       <div class="syntax-chip" style="border-left: 4px solid #0284c7; padding: 7px 11px;">
         <strong>Dirección IP</strong>
         <small>Identifica el equipo o interfaz en la red (ej. <code>192.168.1.50</code>).</small>
       </div>
+
       <div class="syntax-chip" style="border-left: 4px solid #059669; padding: 7px 11px;">
         <strong>Puerto</strong>
         <small>Identifica el proceso o servicio dentro del equipo (<code>0–65535</code>).</small>
       </div>
+
+      <div class="syntax-chip" style="border-left: 4px solid #0ea5e9; padding: 6px 11px; background: #f0f9ff;">
+        <small style="color: #0f172a; font-weight: 600;">
+          El par <code>IP + puerto</code> define el destino concreto de la comunicación.
+        </small>
+      </div>
+
       <div class="syntax-chip" style="border-left: 4px solid #f59e0b; padding: 7px 11px;">
         <strong>Cliente / Servidor</strong>
         <small>El servidor espera peticiones; el cliente inicia la comunicación.</small>
       </div>
     </div>
-  </div>
-</section>
-<!-- SLIDE: Comunicaciones en red TCP/IP -->
-<section>
-  <div style="text-align: left;">
-    <span class="session-pill s2">Comunicaciones en Red</span>
-  </div>
-  <h2>Comunicaciones en red TCP/IP</h2>
-  <p class="subtitle" style="font-size: 0.7em; margin-bottom: 8px;">
-    Direccionamiento sobre IP y modos de transporte TCP y UDP
-  </p>
 
-  <div class="syntax-layout" style="margin-top: 0.4rem; align-items: stretch;">
-    <!-- Columna Izquierda: Protocolo IP -->
-    <div class="syntax-code-card" style="flex: 0.95; text-align: left; border-top: 4px solid #0284c7;">
-      <strong style="color: #002B49; font-size: 0.8em; display: block; margin-bottom: 6px;">
-        Protocolo de red IP (Internet Protocol)
-      </strong>
-      <ul style="list-style-type: '▪ '; margin: 0 0 0 14px; padding: 0; font-size: 0.65em; line-height: 1.45; color: #334155;">
-        <li><strong>Dirección IP:</strong> Identifica un nodo en la red (4 bytes en IPv4).</li>
-        <li><strong>N.º de puerto:</strong> Identifica un programa o proceso dentro del nodo.</li>
-        <li>El par <code>IP + puerto</code> define el destino concreto de la comunicación.</li>
-      </ul>
-    </div>
+    <!-- Columna Derecha: Protocolos de transporte (TCP y UDP) con subpuntos -->
+    <div class="syntax-code-card" style="flex: 1.25; border-top: 4px solid #0284c7; padding: 14px 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px;">
+      <div>
+        <strong style="color: #002B49; font-size: 0.82em; display: block; margin-bottom: 6px;">
+          Protocolos de transporte
+        </strong>
+        <p style="font-size: 0.67em; color: #334155; line-height: 1.45; margin: 0 0 10px 0;">
+          Conjunto de protocolos para comunicar equipos a través de redes (LAN, Internet) mediante routers y switches.
+        </p>
 
-    <!-- Columna Derecha: TCP y UDP -->
-    <div style="flex: 1.15; display: flex; flex-direction: column; gap: 10px; text-align: left;">
-      <div class="syntax-chip" style="border-left: 4px solid #0284c7;">
-        <strong>TCP — Transporte con conexión</strong>
-        <small>
-          Conexión punto a punto (<code>IP + puerto</code>): conexión → envío/recepción → cierre.<br>
-          Segura: asegura que no hay pérdida de mensajes, el troceado, la reconstrucción y el orden.
-        </small>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.65em; color: #334155;">
+          <div style="background: #f0f9ff; border-left: 3px solid #0284c7; padding: 7px 10px; border-radius: 4px; line-height: 1.38;">
+            <strong style="color: #0369a1; display: block; margin-bottom: 3px;">TCP — Transporte con conexión</strong>
+            <ul style="list-style-type: '▪ '; margin: 0 0 0 14px; padding: 0; line-height: 1.38;">
+              <li>Conexión punto a punto (<code>IP + puerto</code>): conexión &rarr; envío/recepción &rarr; cierre.</li>
+              <li><strong>Fiable y ordenado:</strong> flujo de bytes con troceado, reconstrucción, control de orden y reintentos ante pérdidas.</li>
+              <li><strong>Uso típico:</strong> HTTP, transferencia de ficheros o comandos críticos.</li>
+            </ul>
+          </div>
+
+          <div style="background: #ecfdf5; border-left: 3px solid #059669; padding: 7px 10px; border-radius: 4px; line-height: 1.38;">
+            <strong style="color: #047857; display: block; margin-bottom: 3px;">UDP — Transporte sin conexión</strong>
+            <ul style="list-style-type: '▪ '; margin: 0 0 0 14px; padding: 0; line-height: 1.38;">
+              <li>Envío y recepción de datos a cualquier destino (<code>IP + puerto</code>).</li>
+              <li><strong>Rápido y ligero, pero no seguro:</strong> sin retardo de confirmación ni garantía de entrega u orden.</li>
+              <li><strong>Uso típico:</strong> telemetría periódica en tiempo real, vídeo o NTP.</li>
+            </ul>
+          </div>
+        </div>
       </div>
 
-      <div class="syntax-chip" style="border-left: 4px solid #059669;">
-        <strong>UDP — Transporte sin conexión</strong>
-        <small>
-          Sin conexión previa; envío y recepción de datagramas a cualquier destino (<code>IP + puerto</code>).<br>
-          No seguro: sin garantía de entrega ni de orden.
-        </small>
+      <div style="font-size: 0.63em; color: #475569; border-top: 1px dashed #cbd5e1; padding-top: 8px;">
+        En C se programan ambos mediante <strong>sockets</strong>.
       </div>
     </div>
   </div>
@@ -1340,29 +1420,6 @@
         </div>
       </section>
 
-      <!-- SLIDE 11: Transporte TCP vs UDP -->
-      <section>
-        <h2>Protocolos de Transporte: TCP vs. UDP</h2>
-        <div class="syntax-layout" style="font-size: 0.72em; text-align: left;">
-          <div class="syntax-code-card" style="flex: 1; border-top: 3px solid #10b981;">
-            <strong style="color: #002B49;">TCP (Orientado a Conexión)</strong>
-            <ul style="margin: 6px 0 0 16px; line-height: 1.4;">
-              <li>Establece canal punto a punto antes de transmitir (<code>connect</code> → datos → <code>close</code>).</li>
-              <li><strong>Fiable:</strong> Garantiza llegada sin pérdidas, en orden y trocea/recompone mensajes grandes.</li>
-              <li><strong>Uso:</strong> Web (HTTP), ficheros (FTP), comandos críticos.</li>
-            </ul>
-          </div>
-
-          <div class="syntax-code-card" style="flex: 1; border-top: 3px solid #f59e0b;">
-            <strong style="color: #002B49;">UDP (Sin Conexión)</strong>
-            <ul style="margin: 6px 0 0 16px; line-height: 1.4;">
-              <li>Envía datagramas directamente a una <code>IP + Puerto</code> sin handshake previo.</li>
-              <li><strong>No fiable pero muy rápido:</strong> Sin retardo de confirmación; soporta envío <em>broadcast</em>.</li>
-              <li><strong>Uso:</strong> Telemetría en tiempo real, vídeo, sincronización NTP.</li>
-            </ul>
-          </div>
-        </div>
-      </section>
 
       <!-- =================================================================== -->
       <!-- BLOQUE IV: PROGRAMACIÓN DE SOCKETS EN C                             -->
