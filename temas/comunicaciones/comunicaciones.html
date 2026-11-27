@@ -133,9 +133,7 @@
           <img src="../../assets/img/tema0/logoisa.png" alt="Logo ISA" style="max-height: 85px; width: auto; background: transparent; border: none; box-shadow: none;">
           <img src="../../assets/img/tema0/logoUniovi.png" alt="Logo Universidad de Oviedo" style="max-height: 85px; width: auto; background: transparent; border: none; box-shadow: none;">
         </div>
-        <span class="badge">Tema</span>
-        <h1>Comunicaciones Industriales y en Red</h1>
-        <p class="subtitle">Buses serie, tramas y programación de sockets en C</p>
+        <h1>Comunicaciones</h1>
         <p class="subtitle subtitle-small">Ingeniería de Sistemas y Automática — Universidad de Oviedo</p>
       </section>
 
@@ -1327,209 +1325,513 @@
 
 
 
-
 <!-- SLIDE: Comunicaciones en Red: TCP/IP y UDP -->
 <section>
-  <h2>Comunicaciones en Red: TCP/IP y UDP</h2>
+  <h2 style="margin-bottom: 0.35rem; font-size: 1.35em;">Comunicaciones en Red: TCP/IP y UDP</h2>
 
-  <div class="syntax-layout" style="margin-top: 0.4rem; align-items: stretch; gap: 14px; text-align: left;">
+  <div class="syntax-layout" style="margin-top: 0.25rem; align-items: stretch; gap: 10px; text-align: left; box-sizing: border-box;">
     <!-- Columna Izquierda: IP, Puerto y Cliente/Servidor -->
-    <div style="flex: 0.95; display: flex; flex-direction: column; gap: 8px;">
-      <div class="syntax-chip" style="border-left: 4px solid #0284c7; padding: 7px 11px;">
-        <strong>Dirección IP</strong>
-        <small>Identifica el equipo o interfaz en la red (ej. <code>192.168.1.50</code>).</small>
+    <div style="flex: 0.88; display: flex; flex-direction: column; justify-content: space-between; gap: 6px; box-sizing: border-box;">
+      <div class="syntax-chip" style="border-left: 4px solid #0284c7; padding: 5px 9px; margin: 0;">
+        <strong style="font-size: 0.62em; display: block;">Dirección IP</strong>
+        <small style="font-size: 0.54em; line-height: 1.25; display: block;">Identifica el equipo o interfaz en la red (ej. <code>192.168.1.50</code>).</small>
       </div>
 
-      <div class="syntax-chip" style="border-left: 4px solid #059669; padding: 7px 11px;">
-        <strong>Puerto</strong>
-        <small>Identifica el proceso o servicio dentro del equipo (<code>0–65535</code>).</small>
+      <div class="syntax-chip" style="border-left: 4px solid #059669; padding: 5px 9px; margin: 0;">
+        <strong style="font-size: 0.62em; display: block;">Puerto</strong>
+        <small style="font-size: 0.54em; line-height: 1.25; display: block;">Identifica el proceso o servicio en el equipo (<code>0–65535</code>).</small>
       </div>
 
-      <div class="syntax-chip" style="border-left: 4px solid #0ea5e9; padding: 6px 11px; background: #f0f9ff;">
-        <small style="color: #0f172a; font-weight: 600;">
-          El par <code>IP + puerto</code> define el destino concreto de la comunicación.
+      <div class="syntax-chip" style="border-left: 4px solid #0ea5e9; padding: 5px 9px; margin: 0; background: #f0f9ff;">
+        <small style="color: #0f172a; font-weight: 600; font-size: 0.54em; line-height: 1.25; display: block;">
+          El par <code>IP + puerto</code> define el destino concreto.
         </small>
       </div>
 
-      <div class="syntax-chip" style="border-left: 4px solid #f59e0b; padding: 7px 11px;">
-        <strong>Cliente / Servidor</strong>
-        <small>El servidor espera peticiones; el cliente inicia la comunicación.</small>
+      <div class="syntax-chip" style="border-left: 4px solid #f59e0b; padding: 5px 9px; margin: 0;">
+        <strong style="font-size: 0.62em; display: block;">Cliente / Servidor</strong>
+        <small style="font-size: 0.54em; line-height: 1.25; display: block;">El servidor espera peticiones; el cliente inicia la conexión.</small>
       </div>
     </div>
 
-    <!-- Columna Derecha: Protocolos de transporte (TCP y UDP) con subpuntos -->
-    <div class="syntax-code-card" style="flex: 1.25; border-top: 4px solid #0284c7; padding: 14px 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px;">
+    <!-- Columna Derecha: Protocolos de transporte (TCP y UDP) -->
+    <div class="syntax-code-card" style="flex: 1.32; border-top: 4px solid #0284c7; padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; gap: 6px; box-sizing: border-box;">
       <div>
-        <strong style="color: #002B49; font-size: 0.82em; display: block; margin-bottom: 6px;">
-          Protocolos de transporte
+        <strong style="color: #002B49; font-size: 0.68em; display: block; margin-bottom: 2px;">
+          Protocolos de transporte (LAN e Internet vía routers y switches)
         </strong>
-        <p style="font-size: 0.67em; color: #334155; line-height: 1.45; margin: 0 0 10px 0;">
-          Conjunto de protocolos para comunicar equipos a través de redes (LAN, Internet) mediante routers y switches.
-        </p>
 
-        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.65em; color: #334155;">
-          <div style="background: #f0f9ff; border-left: 3px solid #0284c7; padding: 7px 10px; border-radius: 4px; line-height: 1.38;">
-            <strong style="color: #0369a1; display: block; margin-bottom: 3px;">TCP — Transporte con conexión</strong>
-            <ul style="list-style-type: '▪ '; margin: 0 0 0 14px; padding: 0; line-height: 1.38;">
+        <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 4px; color: #334155;">
+          <div style="background: #f0f9ff; border-left: 3px solid #0284c7; padding: 5px 8px; border-radius: 4px;">
+            <strong style="color: #0369a1; font-size: 0.58em; display: block; margin-bottom: 2px;">TCP — Transporte con conexión</strong>
+            <ul style="list-style-type: '▪ '; margin: 0 0 0 12px; padding: 0; font-size: 0.52em; line-height: 1.28;">
               <li>Conexión punto a punto (<code>IP + puerto</code>): conexión &rarr; envío/recepción &rarr; cierre.</li>
-              <li><strong>Fiable y ordenado:</strong> flujo de bytes con troceado, reconstrucción, control de orden y reintentos ante pérdidas.</li>
+              <li><strong>Fiable y ordenado:</strong> troceado, reconstrucción, orden y reintentos ante pérdidas.</li>
               <li><strong>Uso típico:</strong> HTTP, transferencia de ficheros o comandos críticos.</li>
             </ul>
           </div>
 
-          <div style="background: #ecfdf5; border-left: 3px solid #059669; padding: 7px 10px; border-radius: 4px; line-height: 1.38;">
-            <strong style="color: #047857; display: block; margin-bottom: 3px;">UDP — Transporte sin conexión</strong>
-            <ul style="list-style-type: '▪ '; margin: 0 0 0 14px; padding: 0; line-height: 1.38;">
-              <li>Envío y recepción de datos a cualquier destino (<code>IP + puerto</code>).</li>
-              <li><strong>Rápido y ligero, pero no seguro:</strong> sin retardo de confirmación ni garantía de entrega u orden.</li>
+          <div style="background: #ecfdf5; border-left: 3px solid #059669; padding: 5px 8px; border-radius: 4px;">
+            <strong style="color: #047857; font-size: 0.58em; display: block; margin-bottom: 2px;">UDP — Transporte sin conexión</strong>
+            <ul style="list-style-type: '▪ '; margin: 0 0 0 12px; padding: 0; font-size: 0.52em; line-height: 1.28;">
+              <li>Envío y recepción a cualquier destino (<code>IP + puerto</code>).</li>
+              <li><strong>Rápido y ligero, pero no seguro:</strong> sin confirmación ni garantía de entrega u orden.</li>
               <li><strong>Uso típico:</strong> telemetría periódica en tiempo real, vídeo o NTP.</li>
             </ul>
           </div>
         </div>
       </div>
 
-      <div style="font-size: 0.63em; color: #475569; border-top: 1px dashed #cbd5e1; padding-top: 8px;">
+      <div style="font-size: 0.52em; color: #475569; border-top: 1px dashed #cbd5e1; padding-top: 4px; line-height: 1.25;">
         En C se programan ambos mediante <strong>sockets</strong>.
       </div>
     </div>
   </div>
 </section>
       
-      <!-- =================================================================== -->
+<!-- =================================================================== -->
       <!-- BLOQUE III: COMUNICACIONES EN RED TCP/IP                            -->
       <!-- =================================================================== -->
 
-      <!-- SLIDE 10: Arquitectura Básica de Redes TCP/IP -->
+      <!-- SLIDE 1: Comunicaciones en red TCP/IP — Encaminamiento IP, DNS y DHCP -->
       <section>
-        <h2>Comunicaciones en Red: Arquitectura TCP/IP</h2>
-        <div class="contents-box" style="font-size: 0.72em; text-align: left;">
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px;">
-            <div class="syntax-chip" style="border-left: 3px solid #002B49;">
-              <strong>Dirección IP (32 bits: x.x.x.x)</strong>
-              <small>Identifica al <strong>equipo</strong> en la red. Puede ser estática (fija) o dinámica (asignada por servidor <strong>DHCP</strong>). El <strong>DNS</strong> traduce nombres (<code>isa.uniovi.es</code>) a IP.</small>
-            </div>
-            <div class="syntax-chip" style="border-left: 3px solid #0284c7;">
-              <strong>Puerto IP (0 a 65535)</strong>
-              <small>Identifica al <strong>programa concreto</strong> dentro del equipo.<br>• 0–1023: Estándar (HTTP: 80, SSH: 22, NTP: 123).<br>• &gt; 49151: Aplicaciones de usuario.</small>
+        <h2>Comunicaciones en red TCP/IP</h2>
+
+        <div class="syntax-layout" style="margin-top: 0.35rem; display: flex; flex-direction: column; gap: 10px; width: 100%; text-align: left;">
+          <!-- Tarjeta Superior: Protocolo de encaminamiento IP y equipos especiales -->
+          <div class="syntax-code-card" style="width: 100%; border-top: 4px solid #0284c7; padding: 10px 14px; box-sizing: border-box;">
+            <strong style="color: #002B49; font-size: 0.78em; display: block; margin-bottom: 4px;">
+              Protocolo de encaminamiento: IP
+            </strong>
+            <ul style="list-style-type: '▪ '; margin: 0 0 6px 14px; padding: 0; font-size: 0.61em; line-height: 1.34; color: #334155;">
+              <li>Hace llegar los paquetes a su destino a través de <strong>routers</strong> (encaminadores).</li>
+              <li>Dirección IPv4 de 32 bits (4 octetos de 8 bits: <code>x.x.x.x</code>):
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px 14px; margin: 2px 0 2px 12px; line-height: 1.28;">
+                  <span>↳ <strong>Estática:</strong> fija (servidores o equipos fijos).</span>
+                  <span>↳ <strong>Global:</strong> única y alcanzable externamente (servidores).</span>
+                  <span>↳ <strong>Dinámica (DHCP):</strong> variable, asignada automáticamente por el router.</span>
+                  <span>↳ <strong>Local:</strong> válida en la subred; puede repetirse en otras redes.</span>
+                </div>
+              </li>
+            </ul>
+
+            <!-- Bloque destacado: Equipos "especiales" en el protocolo IP -->
+            <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-left: 3px solid #0284c7; border-radius: 6px; padding: 6px 10px; font-size: 0.6em; line-height: 1.32; color: #0f172a;">
+              <strong style="color: #0369a1; display: block; margin-bottom: 2px;">
+                Equipos «especiales» en el protocolo IP
+              </strong>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; color: #334155;">
+                <div>
+                  <strong style="color: #0f172a;">Servidor DNS:</strong> convierte nombres en texto (<code>isa.uniovi.es</code>) en direcciones IP (<code>156.35.152.5</code>).
+                </div>
+                <div>
+                  <strong style="color: #0f172a;">Servidor DHCP:</strong> asigna direcciones IP dinámicas a equipos sin dirección fija (estática).
+                </div>
+              </div>
             </div>
           </div>
-          <div class="diagram-box" style="font-size: 0.74em;">
-            <strong>[Cliente: 192.168.1.38]</strong> ──▶ <strong>[Router: LAN 192.168.1.1 | NAT | WAN Pública]</strong> ═══ (Internet) ═══ <strong>[Servidor: 156.35.152.5:80]</strong>
+
+          <!-- Tarjeta Inferior: Esquema SVG de encaminamiento -->
+          <div class="syntax-code-card" style="width: 100%; border-top: 4px solid #059669; padding: 8px 14px; display: flex; flex-direction: column; gap: 4px; box-sizing: border-box;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <strong style="color: #002B49; font-size: 0.76em;">
+                Ruta de un paquete entre redes
+              </strong>
+              <small style="font-size: 0.58em; color: #475569;">
+                Traza en rojo: envío desde <code>C</code> hacia <code>X</code> (<code>isa.uniovi.es</code>) atravesando encaminadores.
+              </small>
+            </div>
+
+            <svg viewBox="0 0 640 195" width="100%" style="max-height: 180px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;" xmlns="http://www.w3.org/2000/svg">
+              <!-- Bus LAN izquierda -->
+              <line x1="112" y1="24" x2="112" y2="168" stroke="#0284c7" stroke-width="2.5"/>
+              <line x1="68" y1="24" x2="112" y2="24" stroke="#0284c7" stroke-width="2.5"/>
+              <line x1="68" y1="72" x2="112" y2="72" stroke="#0284c7" stroke-width="2.5"/>
+              <line x1="68" y1="120" x2="112" y2="120" stroke="#0284c7" stroke-width="2.5"/>
+              <line x1="68" y1="168" x2="112" y2="168" stroke="#0284c7" stroke-width="2.5"/>
+              <line x1="112" y1="96" x2="195" y2="96" stroke="#0284c7" stroke-width="2.5"/>
+
+              <!-- Nodos A, B, C, D -->
+              <rect x="24" y="10" width="44" height="28" rx="4" fill="#10b981" stroke="#047857" stroke-width="1.5"/>
+              <text x="46" y="29" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="14" font-weight="bold">A</text>
+              <text x="74" y="18" fill="#334155" font-family="monospace" font-size="10">192.168.1.101</text>
+
+              <rect x="24" y="58" width="44" height="28" rx="4" fill="#10b981" stroke="#047857" stroke-width="1.5"/>
+              <text x="46" y="77" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="14" font-weight="bold">B</text>
+              <text x="74" y="66" fill="#334155" font-family="monospace" font-size="10">192.168.1.102</text>
+
+              <rect x="24" y="106" width="44" height="28" rx="4" fill="#10b981" stroke="#047857" stroke-width="1.5"/>
+              <text x="46" y="125" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="14" font-weight="bold">C</text>
+              <text x="74" y="114" fill="#0f172a" font-family="monospace" font-size="10" font-weight="bold">192.168.1.103</text>
+
+              <rect x="24" y="154" width="44" height="28" rx="4" fill="#10b981" stroke="#047857" stroke-width="1.5"/>
+              <text x="46" y="173" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="14" font-weight="bold">D</text>
+              <text x="74" y="162" fill="#334155" font-family="monospace" font-size="10">192.168.1.104</text>
+
+              <text x="154" y="88" text-anchor="middle" fill="#334155" font-family="monospace" font-size="10">192.168.1.1</text>
+              <text x="154" y="108" text-anchor="middle" fill="#475569" font-family="sans-serif" font-size="9.5">(gateway)</text>
+
+              <!-- Router 1 -->
+              <rect x="195" y="70" width="76" height="52" rx="5" fill="#10b981" stroke="#047857" stroke-width="1.5"/>
+              <text x="233" y="92" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="bold">Router</text>
+              <text x="233" y="111" text-anchor="middle" fill="#fef08a" font-family="sans-serif" font-size="9.5" font-weight="bold">DHCP Server</text>
+
+              <!-- Enlace WAN y salto intermedio -->
+              <line x1="271" y1="96" x2="335" y2="96" stroke="#0284c7" stroke-width="2.5"/>
+              <text x="303" y="88" text-anchor="middle" fill="#334155" font-family="monospace" font-size="10">80.97.102.155</text>
+
+              <rect x="342" y="93" width="6" height="6" fill="#0f172a"/>
+              <rect x="354" y="93" width="6" height="6" fill="#0f172a"/>
+              <rect x="366" y="93" width="6" height="6" fill="#0f172a"/>
+
+              <line x1="378" y1="96" x2="404" y2="96" stroke="#0284c7" stroke-width="2.5"/>
+              <line x1="404" y1="65" x2="404" y2="127" stroke="#0284c7" stroke-width="2.5"/>
+              <text x="396" y="96" text-anchor="middle" fill="#334155" font-family="monospace" font-size="9.5" transform="rotate(-90 396 96)">156.35.154.94</text>
+
+              <!-- DNS -->
+              <rect x="292" y="140" width="62" height="42" rx="4" fill="#10b981" stroke="#047857" stroke-width="1.5"/>
+              <text x="323" y="166" text-anchor="middle" fill="#fef08a" font-family="sans-serif" font-size="13" font-weight="bold">DNS</text>
+              <line x1="354" y1="161" x2="388" y2="161" stroke="#0284c7" stroke-width="2"/>
+
+              <!-- Router 2 -->
+              <rect x="388" y="136" width="76" height="50" rx="5" fill="#10b981" stroke="#047857" stroke-width="1.5"/>
+              <text x="426" y="165" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="bold">Router</text>
+
+              <!-- Red destino isa.uniovi.es -->
+              <line x1="464" y1="161" x2="540" y2="161" stroke="#0284c7" stroke-width="2.5"/>
+              <text x="502" y="152" text-anchor="middle" fill="#334155" font-family="monospace" font-size="10">156.35.152.205</text>
+              <text x="502" y="172" text-anchor="middle" fill="#475569" font-family="sans-serif" font-size="9.5">(gateway)</text>
+
+              <text x="580" y="30" text-anchor="middle" fill="#0f172a" font-family="sans-serif" font-size="12" font-weight="bold">isa.uniovi.es</text>
+              <text x="540" y="46" text-anchor="middle" fill="#334155" font-family="monospace" font-size="10">156.35.152.5</text>
+
+              <line x1="540" y1="58" x2="540" y2="174" stroke="#0284c7" stroke-width="2.5"/>
+              <line x1="540" y1="58" x2="574" y2="58" stroke="#0284c7" stroke-width="2.5"/>
+              <line x1="540" y1="116" x2="574" y2="116" stroke="#0284c7" stroke-width="2.5"/>
+              <line x1="540" y1="174" x2="574" y2="174" stroke="#0284c7" stroke-width="2.5"/>
+
+              <!-- Nodos X, Y, Z -->
+              <rect x="574" y="44" width="42" height="28" rx="4" fill="#10b981" stroke="#047857" stroke-width="1.5"/>
+              <text x="595" y="63" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="14" font-weight="bold">X</text>
+
+              <rect x="574" y="102" width="42" height="28" rx="4" fill="#10b981" stroke="#047857" stroke-width="1.5"/>
+              <text x="595" y="121" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="14" font-weight="bold">Y</text>
+
+              <rect x="574" y="160" width="42" height="28" rx="4" fill="#10b981" stroke="#047857" stroke-width="1.5"/>
+              <text x="595" y="179" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="14" font-weight="bold">Z</text>
+
+              <!-- Ruta roja discontinua de C a X -->
+              <path d="M 46 120 L 126 120 Q 134 120 134 112 L 134 103 Q 134 96 142 96 L 195 96 Q 228 76 264 96 L 390 103 Q 412 105 416 123 L 420 142 Q 424 161 456 161 L 532 161 Q 540 161 540 153 L 540 66 Q 540 58 548 58 L 574 58"
+                    fill="none" stroke="#dc2626" stroke-width="3.2" stroke-dasharray="6,4" stroke-linecap="round"/>
+            </svg>
           </div>
-          <small style="display: block; color: #64748b; margin-top: 4px;">El <strong>Router (Gateway)</strong> enlaza la red local (LAN) con el exterior (WAN) traduciendo direcciones mediante <strong>NAT</strong>.</small>
         </div>
       </section>
+
+      <!-- SLIDE 2: El papel del router -->
+      <section>
+        <h2>El papel del router</h2>
+
+        <div class="syntax-layout" style="margin-top: 0.35rem; display: flex; flex-direction: column; gap: 10px; width: 100%; text-align: left;">
+          <!-- Tarjeta Superior: Función, conexiones LAN/WAN y servicios -->
+          <div class="syntax-code-card" style="width: 100%; border-top: 4px solid #0284c7; padding: 10px 14px; box-sizing: border-box;">
+            <ul style="list-style-type: '▪ '; margin: 0; padding-left: 14px; font-size: 0.63em; line-height: 1.38; color: #334155;">
+              <li>El <strong>router</strong> (o <em>gateway</em>) conecta físicamente los equipos de la red local y da salida hacia otras redes.</li>
+              <li>Dispone de <strong>2 tipos de conexiones</strong>, cada una con su propia IP:
+                <ul style="list-style-type: '↳ '; margin: 2px 0 2px 14px; padding: 0; line-height: 1.34;">
+                  <li><strong>LAN:</strong> con los equipos cercanos (cableadas e inalámbricas, ej. <code>192.168.1.1</code>).</li>
+                  <li><strong>WAN:</strong> con el resto de la red / exterior (típicamente cableada, ej. <code>156.35.152.x</code>).</li>
+                </ul>
+              </li>
+              <li>Integra servicios clave: <strong>DHCP Server</strong> (asigna IP dinámica en la LAN) y <strong>NAT</strong> (traduce direcciones locales para salir por la WAN).</li>
+            </ul>
+            
+          </div>
+
+          <!-- Tarjeta Inferior: Esquema visual LAN <-> NAT <-> WAN con flechas -->
+          <div class="syntax-code-card" style="width: 100%; border-top: 4px solid #059669; padding: 8px 14px; box-sizing: border-box;">
+            <strong style="color: #002B49; font-size: 0.76em; display: block; margin-bottom: 4px;">
+              Conexión entre red local (LAN) y red externa (WAN)
+            </strong>
+
+            <svg viewBox="0 0 740 175" width="100%" style="max-height: 168px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; display: block;" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#2563eb"/>
+                </marker>
+                <marker id="arrow-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#d97706"/>
+                </marker>
+              </defs>
+
+              <!-- Equipos LAN (Izquierda) -->
+              <rect x="14" y="12" width="136" height="38" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+              <text x="82" y="28" text-anchor="middle" fill="#1e3a8a" font-family="sans-serif" font-size="12" font-weight="bold">Equipo A · Eth</text>
+              <text x="82" y="42" text-anchor="middle" fill="#1e40af" font-family="monospace" font-size="10">192.168.1.xxx</text>
+
+              <rect x="14" y="68" width="136" height="38" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+              <text x="82" y="84" text-anchor="middle" fill="#1e3a8a" font-family="sans-serif" font-size="12" font-weight="bold">Equipo B · Eth</text>
+              <text x="82" y="98" text-anchor="middle" fill="#1e40af" font-family="monospace" font-size="10">192.168.1.yyy</text>
+
+              <rect x="14" y="124" width="136" height="38" rx="6" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+              <text x="82" y="140" text-anchor="middle" fill="#1e3a8a" font-family="sans-serif" font-size="12" font-weight="bold">Equipo C · WiFi</text>
+              <text x="82" y="154" text-anchor="middle" fill="#1e40af" font-family="monospace" font-size="10">192.168.1.zzz</text>
+
+              <!-- Flechas Equipos -> Interfaz LAN del Router -->
+              <line x1="150" y1="31" x2="222" y2="74" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow-blue)"/>
+              <line x1="150" y1="87" x2="222" y2="87" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow-blue)"/>
+              <line x1="150" y1="143" x2="222" y2="100" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow-blue)"/>
+
+              <!-- Contenedor Router (Gateway) -->
+              <rect x="224" y="10" width="296" height="154" rx="9" fill="#ecfdf5" stroke="#10b981" stroke-width="1.8"/>
+              <text x="372" y="29" text-anchor="middle" fill="#065f46" font-family="sans-serif" font-size="13.5" font-weight="bold">Router (Gateway)</text>
+
+              <!-- Interfaz LAN + DHCP -->
+              <rect x="236" y="40" width="102" height="112" rx="6" fill="#ffffff" stroke="#a7f3d0" stroke-width="1.4"/>
+              <text x="287" y="57" text-anchor="middle" fill="#065f46" font-family="sans-serif" font-size="11" font-weight="bold">LAN</text>
+              <text x="287" y="74" text-anchor="middle" fill="#0f172a" font-family="monospace" font-size="10.5" font-weight="bold">192.168.1.1</text>
+              <rect x="244" y="88" width="86" height="24" rx="4" fill="#d1fae5" stroke="#10b981" stroke-width="1"/>
+              <text x="287" y="104" text-anchor="middle" fill="#047857" font-family="monospace" font-size="10" font-weight="bold">DHCP Server</text>
+              <text x="287" y="132" text-anchor="middle" fill="#475569" font-family="sans-serif" font-size="9.5">Eth / WiFi AP</text>
+
+              <!-- Bloque central NAT con flechas bidireccionales -->
+              <line x1="338" y1="96" x2="352" y2="96" stroke="#d97706" stroke-width="2" marker-start="url(#arrow-amber)" marker-end="url(#arrow-amber)"/>
+              <rect x="352" y="76" width="44" height="40" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+              <text x="374" y="100" text-anchor="middle" fill="#92400e" font-family="monospace" font-size="11" font-weight="bold">NAT</text>
+              <line x1="396" y1="96" x2="410" y2="96" stroke="#d97706" stroke-width="2" marker-start="url(#arrow-amber)" marker-end="url(#arrow-amber)"/>
+
+              <!-- Interfaz WAN -->
+              <rect x="410" y="40" width="98" height="112" rx="6" fill="#ffffff" stroke="#a7f3d0" stroke-width="1.4"/>
+              <text x="459" y="57" text-anchor="middle" fill="#065f46" font-family="sans-serif" font-size="11" font-weight="bold">WAN</text>
+              <text x="459" y="76" text-anchor="middle" fill="#0f172a" font-family="monospace" font-size="10.5" font-weight="bold">156.35.152.x</text>
+              <text x="459" y="102" text-anchor="middle" fill="#475569" font-family="sans-serif" font-size="9.5">Enlace hacia</text>
+              <text x="459" y="115" text-anchor="middle" fill="#475569" font-family="sans-serif" font-size="9.5">red externa</text>
+
+              <!-- Flecha bidireccional WAN <-> Red WAN -->
+              <line x1="520" y1="87" x2="578" y2="87" stroke="#2563eb" stroke-width="2.2" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)"/>
+              <text x="549" y="78" text-anchor="middle" fill="#1e40af" font-family="sans-serif" font-size="9.5" font-weight="bold">WAN</text>
+
+              <!-- Red WAN (Derecha) -->
+              <rect x="580" y="34" width="146" height="106" rx="7" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5,3"/>
+              <text x="653" y="56" text-anchor="middle" fill="#002B49" font-family="sans-serif" font-size="12" font-weight="bold">Red WAN</text>
+              <text x="653" y="76" text-anchor="middle" fill="#334155" font-family="sans-serif" font-size="10">Conexión LAN del</text>
+              <text x="653" y="90" text-anchor="middle" fill="#334155" font-family="sans-serif" font-size="10">siguiente router</text>
+              <text x="653" y="112" text-anchor="middle" fill="#0f172a" font-family="monospace" font-size="10.5" font-weight="bold">156.35.152.1</text>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: Conexiones LAN en el router (Configuración IP + Ethernet/WiFi) -->
+      <section>
+        <h2>Conexiones LAN en el router</h2>
+
+        <div class="syntax-layout" style="margin-top: 0.35rem; display: flex; flex-direction: column; gap: 10px; width: 100%; text-align: left;">
+          <!-- Tarjeta Superior: Reglas comunes IP, Subnet y Gateway -->
+          <div class="syntax-code-card" style="width: 100%; border-top: 4px solid #0284c7; padding: 10px 14px; box-sizing: border-box;">
+            <strong style="color: #002B49; font-size: 0.78em; display: block; margin-bottom: 4px;">
+              Configuración común en todos los clientes LAN
+            </strong>
+            <ul style="list-style-type: '▪ '; margin: 0; padding-left: 14px; font-size: 0.62em; line-height: 1.38; color: #334155;">
+              <li>Todas las direcciones IP deben estar en la <strong>misma subred</strong> y <strong>ser diferentes</strong>.</li>
+              <li>Requieren configurar <strong>IP</strong>, <strong>Subnet</strong> y <strong>Gateway</strong>:
+              <div style="display: flex; flex-direction: column; gap: 2px; margin: 3px 0 2px 12px; line-height: 1.32;">
+                <span>↳ <strong>Estática:</strong> asignada por el propio cliente.</span>
+                <span>↳ <strong>Dinámica (DHCP):</strong> solicitada y asignada por el router.</span>
+                <span>↳ <strong>Subnet:</strong> bits que indican qué parte de la dirección IP se considera en la misma subred.</span>
+                <span>↳ <strong>Gateway:</strong> dirección a la que se envían paquetes con destino a otras redes.</span>
+              </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Fila Inferior: Cableadas (Ethernet) vs Inalámbricas (WiFi) -->
+          <div style="display: flex; gap: 12px; width: 100%; align-items: stretch;">
+            <div class="syntax-code-card" style="flex: 1; border-top: 4px solid #0ea5e9; padding: 10px 14px; box-sizing: border-box;">
+              <strong style="color: #002B49; font-size: 0.76em; display: block; margin-bottom: 4px;">
+                Cableadas (Ethernet)
+              </strong>
+              <ul style="list-style-type: '▪ '; margin: 0; padding-left: 14px; font-size: 0.61em; line-height: 1.38; color: #334155;">
+                <li>Enlace físico directo por cable con el router o switch.</li>
+                <li>Negocian con el router los <strong>parámetros de conexión</strong> (velocidad, etc.).</li>
+              </ul>
+            </div>
+
+            <div class="syntax-code-card" style="flex: 1; border-top: 4px solid #059669; padding: 10px 14px; box-sizing: border-box;">
+              <strong style="color: #002B49; font-size: 0.76em; display: block; margin-bottom: 4px;">
+                Inalámbricas (WiFi)
+              </strong>
+              <ul style="list-style-type: '▪ '; margin: 0; padding-left: 14px; font-size: 0.61em; line-height: 1.38; color: #334155;">
+                <li>Negocian con el router los <strong>parámetros de conexión</strong> (canal, velocidad, etc.).</li>
+                <li>Requieren autenticación previa (<strong>nombre de A.P.</strong> y <strong>contraseña</strong>).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
 
 
       <!-- =================================================================== -->
       <!-- BLOQUE IV: PROGRAMACIÓN DE SOCKETS EN C                             -->
       <!-- =================================================================== -->
 
-      <!-- SLIDE 12: Sockets en C - Inicialización Común -->
+      <!-- SLIDE: Librería básica de sockets (Windows / Linux) -->
       <section>
-        <h2>Programación de Sockets en C: Inicialización</h2>
-        <div class="contents-box" style="font-size: 0.72em; text-align: left;">
-          <p>Un <strong>socket</strong> es el extremo de comunicación (<code>IP + Puerto</code>). Cabeceras: <code>&lt;sys/socket.h&gt;</code> (Linux) o <code>&lt;winsock2.h&gt;</code> (Windows).</p>
-          <pre style="margin: 6px 0;"><code class="language-c" data-trim data-noescape style="font-size: 0.74em;">int sock; // En Windows: SOCKET sock;
+        <h2>Programación de sockets TCP o UDP</h2>
 
-// 1. Crear socket (SOCK_STREAM para TCP, SOCK_DGRAM para UDP)
+        <div class="syntax-layout" style="margin-top: 0.35rem; display: flex; flex-direction: column; gap: 10px; width: 100%; text-align: left;">
+          <!-- Tarjeta Superior: Librería, concepto y tipos -->
+          <div class="syntax-code-card" style="width: 100%; border-top: 4px solid #0284c7; padding: 10px 14px; box-sizing: border-box;">
+            <strong style="color: #002B49; font-size: 0.78em; display: block; margin-bottom: 4px;">
+              Librerías disponibles — Librería básica Windows/Linux (<code>socket</code>)
+            </strong>
+            <ul style="list-style-type: '▪ '; margin: 0; padding-left: 14px; font-size: 0.61em; line-height: 1.38; color: #334155;">
+              <li><strong><code>socket</code>:</strong> identificación de una conexión punto a punto entre 2 dispositivos conectados en red (<code>dirección IP + puerto</code>).</li>
+              <li>Cabecera: incluir <code>&lt;socket.h&gt;</code> (en Windows, <code>"winsock2.h"</code> </li>
+              <li>Declaración de identificador: <code>int sock;</code> (en Windows, <code>SOCKET sock</code>).</li>
+            </ul>
+          </div>
+
+          <!-- Tarjeta Inferior: Pasos 1 y 2 en código -->
+          <div class="syntax-code-card" style="width: 100%; border-top: 4px solid #059669; padding: 10px 14px; box-sizing: border-box;">
+            <strong style="color: #002B49; font-size: 0.76em; display: block; margin-bottom: 4px;">
+              1.º y 2.º paso: crear socket y asignar puerto local
+            </strong>
+            <pre style="margin: 4px 0;"><code class="language-c" data-trim data-noescape style="font-size: 0.64em; line-height: 1.36;">// 1er paso: crear id. válido de socket (SOCK_STREAM para TCP, SOCK_DGRAM para UDP)
 sock = socket(AF_INET, SOCK_STREAM, 0);
 
-// 2. Asociar dirección IP y puerto local (obligatorio en servidores)
-struct sockaddr_in addr_local;
-addr_local.sin_family = AF_INET;
-addr_local.sin_addr.s_addr = INADDR_ANY; // Cualquier interfaz local
-addr_local.sin_port = htons(5000);       // Puerto en formato de red (Big Endian)
-
-int err = bind(sock, (struct sockaddr*)&amp;addr_local, sizeof(addr_local));</code></pre>
+// 2º paso: asignar puerto local al socket
+struct sockaddr_in add_local;
+// ... Rellenar campos de add_local: dirección IP, puerto (network order), protocolo
+err = bind(sock, (struct sockaddr*)&amp;add_local, sizeof(struct sockaddr_in));</code></pre>
+          </div>
         </div>
       </section>
 
-      <!-- SLIDE 13: Sockets UDP en C -->
+<!-- SLIDE: Comunicaciones en red UDP/IP -->
+<!-- SLIDE: Comunicaciones en red UDP/IP -->
       <section>
-        <h2>Programación de Sockets UDP en C</h2>
-        <div class="contents-box" style="font-size: 0.72em; text-align: left;">
-          <p>Tras crear el socket (<code>SOCK_DGRAM</code>) y hacer <code>bind()</code>, se envían y reciben datagramas indicando la estructura de dirección del interlocutor:</p>
-          <pre style="margin: 4px 0;"><code class="language-c" data-trim data-noescape style="font-size: 0.72em;">struct sockaddr_in addr_destino; // Rellenar IP (inet_addr) y puerto (htons)
-socklen_t len = sizeof(addr_destino);
+        <h2>Comunicaciones en red UDP/IP</h2>
 
-// Enviar datagrama:
-sendto(sock, buffer_snd, tam_snd, 0, (struct sockaddr*)&amp;addr_destino, len);
+        <div class="syntax-layout" style="margin-top: 0.35rem; display: flex; flex-direction: column; gap: 10px; width: 100%; text-align: left;">
+          <!-- Tarjeta Superior: Funciones separadas con claridad -->
+          <div class="syntax-code-card" style="width: 100%; border-top: 4px solid #0284c7; padding: 10px 14px; box-sizing: border-box;">
+            <strong style="color: #002B49; font-size: 0.78em; display: block; margin-bottom: 6px;">
+              Programación de sockets sin conexión (UDP)
+            </strong>
 
-// Recibir datagrama (bloqueante hasta que llegue un paquete):
-int n = recvfrom(sock, buffer_rcv, TAM_MAX, 0, (struct sockaddr*)&amp;addr_origen, &amp;len);
+            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.56em; line-height: 1.35;">
+              <!-- Enviar -->
+              <div style="background: #f8fafc; border-left: 3px solid #0284c7; padding: 5px 9px; border-radius: 4px;">
+                <div style="font-weight: 700; color: #0369a1; margin-bottom: 2px;">Enviar datos</div>
+                <div style="margin-bottom: 2px;"><code>ssize_t sendto(int sockfd, const void *buf, size_t len, int flags, const struct sockaddr *dest_add, socklen_t add_len);</code></div>
+                <div><code>ssize_t send(int sockfd, const void *buf, size_t len, int flags);</code></div>
+              </div>
 
-close(sock); // Cerrar socket al finalizar</code></pre>
-          <div class="info-box">
-            Un mismo socket UDP puede comunicarse con múltiples destinos distintos cambiando <code>addr_destino</code>.
+              <!-- Recibir -->
+              <div style="background: #f8fafc; border-left: 3px solid #0ea5e9; padding: 5px 9px; border-radius: 4px;">
+                <div style="font-weight: 700; color: #0284c7; margin-bottom: 2px;">Recibir datos</div>
+                <div style="margin-bottom: 2px;"><code>ssize_t recv(int sockfd, void *buf, size_t len, int flags);</code></div>
+                <div><code>ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags, struct sockaddr *src_addr, socklen_t *addrlen);</code></div>
+              </div>
+
+              <!-- Cerrar -->
+              <div style="background: #f8fafc; border-left: 3px solid #64748b; padding: 5px 9px; border-radius: 4px;">
+                <span style="font-weight: 700; color: #334155; margin-right: 6px;">Cerrar el socket:</span>
+                <code>close(sock);</code>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjeta Inferior: Características clave de UDP -->
+          <div class="syntax-code-card" style="width: 100%; border-top: 4px solid #059669; padding: 10px 14px; box-sizing: border-box;">
+            <strong style="color: #002B49; font-size: 0.76em; display: block; margin-bottom: 4px;">
+              Comportamiento y consideraciones en UDP
+            </strong>
+            <ul style="list-style-type: '▪ '; margin: 0; padding-left: 14px; font-size: 0.59em; line-height: 1.35; color: #334155;">
+              <li>Con el mismo socket se pueden enviar mensajes a diferentes destinatarios (incluso a varios con la dirección IP <em>broadcast</em>).</li>
+              <li>No hay seguridad de que los datos hayan llegado aunque <code>err == 0</code>.</li>
+              <li>Si se envían varios mensajes, no hay seguridad del orden de llegada (pueden seguir rutas distintas).</li>
+              <li>Si el mensaje es demasiado grande, es responsabilidad del remitente trocearlo y enviarlo, y del receptor componer los trozos.</li>
+            </ul>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 14: Sockets TCP en C (Cliente vs Servidor) -->
+      <!-- SLIDE: Programación sockets TCP/IP -->
       <section>
-        <h2>Programación de Sockets TCP en C</h2>
-        <div class="syntax-layout" style="font-size: 0.68em; text-align: left;">
-          <div class="syntax-code-card" style="flex: 1; border-top: 3px solid #0284c7;">
-            <strong style="color: #002B49;">LADO CLIENTE</strong>
-            <pre style="margin: 4px 0;"><code class="language-c" data-trim style="font-size: 0.72em;">// 1. Conectar con el servidor
-connect(sock, (struct sockaddr*)&amp;addr_srv,
-        sizeof(addr_srv));
+        <h2>Programación sockets TCP/IP</h2>
 
-// 2. Intercambiar datos
-send(sock, msg, strlen(msg), 0);
-int n = recv(sock, buf, TAM_MAX, 0);
-
-// 3. Cerrar conexión
-close(sock);</code></pre>
+        <div class="syntax-layout" style="margin-top: 0.3rem; display: flex; flex-direction: column; gap: 8px; width: 100%; text-align: left;">
+          <!-- Tarjeta Superior: Características de TCP -->
+          <div class="syntax-code-card" style="width: 100%; border-top: 4px solid #0284c7; padding: 8px 14px; box-sizing: border-box;">
+            <strong style="color: #002B49; font-size: 0.74em; display: block; margin-bottom: 3px;">
+              Programación de sockets con conexión (TCP)
+            </strong>
+            <ul style="list-style-type: '▪ '; margin: 0; padding-left: 14px; font-size: 0.54em; line-height: 1.32; color: #334155;">
+              <li>
+                <strong>Establecimiento de conexión: modelo cliente/servidor.</strong>
+                <ul style="list-style-type: '– '; margin: 1px 0 2px 0; padding-left: 14px;">
+                  <li><strong>Cliente:</strong> solicitante de una conexión (ej. navegador web).</li>
+                  <li><strong>Servidor:</strong> receptor de una solicitud de conexión (ej. servidor de páginas web).</li>
+                </ul>
+              </li>
+              <li>Hasta que no se establezca una conexión no se pueden enviar y recibir datos.</li>
+              <li>Sólo se pueden enviar y recibir datos con el destinatario conectado.</li>
+              <li>Se asegura la llegada de los mensajes y su orden.</li>
+              <li>Se trocean y recomponen automáticamente los mensajes grandes.</li>
+            </ul>
           </div>
 
-          <div class="syntax-code-card" style="flex: 1.05; border-top: 3px solid #10b981;">
-            <strong style="color: #002B49;">LADO SERVIDOR</strong>
-            <pre style="margin: 4px 0;"><code class="language-c" data-trim style="font-size: 0.72em;">// 1. Poner socket en escucha (tras bind)
-listen(sock, 5);
+          <!-- Tarjetas Inferiores: Lado Cliente vs Lado Servidor -->
+          <div style="display: grid; grid-template-columns: 1fr 1.08fr; gap: 10px; width: 100%; box-sizing: border-box;">
+            <!-- LADO CLIENTE -->
+            <div class="syntax-code-card" style="border-top: 4px solid #0ea5e9; padding: 8px 12px; box-sizing: border-box;">
+              <strong style="color: #002B49; font-size: 0.7em; display: block; margin-bottom: 4px;">
+                LADO CLIENTE
+              </strong>
+              <ul style="list-style-type: '▪ '; margin: 0; padding-left: 13px; font-size: 0.52em; line-height: 1.32; color: #334155;">
+                <li>
+                  <strong>Solicitud de conexión:</strong>
+                  <pre style="margin: 3px 0;"><code class="language-c" data-trim data-noescape style="font-size: 0.95em; line-height: 1.28;">struct sockaddr_in addr_servidor;
+// ... Rellenar campos de addr_servidor ...
+err = connect(sock, (struct sockaddr*)&amp;addr_servidor,
+              sizeof(struct sockaddr_in));</code></pre>
+                </li>
+                <li>Si no hay error, se ha establecido la conexión: se pueden enviar y recibir datos con <code>send(sock,...)</code> y <code>recv(sock,...)</code>.</li>
+                <li>Cerrar conexión con <code>close(sock);</code></li>
+              </ul>
+            </div>
 
-// 2. Aceptar cliente (crea nuevo socket)
-int conn = accept(sock, (struct sockaddr*)
-                  &amp;addr_cli, &amp;len);
-
-// 3. Intercambiar datos usando 'conn'
-int n = recv(conn, buf, TAM_MAX, 0);
-send(conn, resp, strlen(resp), 0);
-close(conn);</code></pre>
+            <!-- LADO SERVIDOR -->
+            <div class="syntax-code-card" style="border-top: 4px solid #059669; padding: 8px 12px; box-sizing: border-box;">
+              <strong style="color: #002B49; font-size: 0.7em; display: block; margin-bottom: 4px;">
+                LADO SERVIDOR
+              </strong>
+              <ul style="list-style-type: '▪ '; margin: 0; padding-left: 13px; font-size: 0.52em; line-height: 1.32; color: #334155;">
+                <li>
+                  <strong>Admitir solicitudes de conexión: <code>listen()</code></strong>
+                  <pre style="margin: 2px 0 4px 0;"><code class="language-c" data-trim data-noescape style="font-size: 0.95em; line-height: 1.25;">err = listen(sock, n_conex_max);</code></pre>
+                </li>
+                <li>
+                  <strong>Esperar por una conexión: <code>accept()</code></strong>
+                  <pre style="margin: 2px 0 4px 0;"><code class="language-c" data-trim data-noescape style="font-size: 0.95em; line-height: 1.25;">int conectado; // SOCK en windows
+struct sockaddr_in addr_cliente;
+int len = sizeof(struct sockaddr_in);
+conn = accept(sock, (struct sockaddr*)&amp;addr_cliente, &amp;len);</code></pre>
+                </li>
+                <li>Si no hay error, se ha establecido la conexión con el socket <code>conn</code>: se pueden enviar y recibir datos con <code>send(conn,...)</code> y <code>recv(conn,...)</code>.</li>
+                <li>Cerrar conexión con <code>close(conn);</code></li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- SLIDE 15: Ejemplo Práctico TCP (Cliente HTTP) -->
-      <section>
-        <h2>Ejemplo Práctico TCP/IP: Petición Web (HTTP)</h2>
-        <div class="syntax-layout" style="font-size: 0.68em; text-align: left;">
-          <div class="syntax-code-card" style="flex: 1; border-top: 3px solid #0284c7;">
-            <strong style="color: #002B49;">1. Cliente C (Conecta a IP:80)</strong>
-            <pre style="margin: 4px 0;"><code class="language-c" data-trim style="font-size: 0.72em;">char req[] = 
-  "GET /~ialvarez/Descargas/prueba.htm HTTP/1.1\r\n"
-  "Host: isa.uniovi.es\r\n"
-  "Connection: close\r\n\r\n";
 
-send(sock, req, strlen(req), 0);
-int n = recv(sock, html_rcv, sizeof(html_rcv), 0);</code></pre>
-          </div>
-
-          <div class="syntax-code-card" style="flex: 1; border-top: 3px solid #10b981;">
-            <strong style="color: #002B49;">2. Respuesta del Servidor Web</strong>
-            <pre style="margin: 4px 0;"><code class="language-http" data-trim style="font-size: 0.72em;">HTTP/1.1 200 OK
-Content-Type: text/html
-
-&lt;html&gt;
-  &lt;body&gt;&lt;p&gt;Pagina de prueba.&lt;/p&gt;&lt;/body&gt;
-&lt;/html&gt;</code></pre>
-          </div>
-        </div>
-        <div class="info-box" style="font-size: 0.68em;">
-          <strong>Librerías de alto nivel (OOP):</strong> En C++ (<code>QtNetwork</code>: <code>QTcpSocket</code>/<code>QUdpSocket</code>, <code>Boost.Asio</code>), Python (<code>socket</code>), Arduino (<code>Ethernet</code>, <code>WiFi</code>).
-        </div>
-      </section>
 
     </div>
   </div>

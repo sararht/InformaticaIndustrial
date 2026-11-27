@@ -15,6 +15,18 @@ Este proyecto contiene diapositivas en HTML utilizando Reveal.js, así como recu
 
 Puedes abrir `index.html` en un navegador para visualizar la presentación.
 
+### Exportar una presentación a PDF
+
+Con Python instalado, ejecuta desde la carpeta del repositorio:
+
+```powershell
+py -m pip install -r requirements.txt
+py -m playwright install chromium
+py exportar_pdf_comunicaciones.py
+```
+
+El PDF se guarda en `temas/comunicaciones/comunicaciones.pdf`.
+
 ## Objetivo
 
 Servir como material docente para la asignatura de Informática Industrial y Comunicaciones, con presentaciones estructuradas y fáciles de reutilizar.
